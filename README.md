@@ -71,15 +71,15 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Ratings api
 avg rate
 delete user / doctor
+حاليا لما بحذف دكتور عم تنحذف تقييماتو
 
 
 ##ُ Employees CRUD
 سيفي الموظف- حطيتوحاليا  null
-اللغات many 2 many
-
+ 
 بس ضمّن سباتي:
 عرضت الموظفين بصفحة موجودين فيا كلن.. تعديل صفحة عرض الدكاترة بس
-رول الدكتور او الموظف لكفي جدول الموظفين
+ 
 
 التشيك بوكس للدكتور مشان اخفي او اظهر حقول
 
@@ -91,7 +91,3 @@ pull request from git website
 
 لاسحب:
 git pull origin main
-
-
-تعديلات ملاحظات
-تسجيل الخروج لازم يكون بوست ب راوتات ال api

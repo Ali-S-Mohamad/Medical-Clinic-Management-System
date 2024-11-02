@@ -9,9 +9,10 @@
 @endsection
 
 @section('content')
-    <div class="content">
-        <div class="row">
+<div class="content">
+           <div class="row">
             <div class="col-lg-8 offset-lg-2">
+                
                 <h4 class="page-title">Add Employee</h4>
             </div>
         </div>

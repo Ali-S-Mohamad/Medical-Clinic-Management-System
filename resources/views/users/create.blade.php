@@ -10,6 +10,9 @@
 
 @section('content')
     <div class="content">
+        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+            <i class="fa fa-arrow-left mr-2"></i> Back
+        </a>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <h4 class="page-title">Add Employee</h4>
@@ -64,20 +67,22 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number</label>
-                                <input name='phone' class="form-control" type="text">
+                                <input required name='phone' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="nb-2" for="languages">Languages</label>
-                                <select class="form-control" id="languages" name="languages">
-                                    <option value="" disabled selected hidden>select Languages</option>
-                                    <option>English</option>
-                                    <option>Arabic</option>
-                                    <option>Hindi</option>
-                                    <option>Germany</option>
-                                    <option>French</option>
-                                </select>
+                                <div class="d-flex flex-wrap">
+                                    @foreach($languages as $index => $language)
+                                        <div class="col-sm-6 mb-2">
+                                            <div class='form-check' id='language'>
+                                                <input name='languages_ids[]' value='{{$language->id}}' class='form-check-input' type="checkbox"  id='flexCeckCecked{{$index}}'  >
+                                                <label class='form-check-label'  for='flexCeckCecked{{$index}}'> {{$language->name}}  </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -114,11 +119,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#languages').select2({
-                placeholder: "Select Languages",
-                allowClear: true
-            });
+        $(document).ready(function() { 
+            $('#languages').select2({ 
+            placeholder: 'اختر القيم', 
+            closeOnSelect: false }); 
         });
 
         $(document).ready(function() { // إخفاء العناصر في البداية

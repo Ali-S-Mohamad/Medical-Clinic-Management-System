@@ -41,7 +41,7 @@ class RatingController extends Controller
     public function store(RatingRequest $request)
     {  
         $rate=Rating::create([
-            'patient_id' => Auth::id(),  // 
+            'patient_id' => Auth::id(),  
             'doctor_id'  => $request->doctor_id,
             'doctor_rate'=> $request->doctor_rate,
             'details'    => $request->details,

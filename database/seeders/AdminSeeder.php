@@ -49,7 +49,6 @@ class AdminSeeder extends Seeder
             'cv_path' => 'dont added yet',
             'academic_qualifications' => 'Bachelors Degree in Cardiology',
             'previous_experience' => 'hospital1 , hospital2',
-            'languages_spoken' => 'Arabic, English, French'
         ]);
         // Creating second Doctor User
         $doctor = User::create([
@@ -68,7 +67,6 @@ class AdminSeeder extends Seeder
             'cv_path' => 'dont added yet',
             'academic_qualifications' => 'Bachelors Degree in Medicine and Surgery',
             'previous_experience' => 'hospital5 , hospital20',
-            'languages_spoken' => 'Arabic, English, French'
         ]);
 
         // Creating employee User
@@ -88,7 +86,6 @@ class AdminSeeder extends Seeder
             'cv_path' => 'dont added yet',
             'academic_qualifications' =>  'Bachelors Degree in Business Administration',
             'previous_experience' => 'XYZ Company, ABC Company',
-            'languages_spoken' => 'Arabic, English'
         ]);
     }
 }

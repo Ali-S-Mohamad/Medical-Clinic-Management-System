@@ -20,15 +20,11 @@
                         </a>
                     </div>
                     <div>
-                        <h3 class="card-title mb-3" style="font-weight: bold; color: #333;">
-                            {{-- <a href="{{ route('departments.show', $department->id) }}" style="text-decoration: none; color: inherit;"> --}}
+                        <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">
                             {{ $employee->user->name }}
-                            {{-- </a> --}}
                         </h3>
                         <h2 class="card-title mb-3" style="font-weight: bold; color: #333;">
-                            {{-- <a href="{{ route('departments.show', $department->id) }}" style="text-decoration: none; color: inherit;"> --}}
                             {{ $employee->department->name }}
-                            {{-- </a> --}}
                         </h2>
                         <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
                             {{ $employee->user->email }}
@@ -36,11 +32,25 @@
                         <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
                             {{ $employee->user->phone_number }}
                         </p>
-                        <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
-                            {{ $employee->academic_qualifications }}
+                        <p style="font-size: 1.1rem; color: #555;">
+                            @if(!$employee->languages->isEmpty())
+                                <label for="languages">Languages:</label> <br/>
+                                @foreach($employee->languages as $language)                          
+                                    {{ ($language->name);}}
+                                @endforeach     
+                            @endif 
                         </p>
-                        <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
-                            {{ $employee->previous_experience }}
+                        <br>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->academic_qualifications)
+                              Academic Qualifications:<br/> {{ $employee->academic_qualifications }}
+                            @endif
+                        </p>
+                        <br>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->previous_experience)
+                               Previous Experience: <br> {{ $employee->previous_experience }}
+                            @endif
                         </p>
                     </div>
                     <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">

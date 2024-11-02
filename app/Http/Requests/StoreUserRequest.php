@@ -28,8 +28,7 @@ class StoreUserRequest extends FormRequest
             'department_id' => 'required|exists:departments,id',
             'cv_path' => 'nullable|string',
             'academic_qualifications' => 'nullable|string',
-            'previous_experience' => 'nullable|string',
-            'languages_spoken' => 'nullable|string',
+            'previous_experience' => 'nullable|string',        
         ];
     }
 }
