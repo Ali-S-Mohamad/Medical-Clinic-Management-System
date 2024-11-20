@@ -30,3 +30,15 @@ Route::get('/doctors', function () {
 Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
+
+Route::get('/employees', function () {
+    return view('employees.index');
+})->name('employees.index');
+
+Route::get('/employees-edit', function () {
+    return view('employees.edit');
+})->name('employees.edit');
+
+Route::get('/employees-add', function () {
+    return view('employees.add');
+})->name('employees.add');
