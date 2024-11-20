@@ -5,5 +5,11 @@
 <script src="{{('assets/js/Chart.bundle.js')}}"></script>
 <script src="{{('assets/js/chart.js')}}"></script>
 <script src="{{('assets/js/app.js')}}"></script>
+<script src="{{('assets/js/select2.min.js')}}"></script>
+<script src="{{('assets/js/moment.min.js')}}"></script>
+<script src="{{('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+
+
+
 
 @yield('scripts')

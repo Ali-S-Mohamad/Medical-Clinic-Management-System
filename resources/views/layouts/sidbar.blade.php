@@ -6,7 +6,9 @@
                 <li class="active">
                     <a href="index-2.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                 </li>
-
+                <li class="active">
+                    <a href="{{route('doctors.index')}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                </li>
             </ul>
         </div>
     </div>

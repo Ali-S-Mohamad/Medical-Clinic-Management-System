@@ -13,8 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('temp');
 });
 
 
+
+Route::get('/doctors', function () {
+    return view('doctors.index');
+})->name('doctors.index');
+
+Route::get('/doctors-edit', function () {
+    return view('doctors.edit');
+})->name('doctors.edit');
