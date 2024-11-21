@@ -30,3 +30,8 @@ Route::get('/doctors', function () {
 Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
+
+
+Route::get('/departments', function () {
+    return view('departments.index');
+})->name('departments.index');
