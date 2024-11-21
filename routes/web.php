@@ -62,3 +62,9 @@ Route::get('/departments-add', function () {
 Route::get('/departments-edit', function (){
     return view('departments.edit');
 })->name('departments.edit');
+
+
+// appointments routes
+Route::get('/appointments', function () {
+    return view('appointments.index');
+})->name('appointments.index');
