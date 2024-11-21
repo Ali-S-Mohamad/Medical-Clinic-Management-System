@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 
-
+// doctors routes
 Route::get('/doctors', function () {
     return view('doctors.index');
 })->name('doctors.index');
@@ -31,6 +31,7 @@ Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
 
+// employees routes
 Route::get('/employees', function () {
     return view('employees.index');
 })->name('employees.index');
@@ -42,3 +43,8 @@ Route::get('/employees-edit', function () {
 Route::get('/employees-add', function () {
     return view('employees.add');
 })->name('employees.add');
+
+// patients routes
+Route::get('/patients', function () {
+    return view('patients.index');
+})->name('patients.index');
