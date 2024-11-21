@@ -31,6 +31,7 @@ Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
 
+
 // employees routes
 Route::get('/employees', function () {
     return view('employees.index');
@@ -48,3 +49,16 @@ Route::get('/employees-add', function () {
 Route::get('/patients', function () {
     return view('patients.index');
 })->name('patients.index');
+
+// departments routes
+Route::get('/departments', function () {
+    return view('departments.index');
+})->name('departments.index');
+
+Route::get('/departments-add', function () {
+    return view('departments.add');
+})->name('departments.add');
+
+Route::get('/departments-edit', function (){
+    return view('departments.edit');
+})->name('departments.edit');
