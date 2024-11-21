@@ -31,7 +31,21 @@ Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
 
+<<<<<<< HEAD
 
 Route::get('/departments', function () {
     return view('departments.index');
 })->name('departments.index');
+=======
+Route::get('/employees', function () {
+    return view('employees.index');
+})->name('employees.index');
+
+Route::get('/employees-edit', function () {
+    return view('employees.edit');
+})->name('employees.edit');
+
+Route::get('/employees-add', function () {
+    return view('employees.add');
+})->name('employees.add');
+>>>>>>> 89b75e224193962a48388816e4a28d9cc3038689
