@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,18 +52,11 @@ Route::get('/patients', function () {
 })->name('patients.index');
 
 // departments routes
-Route::get('/departments', function () {
-    return view('departments.index');
-})->name('departments.index');
-
-Route::get('/departments-add', function () {
-    return view('departments.add');
-})->name('departments.add');
-
-Route::get('/departments-edit', function (){
-    return view('departments.edit');
-})->name('departments.edit');
-
+Route::resource('/departments', DepartmentController::class);
+Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
+Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
+Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+// end 
 
 // appointments routes
 Route::get('/appointments', function () {
