@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use Attribute;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Traits\ApiResponse;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -15,25 +17,13 @@ class AuthController extends Controller
 
 
     //registering
-     public function register(Request $request)
+     public function register(RegisterRequest $request)
     {
-        $validate = Validator::make($request->all(), [
-            'name' => 'required|string|max:250',
-            'email' => 'required|string|max:250|email',
-            'password' => 'required|string|min:8|confirmed'
-
-        ]);
-
-        if($validate->fails()){
-         return $this->errorResponse('Validation Error!', 403);
-
-        }
-
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'is_patient' => false
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'is_patient' => true
         ]);
 
          $token=$user->createToken('token')->plainTextToken;
@@ -42,19 +32,12 @@ class AuthController extends Controller
 
 
     //login
-     public function login(Request $request)
+     public function login(LoginRequest $request)
     {
-        $validate = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string'
-        ]);
-
-        if($validate->fails()){
-             return $this->errorResponse('Validation Error!', 403);
-        }
 
         // Check email exist
-        $user = User::where('email', $request->email)->first();
+       $user = User::where('email', $request->email)->first();
+
 
         // Check password
         if(!$user || !Hash::check($request->password, $user->password)) {
