@@ -18,30 +18,28 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form>
+                        <form action="{{ route('departments.update',$department->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
 							<div class="form-group">
 								<label>Department Name</label>
-								<input class="form-control" type="text" value="Dentists">
+								<input class="form-control" name="name" type="text" value="{{$department->name}}">
 							</div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea cols="30" name="description" rows="4" class="form-control">{{$department->description}}</textarea>
+                                </div>
                             <div class="form-group">
-                                <label>Description</label>
-                                <textarea cols="30" rows="4" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="display-block">Department Status</label>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="status" id="product_active" value="option1" checked="">
-									<label class="form-check-label" for="product_active">
-									Active
-									</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="status" id="product_inactive" value="option2">
-									<label class="form-check-label" for="product_inactive">
-									Inactive
-									</label>
-								</div>
-                            </div>
+                           <label class="display-block">Department Status</label>
+                           <div class="form-check form-check-inline">
+                           <input class="form-check-input" type="radio" name="status" value="active"  {{ $department->status == 1 ? 'checked' : '' }}>
+                           <label class="form-check-label" for="product_active">Active</label>
+                         </div>
+                         <div class="form-check form-check-inline">
+                         <input class="form-check-input" type="radio" name="status" value="inactive"  {{ $department->status == 0 ? 'checked' : '' }}>
+                         <label class="form-check-label" for="product_inactive">  Inactive </label>
+                        </div>
+                        </div>     
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn">Save Department</button>
                             </div>
@@ -49,7 +47,6 @@
                     </div>
                 </div>
             </div>
-
 @endsection
 
 
