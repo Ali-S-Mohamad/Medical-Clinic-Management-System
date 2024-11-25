@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'password',
         'is_patient'
     ];
+
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,9 +47,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-<<<<<<< HEAD
-}
-=======
+
 
     public function patient(){
         return $this->hasOne(Patient::class);
@@ -56,4 +57,4 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class);
     }
 }
->>>>>>> abfceba8c2e60a4d244f103b93b677bf09633733
+

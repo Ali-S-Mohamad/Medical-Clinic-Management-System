@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('department_id')->constrained('departments')->cascadeOnDelete();
-            $table->string('position');
             $table->string('cv_path');
             $table->string('academic_qualifications')->nullable();
             $table->text('previous_experience')->nullable();
