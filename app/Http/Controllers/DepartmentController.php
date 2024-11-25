@@ -14,9 +14,8 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::all();
-        return view('departments.index' , compact('departments'));   
-     }
-
+        return view('departments.index' , compact('departments'));  
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -68,7 +67,17 @@ class DepartmentController extends Controller
 
         return redirect()->route('departments.index');  
     }
-
+    
+    /**
+     * to toggle the status
+     */
+    public function toggleStatus($id)
+    {
+    $department = Department::findOrFail($id);
+    $department->status = $department->status == 1 ? 0 : 1;
+    $department->save();
+    return redirect()->back()->with('success', 'Department status updated successfully.');
+    }
     /**
      * Remove the specified resource from storage.
      */

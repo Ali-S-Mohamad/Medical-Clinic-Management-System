@@ -11,6 +11,9 @@
 
 @section('content')
 <div class="content">
+               <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+               <i class="fa fa-arrow-left mr-2"></i> Back
+                </a>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <h4 class="page-title">Edit Department</h4>

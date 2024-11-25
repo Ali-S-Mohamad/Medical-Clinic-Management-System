@@ -56,6 +56,8 @@ Route::resource('/departments', DepartmentController::class);
 Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
+
 // end 
 
 // appointments routes
