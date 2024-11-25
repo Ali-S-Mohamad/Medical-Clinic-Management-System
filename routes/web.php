@@ -13,14 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
+    return redirect()->route('login');     
+});                                    
+
+
+
+Route::get('/dashboard', function () {
     return view('temp');
 });
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // doctors routes
 Route::get('/doctors', function () {
@@ -68,3 +73,4 @@ Route::get('/departments-edit', function (){
 Route::get('/appointments', function () {
     return view('appointments.index');
 })->name('appointments.index');
+

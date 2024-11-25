@@ -18,7 +18,7 @@ Trait ApiResponse{
             'message'=>$message,
         ],$code);
     }
-    public function SuccessResponse($message=null,$code=200){
+    public function successResponse($message=null,$code=200){
         return response()->json([
             'status'=>true,
             'message'=>$message,
