@@ -14,8 +14,8 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = Department::all();
-        return view('departments.index' , compact('departments'));   
-     }
+        return view('departments.index', compact('departments'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -36,64 +36,68 @@ class DepartmentController extends Controller
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
 
-        return redirect()->route('departments.index');    }
+        return redirect()->route('departments.index');
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $department=Department::findOrFail($id);
-        return view('departments.show',compact('department'));    }
+        $department = Department::findOrFail($id);
+        return view('departments.show', compact('department'));
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $department=Department::findOrFail($id);
-        return view('departments.edit',compact('department'));
+        $department = Department::findOrFail($id);
+        return view('departments.edit', compact('department'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentRequest $request , string $id)
+    public function update(DepartmentRequest $request, string $id)
     {
-        $department=Department::findOrFail($id);
+        $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
 
-        return redirect()->route('departments.index');  
+        return redirect()->route('departments.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id){
-        $department=Department::findOrFail($id);
+    public function destroy(string $id)
+    {
+        $department = Department::findOrFail($id);
         $department->delete();
         return redirect()->route('departments.index');
     }
 
-    public function trash(){
+    public function trash()
+    {
         $departments = Department::onlyTrashed()->get();
         return view('departments.trash', compact('departments'));
     }
 
-    public function restore($id){
-        $department = department::withTrashed()->findOrFail($id);
+    public function restore($id)
+    {
+        $department = Department::withTrashed()->findOrFail($id);
         $department->restore();
         return redirect()->route('departments.trash')->with('success', 'department restored successfully.');
     }
 
     public function hardDelete(string $id)
     {
-    $department = Department::withTrashed()->findOrFail($id); // يشمل السجلات المحذوفة
-    $department->forceDelete(); // حذف نهائي
-    return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
+        $department = Department::withTrashed()->findOrFail($id); // Contain trashed files
+                $department->forceDelete(); // Delete For ever
+        return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
     }
-
 }
