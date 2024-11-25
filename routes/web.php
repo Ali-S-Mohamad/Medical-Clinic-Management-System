@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +18,17 @@ Route::get('/', function () {
     return redirect()->route('login');     
 });                                    
 
-
-
 Route::get('/dashboard', function () {
     return view('temp');
 });
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Define Role Resource Routes
+Route::resource('roles', RoleController::class);
 
 // doctors routes
 Route::get('/doctors', function () {

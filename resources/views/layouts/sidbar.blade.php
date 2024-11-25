@@ -21,6 +21,11 @@
                 <li class="active">
                     <a href="{{route('appointments.index')}}"><i class="fa fa-user-md"></i> <span>Appointments</span></a>
                 </li>
+                @canany(['create-role', 'edit-role', 'delete-role']) 
+                <li class="active">
+                    <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
+                </li>
+                @endcanany
             </ul>
         </div>
     </div>
