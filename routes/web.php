@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
 
 /*
@@ -25,9 +26,13 @@ Route::get('/dashboard', function () {
     return view('temp');
 });
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Define Role Resource Routes
+Route::resource('roles', RoleController::class);
 
 // doctors routes
 Route::get('/doctors', function () {
