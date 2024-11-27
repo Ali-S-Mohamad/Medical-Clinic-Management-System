@@ -42,7 +42,7 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        $department=Department::findOrFail($id);
+        $department = Department::findOrFail($id);
         return view('departments.show',compact('department'));    }
 
     /**
@@ -50,7 +50,7 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
-        $department=Department::findOrFail($id);
+        $department = Department::findOrFail($id);
         return view('departments.edit',compact('department'));
     }
 
@@ -59,7 +59,7 @@ class DepartmentController extends Controller
      */
     public function update(DepartmentRequest $request , string $id)
     {
-        $department=Department::findOrFail($id);
+        $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
@@ -82,7 +82,7 @@ class DepartmentController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id){
-        $department=Department::findOrFail($id);
+        $department = Department::findOrFail($id);
         $department->delete();
         return redirect()->route('departments.index');
     }

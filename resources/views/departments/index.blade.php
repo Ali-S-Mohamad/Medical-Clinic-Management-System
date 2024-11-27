@@ -1,4 +1,3 @@
-
 @extends('layouts.master')
 
 @section('title')
@@ -11,7 +10,6 @@
 
 
 @section('content')
-
 <div class="content">
         <div class="row">
         <div class="col-sm-5 col-5">
@@ -77,7 +75,6 @@
       </div>
      </div>
     </div>
- </div>
 @endsection
 
 
