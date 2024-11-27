@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrescriptionsController;
+use App\Http\Controllers\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,10 @@ use App\Http\Controllers\PrescriptionsController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');     
-});                                    
+    return redirect()->route('login');
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('temp');
@@ -69,18 +73,11 @@ Route::get('/patients', function () {
 })->name('patients.index');
 
 // departments routes
-Route::get('/departments', function () {
-    return view('departments.index');
-})->name('departments.index');
-
-Route::get('/departments-add', function () {
-    return view('departments.add');
-})->name('departments.add');
-
-Route::get('/departments-edit', function (){
-    return view('departments.edit');
-})->name('departments.edit');
-
+Route::resource('/departments', DepartmentController::class);
+Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
+Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
+Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+// end
 
 // appointments routes
 Route::get('/appointments', function () {

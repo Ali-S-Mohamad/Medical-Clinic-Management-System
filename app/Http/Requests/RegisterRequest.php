@@ -9,7 +9,7 @@ class RegisterRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -19,12 +19,13 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-             'name' => 'required',
-             'email' => 'required|email|unique:users,email',
-             'password'=>'required|confirmed|string|min:8',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed|string|min:8',
+            'dob' => 'required|date'
         ];
     }
 }

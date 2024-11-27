@@ -21,16 +21,16 @@ class PermissionSeeder extends Seeder
             'create-employee',
             'edit-employee',
             'delete-employee',
-            'show-employee',           
-            'delete-patient', 
-            'show-patient',           
+            'show-employee',
+            'delete-patient',
+            'show-patient',
             'create-department',
             'edit-department',
             'delete-department',
-            'show-department',             
+            'show-department',
             'edit-clinicInformation',
             'show-clinicInformation',
-            'book-appointment' ,           
+            'book-appointment',
             'show-appointment',
             'cancel-appointment',
             'create-patientFile',
@@ -40,11 +40,12 @@ class PermissionSeeder extends Seeder
             'create-rating',
             'show-rating',
             'show-reports',
-            'export-excelrReport',
-            'export-pdfReport'        
-         ];
-           // Looping and Inserting Array's Permissions into Permission Table
-           foreach ($permissions as $permission) {
+            'export-excelReport',
+            'export-pdfReport'
+        ];
+
+        // Looping and Inserting Array's Permissions into Permission Table
+        foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
     }

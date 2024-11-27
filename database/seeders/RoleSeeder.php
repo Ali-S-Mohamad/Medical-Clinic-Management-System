@@ -20,40 +20,40 @@ class RoleSeeder extends Seeder
 
 
         $doctor->givePermissionTo([
-        'edit-employee',
-        'show-employee',
-        'show-patient',
-        'show-department',
-        'show-clinicInformation',
-        'create-patientFile',
-        'edit-patientFile',
-        'delete-patientFile',
-        'show-patientFile',
-        'show-rating',
+            'edit-employee',
+            'show-employee',
+            'show-patient',
+            'show-department',
+            'show-clinicInformation',
+            'create-patientFile',
+            'edit-patientFile',
+            'delete-patientFile',
+            'show-patientFile',
+            'show-rating',
         ]);
 
         $employee->givePermissionTo([
-        'edit-employee',
-        'show-employee',
-        'delete-patient', 
-        'show-patient', 
-        'show-department',
-        'show-clinicInformation',
-        'show-appointment',
-        'cancel-appointment',
-        'show-rating',
-        'show-reports',
-        'export-excelrReport',     
+            'edit-employee',
+            'show-employee',
+            'delete-patient',
+            'show-patient',
+            'show-department',
+            'show-clinicInformation',
+            'show-appointment',
+            'cancel-appointment',
+            'show-rating',
+            'show-reports',
+            'export-excelReport',
         ]);
 
         $patient->givePermissionTo([
-        'show-clinicInformation',
-        'book-appointment' ,           
-        'show-appointment',
-        'cancel-appointment',
-        'create-rating',
-        'show-rating',
-        'export-pdfReport'
+            'show-clinicInformation',
+            'book-appointment',
+            'show-appointment',
+            'cancel-appointment',
+            'create-rating',
+            'show-rating',
+            'export-pdfReport'
 
         ]);
     }

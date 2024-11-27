@@ -10,6 +10,12 @@ class Patient extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'user_id',
+        'dob',
+        'insurance_number'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
