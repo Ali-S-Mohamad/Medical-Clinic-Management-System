@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +66,9 @@ Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'ha
 // end
 
 // appointments routes
-Route::get('/appointments', function () {
-    return view('appointments.index');
-})->name('appointments.index');
+Route::resource('/appointments', AppointmentController::class);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
