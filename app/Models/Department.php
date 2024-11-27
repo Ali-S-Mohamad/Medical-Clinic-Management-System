@@ -8,11 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
 {
-    use HasFactory , SoftDeletes;
-    
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
         'name',
         'description',
         'status',
-      ];
+    ];
+
+    public function employees(){
+        return $this->hasMany(Employee::class);
+    }
+
+    public function prescriptions(){
+        return $this->hasMany(Prescription::class);
+    }
 }
