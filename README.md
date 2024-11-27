@@ -64,3 +64,24 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+ 
+#الاء 
+سيدر للموظفين
+form request for update emp
+
+pagination for index page
+
+سيفي الموظف- حطيتوحاليا  null
+اللغات many 2 many
+
+بس ضمّن سباتي:
+عرضت الموظفين بصفحة موجودين فيا كلن.. تعديل صفحة عرض الدكاترة بس
+رول الدكتور او الموظف لكفي جدول الموظفين
+
+التشيك بوكس للدكتور مشان اخفي او اظهر حقول
+
+git add .
+git commit -m "emplyees CRUD"
+git push origin alaa
