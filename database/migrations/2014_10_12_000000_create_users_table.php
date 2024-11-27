@@ -15,12 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            // $table->foreignId('role_id')->constrained('role')->cascadeOnDelete();
-<<<<<<< HEAD
             $table->boolean('is_patient')->default(true);
-=======
-            $table->boolean('is_patient')->default(false);
->>>>>>> abfceba8c2e60a4d244f103b93b677bf09633733
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
