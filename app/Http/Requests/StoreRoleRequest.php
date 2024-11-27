@@ -4,16 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class StoreRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-<<<<<<< HEAD
-    public function authorize(): bool
-=======
     public function authorize()
->>>>>>> 80eabe856da1f5424eab8d38476e0782d1eb464c
     {
         return true;
     }
@@ -23,17 +19,11 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-<<<<<<< HEAD
-    public function rules(): array
-=======
     public function rules()
->>>>>>> 80eabe856da1f5424eab8d38476e0782d1eb464c
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|string|min:8',
-            'dob' => 'required|date'
+            'name' => 'required|string|max:250|unique:roles,name',
+            'permissions' => 'required',
         ];
     }
 }

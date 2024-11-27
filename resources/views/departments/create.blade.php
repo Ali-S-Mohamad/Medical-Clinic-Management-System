@@ -50,7 +50,12 @@ Create Department
                             </form>
                           </div>
                          </div>
+<<<<<<< HEAD
                         </div>         
+=======
+                        </div>
+                        
+>>>>>>> 80eabe856da1f5424eab8d38476e0782d1eb464c
 @endsection
 
 

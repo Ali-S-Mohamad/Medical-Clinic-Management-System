@@ -1,7 +1,15 @@
 <?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
+=======
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\DepartmentController;
+
+>>>>>>> 80eabe856da1f5424eab8d38476e0782d1eb464c
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +32,13 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Define Role Resource Routes
+Route::resource('roles', RoleController::class);
 
 // doctors routes
 Route::get('/doctors', function () {
@@ -58,9 +73,13 @@ Route::resource('/departments', DepartmentController::class);
 Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+<<<<<<< HEAD
 Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
 
 // end 
+=======
+// end
+>>>>>>> 80eabe856da1f5424eab8d38476e0782d1eb464c
 
 // appointments routes
 Route::get('/appointments', function () {
