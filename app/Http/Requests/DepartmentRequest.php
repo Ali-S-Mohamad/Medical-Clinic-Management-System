@@ -9,7 +9,7 @@ class DepartmentRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -19,12 +19,12 @@ class DepartmentRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'status' => 'required|string|in:active,inactive', // قبول active أو inactive
-           ];
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'status' => 'required|string|in:active,inactive', // قبول active أو inactive
+        ];
     }
 }

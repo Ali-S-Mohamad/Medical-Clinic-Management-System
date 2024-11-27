@@ -11,7 +11,8 @@ class PatientController extends Controller
     public function storePatientDetails(string $id, $input=[]){
         Patient::create([
             'user_id' => $id,
-            'dob' => $input['dob']
+            'dob' => $input['dob'],
+            'insurance_number' => $input['insurance_number']
         ]);
     }
 }
