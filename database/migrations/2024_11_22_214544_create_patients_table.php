@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->date('dob'); // Date Of Birth
+            $table->string('insurance_number')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -12,7 +12,8 @@ class Patient extends Model
 
     protected $fillable = [
         'user_id',
-        'dob'
+        'dob',
+        'insurance_number'
     ];
 
     public function user(){

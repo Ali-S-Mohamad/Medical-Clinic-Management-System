@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use DB;
 
 class RoleController extends Controller
 {
@@ -23,7 +23,7 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
         return view('roles.index', [
             'roles' => Role::orderBy('id','DESC')->paginate(3)
@@ -33,7 +33,7 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
         return view('roles.create', [
             'permissions' => Permission::get()
@@ -43,10 +43,12 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request): RedirectResponse
+    public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name]);
-        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();       
+        $role = Role::create([
+            'name' => $request->name
+        ]);
+        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
         $role->syncPermissions($permissions);
 
         return redirect()->route('roles.index')
@@ -56,7 +58,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Role $role): View
+    public function show(Role $role)
     {
         $rolePermissions = Permission::join("role_has_permissions","permission_id","=","id")
             ->where("role_id",$role->id)
@@ -71,7 +73,7 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role): View
+    public function edit(Role $role)
     {
         if($role->name=='Admin'){
             abort(403, 'ADMIN ROLE CAN NOT BE EDITED');
@@ -91,13 +93,13 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         $input = $request->only('name');
         $role->update($input);
         $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
-        $role->syncPermissions($permissions);    
-        
+        $role->syncPermissions($permissions);
+
         return redirect()->route('roles.index')
                 ->withSuccess('Role is updated successfully.');
     }
@@ -105,7 +107,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role): RedirectResponse
+    public function destroy(Role $role)
     {
         if($role->name=='Admin'){
             abort(403, 'ADMIN ROLE CAN NOT BE DELETED');
