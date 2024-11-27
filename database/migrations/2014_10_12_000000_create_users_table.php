@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            // $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
-            $table->boolean('is_patient')->defalut(true);
+            $table->string('phone_number')->unique();
+            // $table->foreignId('role_id')->constrained('role')->cascadeOnDelete();
+            $table->boolean('is_patient')->default(true);
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-        }); 
+        });
     }
 
     /**

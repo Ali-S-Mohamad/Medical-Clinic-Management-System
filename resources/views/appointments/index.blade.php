@@ -1,16 +1,9 @@
 @extends('layouts.master')
-
 @section('title')
-
 @endsection
-
 @section('css')
-
 @endsection
-
-
 @section('content')
-
 <div class="content">
     <div class="row">
         <div class="col-sm-4 col-3">
@@ -82,11 +75,6 @@
         </div>
     </div>
 </div>
-
 @endsection
-
-
-
 @section('scripts')
-
 @endsection

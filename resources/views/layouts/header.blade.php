@@ -1,7 +1,7 @@
 <div class="header">
     <div class="header-left">
         <a href="index-2.html" class="logo">
-            <img src={{asset("assets/img/logo.png")}} width="35" height="35" alt=""> <span>Preclinic</span>
+            <img src="{{asset('assets/img/logo.png')}}" width="35" height="35" alt=""> <span>Preclinic</span>
         </a>
     </div>
     <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -30,8 +30,17 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="profile.html">My Profile</a>
                 <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                <a class="dropdown-item" href="settings.html">Settings</a>
-                <a class="dropdown-item" href="login.html">Logout</a>
+                <a class="dropdown-item" href="settings.html">Settings</a>  
+                {{-- add logout route              --}}
+                <a class="dropdown-item" href="{{ route('logout') }}" 
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                 Logout
+                </a>                 
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+            </form>
+             
             </div>
         </li>
     </ul>

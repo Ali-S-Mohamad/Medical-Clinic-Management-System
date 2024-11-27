@@ -1,9 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +14,23 @@ use App\Http\Controllers\EmployeeController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+
+
+Route::get('/dashboard', function () {
     return view('temp');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Define Role Resource Routes
+Route::resource('roles', RoleController::class);
 
 // doctors routes
 Route::get('/doctors', function () {
@@ -52,10 +59,12 @@ Route::get('/departments-edit', function (){
     return view('departments.edit');
 })->name('departments.edit');
 
+
 // appointments routes
 Route::get('/appointments', function () {
     return view('appointments.index');
 })->name('appointments.index');
+
 
 Route::get('storemp',[EmployeeController::class,'storemp'])->name('store-emp');
 Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
