@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -14,6 +15,21 @@ use App\Http\Controllers\Api\AuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('/verify-callback', function (Request $request) {
+    // مثال على التعامل مع رد Telegram Gateway
+    if ($request->status === 'verified') {
+        // تحديث حالة المستخدم (مثلاً: جعله مفعلًا)
+        $user = Usgit er::where('phone_number', $request->phone_number)->first();
+        if ($user) {
+            $user->update(['is_verified' => true]);
+        }
+
+        return response()->json(['message' => 'User verified successfully']);
+    }
+
+    return response()->json(['error' => 'Verification failed'], 400);
+})->name('verify.callback');
 
 // Public routes of authtication
 

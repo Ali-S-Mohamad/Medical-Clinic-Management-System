@@ -61,12 +61,18 @@ Add Employee
                             <input name='password' class="form-control" type="password">
                         </div>
                     </div>
-                
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input name='phone' class="form-control" type="text">
+                        </div>
+                    </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="nb-2" for="languages">Languages</label>
                             <select class="form-control" id="languages" name="languages" multiple>
-                                <option value="" disabled selected hidden>select Languages</option>
+                                <option value="" disabled selected hidden>Select Languages</option>
                                 <option>English</option>
                                 <option>Arabic</option>
                                 <option>Hindi</option>
@@ -107,7 +113,7 @@ Add Employee
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#languages').select2({
@@ -115,14 +121,14 @@ Add Employee
             allowClear: true
         });
     });
-   
-    $(document).ready(function(){ // إخفاء العناصر في البداية 
-        $("#doctor-info").hide(); // استماع لتغيير حالة الـ 
-        checkbox $("#is_doctor").change(function() { 
-            if(this.checked) 
-                $("#is_doctor").show(); 
-            else 
-                $("#is_doctor").hide();  
+
+    $(document).ready(function(){ // إخفاء العناصر في البداية
+        $("#doctor-info").hide(); // استماع لتغيير حالة الـ
+        checkbox $("#is_doctor").change(function() {
+            if(this.checked)
+                $("#is_doctor").show();
+            else
+                $("#is_doctor").hide();
                 })
             });
 </script>

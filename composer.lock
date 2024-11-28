@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d8962747288e491dccad17f8171b1d0",
+    "content-hash": "5fe5bba5597d3063a9ea8846c4ca3383",
     "packages": [
         {
             "name": "brick/math",
@@ -3242,6 +3242,61 @@
                 }
             ],
             "time": "2024-04-27T21:32:50+00:00"
+        },
+        {
+            "name": "somarkesen/telegram-gateway",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/somarkn99/laravel-telegram-gateway.git",
+                "reference": "707088bfa1a2f7e0dad15a314b2d3c2e8ca65ba5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/somarkn99/laravel-telegram-gateway/zipball/707088bfa1a2f7e0dad15a314b2d3c2e8ca65ba5",
+                "reference": "707088bfa1a2f7e0dad15a314b2d3c2e8ca65ba5",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SomarKesen\\TelegramGateway\\Providers\\TelegramGatewayServiceProvider"
+                    ],
+                    "aliases": {
+                        "TelegramGateway": "SomarKesen\\TelegramGateway\\Facades\\TelegramGateway"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SomarKesen\\TelegramGateway\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Somar Kesen",
+                    "email": "kesen.somar.99@gmail.com"
+                }
+            ],
+            "description": "A Laravel package for sending verification codes via Telegram Gateway API",
+            "support": {
+                "issues": "https://github.com/somarkn99/laravel-telegram-gateway/issues",
+                "source": "https://github.com/somarkn99/laravel-telegram-gateway/tree/v1.2.0"
+            },
+            "time": "2024-11-20T14:23:34+00:00"
         },
         {
             "name": "spatie/laravel-permission",
