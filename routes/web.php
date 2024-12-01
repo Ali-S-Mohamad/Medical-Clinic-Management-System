@@ -56,6 +56,7 @@ Route::resource('/departments', DepartmentController::class);
 Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
 // end
 
 // appointments routes
@@ -63,8 +64,6 @@ Route::get('/appointments', function () {
     return view('appointments.index');
 })->name('appointments.index');
 
-// employees routes
-Route::get('storemp',[EmployeeController::class,'storemp'])->name('store-emp');
 Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
 Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
 Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');

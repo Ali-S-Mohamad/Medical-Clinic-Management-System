@@ -40,7 +40,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('11111111'),
             'is_patient' => false
         ]);
-        $doctor->assignRole('doctor');
+        $doctor->assignRole('doctor');  
 
         //complete employee fields related to users for doctor2
         Employee::create([
