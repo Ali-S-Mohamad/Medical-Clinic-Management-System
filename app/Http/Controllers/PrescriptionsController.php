@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prescription;
 use Illuminate\Http\Request;
 use App\Http\Requests\PrescriptionsRequest;
 
@@ -12,10 +13,15 @@ class PrescriptionsController extends Controller
      */
     public function index()
     {
-        $prescriptions=Prescriptions::all();
-        return view ('prescriptions.index' , compact('prescriptions'));
-    }
-
+        // الحصول على المستخدم الحالي
+        $user = auth()->user(); 
+        if($user->hasRole('doctor')){  
+        // إذا كان الطبيب، احصل على الوصفات الخاصة به فقط مع تحميل العلاقة
+        $prescriptions = Prescription::with('employee','appointment')
+                                          ->where('doctor_id', $user->id)
+                                          ->get();
+        return view('prescriptions.index', compact('prescriptions'));
+    }}
     /**
      * Show the form for creating a new resource.
      */
@@ -29,9 +35,16 @@ class PrescriptionsController extends Controller
      */
     public function store(PrescriptionsRequest $request)
     {
-        $prescription=Prescriptions::create([
+        //الحصول على المسخدم الحالي والتحقق من دوره اذا كان طبيب
+        $user=auth()->user();
+        if (!$user->hasRole('doctor')) {
+            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لإنشاء وصفة طبية.']);
+        }
+        // الحصول على معرف الطبيب من المستخدم الحالي
+        $doctorId = $user->id;
+        $prescription=Prescription::create([
             'medical_file_id' => $request->medical_file_id,
-            'doctor_id' => $request->doctor_id,
+            'doctor_id' => $doctor_id,
             'appointment_id' => $request->appointment_id,
             'medications_names' => $request->medications_names,
             'instructions' => $request->instructions,
@@ -61,30 +74,60 @@ class PrescriptionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PrescriptionsRequest $request, Prescription $prescription)
+        public function update(PrescriptionsRequest $request, Prescription $prescription)
     {
+        // الحصول على المستخدم الحالي
+        $user = auth()->user();
+
+        //التحقق مما إذا كان المستخدم طبيبًا
+        // if (!$user->hasRole('Admin') && !$user->hasRole('doctor') ) {
+        //     return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لتحديث وصفة طبية.']);
+        // }
+        // البحث عن الوصفة الطبية
+        //$prescription = Prescriptions::findOrFail($id);
+
+        //التحقق مما إذا كانت الوصفة الطبية تخص الطبيب الحالي
+        // if ($prescription->doctor_id !== $user->id) {
+        //     return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لتحديث هذه الوصفة الطبية.']);
+        // }
         $prescription->update([
             'medical_file_id' => $request->medical_file_id,
-            'doctor_id' => $request->doctor_id,
             'appointment_id' => $request->appointment_id,
             'medications_names' => $request->medications_names,
             'instructions' => $request->instructions,
-            'details' => $request->details
+            'details' => $request->details,
         ]);
-        return redirect()->route('prescriptions.index')
-                        ->with('success', 'Prescription updated successfully');
-
-    }
+        try{
+        $prescription->update($request->only(['medications_names', 'instructions', 'details']));
+        return redirect()->route('prescriptions.index');
+        }  catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تحديث الوصفة الطبية: ' . $e->getMessage()]);
+        }
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Prescription $prescription)
-    {
+{
+        // الحصول على المستخدم الحالي
+        $user = auth()->user();
+        // التحقق مما إذا كان المستخدم طبيبًا
+        if (!$user->hasRole('doctor')) {
+            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لحذف وصفة طبية.']);
+        }
+
+        // البحث عن الوصفة الطبية
+        // $prescription = Prescriptions::findOrFail($id);
+        // التحقق مما إذا كانت الوصفة الطبية تخص الطبيب الحالي
+        if ($prescription->doctor_id !== $user->id) {
+            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لحذف هذه الوصفة الطبية.']);
+        }
+        // حذف الوصفة الطبية
         $prescription->delete();
-        return redirect()->route('prescriptions.index')
-                        ->with('success', 'Prescription deleted successfully');
-    }
+
+        return redirect()->route('prescriptions.index');
+}
 
     public function trash()
     {
@@ -98,7 +141,7 @@ class PrescriptionsController extends Controller
         return redirect()->back();
     }
 
-    public function forceDelete(string $id)
+    public function hardDelete(string $id)
     {
         Prescription::withTrashed()->where('id',$id)->forceDelete();
         return redirect()->back();

@@ -37,9 +37,9 @@ Route::resource('roles', RoleController::class);
 
 //Define prescriptions Routes
 Route::resource('prescriptions', PrescriptionsController::class);
-Route::get('prescriptions', [PrescriptionsController::class , 'trash'])->name('prescriptions.trash');
-Route::post('prescriptions-restore/{id}', [PrescriptionsController::class , 'restore'])->name('prescriptions.restore');
-Route::delete('prescriptions-force/{id}', [PrescriptionsController::class , 'forceDelete'])->name('prescriptions.forceDelete');
+Route::get('/trash', [PrescriptionsController::class ,'trash'])->name('prescriptions.trash');
+Route::post('prescriptions/restore/{id}', [PrescriptionsController::class , 'restore'])->name('prescriptions.restore');
+Route::delete('/departments/hard-delete/{id}', [PrescriptionsController::class , 'hardDelete'])->name('prescriptions.hardDelete');
 
 
 
