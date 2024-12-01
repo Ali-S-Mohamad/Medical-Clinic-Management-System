@@ -10,6 +10,26 @@ class Prescription extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'medical_file_id',
+        'doctor_id',
+        'appointment_id',
+        'medications_names',
+        'instructions',
+        'details',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleted(function ($prescription) {
+            //check if the prescription is the last one in the medical file
+            $medicalFile = $prescription->medicalFile; 
+            if ($medicalFile && $medicalFile->prescriptions()->count() == 0) {
+                $medicalFile->delete(); 
+            }
+        });
+    }
 
     public function employee(){
         return $this->belongsTo(Employee::class,'doctor_id');
