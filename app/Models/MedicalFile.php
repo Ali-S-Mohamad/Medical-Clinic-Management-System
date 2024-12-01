@@ -10,7 +10,9 @@ class MedicalFile extends Model
 {
     use HasFactory, SoftDeletes;
 
-
+    protected $fillable = [
+        'patient_id',
+    ];
 
     public function patient(){
         return $this->belongsTo(Patient::class);

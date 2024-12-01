@@ -70,7 +70,6 @@ class DepartmentController extends Controller
 
         return redirect()->route('departments.index');
     }
-
     /**
      * Remove the specified resource from storage.
      */

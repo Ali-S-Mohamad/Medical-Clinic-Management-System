@@ -11,19 +11,26 @@
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
-                <h4 class="page-title">Departments</h4>
+                <h4 class="page-title">medicalFiles</h4>
             </div>
             <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
                 <!-- زر إضافة القسم -->
-                <a href="{{ route('departments.create') }}" class="btn btn-primary btn-rounded mr-3">
-                    <i class="fa fa-plus"></i> Add Department
+                <a href="{{ route('medicalFiles.create') }}" class="btn btn-primary btn-rounded mr-3">
+                    <i class="fa fa-plus"></i> Add medicalFile
                 </a>
                 <!-- أيقونة سلة المحذوفات -->
-                <a href="{{ route('departments.trash') }}">
+                <a href="{{ route('medicalFiles.trash') }}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
                 </a>
             </div>
         </div>
+        
+        <!-- إذا كانت الملفات الطبية فارغة -->
+        @if($medicalFiles->isEmpty())
+            <div class="alert alert-warning">
+                <p>No medical files found for your patients.</p>
+            </div>
+        @else
         <div class="row">
             <div class="col-md-12">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -55,15 +62,27 @@
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Department Name: activate to sort column ascending"
-                                                style="width: 307.875px;">Department Name</th>
+                                                style="width: 307.875px;">patient id</th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Department Name: activate to sort column ascending"
-                                                style="width: 307.875px;">Description</th>
+                                                style="width: 307.875px;">patient name</th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1"
                                                 aria-label="Status: activate to sort column ascending"
-                                                style="width: 194.188px;">Status</th>
+                                                style="width: 194.188px;">patient email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Status: activate to sort column ascending"
+                                                style="width: 194.188px;">phone number</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Status: activate to sort column ascending"
+                                                style="width: 194.188px;">Date of Birth</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Status: activate to sort column ascending"
+                                                style="width: 194.188px;">Insurance number</th>
                                             <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0"
 
                                             rowspan="1" colspan="1"
@@ -72,17 +91,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($departments as $department)
+                                    @foreach($medicalFiles as $file)                              
                                             <tr role="row" class="odd">
-                                                <td>{{ $loop->iteration }}</td> <!-- العد التلقائي -->
-                                                <td>{{ $department->name }}</td>
-                                                <td>{{ $department->description }}</td>
-                                                <td>
-                                                    <span
-                                                        class="custom-badge {{ $department->status == 1 ? 'status-green' : 'status-red' }}">
-                                                        {{ $department->status == 1 ? 'Active' : 'Inactive' }}
-                                                    </span>
-                                                </td>
+                                            <td>{{ $file->id }}</td>
+                                            <td>{{ $file->patient->id }}</td>
+                                            <td>{{ $file->patient->user->name }}</td>
+                                            <td>{{ $file->patient->user->email }}</td>
+                                            <td>{{ $file->patient->user->phone_number }}</td>
+                                            <td>{{ $file->patient->dob }}</td>
+                                             <td>{{ $file->patient->insurance_number }}</td>
                                                 <td class="text-right">
                                                     <div class="dropdown dropdown-action">
                                                         <a href="#" class="action-icon dropdown-toggle"
@@ -91,15 +108,15 @@
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a class="dropdown-item"
-                                                                href="{{ route('departments.edit', $department->id) }}">
+                                                                href="{{ route('medicalFiles.edit', $file->id) }}">
                                                                 <i class="fa fa-pencil m-r-5"></i> Edit
                                                             </a>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('departments.show', $department->id) }}">
+                                                                href="{{ route('medicalFiles.show', $file->id) }}">
                                                                 <i class="fa fa-eye m-r-5"></i> Show
                                                             </a>
                                                             <form
-                                                                action="{{ route('departments.destroy', $department->id) }}"
+                                                                action="{{ route('medicalFiles.destroy', $file->id) }}"
                                                                 method="POST" class="dropdown-item p-0 m-0">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -143,6 +160,7 @@
             </div>
         </div>
     </div>
+    @endif
     </div>
 @endsection
 

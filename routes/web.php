@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MedicalFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +65,16 @@ Route::get('/patients', function () {
 
 // departments routes
 Route::resource('/departments', DepartmentController::class);
-Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
+Route::get('/departments/trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+// end
+
+// patientfile routes
+Route::resource('/medicalFiles', MedicalFileController::class);
+Route::get('trash', [MedicalFileController::class, 'trash'])->name('medicalFiles.trash');
+Route::put('/medicalFiles/restore/{id}', [MedicalFileController::class, 'restore'])->name('medicalFiles.restore');
+Route::delete('/medicalFiles/hard-delete/{id}', [MedicalFileController::class, 'hardDelete'])->name('medicalFiles.hardDelete'); // الحذف النهائي
 // end
 
 // appointments routes
