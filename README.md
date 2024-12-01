@@ -68,8 +68,12 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
  
 #الاء 
-pagination for index page
+## Ratings api
+avg rate
+delete user / doctor
 
+
+##ُ Employees CRUD
 سيفي الموظف- حطيتوحاليا  null
 اللغات many 2 many
 
@@ -78,6 +82,7 @@ pagination for index page
 رول الدكتور او الموظف لكفي جدول الموظفين
 
 التشيك بوكس للدكتور مشان اخفي او اظهر حقول
+
 لعدل:
 git add .
 git commit -m "emplyees CRUD"
@@ -86,3 +91,7 @@ pull request from git website
 
 لاسحب:
 git pull origin main
+
+
+تعديلات ملاحظات
+تسجيل الخروج لازم يكون بوست ب راوتات ال api
