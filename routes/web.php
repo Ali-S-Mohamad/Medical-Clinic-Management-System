@@ -6,6 +6,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrescriptionsController;
 use App\Http\Controllers\DepartmentController;
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmployeeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,20 +56,6 @@ Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
 
-
-// employees routes
-Route::get('/employees', function () {
-    return view('employees.index');
-})->name('employees.index');
-
-Route::get('/employees-edit', function () {
-    return view('employees.edit');
-})->name('employees.edit');
-
-Route::get('/employees-add', function () {
-    return view('employees.add');
-})->name('employees.add');
-
 // patients routes
 Route::get('/patients', function () {
     return view('patients.index');
@@ -77,6 +66,7 @@ Route::resource('/departments', DepartmentController::class);
 Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
 // end
 
 // appointments routes
@@ -84,3 +74,11 @@ Route::get('/appointments', function () {
     return view('appointments.index');
 })->name('appointments.index');
 
+Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
+Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
+Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
+Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
+// employees.hardDelete
+
+Route::resource('employees', EmployeeController::class);
+Route::resource('users', UserController::class);
