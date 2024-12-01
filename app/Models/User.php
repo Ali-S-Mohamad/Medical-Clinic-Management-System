@@ -23,10 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-<<<<<<< HEAD
-=======
         'phone_number',
->>>>>>> b720af6560f5802bbb88fb447e7167bc1ba43d5d
         'is_patient'
     ];
 
