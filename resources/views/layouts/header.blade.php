@@ -1,12 +1,7 @@
 <div class="header">
     <div class="header-left">
         <a href="index-2.html" class="logo">
-<<<<<<< HEAD
-            <img src={{ asset('assets/img/logo.png') }} width="35" height="35" alt="">
-            <span>Preclinic</span>
-=======
             <img src="{{asset('assets/img/logo.png')}}" width="35" height="35" alt=""> <span>Preclinic</span>
->>>>>>> 21cccd54b641889fb940dccc1a31dd518b02e00b
         </a>
     </div>
     <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>

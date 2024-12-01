@@ -11,12 +11,14 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-sm-4 col-3">
+            <div class="col-sm-5 col-5">
                 <h4 class="page-title">Employees</h4>
             </div>
             <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
-                <a href="{{ route('users.create') }}" class="btn btn-primary float-right btn-rounded"><i
-                        class="fa fa-plus"></i> Add Employee</a>
+
+                <a href="{{ route('users.create') }}" class="btn btn-primary btn-rounded mr-3">
+                    <i class="fa fa-plus"></i> Add Employee
+                </a>
                 <!-- أيقونة سلة المحذوفات -->
                 <a href="{{ route('employees.trash') }}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
@@ -82,9 +84,13 @@
                                         <td>{{ $employee->id }}</td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
-                                        <td>...</td>
+                                        <td>{{ $employee->languages_spoken }}</td>
                                         <td>
-                                            <span class="custom-badge status-green">Nurse</span>
+                                            @if($employee->user->roles->isNotEmpty())
+                                                <span class="custom-badge status-green">{{ $employee->user->roles->first()->name }}</span>
+                                            @else
+                                                <span class="custom-badge status-red">No Role Assigned</span>
+                                            @endif
                                         </td>
 
                                         <td class="text-right">

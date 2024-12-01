@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label class="display-block">is doctor?</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="option1">
+                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1">
                             <label class="form-check-label" for="is_doctor">
                                 yes
                             </label>

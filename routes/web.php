@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
 
@@ -56,7 +57,6 @@ Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.t
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
 Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
-
 // end
 
 // appointments routes
@@ -64,9 +64,8 @@ Route::get('/appointments', function () {
     return view('appointments.index');
 })->name('appointments.index');
 
-Route::get('storemp', [EmployeeController::class, 'storemp'])->name('store-emp');
-Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
-Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
+Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
+Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
 Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
 // employees.hardDelete

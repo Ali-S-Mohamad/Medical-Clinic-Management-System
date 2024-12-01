@@ -19,6 +19,11 @@
             <a href="add-doctor.html" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
         </div>
     </div>
+    @php
+        $doctors = App\Models\User::role('doctor')->get();
+    @endphp
+    @foreach ($doctors as $doctor )
+
     <div class="row doctor-grid">
         <div class="col-md-4 col-sm-4  col-lg-3">
             <div class="profile-widget">
@@ -32,14 +37,15 @@
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                     </div>
                 </div>
-                <h4 class="doctor-name text-ellipsis"><a href="profile.html">Cristina Groves</a></h4>
+                <h4 class="doctor-name text-ellipsis"><a href="profile.html">{{$doctor->name}}</a></h4>
                 <div class="doc-prof">Gynecologist</div>
                 <div class="user-country">
                     <i class="fa fa-map-marker"></i> United States, San Francisco
                 </div>
             </div>
-        </div>     
+        </div>
     </div>
+    @endforeach
     <div class="row">
         <div class="col-sm-12">
             <div class="see-all">

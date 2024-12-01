@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Attribute;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponse;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\PatientController;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
-use SomarKesen\TelegramGateway\Facades\TelegramGateway;
+use App\Http\Controllers\Api\PatientController;
 
 
 
@@ -33,13 +31,15 @@ class AuthController extends Controller
         ]);
 
         $user_id = $user->id;
-        $data = $request->only('dob','insurance_number');
-        $patient = new PatientController();
-        $patientUser = $patient->storePatientDetails($user_id, $data);
+        $user->assignRole('patient');
+
+        // Calling PatientController to store Patient Details
+        $patientController = new PatientController();
+        $patient = $patientController->storePatientDetails($user_id, $request);
 
         $token = $user->createToken('token')->plainTextToken;
 
-        return $this->apiResponse([$token, $patientUser], 'Registeration Success', 200);
+        return $this->apiResponse([$token, $user, $patient], 'Registeration Success', 200);
     }
 
 

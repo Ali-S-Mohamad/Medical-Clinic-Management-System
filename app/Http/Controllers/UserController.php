@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUser;
 use App\Models\User;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Controllers\EmployeeController;
 
 class UserController extends Controller
 {
@@ -22,37 +24,33 @@ class UserController extends Controller
      */
     public function create()
     {
-        $departments=Department::all();
+        $departments = Department::all();
         return view('users.create', compact('departments'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUser $request)
-    { //dd($request);
-        $user = User::create([ 
-            'name' => $request->name, 
-            'email' => $request->email, 
-            'password' => bcrypt($request->password), 
-            'is_patient'=>false,
-             ]);
-        return redirect()->action([EmployeeController::class, 'storemp'], 
-                      ['user_id'       => $user->id,
-                       'qualifications'=> $request->qualifications,
-                       'experience'    => $request->experience,
-                       'department_id' => $request->department_id]);
-    }
-
-    public function update_user(Request $request){
-        $user = User::findOrFail($request->user_id);
-        // dd($request->password );
-        $user->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password' => $request->password ? ($request->password) : $user->password,
+    public function store(StoreUserRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone,
+            'password' => bcrypt($request->password),
+            'is_patient' => false,
         ]);
-        return redirect()->route('employees.index'); //
+        // Checking User's role
+        $isDoctor = $request->input('is_doctor', 0);
+        if ($isDoctor) {
+            $user->assignRole('doctor');
+        } else {
+            $user->assignRole('employee');
+        }
+
+        // Calling EmployeeController to store Employee Details
+        $employeeController = new EmployeeController();
+        return $employeeController->storeEmployeeDetails($user->id, $request);
     }
 
     /**
@@ -74,9 +72,27 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone,
+            'password' => bcrypt($request->password),
+            'is_patient' => false,
+        ]);
+        $isDoctor = $request->input('is_doctor', 0);
+        if (! $isDoctor) {
+            $user->syncRoles('employee');
+        } else {
+            $user->syncRoles('doctor');
+        }
+
+        // Calling EmployeeController to Update Employee Details
+        $employeeController = new EmployeeController();
+        return $employeeController->updateEmployeeDetails($user->id, $request);
     }
 
     /**
@@ -84,13 +100,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // $user->delete();
-        // return redirect()->route('employees.index');
+        //
     }
 
-    public function restore(string $id){
-        // $user=User::withTrashed()->where('id',$id)->first();
-        // $user->restore();
-        // return redirect()->route('employees.index');
+    public function restore(string $id)
+    {
+        //
     }
 }
