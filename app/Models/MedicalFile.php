@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MedicalFile extends Model
 {
     use HasFactory, SoftDeletes;
-
+    protected $fillable = [
+    ' patient_id',
+    ];
 
 
     public function patient(){

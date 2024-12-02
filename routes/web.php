@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PrescriptionsController;
 use App\Http\Controllers\DepartmentController;
 
 use App\Http\Controllers\UserController;
@@ -36,6 +37,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Define Role Resource Routes
 Route::resource('roles', RoleController::class);
+
+//Define prescriptions Routes
+Route::get('/prescriptions/trash', [PrescriptionsController::class ,'trash'])->name('prescriptions.trash');
+Route::post('prescriptions/restore/{id}', [PrescriptionsController::class , 'restore'])->name('prescriptions.restore');
+Route::delete('/prescriptions/hard-delete/{id}', [PrescriptionsController::class , 'hardDelete'])->name('prescriptions.hardDelete');
+Route::resource('prescriptions', PrescriptionsController::class);
+
+
 
 // doctors routes
 Route::get('/doctors', function () {
