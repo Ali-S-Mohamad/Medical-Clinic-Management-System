@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PrescriptionsRequest extends FormRequest
+class UpdatePrescriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return True;
     }
 
     /**
@@ -22,12 +22,9 @@ class PrescriptionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'medical_file_id' => 'required|exists:medical_files,id',
-            'doctor_id' => 'required|exists:employees,id',
-            'appointment_id' => 'required|exists:appointments,id',
-            'medications_names' => 'string|nullable',
-            'instructions' => 'string|nullable',
-            'details' => 'string|nullable', 
+            'medications_names' => 'required|string',
+            'instructions' => 'nullable|string',
+            'details' => 'nullable|string',
         ];
     }
 }

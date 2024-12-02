@@ -39,11 +39,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('roles', RoleController::class);
 
 //Define prescriptions Routes
-Route::resource('prescriptions', PrescriptionsController::class);
-Route::get('/trash', [PrescriptionsController::class ,'trash'])->name('prescriptions.trash');
+Route::get('/prescriptions/trash', [PrescriptionsController::class ,'trash'])->name('prescriptions.trash');
 Route::post('prescriptions/restore/{id}', [PrescriptionsController::class , 'restore'])->name('prescriptions.restore');
-Route::delete('/departments/hard-delete/{id}', [PrescriptionsController::class , 'hardDelete'])->name('prescriptions.hardDelete');
-
+Route::delete('/prescriptions/hard-delete/{id}', [PrescriptionsController::class , 'hardDelete'])->name('prescriptions.hardDelete');
+Route::resource('prescriptions', PrescriptionsController::class);
 
 
 

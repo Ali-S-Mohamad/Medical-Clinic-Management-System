@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
+use App\Models\MedicalFile;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
-use App\Http\Requests\PrescriptionsRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StorePrescriptionRequest;
+use App\Http\Requests\UpdatePrescriptionRequest;
 
 class PrescriptionsController extends Controller
 {
@@ -13,54 +17,61 @@ class PrescriptionsController extends Controller
      */
     public function index()
     {
-        // الحصول على المستخدم الحالي
-        $user = auth()->user(); 
-        if($user->hasRole('doctor')){  
-        // إذا كان الطبيب، احصل على الوصفات الخاصة به فقط مع تحميل العلاقة
-        $prescriptions = Prescription::with('employee','appointment')
-                                          ->where('doctor_id', $user->id)
-                                          ->get();
-        return view('prescriptions.index', compact('prescriptions'));
-    }}
+        $user=Auth::user();
+        if($user->hasRole('doctor')){
+            $prescriptions=Prescription::with('employee','appointment')
+                                    -> where('doctor_id',$user->employee->id)
+                                    -> get();
+        } elseif ($user->hasRole('Admin')){
+            $prescriptions=Prescription::all();   
+        } else {
+            return redirect()->back()->with('error','unauthorized access');
+        }   
+        return view('prescriptions.index', compact('prescriptions'));                      
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view ('prescriptions.create');
+    {  
+        $doctorId=Auth::user()->employee->id;
+        $appointments = Appointment::with('patient')
+                                    ->where('doctor_id',$doctorId)
+                                    ->get();
+        return view('prescriptions.create', compact('appointments'));
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PrescriptionsRequest $request)
-    {
-        //الحصول على المسخدم الحالي والتحقق من دوره اذا كان طبيب
-        $user=auth()->user();
-        if (!$user->hasRole('doctor')) {
-            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لإنشاء وصفة طبية.']);
+    public function store(StorePrescriptionRequest $request)
+    {      
+        $appointment = Appointment::findOrFail($request->appointment_id);
+        $patient = $appointment->patient;
+        $medicalFile = $patient->medicalFile;
+        //If there is no medical file, create one
+        if (!$medicalFile) 
+        {
+            $medicalFile = new MedicalFile();
+            $medicalFile->patient_id = $patient->id;
+            $medicalFile->save();
         }
-        // الحصول على معرف الطبيب من المستخدم الحالي
-        $doctorId = $user->id;
-        $prescription=Prescription::create([
-            'medical_file_id' => $request->medical_file_id,
-            'doctor_id' => $doctor_id,
-            'appointment_id' => $request->appointment_id,
+        $doctorId = Auth::user()->employee->id;
+        Prescription::create([
+            'medical_file_id' => $medicalFile->id,
+            'doctor_id' => $doctorId,
+            'appointment_id' => $appointment->id,
             'medications_names' => $request->medications_names,
             'instructions' => $request->instructions,
-            'details' => $request->details
+            'details' => $request->details,
         ]);
-        return redirect()->route('prescriptions.index')
-                        ->with('success', 'Prescription created successfully');
-    }
-
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
+        }
     /**
      * Display the specified resource.
      */
     public function show(Prescription $prescription)
     {
         return view ('prescriptions.show' , compact('prescription'));
-
     }
 
     /**
@@ -70,80 +81,49 @@ class PrescriptionsController extends Controller
     {
         return view ('prescriptions.edit' , compact('prescription'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-        public function update(PrescriptionsRequest $request, Prescription $prescription)
+    public function update(UpdatePrescriptionRequest $request, Prescription $prescription)
     {
-        // الحصول على المستخدم الحالي
-        $user = auth()->user();
-
-        //التحقق مما إذا كان المستخدم طبيبًا
-        // if (!$user->hasRole('Admin') && !$user->hasRole('doctor') ) {
-        //     return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لتحديث وصفة طبية.']);
-        // }
-        // البحث عن الوصفة الطبية
-        //$prescription = Prescriptions::findOrFail($id);
-
-        //التحقق مما إذا كانت الوصفة الطبية تخص الطبيب الحالي
-        // if ($prescription->doctor_id !== $user->id) {
-        //     return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لتحديث هذه الوصفة الطبية.']);
-        // }
         $prescription->update([
-            'medical_file_id' => $request->medical_file_id,
-            'appointment_id' => $request->appointment_id,
             'medications_names' => $request->medications_names,
             'instructions' => $request->instructions,
             'details' => $request->details,
         ]);
-        try{
-        $prescription->update($request->only(['medications_names', 'instructions', 'details']));
-        return redirect()->route('prescriptions.index');
-        }  catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تحديث الوصفة الطبية: ' . $e->getMessage()]);
-        }
-}
-
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription is updated successfully');
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Prescription $prescription)
-{
-        // الحصول على المستخدم الحالي
-        $user = auth()->user();
-        // التحقق مما إذا كان المستخدم طبيبًا
-        if (!$user->hasRole('doctor')) {
-            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لحذف وصفة طبية.']);
-        }
-
-        // البحث عن الوصفة الطبية
-        // $prescription = Prescriptions::findOrFail($id);
-        // التحقق مما إذا كانت الوصفة الطبية تخص الطبيب الحالي
-        if ($prescription->doctor_id !== $user->id) {
-            return redirect()->back()->withErrors(['error' => 'ليس لديك إذن لحذف هذه الوصفة الطبية.']);
-        }
-        // حذف الوصفة الطبية
+    public function destroy($id)
+    {
+        $prescription = Prescription::findOrFail($id);
         $prescription->delete();
-
-        return redirect()->route('prescriptions.index');
-}
-
+        return redirect()->route('prescriptions.index')->with('success', 'Prescription is deleted successfully');
+    }
     public function trash()
     {
         $prescriptions= Prescription::onlyTrashed()->get();
         return view ('prescriptions.trash' , compact('prescriptions'));
     }
 
-    public function restore(string $id)
+    public function restore($id)
     {
-        $prescriptions= Prescription::withTrashed()->where('id',$id)->restore();
-        return redirect()->back();
+        $prescription = Prescription::withTrashed()->find($id);
+        if ($prescription && $prescription->trashed()) {
+            $prescription->restore();
+        //restore the medical file associated with the prescription
+            $medicalFile = $prescription->medicalFile()->withTrashed()->first();
+            if ($medicalFile && $medicalFile->trashed()) {
+                $medicalFile->restore();
+            }}        
+        return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.'); 
     }
 
     public function hardDelete(string $id)
     {
         Prescription::withTrashed()->where('id',$id)->forceDelete();
-        return redirect()->back();
+        return redirect()->route('prescriptions.index')->with('success', 'prescriptions permanently deleted.');
     }
 }
