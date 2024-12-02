@@ -18,22 +18,23 @@ class PrescriptionsController extends Controller
     public function index()
     {
         $user=Auth::user();
+        // dd($user);
         if($user->hasRole('doctor')){
             $prescriptions=Prescription::with('employee','appointment')
                                     -> where('doctor_id',$user->employee->id)
                                     -> get();
         } elseif ($user->hasRole('Admin')){
-            $prescriptions=Prescription::all();   
+            $prescriptions=Prescription::all();
         } else {
             return redirect()->back()->with('error','unauthorized access');
-        }   
-        return view('prescriptions.index', compact('prescriptions'));                      
+        }
+        return view('prescriptions.index', compact('prescriptions'));
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {  
+    {
         $doctorId=Auth::user()->employee->id;
         $appointments = Appointment::with('patient')
                                     ->where('doctor_id',$doctorId)
@@ -44,12 +45,13 @@ class PrescriptionsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StorePrescriptionRequest $request)
-    {      
+    {
         $appointment = Appointment::findOrFail($request->appointment_id);
         $patient = $appointment->patient;
         $medicalFile = $patient->medicalFile;
-        //If there is no medical file, create one
-        if (!$medicalFile) 
+
+        // If there is no medical file, create one
+        if (!$medicalFile)
         {
             $medicalFile = new MedicalFile();
             $medicalFile->patient_id = $patient->id;
@@ -117,8 +119,8 @@ class PrescriptionsController extends Controller
             $medicalFile = $prescription->medicalFile()->withTrashed()->first();
             if ($medicalFile && $medicalFile->trashed()) {
                 $medicalFile->restore();
-            }}        
-        return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.'); 
+            }}
+        return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.');
     }
 
     public function hardDelete(string $id)

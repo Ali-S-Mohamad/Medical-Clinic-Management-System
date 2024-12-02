@@ -27,7 +27,7 @@
                     <img class="rounded-circle" src="{{ asset('assets/img/user.jpg') }}" width="24" alt="Admin">
                     <span class="status online"></span>
                 </span>
-                <span>{{auth()->user()->name}}</span>
+                <span>{{Auth::user()->name}}</span>
             </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="profile.html">My Profile</a>
