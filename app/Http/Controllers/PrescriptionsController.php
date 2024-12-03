@@ -17,16 +17,16 @@ class PrescriptionsController extends Controller
      */
     public function index()
     {
-        $user=Auth::user();
+        $user = Auth::user();
         // dd($user);
-        if($user->hasRole('doctor')){
-            $prescriptions=Prescription::with('employee','appointment')
-                                    -> where('doctor_id',$user->employee->id)
-                                    -> get();
-        } elseif ($user->hasRole('Admin')){
-            $prescriptions=Prescription::all();
+        if ($user->hasRole('doctor')) {
+            $prescriptions = Prescription::with('employee', 'appointment')
+                ->where('doctor_id', $user->employee->id)
+                ->get();
+        } elseif ($user->hasRole('Admin')) {
+            $prescriptions = Prescription::all();
         } else {
-            return redirect()->back()->with('error','unauthorized access');
+            return redirect()->back()->with('error', 'unauthorized access');
         }
         return view('prescriptions.index', compact('prescriptions'));
     }
@@ -35,12 +35,12 @@ class PrescriptionsController extends Controller
      */
     public function create()
     {
-        $doctorId=Auth::user()->employee->id;
+        $doctorId = Auth::user()->employee->id;
         $appointments = Appointment::with('patient')
-                                    ->where('doctor_id',$doctorId)
-                                    ->get();
+            ->where('doctor_id', $doctorId)
+            ->get();
         return view('prescriptions.create', compact('appointments'));
-    }
+    }       
     /**
      * Store a newly created resource in storage.
      */
@@ -51,8 +51,7 @@ class PrescriptionsController extends Controller
         $medicalFile = $patient->medicalFile;
 
         // If there is no medical file, create one
-        if (!$medicalFile)
-        {
+        if (!$medicalFile) {
             $medicalFile = new MedicalFile();
             $medicalFile->patient_id = $patient->id;
             $medicalFile->save();
@@ -67,13 +66,13 @@ class PrescriptionsController extends Controller
             'details' => $request->details,
         ]);
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
-        }
+    }
     /**
      * Display the specified resource.
      */
     public function show(Prescription $prescription)
     {
-        return view ('prescriptions.show' , compact('prescription'));
+        return view('prescriptions.show', compact('prescription'));
     }
 
     /**
@@ -81,7 +80,7 @@ class PrescriptionsController extends Controller
      */
     public function edit(Prescription $prescription)
     {
-        return view ('prescriptions.edit' , compact('prescription'));
+        return view('prescriptions.edit', compact('prescription'));
     }
     /**
      * Update the specified resource in storage.
@@ -106,8 +105,8 @@ class PrescriptionsController extends Controller
     }
     public function trash()
     {
-        $prescriptions= Prescription::onlyTrashed()->get();
-        return view ('prescriptions.trash' , compact('prescriptions'));
+        $prescriptions = Prescription::onlyTrashed()->get();
+        return view('prescriptions.trash', compact('prescriptions'));
     }
 
     public function restore($id)
@@ -115,17 +114,18 @@ class PrescriptionsController extends Controller
         $prescription = Prescription::withTrashed()->find($id);
         if ($prescription && $prescription->trashed()) {
             $prescription->restore();
-        //restore the medical file associated with the prescription
+            //restore the medical file associated with the prescription
             $medicalFile = $prescription->medicalFile()->withTrashed()->first();
             if ($medicalFile && $medicalFile->trashed()) {
                 $medicalFile->restore();
-            }}
+            }
+        }
         return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.');
     }
 
     public function hardDelete(string $id)
     {
-        Prescription::withTrashed()->where('id',$id)->forceDelete();
+        Prescription::withTrashed()->where('id', $id)->forceDelete();
         return redirect()->route('prescriptions.index')->with('success', 'prescriptions permanently deleted.');
     }
 }

@@ -15,8 +15,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-     $appointments = Appointment::all();
-    return view('appointments.index', compact('appointments'));
+        $appointments = Appointment::all();
+        return view('appointments.index', compact('appointments'));
     }
 
     /**
@@ -26,7 +26,8 @@ class AppointmentController extends Controller
     {
         $patients = Patient::all();
         $doctors = Employee::whereHas('user', function ($query) {
-        $query->where('role', 'doctor');})->get();
+            $query->where('role', 'doctor');
+        })->get();
         return view('appointments.create', compact('patients', 'doctors'));
     }
 
@@ -37,15 +38,14 @@ class AppointmentController extends Controller
     public function store(AppointmentRequest  $request)
     {
         $appointment = new Appointment();
-         $appointment->patient_id = $request->patient_id;
-         $appointment->doctor_id = $request->doctor_id;
-         $appointment->appointment_date = $request->appointment_date;
-         $appointment->status = $request->status;
-         $appointment->notes = $request->notes;
-         $appointment->save();
+        $appointment->patient_id = $request->patient_id;
+        $appointment->doctor_id = $request->doctor_id;
+        $appointment->appointment_date = $request->appointment_date;
+        $appointment->status = $request->status;
+        $appointment->notes = $request->notes;
+        $appointment->save();
 
-       return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
-
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
 
     /**
@@ -55,7 +55,6 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
         return view('appointments.show', compact('appointment'));
-
     }
 
     /**
@@ -63,10 +62,11 @@ class AppointmentController extends Controller
      */
     public function edit(string $id)
     {
-         $appointment = Appointment::findOrFail($id);
-         $patients = Patient::all();
-         $doctors = Employee::whereHas('user', function ($query) {
-         $query->where('role', 'doctor');})->get();
+        $appointment = Appointment::findOrFail($id);
+        $patients = Patient::all();
+        $doctors = Employee::whereHas('user', function ($query) {
+            $query->where('role', 'doctor');
+        })->get();
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
 
@@ -83,7 +83,7 @@ class AppointmentController extends Controller
         $appointment->status = $request->status;
         $appointment->notes = $request->notes;
         $appointment->save();
-     return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
 
     /**
@@ -91,9 +91,8 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-      $appointment = Appointment::findOrFail($id);
-      $appointment->delete();
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
-
-   }
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
@@ -78,8 +79,9 @@ Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('emplo
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
 // employees.hardDelete
 
-Route::resource('employees', EmployeeController::class);
 Route::resource('users', UserController::class);
+Route::resource('employees', EmployeeController::class);
+Route::resource('patients', PatientController::class);
 
 Auth::routes();
 
