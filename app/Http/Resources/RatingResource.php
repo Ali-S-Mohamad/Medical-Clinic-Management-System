@@ -18,7 +18,7 @@ class RatingResource extends JsonResource
     {
         return [
             'patient_id' => $this -> patient_id,
-            'doctor_id'  => $this -> doctor_id,
+            'doctor_id'  => $this -> employee_id,
             'doctor_rate'=> $this -> doctor_rate,
             'details'    => $this -> details,
         ];

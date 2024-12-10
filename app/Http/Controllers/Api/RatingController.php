@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
+// use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RatingResource;
-
+use App\Models\Employee;
 
 class RatingController extends Controller
 {
@@ -24,14 +26,14 @@ class RatingController extends Controller
      */
     public function index()
     {
-        $ratings=Rating::paginate(2);;
+        $ratings=Rating::paginate(3);;
         return $this->apiResponse(RatingResource::collection($ratings) , 'all ratings:', 200);
     }
        
     //جميع التقييمات التابعة لدكتور معين
     public function doctor_ratings_details(Request $request)
     {    
-        $doctor_ratings = Rating::where('doctor_id', $request->doctor_id)->paginate(2);
+        $doctor_ratings = Rating::where('employee_id', $request->doctor_id)->paginate(3);
         return $this->apiResponse(RatingResource::collection($doctor_ratings) , 'all ratings:', 200);
     }
 
@@ -39,14 +41,26 @@ class RatingController extends Controller
      *ادخال تقييم من قبل مريض وتخزينه
      */
     public function store(RatingRequest $request)
-    {  
-        $rate=Rating::create([
-            'patient_id' => Auth::id(),  
-            'doctor_id'  => $request->doctor_id,
-            'doctor_rate'=> $request->doctor_rate,
-            'details'    => $request->details,
-        ]);
-        return $this->successResponse( 'Rating added successfully', 200);
+    {   
+        // التحقق من ان التقييم ل دكتور وليس لموظف اداري
+        $emp = Employee::find($request->doctor_id);     
+        $roles=$emp->user->getRoleNames();
+        $doctor=false;
+        foreach($roles as $role)
+           if($role =='doctor')
+              $doctor=true;
+
+        if($doctor){
+            $rate=Rating::create([
+                'patient_id'   => Auth::id(),  
+                'employee_id'  => $request->doctor_id,
+                'doctor_rate'  => $request->doctor_rate,
+                'details'      => $request->details,
+            ]);
+            return $this->successResponse( 'Rating added successfully', 200);
+        }
+        else
+             return $this->errorResponse( 'Not a doctor', 404);
     }
 
     /**
@@ -70,11 +84,21 @@ class RatingController extends Controller
         // .. ما بيتعرف عليا.. 
         // طلع لازم ابعتن من انسومنيا بالشكل:
         // Body -> json   OR form URL encoded
+
+        // التحقق ان التقييم ل دكتور وليس لموظف اداري
+        $emp = Employee::find($request->doctor_id);     
+        $roles=$emp->user->getRoleNames();
+        $doctor=false;
+        foreach($roles as $role)
+           if($role =='doctor')
+              $doctor=true;
+        
         $rate = Rating::find($id);
-        if($rate && Auth::id()==$rate->patient_id){
+        //  يتم تعديل التقييم اذا كان : 
+        //  التقييم موجود و التقييم  لدكتور و الشخص الذي ضاف التقييم هو الذي يقوم بالتقييم
+        if($rate && Auth::id()==$rate->patient_id && $doctor){
             $rate->update([
-                'patient_id' => Auth::id(),
-                'doctor_id'  => $request -> doctor_id,
+                'employee_id'=> $request -> doctor_id,
                 'doctor_rate'=> $request -> doctor_rate,
                 'details'    => $request -> details,
             ]);

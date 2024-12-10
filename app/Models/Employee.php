@@ -17,6 +17,7 @@ class Employee extends Model
         'academic_qualifications',
         'previous_experience',
         'languages_spoken',
+        'avg_ratings',
     ];
     protected static function booted()
     {

@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
+use App\Models\Rating;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +76,19 @@ Route::resource('users', UserController::class);
 
 // Admin dashboard
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+Route::get('/testr', function() { 
+         $rating = new Rating; 
+         $rating->employee_id   = 4;  
+         $rating->patient_id  = 2;
+         $rating->doctor_rate = 4;        
+         $rating->save(); 
+        //  $user = User::find($rating->employee_id);
+        //  $roles=$user->getRoleNames();
+        //  foreach($roles as $role)
+        //     if($role =='doctor')
+        //        dd('doctor');
+        //     else dd('employess');
+            
+        });

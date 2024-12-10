@@ -95,13 +95,24 @@
                             <div class="form-group">
                                 <label>CV:</label>
                                 <div class="profile-upload">
-                                    <div class="upload-input">
-                                        <input type="file" class="form-control">
-                                    </div>
+                                    @if($employee->cv_path)
+                                        @php 
+                                            $cvFileName = basename($employee->cv_path); 
+                                            // إزالة أي أرقام متبوعة بشرطة سفلية في بداية الملف للتخلص من التايم ستامب
+                                            $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);    
+                                        @endphp 
+                                        <p id="existing-file"> 
+                                          <a href="{{ asset('storage/'.$employee->cv_path) }}" target="_blank">{{ $originalFileName }}</a>
+                                        </p>
+                                    @endif
+                                    <div class="upload-input"> 
+                                          <input type="file" id="new-cv" name="pdf_cv" accept=".pdf" class="form-control" > 
+                                   </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="doctor-info">
+                        
+                        <div id="doctor-info"  style="display: none;">
                             <div class="form-group">
                                 <label>Academic Qualifications</label>
                                 <textarea class="form-control" id="qualifications" name="qualifications" rows="5" cols="200">{{ $employee->academic_qualifications }}</textarea>
@@ -125,4 +136,32 @@
 
 
 @section('scripts')
+    <script>
+    
+        //  اظهار واخفاء قسم الخبرة والعمل السابق حسب رول الموظف / طبيب / موظف اداري
+        var employeeRole ="{{ $role }}";
+        document.addEventListener('DOMContentLoaded', function () { 
+            if (employeeRole === 'doctor') 
+                document.getElementById('doctor-info').style.display = 'block'; 
+            else 
+                document.getElementById('doctor-info').style.display = 'none'; 
+             });
+
+            $(document).ready(function() { 
+             
+            $("#is_doctor").change(function() { 
+                if ($(this).is(':checked')) 
+                    $("#doctor-info").show(); 
+                else $("#doctor-info").hide(); 
+            }); })
+
+
+      //  اخفاء قسم اسم الملف القديم في ال اختيار ملف جديد
+            document.getElementById('new-cv').addEventListener('change', function() { 
+                var existingFileMessage = document.getElementById('existing-file'); 
+                if (existingFileMessage) { 
+                    existingFileMessage.style.display = 'none'; } 
+                });
+          
+    </script>
 @endsection

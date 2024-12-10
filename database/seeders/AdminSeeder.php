@@ -46,7 +46,6 @@ class AdminSeeder extends Seeder
         Employee::create([
             'user_id' => $doctor->id,
             'department_id' => $department1->id,
-            'cv_path' => 'dont added yet',
             'academic_qualifications' => 'Bachelors Degree in Cardiology',
             'previous_experience' => 'hospital1 , hospital2',
         ]);
@@ -64,7 +63,6 @@ class AdminSeeder extends Seeder
         Employee::create([
             'user_id' => $doctor->id,
             'department_id' => $department1->id,
-            'cv_path' => 'dont added yet',
             'academic_qualifications' => 'Bachelors Degree in Medicine and Surgery',
             'previous_experience' => 'hospital5 , hospital20',
         ]);
@@ -83,7 +81,6 @@ class AdminSeeder extends Seeder
         Employee::create([
             'user_id' => $employee->id,
             'department_id' => $department1->id,
-            'cv_path' => 'dont added yet',
             'academic_qualifications' =>  'Bachelors Degree in Business Administration',
             'previous_experience' => 'XYZ Company, ABC Company',
         ]);
