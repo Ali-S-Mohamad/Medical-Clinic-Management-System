@@ -29,6 +29,12 @@ return [
     */
 
     'disks' => [
+        
+//  بعد تنفيذ تعليمة    : php artisan storage:link
+//  رح يخزن الملفات ضمن مسارين  :
+// 1.storage/app/public/Employees CVs   2.public/storage/Employees CVs
+// ممكن نخليه يخزن بس بالمسار التاني  بتعديل سطر ال رووت
+ 
 
         'local' => [
             'driver' => 'local',

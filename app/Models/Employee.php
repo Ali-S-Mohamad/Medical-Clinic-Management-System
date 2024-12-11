@@ -17,6 +17,7 @@ class Employee extends Model
         'academic_qualifications',
         'previous_experience',
         'languages_spoken',
+        'avg_ratings',
     ];
     protected static function booted()
     {
@@ -51,4 +52,13 @@ class Employee extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function ratings() { 
+        return $this->hasMany(Rating::class);
+    }
+
+    public function languages(){
+        return $this->belongsToMany(Language::class,'employee_language','employee_id','language_id');
+    }
+
 }

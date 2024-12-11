@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateUserRequest;
@@ -35,25 +36,34 @@ class EmployeeController extends Controller
         $employee = Employee::create([
             'user_id' => $userId,
             'department_id' => $request->department_id,
-            'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
             'academic_qualifications' => $request->qualifications,
-            'previous_experience' => $request->experience,
+            'previous_experience' => $request->experience,     
         ]);
+
+        $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
+        $employee->cv_path=$cvFilePath;
+        $employee->save();
+
+        $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
+
     public function updateEmployeeDetails($userId, Request $request)
-    {
-        $employee = Employee::where('user_id',$userId);
+    {   
+        
+        $employee = Employee::where('user_id',$userId)->first();
+        // ممكن هالسطر يكون بعد تعديل معلومات الموظف،
+        //  بس حطيتو هون لاختصر سطر انو ارجع عدل مسار سيرتو  بعد ما كون خالصة تعديل البيانات وارجع استدعي السيف
+        $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
 
         $employee->update([
-            'user_id' => $userId,
             'department_id' => $request->department_id,
-            'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
+            'cv_path' => $cvFilePath,
             'academic_qualifications' => $request->qualifications,
             'previous_experience' => $request->experience,
         ]);
+    
+        $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
 
@@ -62,6 +72,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+        
         return view('employees.show', compact('employee'));
     }
 
@@ -71,7 +82,9 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $departments = Department::all();
-        return view('employees.edit', compact('employee', 'departments'));
+        $languages   = Language::all();
+        $role = $employee->user->roles->first()->name; 
+        return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
     /**

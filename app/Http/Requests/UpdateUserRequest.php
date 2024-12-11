@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'is_patient'    =>'boolean',
             'academic_qualifications'=> 'nullable|string|max:500',
             'previous_experience'    => 'nullable|string|max:500',
-            // 'cv' => 'required|file|mimes:pdf|max:2048',
+            'pdf_cv' => 'file|mimes:pdf|max:2048',
         ];
     }
 }

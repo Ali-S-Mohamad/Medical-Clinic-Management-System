@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\DepartmentController;
-
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DepartmentController;
+use App\Models\Rating;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', function () {
-    return view('temp');
+    return view('dashoard');
 });
 
 
@@ -68,7 +70,25 @@ Route::get('update_user',[UserController::class,'update_user'])->name('update_us
 Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
 Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
-// employees.hardDelete
 
 Route::resource('employees', EmployeeController::class);
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class); 
+
+// Admin dashboard
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+Route::get('/testr', function() { 
+         $rating = new Rating; 
+         $rating->employee_id   = 4;  
+         $rating->patient_id  = 2;
+         $rating->doctor_rate = 4;        
+         $rating->save(); 
+        //  $user = User::find($rating->employee_id);
+        //  $roles=$user->getRoleNames();
+        //  foreach($roles as $role)
+        //     if($role =='doctor')
+        //        dd('doctor');
+        //     else dd('employess');
+            
+        });
