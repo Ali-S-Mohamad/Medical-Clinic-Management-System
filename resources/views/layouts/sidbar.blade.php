@@ -5,7 +5,7 @@
                 <li class="menu-title">Main</li>
                 @hasrole('Admin')
                 <li class="">
-                    <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                    <a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>

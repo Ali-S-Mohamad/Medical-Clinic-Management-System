@@ -7,7 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrescriptionsController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AppointmentController;
-
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
 
@@ -28,9 +28,9 @@ Route::get('/', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return view('temp');
-});
+// Route::get('/dashboard', function () {
+//     return view('dashoard');
+// });
 
 
 Auth::routes();
@@ -77,12 +77,14 @@ Route::get('update_user',[UserController::class,'update_user'])->name('update_us
 Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
 Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
-// employees.hardDelete
 
 Route::resource('users', UserController::class);
 Route::resource('employees', EmployeeController::class);
+
+// Patients Routes
 Route::resource('patients', PatientController::class);
+Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Admin dashboard
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -54,5 +54,12 @@ class Employee extends Model
     public function prescriptions(){
         return $this->hasMany(Prescription::class,'doctor_id');
     }
+    public function ratings() {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function languages(){
+        return $this->belongsToMany(Language::class,'employee_language','employee_id','language_id');
+    }
 
 }

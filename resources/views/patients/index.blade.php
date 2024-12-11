@@ -11,8 +11,17 @@ Patients
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-sm-4 col-3">
+            <div class="col-sm-5 col-5">
                 <h4 class="page-title">Patients</h4>
+            </div>
+            <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
+                <a href="{{ route('patients.create') }}" class="btn btn-primary btn-rounded mr-3">
+                    <i class="fa fa-plus"></i> Add Patient
+                </a>
+                <!-- أيقونة سلة المحذوفات -->
+                <a href="{{ route('patients.trash') }}">
+                    <i class="fa fa-trash-o" style="font-size:36px"></i>
+                </a>
             </div>
         </div>
         <div class="row">

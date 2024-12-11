@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateUserRequest;
@@ -30,30 +31,30 @@ class EmployeeController extends Controller
         //
     }
 
-    public function storeEmployeeDetails($userId, Request $request)
+    public function storeEmployeeDetails($userId, Request  $request)
     {
         $employee = Employee::create([
             'user_id' => $userId,
             'department_id' => $request->department_id,
             'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
             'academic_qualifications' => $request->qualifications,
             'previous_experience' => $request->experience,
         ]);
+
+        $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
     public function updateEmployeeDetails($userId, Request $request)
     {
-        $employee = Employee::where('user_id',$userId);
-
+        $employee = Employee::where('user_id',$userId)->first();
         $employee->update([
-            'user_id' => $userId,
             'department_id' => $request->department_id,
             'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
             'academic_qualifications' => $request->qualifications,
             'previous_experience' => $request->experience,
         ]);
+
+        $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
 
@@ -71,7 +72,8 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $departments = Department::all();
-        return view('employees.edit', compact('employee', 'departments'));
+        $languages   = Language::all();
+        return view('employees.edit', compact('employee', 'departments','languages'));
     }
 
     /**

@@ -15,7 +15,6 @@
                 <h4 class="page-title">Employees</h4>
             </div>
             <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
-
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-rounded mr-3">
                     <i class="fa fa-plus"></i> Add Employee
                 </a>
@@ -64,13 +63,13 @@
                         <table class="table table-striped custom-table">
                             <thead>
                                 <tr>
-                                    <th style="min-width:200px;">Name</th>
+                                    <th style="min-width:175px;">Name</th>
                                     <th>Employee ID</th>
                                     <th>Email</th>
                                     <th>Department</th>
-                                    <th style="min-width: 110px;">Languages</th>
-                                    <th>Role</th>
-                                    <th class="text-right">Action</th>
+                                    <th class="text-center">Languages</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,10 +83,24 @@
                                         <td>{{ $employee->id }}</td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
-                                        <td>{{ $employee->languages_spoken }}</td>
                                         <td>
-                                            @if($employee->user->roles->isNotEmpty())
-                                                <span class="custom-badge status-green">{{ $employee->user->roles->first()->name }}</span>
+                                            @if (!$employee->Languages->isEmpty())
+                                                @foreach ($employee->Languages as $Language)
+                                                    <p class="badge badge-pill badge-dark"> {{ $Language->name }}</p>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($employee->user->roles->isNotEmpty())
+                                                @php
+                                                    $role = $employee->user->roles->first()->name;
+                                                    $badgeClass = match ($role) {
+                                                        'doctor' => 'status-green',
+                                                        'employee' => 'status-blue',
+                                                        default => 'status-grey',
+                                                    };
+                                                @endphp
+                                                <span class="custom-badge {{ $badgeClass }}">{{ $role }}</span>
                                             @else
                                                 <span class="custom-badge status-red">No Role Assigned</span>
                                             @endif
