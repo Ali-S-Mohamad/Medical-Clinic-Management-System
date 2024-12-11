@@ -23,6 +23,11 @@
                         <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">
                             {{ $employee->user->name }}
                         </h3>
+                        <h2 class="card-title mb-3" style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
+                             @if($employee->avg_ratings)
+                                 {{ $employee->avg_ratings }} /10 
+                             @endif
+                        </h2>
                         <h2 class="card-title mb-3" style="font-weight: bold; color: #333;">
                             {{ $employee->department->name }}
                         </h2>
@@ -52,6 +57,16 @@
                                Previous Experience: <br> {{ $employee->previous_experience }}
                             @endif
                         </p>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->cv_path)
+                                @php
+                                   $cvFileName = basename($employee->cv_path);
+                                   $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);  
+                                @endphp           
+                                cv: <br>
+                               <a href="{{asset('storage/'.$employee->cv_path)}}" target="_blank"> {{ $originalFileName }}</a>
+                            @endif
+                        </p>
                     </div>
                     <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
                         <i class="fa fa-arrow-left mr-2"></i> Back
@@ -69,4 +84,5 @@
 
 
 @section('scripts')
+ 
 @endsection

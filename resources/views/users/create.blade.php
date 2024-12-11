@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 @endsection
 
 @section('content')
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Phone Number</label>
+                                <label>Phone Number <span class="text-danger">*</span> </label>
                                 <input required name='phone' class="form-control" type="text">
                             </div>
                         </div>
@@ -90,7 +90,8 @@
                                 <label>CV:</label>
                                 <div class="profile-upload">
                                     <div class="upload-input">
-                                        <input type="file" class="form-control">
+                                        <input type="file"  name="pdf_cv" accept=".pdf" class="form-control" >
+                                        <p id="errorMessage" style="color: red; display: none;"> size must be less than 2 MB</p>
                                     </div>
                                 </div>
                             </div>
@@ -116,23 +117,27 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() { 
-            $('#languages').select2({ 
-            placeholder: 'اختر القيم', 
-            closeOnSelect: false }); 
+      <script> 
+         $(document).ready(function() { 
+            $("#doctor-info").hide(); 
+            $("#is_doctor").change(function() { 
+                if ($(this).is(':checked')) 
+                    $("#doctor-info").show(); 
+                else $("#doctor-info").hide(); 
+            }); 
+            
+            $('#pdf_cv').change(function() { 
+                var file = this.files[0]; 
+                console.log('File selected:', file.size); 
+                var errorMessage = $('#errorMessage'); 
+                if (file) { 
+                    console.log('File selected:', file.size); 
+ 
+                    if (file.size > 2 * 1024 * 1024) { 
+                         errorMessage.show(); 
+                        this.value = ''; //      
+                        } else { errorMessage.hide(); } } }); 
         });
 
-        $(document).ready(function() { // إخفاء العناصر في البداية
-            $("#doctor-info").hide(); // استماع لتغيير حالة الـ
-            checkbox $("#is_doctor").change(function() {
-                if (this.checked)
-                    $("#is_doctor").show();
-                else
-                    $("#is_doctor").hide();
-            })
-        });
     </script>
 @endsection

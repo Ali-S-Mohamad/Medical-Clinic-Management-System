@@ -63,8 +63,8 @@
                         <table class="table table-striped custom-table">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th style="min-width:175px;">Name</th>
-                                    <th>Employee ID</th>
                                     <th>Email</th>
                                     <th>Department</th>
                                     <th class="text-center">Languages</th>
@@ -75,12 +75,12 @@
                             <tbody>
                                 @foreach ($employees as $employee)
                                     <tr role="row" class="odd">
+                                        <td>{{ $employee->id }}</td>
                                         <td>
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
-                                        </td>
-                                        <td>{{ $employee->id }}</td>
+                                        </td>                                        
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
                                         <td>
@@ -140,8 +140,32 @@
                 </div>
             </div>
         @endif
-    </div>
+    
 
+{{-- Pagination --}}
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 6 of 6 entries
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+            <ul class="pagination">
+                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                </li>
+                <li class="paginate_button page-item active">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                </li>
+                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</div> 
+
+</div>  {{--content div--}}
 @endsection
 
 

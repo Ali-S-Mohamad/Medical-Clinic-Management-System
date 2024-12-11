@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('cv_path')->nullable();
             $table->string('academic_qualifications')->nullable();
             $table->text('previous_experience')->nullable();
+            $table->float('avg_ratings')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

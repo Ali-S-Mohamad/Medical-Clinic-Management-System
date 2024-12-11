@@ -58,8 +58,8 @@
                         <table class="table table-striped custom-table">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th style="min-width:200px;">Name</th>
-                                    <th>Employee ID</th>
                                     <th>Email</th>
                                     <th>Department</th>
                                     <th style="min-width: 110px;">Languages</th>
@@ -70,12 +70,12 @@
                             <tbody>
                                 @foreach ($deletedEmployees as $employee)
                                     <tr>
+                                        <td>{{ $employee->id }}</td>
                                         <td>
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
-                                        </td>
-                                        <td>{{ $employee->id }}</td>
+                                        </td>                                        
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
                                         <td>...</td>
