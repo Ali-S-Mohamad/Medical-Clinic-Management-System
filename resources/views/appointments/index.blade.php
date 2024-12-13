@@ -1,8 +1,11 @@
 @extends('layouts.master')
 @section('title')
+    Appointments
 @endsection
+    
 @section('css')
 @endsection
+
 @section('content')
 <div class="content">
     <div class="row">

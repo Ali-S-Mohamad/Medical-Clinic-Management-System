@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+    Roles & Permissions
 @endsection
 
 @section('css')
@@ -27,7 +27,7 @@
 </div>
 @endif
 <div class="card">
-    <div class="card-header">Manage Roles</div>
+    {{-- <div class="card-header">Manage Roles</div>
     <div class=" text-right m-b-30 d-flex justify-content-end align-items-center">
         <!-- زر إضافة الدور -->
         @can('create-role')
@@ -35,8 +35,19 @@
             <i class="fa fa-plus"></i> Add Role
         </a>
         @endcan
-    </div>      
-    <div class="card-body">  
+    </div> --}}
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Manage Roles</h5>
+        <div class="text-right">
+            @can('create-role')
+            <a href="{{ route('roles.create') }}" class="btn btn-primary btn-rounded">
+                <i class="fa fa-plus"></i> Add Role
+            </a>
+            @endcan
+        </div>
+    </div>
+
+    <div class="card-body">
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -68,7 +79,7 @@
                                         <i class="fa fa-pencil m-r-5"></i> Edit
                                     </a>
                                     @endcan
-                    
+
                                     <form
                                         action="{{ route('roles.destroy', $role->id) }}"
                                         method="POST" class="dropdown-item p-0 m-0">

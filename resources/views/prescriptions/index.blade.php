@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+    Prescriptions
 @endsection
 
 @section('css')
@@ -173,5 +173,5 @@
 
 
 @section('scripts')
-    
+
 @endsection
