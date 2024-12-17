@@ -54,4 +54,6 @@ Patients
 @endsection
 
 @section('scripts')
+
+
 @endsection

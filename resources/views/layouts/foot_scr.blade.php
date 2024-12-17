@@ -8,4 +8,5 @@
 <script src="{{asset('assets/js/select2.min.js')}}"></script>
 <script src="{{asset('assets/js/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+
 @yield('scripts')

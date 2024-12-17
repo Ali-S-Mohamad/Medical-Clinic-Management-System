@@ -5,14 +5,14 @@ Dashboard
 @endsection
 
 @section('css')
-  <style> 
+  <style>
      .dash-widget { cursor: pointer; }
   </style>
 @endsection
 
 
 @section('content')
- 
+
 <div class="content">
 
 {{-- Cards Statistics --}}
@@ -94,52 +94,52 @@ Dashboard
         </div>
     </div>
 
-    
+
 </div>
 
 {{-- Doctor Ratings --}}
-@php 
+@php
 $doctors=$statistics ['doctors']
-@endphp 
+@endphp
 
 <br><br>
 
-<div class="row"> 
+<div class="row">
     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
         <div class="hospital-barchart">
             <h4 class="card-title d-inline-block"> Doctor Avarage Ratings </h4>
         </div>
         <div class="bar-chart">
             <div class="chart clearfix">
-                @foreach ($doctors as $doctor) 
+                @foreach ($doctors as $doctor)
                     @if(isset($doctor->employee->avg_ratings))
                             <div class="item">
-                                <div class="bar">   
+                                <div class="bar">
                                     <span class="percent" >{{ ($doctor->employee->avg_ratings)*10 }}%</span>
                                     <div class="item-progress" data-percent="{{$doctor->employee->avg_ratings*10}}" >
                                        <span class="title" >{{ $doctor->name }} </span>
                                     </div>
                                 </div>
-                            </div>               
+                            </div>
                     @endif
                 @endforeach
-            </div>      
+            </div>
         </div>
-    </div>    {{-- bar section / Ratings--}}  
+    </div>    {{-- bar section / Ratings--}}
 </div> {{-- row --}}
 
- 
+
 <canvas id="linegraph" style="display: none;" ></canvas>
 <canvas id="bargraph"  style="display: none;"> </canvas>
- 
+
 
 </div>  {{-- div content --}}
- 
+
 @endsection
 
 
 
-@section('scripts')
+{{-- @section('scripts')
 <script src="assets/js/jquery-3.2.1.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -147,4 +147,8 @@ $doctors=$statistics ['doctors']
 <script src="assets/js/Chart.bundle.js"></script>
 <script src="assets/js/chart.js"></script>
 <script src="assets/js/app.js"></script>
+@endsection --}}
+@section('scripts')
+
+
 @endsection

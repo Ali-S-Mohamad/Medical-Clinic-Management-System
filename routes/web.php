@@ -1,18 +1,15 @@
 <?php
 
-use App\Http\Controllers\PatientController;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PrescriptionsController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\DashboardController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
-use App\Models\Rating;
-
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,29 +79,7 @@ Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('emplo
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
 
 Route::resource('users', UserController::class);
-Route::resource('employees', EmployeeController::class);
 
-// Patients Routes
-Route::resource('patients', PatientController::class);
-Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
+Auth::routes();
 
-
-// Admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-
-
-Route::get('/testr', function () {
-    $rating = new Rating;
-    $rating->employee_id   = 4;
-    $rating->patient_id  = 2;
-    $rating->doctor_rate = 4;
-    $rating->save();
-    //  $user = User::find($rating->employee_id);
-    //  $roles=$user->getRoleNames();
-    //  foreach($roles as $role)
-    //     if($role =='doctor')
-    //        dd('doctor');
-    //     else dd('employess');
-
-});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
