@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Appointment extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory ;
+
+    protected $fillable = [
+    'patient_id',
+    'doctor_id',
+    'appointment_date',
+    'status',
+    'notes',
+   ];
 
 
     public function patient(){

@@ -1,12 +1,14 @@
 <?php
 
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\DepartmentController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +62,8 @@ Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 't
 // end
 
 // appointments routes
-Route::get('/appointments', function () {
-    return view('appointments.index');
-})->name('appointments.index');
+Route::resource('/appointments', AppointmentController::class);
+
 
 Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
 Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
@@ -72,3 +73,7 @@ Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDele
 
 Route::resource('employees', EmployeeController::class);
 Route::resource('users', UserController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
