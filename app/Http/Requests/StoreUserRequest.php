@@ -28,7 +28,8 @@ class StoreUserRequest extends FormRequest
             'department_id' => 'required|exists:departments,id',
             'academic_qualifications' => 'nullable|string',
             'previous_experience'     => 'nullable|string', 
-            'pdf_cv' => 'file|mimes:pdf|max:2048',       
+            'pdf_cv' => 'file|mimes:pdf|max:2048', 
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048'      
         ];
     }
 }

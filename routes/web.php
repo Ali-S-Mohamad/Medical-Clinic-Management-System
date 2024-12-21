@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
-use App\Models\Rating;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,20 +76,16 @@ Route::resource('employees', EmployeeController::class);
 Route::resource('users', UserController::class); 
 
 // Admin dashboard
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:Admin');;
+
+// Rating
+Route::resource('ratings', RatingController::class); 
 
 
 Route::get('/testr', function() { 
          $rating = new Rating; 
-         $rating->employee_id   = 4;  
-         $rating->patient_id  = 2;
-         $rating->doctor_rate = 4;        
-         $rating->save(); 
-        //  $user = User::find($rating->employee_id);
-        //  $roles=$user->getRoleNames();
-        //  foreach($roles as $role)
-        //     if($role =='doctor')
-        //        dd('doctor');
-        //     else dd('employess');
-            
+         $rating->employee_id = 1;  
+         $rating->patient_id  = 1;
+         $rating->doctor_rate = 6.3;        
+         $rating->save();             
         });

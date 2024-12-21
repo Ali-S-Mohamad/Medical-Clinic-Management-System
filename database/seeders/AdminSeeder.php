@@ -30,7 +30,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'is_patient' => false
         ]);
-        $admin->assignRole('admin');
+        $admin->assignRole('Admin');
 
         // Creating first Doctor User
         $doctor = User::create([

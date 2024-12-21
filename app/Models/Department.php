@@ -23,4 +23,8 @@ class Department extends Model
     public function prescriptions(){
         return $this->hasMany(Prescription::class);
     }
+
+    public function image()  {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

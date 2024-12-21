@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -22,15 +22,34 @@
             <div class="col-lg-8 offset-lg-2">
                 <form action="{{ route('users.store') }}" method="post" enctype='multipart/form-data'>
                     @csrf
-                    <div class="form-group">
-                        <label class="display-block">is doctor?</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1">
-                            <label class="form-check-label" for="is_doctor">
-                                yes
-                            </label>
+                    
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="display-block">is doctor?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1">
+                                <label class="form-check-label" for="is_doctor">
+                                    yes
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    {{-- image section --}}
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="photo">profile image :</label>
+                            <div style="display: flex; align-items: center;"> 
+                                 <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i> <!-- حقل إدخال الصورة --> 
+                                <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png" style="display: none;"  > <!-- مكان عرض الصورة المصغرة --> 
+                                <img id="thumbnail" style="display:none; width: 70px; height: 70px; margin-left: 10px; cursor: pointer;">
+
+                            </div>
+                        </div>
+                    </div>
+                     {{-- image section --}}
+                    </div>   {{--row end--}}
+                     
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -38,6 +57,7 @@
                                 <input required name='name' class="form-control" type="text">
                             </div>
                         </div>
+                     
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="department-name" class="nb-2">Department <span
@@ -125,19 +145,29 @@
                     $("#doctor-info").show(); 
                 else $("#doctor-info").hide(); 
             }); 
-            
-            $('#pdf_cv').change(function() { 
-                var file = this.files[0]; 
-                console.log('File selected:', file.size); 
-                var errorMessage = $('#errorMessage'); 
-                if (file) { 
-                    console.log('File selected:', file.size); 
- 
-                    if (file.size > 2 * 1024 * 1024) { 
-                         errorMessage.show(); 
-                        this.value = ''; //      
-                        } else { errorMessage.hide(); } } }); 
         });
+             
 
+// image & image icon
+        document.getElementById('upload-icon').onclick = function() {
+            document.getElementById('photo').click();
+        };
+        document.getElementById('photo').onchange = function(event) { 
+            var file = event.target.files[0]; 
+            if (file) { 
+                var reader = new FileReader(); 
+                reader.onload = function(e) { 
+                    document.getElementById('upload-icon').style.display = 'none'; 
+                    var img = document.getElementById('thumbnail'); 
+                    img.src = e.target.result; 
+                    img.style.display = 'block'; 
+                } 
+                reader.readAsDataURL(file); 
+            } 
+        }
+       
+        document.getElementById('thumbnail').onclick = function() { 
+            document.getElementById('photo').click(); }
+ 
     </script>
 @endsection
