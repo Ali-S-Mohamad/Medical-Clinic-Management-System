@@ -25,34 +25,42 @@
             </div>
         </div>
         <div class="row filter-row">
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus">
-                    <label class="focus-label">Employee ID</label>
-                    <input type="text" class="form-control floating">
+            <form method="GET" action="{{ route('employees.index') }}" class="d-flex w-100">
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus">
+                        <label class="focus-label">Employee Name</label>
+                        <input type="text" name="employee_name" class="form-control floating" value="{{ request('employee_name') }}">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus">
-                    <label class="focus-label">Employee Name</label>
-                    <input type="text" class="form-control floating">
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus select-focus">
+                        <label class="focus-label">Department</label>
+                        <select class="select floating">
+                            <option>Select Department</option>
+                            @foreach ($departments as $department)
+                                <option>{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group form-focus select-focus">
-                    <label class="focus-label">Role</label>
-                    <select class="select floating">
-                        <option>Select Role</option>
-                        <option>Nurse</option>
-                        <option>Pharmacist</option>
-                        <option>Laboratorist</option>
-                        <option>Accountant</option>
-                        <option>Receptionist</option>
-                    </select>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group form-focus select-focus">
+                        <label class="focus-label">Role</label>
+                        <select name="role" class="select floating">
+                            <option value="">Select Role</option>
+                            @foreach ($roles as $role)
+                                @continue(in_array( $role->name,['Admin','patient']) )
+                                <option value="{{ $role->name }}" {{ request('role') == $role->name ? 'selected' : '' }}>
+                                    {{ $role->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <a href="#" class="btn btn-success btn-block"> Search </a>
-            </div>
+                <div class="col-sm-6 col-md-3">
+                    <button type="submit" class="btn btn-success btn-block">Search</button>
+                </div>
+            </form>
         </div>
         @if ($employees->isEmpty())
             <h3>No Employees .. please add one</h3>
@@ -80,7 +88,7 @@
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
-                                        </td>                                        
+                                        </td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
                                         <td>
@@ -140,32 +148,36 @@
                 </div>
             </div>
         @endif
-    
 
-{{-- Pagination --}}
-<div class="row">
-    <div class="col-sm-12 col-md-5">
-        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 6 of 6 entries
-        </div>
-    </div>
-    <div class="col-sm-12 col-md-7">
-        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-            <ul class="pagination">
-                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                </li>
-                <li class="paginate_button page-item active">
-                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                </li>
-                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
-                </li>
-            </ul>
-        </div>
-    </div> 
-</div> 
 
-</div>  {{--content div--}}
+        {{-- Pagination --}}
+        <div class="row">
+            <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 6
+                    of 6 entries
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
+                                class="page-link">Previous</a>
+                        </li>
+                        <li class="paginate_button page-item active">
+                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0"
+                                class="page-link">1</a>
+                        </li>
+                        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0"
+                                class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div> {{-- content div --}}
 @endsection
 
 

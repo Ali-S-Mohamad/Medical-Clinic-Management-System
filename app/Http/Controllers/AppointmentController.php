@@ -26,17 +26,19 @@ class AppointmentController extends Controller
 
         $isDoctor = auth()->user()->hasRole('doctor');
 
-        $appointments = Appointment::with(['patient.user', 'employee.user'])
-            ->when($isDoctor, function ($query) use ($employee) {
-                $query->where('doctor_id', $employee->id);
-            }, function ($query) use ($employee) {
+        $appointments = Appointment::all();
 
-                $query->whereHas('employee', function ($subQuery) use ($employee) {
-                    $subQuery->where('department_id', $employee->department_id);
-                });
-            })
-            ->whereHas('patient')
-            ->get();
+        // $appointments = Appointment::with(['patient.user', 'employee.user'])
+        //     ->when($isDoctor, function ($query) use ($employee) {
+        //         $query->where('doctor_id', $employee->id);
+        //     }, function ($query) use ($employee) {
+
+        //         $query->whereHas('employee', function ($subQuery) use ($employee) {
+        //             $subQuery->where('department_id', $employee->department_id);
+        //         });
+        //     })
+        //     ->whereHas('patient')
+        //     ->get();
 
         return view('appointments.index', compact('appointments'));
     }

@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
@@ -16,7 +17,9 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::with(['user.roles', 'department'])->get();
-        return view('employees.index', compact('employees'));
+        $roles = DB::table('roles')->get();
+        $departments = Department::all();
+        return view('employees.index', compact('employees','roles','departments'));
     }
 
     /**
@@ -37,7 +40,7 @@ class EmployeeController extends Controller
             'user_id' => $userId,
             'department_id' => $request->department_id,
             'academic_qualifications' => $request->qualifications,
-            'previous_experience' => $request->experience,     
+            'previous_experience' => $request->experience,
         ]);
 
         $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
@@ -49,8 +52,8 @@ class EmployeeController extends Controller
     }
 
     public function updateEmployeeDetails($userId, Request $request)
-    {   
-        
+    {
+
         $employee = Employee::where('user_id',$userId)->first();
         // ممكن هالسطر يكون بعد تعديل معلومات الموظف،
         //  بس حطيتو هون لاختصر سطر انو ارجع عدل مسار سيرتو  بعد ما كون خالصة تعديل البيانات وارجع استدعي السيف
@@ -72,7 +75,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        
+
         return view('employees.show', compact('employee'));
     }
 
@@ -83,7 +86,7 @@ class EmployeeController extends Controller
     {
         $departments = Department::all();
         $languages   = Language::all();
-        $role = $employee->user->roles->first()->name; 
+        $role = $employee->user->roles->first()->name;
         return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
