@@ -21,9 +21,9 @@ class PrescriptionsController extends Controller
         if($user->hasRole('doctor')){
             $prescriptions=Prescription::with('employee','appointment')
                                     -> where('doctor_id',$user->employee->id)
-                                    -> get();
+                                    -> paginate(3);
         } elseif ($user->hasRole('Admin')){
-            $prescriptions=Prescription::all();   
+            $prescriptions=Prescription::paginate(3);   
         } else {
             return redirect()->back()->with('error','unauthorized access');
         }   
@@ -33,7 +33,7 @@ class PrescriptionsController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {  
+    {   
         $doctorId=Auth::user()->employee->id;
         $appointments = Appointment::with('patient')
                                     ->where('doctor_id',$doctorId)

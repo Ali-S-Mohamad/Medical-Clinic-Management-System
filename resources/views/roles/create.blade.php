@@ -34,9 +34,9 @@
                 <div class="float-start">
                     Add New Role
                 </div>
-                <div class="float-end">
+                {{-- <div class="float-end">
                     <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
-                </div>
+                </div> --}}
             </div>
             <div class="card-body">
                 <form action="{{ route('roles.store') }}" method="post">
@@ -80,10 +80,15 @@
                     </div>
                     
                     <div class="mb-3 row">
-                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Add Role">
+                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Add Role">           
                     </div>
-                    
+                    <div class="m-t-20 text-center">
+                        <a href="{{route('roles.index')}}" class="btn btn-secondary ml-5" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back
+                        </a>
+                        </div>
                 </form>
+                
             </div>
         </div>
     </div>    

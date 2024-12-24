@@ -10,7 +10,8 @@ class MedicalFile extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-    ' patient_id',
+    'patient_id',
+    'diagnoses',
     ];
 
 
