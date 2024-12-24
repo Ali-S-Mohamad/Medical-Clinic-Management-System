@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\DepartmentController;
-
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmployeeController;
+
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\MedicalFilesController;
+use App\Http\Controllers\PrescriptionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Define Role Resource Routes
 Route::resource('roles', RoleController::class);
+
+//Define prescriptions Routes
+Route::get('/prescriptions/trash', [PrescriptionsController::class ,'trash'])->name('prescriptions.trash');
+Route::post('prescriptions/restore/{id}', [PrescriptionsController::class , 'restore'])->name('prescriptions.restore');
+Route::delete('/prescriptions/hard-delete/{id}', [PrescriptionsController::class , 'hardDelete'])->name('prescriptions.hardDelete');
+Route::resource('prescriptions', PrescriptionsController::class);
+
+//Define MedicalFiles Routes
+Route::get('/medicalFiles/trash', [MedicalFilesController::class ,'trash'])->name('medicalFiles.trash');
+Route::post('medicalFiles/restore/{id}', [MedicalFilesController::class , 'restore'])->name('medicalFiles.restore');
+Route::delete('/medicalFiles/hard-delete/{id}', [MedicalFilesController::class , 'hardDelete'])->name('medicalFiles.hardDelete');
+Route::resource('/medicalFiles', MedicalFilesController::class);
 
 // doctors routes
 Route::get('/doctors', function () {

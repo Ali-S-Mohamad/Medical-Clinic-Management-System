@@ -3,7 +3,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">Main</li>
-                <li class="">
+                <li class="active">
                     <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                 </li>
                 <li class="">
@@ -20,6 +20,12 @@
                 </li>
                 <li class="">
                     <a href="{{route('appointments.index')}}"><i class="fa fa-user-md"></i> <span>Appointments</span></a>
+                </li>
+                <li>
+                    <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
+                </li>
+                <li>
+                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
                 </li>
                 @canany(['create-role', 'edit-role', 'delete-role'])
                 <li class="">

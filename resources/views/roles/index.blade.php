@@ -28,10 +28,15 @@
 @endif
 <div class="card">
     <div class="card-header">Manage Roles</div>
-    <div class="card-body">
+    <div class=" text-right m-b-30 d-flex justify-content-end align-items-center">
+        <!-- زر إضافة الدور -->
         @can('create-role')
-            <a href="{{ route('roles.create') }}" class="btn btn-primary btn-sm my-2"><i class="bi bi-plus-circle"></i> Add New Role</a>
+        <a href="{{ route('roles.create') }}" class="btn btn-primary btn-rounded mr-3">
+            <i class="fa fa-plus"></i> Add Role
+        </a>
         @endcan
+    </div>      
+    <div class="card-body">  
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -45,26 +50,42 @@
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $role->name }}</td>
-                    <td>
-                        <form action="{{ route('roles.destroy', $role->id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-
-                            <a href="{{ route('roles.show', $role->id) }}" class="btn btn-warning btn-sm"></i></i> Show</a>
-                            
-                            @if ($role->name!='Super Admin')
-                                @can('edit-role')
-                                    <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-primary btn-sm">  Edit</a>   
-                                @endcan
-
-                                @can('delete-role')
-                                    @if ($role->name!=Auth::user()->hasRole($role->name))
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this role?');"> Delete</button>
-                                    @endif
-                                @endcan
-                            @endif
-
-                        </form>
+                    <td class="text-right">
+                        <div class="dropdown dropdown-action">
+                            <a href="#" class="action-icon dropdown-toggle"
+                                data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item"
+                                    href="{{ route('roles.show', $role->id) }}">
+                                    <i class="fa fa-eye m-r-5"></i> Show
+                                </a>
+                                @if ($role->name != 'Admin')
+                                    @can('edit-role')
+                                    <a class="dropdown-item"
+                                        href="{{ route('roles.edit', $role->id) }}">
+                                        <i class="fa fa-pencil m-r-5"></i> Edit
+                                    </a>
+                                    @endcan
+                    
+                                    <form
+                                        action="{{ route('roles.destroy', $role->id) }}"
+                                        method="POST" class="dropdown-item p-0 m-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        @can('delete-role')
+                                            @if ($role->name != Auth::user()->hasRole($role->name))
+                                            <button type="submit"
+                                                class="dropdown-item text-danger">
+                                                <i class="fa fa-trash-o m-r-6"></i> Delete
+                                            </button>
+                                            @endif
+                                        @endcan
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @empty

@@ -24,20 +24,16 @@ class RoleController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('roles.index', [
-            'roles' => Role::orderBy('id','DESC')->paginate(3)
-        ]);
+    {   $roles = Role::orderBy('id','DESC')->paginate(3);
+        return view('roles.index', compact('roles'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('roles.create', [
-            'permissions' => Permission::get()
-        ]);
+    {   $permissions = Permission::get();
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -64,10 +60,7 @@ class RoleController extends Controller
             ->where("role_id",$role->id)
             ->select('name')
             ->get();
-        return view('roles.show', [
-            'role' => $role,
-            'rolePermissions' => $rolePermissions
-        ]);
+        return view('roles.show', compact('role' , 'rolePermissions'));
     }
 
     /**
@@ -82,12 +75,9 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_id",$role->id)
             ->pluck('permission_id')
             ->all();
-
-        return view('roles.edit', [
-            'role' => $role,
-            'permissions' => Permission::get(),
-            'rolePermissions' => $rolePermissions
-        ]);
+        $permissions = Permission::get();
+        return view('roles.edit', compact('role','permissions', 'rolePermissions'));
+        
     }
 
     /**
