@@ -24,10 +24,10 @@ class UserController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {  
         $departments = Department::all();
         $languages   = Language::all();
-        return view('users.create', compact('departments','languages'));
+        return view('employees.create', compact('departments','languages'));
     }
 
     /**

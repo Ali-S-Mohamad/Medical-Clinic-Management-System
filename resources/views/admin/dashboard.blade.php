@@ -109,6 +109,7 @@ $doctors=$statistics ['doctors']
         <div class="hospital-barchart">
             <h4 class="card-title d-inline-block"> Doctor Avarage Ratings </h4>
         </div>
+        <a href="{{route('ratings.index')}}">
         <div class="bar-chart">
             <div class="chart clearfix">
                 @foreach ($doctors as $doctor)
@@ -125,6 +126,7 @@ $doctors=$statistics ['doctors']
                 @endforeach
             </div>
         </div>
+        </a>
     </div>    {{-- bar section / Ratings--}}
 </div> {{-- row --}}
 
@@ -139,16 +141,6 @@ $doctors=$statistics ['doctors']
 
 
 
-{{-- @section('scripts')
-<script src="assets/js/jquery-3.2.1.min.js"></script>
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.slimscroll.js"></script>
-<script src="assets/js/Chart.bundle.js"></script>
-<script src="assets/js/chart.js"></script>
-<script src="assets/js/app.js"></script>
-@endsection --}}
 @section('scripts')
-
 
 @endsection

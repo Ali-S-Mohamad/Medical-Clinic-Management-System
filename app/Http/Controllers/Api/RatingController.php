@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
-// use Illuminate\Foundation\Auth\User;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RatingResource;
@@ -46,22 +45,20 @@ class RatingController extends Controller
     {
         // التحقق من ان التقييم ل دكتور وليس لموظف اداري
         $emp = Employee::find($request->doctor_id);
-        $roles = $emp->user->getRoleNames();
-        $doctor = false;
-        foreach ($roles as $role)
-            if ($role == 'doctor')
-                $doctor = true;
 
-        if ($doctor) {
-            $rate = Rating::create([
+        if ($emp->user->hasRole('doctor')) {
+            Rating::create([
                 'patient_id'   => Auth::id(),
                 'employee_id'  => $request->doctor_id,
                 'doctor_rate'  => $request->doctor_rate,
                 'details'      => $request->details,
             ]);
-            return $this->successResponse('Rating added successfully', 200);
-        } else
-            return $this->errorResponse('Not a doctor', 404);
+            return $this->successResponse( 'Rating added successfully', 200);
+
+        } else {
+            return $this->errorResponse( 'Not a doctor', 404);
+        }
+
     }
 
     /**
@@ -70,9 +67,12 @@ class RatingController extends Controller
     public function show(string $id)
     {
         $rate = Rating::find($id);
-        if (!$rate)
-            return $this->errorResponse('Rating not found to show', 404);
-        return $this->apiResponse(new RatingResource($rate), '', 200);
+        if ($rate)
+           return $this->apiResponse( new RatingResource($rate) , '', 200);
+
+        return $this->errorResponse( 'Rating not found to show', 404);
+
+
     }
 
     /**
@@ -87,26 +87,25 @@ class RatingController extends Controller
 
         // التحقق ان التقييم ل دكتور وليس لموظف اداري
         $emp = Employee::find($request->doctor_id);
-        $roles = $emp->user->getRoleNames();
-        $doctor = false;
-        foreach ($roles as $role)
-            if ($role == 'doctor')
-                $doctor = true;
+        $isDoctor = $emp->user->hasRole('doctor') ;
 
         $rate = Rating::find($id);
+        if (!$rate)
+           return $this->errorResponse( 'Rating not found to delete it', 404);
 
         //  يتم تعديل التقييم اذا كان :
         //  التقييم موجود و التقييم  لدكتور و الشخص الذي ضاف التقييم هو الذي يقوم بالتقييم
-        if ($rate && Auth::id() == $rate->patient_id && $doctor) {
+        if(Auth::id()==$rate->patient_id && $isDoctor){
             $rate->update([
                 'employee_id' => $request->doctor_id,
                 'doctor_rate' => $request->doctor_rate,
                 'details'    => $request->details,
 
             ]);
-            return $this->apiResponse(new RatingResource($rate), 'Rating updated successfully', 200);
-        } else
-            return $this->errorResponse('Not authorized or rate doesnt exsist', 404);
+            return $this->apiResponse(new RatingResource($rate) , 'Rating updated successfully', 200);
+        }
+        else
+        return $this->errorResponse( 'Not authorized', 401);
     }
 
     /**
@@ -119,18 +118,14 @@ class RatingController extends Controller
             return $this->errorResponse('Rating not found to delete it', 404);
 
         //الحصول على رول الشخص الذي يريد الحذف، اذا كان ادمن فينو يحذف مباشرة
-        $admin = false;
         $user = Auth::guard('sanctum')->user();
-        if ($user) {
-            $roles = $user->roles;
-            foreach ($roles as $role)
-                if ($role->name == "Admin")
-                    $admin = true;
-        }
-        if ($admin || $user->id == $rate->patient_id) {
+        $isAdmin = $user->hasRole('Admin') ;
+
+        if ($isAdmin || $user->id == $rate->patient_id){
             $rate->delete();
             return $this->apiResponse([], 'Rating deleted successfully', 200);
-        } else
-            return $this->errorResponse('Not authorized', 404);
+        }
+        else
+            return $this->errorResponse( 'Not authorized', 401);
     }
 }

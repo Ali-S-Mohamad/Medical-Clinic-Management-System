@@ -4,9 +4,11 @@
             <ul>
                 <li class="menu-title">Main</li>
                 @hasrole('Admin')
+                @if (Auth::check()  && Auth::user()->hasRole('Admin'))
                 <li class="">
                     <a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                 </li>
+                @endif
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
                 </li>
@@ -28,6 +30,14 @@
                 </li>
                 <li>
                     <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
+                </li>
+                @canany(['create-role', 'edit-role', 'delete-role'])
+                <li class="">
+                    <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
+                </li>
+                @endcanany
+                <li class="">
+                    <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>
             </ul>
         </div>

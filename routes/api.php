@@ -30,4 +30,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
  //Ratings routes  ->middleware('auth:sanctum')
 Route::post('doctor_ratings', [RatingController::class, 'doctor_ratings_details']);
-Route::apiResource('rating',RatingController::class);
+Route::apiResource('rating', RatingController::class);

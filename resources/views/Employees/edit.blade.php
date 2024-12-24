@@ -5,6 +5,8 @@
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 @endsection
 
 @section('content')
@@ -22,6 +24,8 @@
                 <form action="{{ route('users.update', $employee->user->id) }}" method="post" enctype='multipart/form-data'>
                     @csrf
                     @method('PUT')
+                    <div class="row">
+                    <div class="col-sm-6">
                     <div class="form-group">
                         <label class="display-block">is doctor?</label>
                         <div class="form-check form-check-inline">
@@ -32,6 +36,32 @@
                             </label>
                         </div>
                     </div>
+                    </div>
+
+                    {{-- image section --}}
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="photo">Profile Image:</label>
+                            <div style="display: flex; align-items: center;">
+                                @if($employee->image)
+                                    <!-- IF there is an image -> display it -->
+                                    <img id="thumbnail" src="{{ asset('storage/' . $employee->image->image_path) }}" 
+                                         style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
+                                @else
+                                    <!-- IF there is not an image -> display upload icon -->
+                                    <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
+                                @endif
+                                    <!-- input field -->
+                                <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png" style="display: none;">
+                                 
+                            </div>
+                        </div>
+                    </div> 
+                    
+                    {{-- end  of image section --}} 
+                </div>       
+ 
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -129,7 +159,7 @@
                 </form>
             </div>
         </div>
-    </div>
+  
 @endsection
 
 
@@ -163,5 +193,56 @@
                     existingFileMessage.style.display = 'none'; } 
                 });
           
+
+// image & image icon
+            document.addEventListener('DOMContentLoaded', function() {
+                var uploadIcon = document.getElementById('upload-icon');
+                var thumbnail = document.getElementById('thumbnail');
+                var photoInput = document.getElementById('photo');
+
+                // التعامل مع النقر على الأيقونة
+                if (uploadIcon) {
+                    uploadIcon.addEventListener('click', function() {
+                        photoInput.click();});
+                }
+
+                // التعامل مع النقر على الصورة
+                if (thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        photoInput.click();});
+                }
+
+                // التعامل مع تغيير ملف الصورة
+                photoInput.addEventListener('change', function(event) {
+                    var file = event.target.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            if (thumbnail) {
+                                thumbnail.src = e.target.result;
+                            } else {
+                                thumbnail = document.createElement('img');
+                                thumbnail.id = 'thumbnail';
+                                thumbnail.src = e.target.result;
+                                thumbnail.style.width = '80px';
+                                thumbnail.style.height = '80px';
+                                thumbnail.style.marginLeft = '10px';
+                                thumbnail.style.cursor = 'pointer';
+                                thumbnail.style.borderRadius = '50%';
+                                uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
+                                
+                                // إعادة إضافة حدث النقر على الصورة الجديدة
+                                thumbnail.addEventListener('click', function() {
+                                    photoInput.click();
+                                });
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+
+ 
+
     </script>
 @endsection

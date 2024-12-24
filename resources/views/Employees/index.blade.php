@@ -5,6 +5,7 @@
 @endsection
 
 @section('css')
+<style>  tbody tr:hover { cursor: pointer; } </style>
 @endsection
 
 
@@ -82,15 +83,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($employees as $employee)
-                                    <tr role="row" class="odd">
+                                    <tr role="row" onclick="window.location='{{ route('employees.show', $employee->id) }}' " class="odd">
                                         <td>{{ $employee->id }}</td>
                                         <td>
-                                            <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
+                                            @php
+                                                 $image_path=$employee->image ? asset('storage/' . $employee->image->image_path) : asset('assets/img/user.jpg');
+                                            @endphp
+                                            <img width="40" height="40" src="{{$image_path }}"
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
-                                        <td>{{ $employee->department->name }}</td>
+                                        <td>{{ $employee->department?->name }}</td>
                                         <td>
                                             @if (!$employee->Languages->isEmpty())
                                                 @foreach ($employee->Languages as $Language)
@@ -118,16 +122,13 @@
                                             <div class="action-buttons" style="white-space: nowrap;">
                                                 <a class="btn btn-sm btn-primary"
                                                     href="{{ route('employees.edit', $employee->id) }}"
+                                                    onclick="event.stopPropagation();"
                                                     style="display: inline-block; margin-right: 5px;">
                                                     <i class="fa fa-pencil m-r-5"></i> Edit
                                                 </a>
-                                                <a class="btn btn-sm btn-info"
-                                                    href="{{ route('employees.show', $employee->id) }}"
-                                                    style="display: inline-block; margin-right: 5px;">
-                                                    <i class="fa fa-eye m-r-5"></i> Show
-                                                </a>
                                                 <form action="{{ route('employees.destroy', $employee->id) }}"
-                                                    method="POST" style="display: inline-block; margin: 0;">
+                                                    method="POST" style="display: inline-block; margin: 0;"
+                                                    onclick="event.stopPropagation();" >
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"

@@ -24,8 +24,10 @@
     },
     "autoload": {
         "files": [
-        "app/Helpers/UploadFile.php"
+        "app/Helpers/UploadFile.php",
+        "app/Helpers/UploadImage.php"
         ],
+        
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",

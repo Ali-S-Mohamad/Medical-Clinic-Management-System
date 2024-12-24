@@ -14,10 +14,14 @@
             <div class="card shadow-lg" style="width: 50rem; max-width: 90%; border-radius: 15px; padding: 20px;">
                 <div class="card-body text-center">
                     <div class="doctor-img mb-4">
-                        <a class="avatar" href="">
-                            <img alt="Department Image" src="{{ asset('assets/img/user.jpg') }}" class="rounded-circle"
-                                style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #007bff;">
-                        </a>
+                        @php
+                            $image_path=$employee->image ? asset('storage/' . $employee->image->image_path) : asset('assets/img/user.jpg');
+                        @endphp
+                        <a class="avatar" href="{{$image_path}}" target="_blank" style="display: flex; justify-content: center; align-items: center;">
+                            <img alt="ُEmployee Image" 
+                                 src="{{ $image_path }}" 
+                                 style="max-width: 100%; max-height: 100%; width: 300px; height: 300px; object-fit: cover; border-radius: 50%;">
+                        </a>                        
                     </div>
                     <div>
                         <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">

@@ -43,11 +43,15 @@ class EmployeeController extends Controller
             'previous_experience' => $request->experience,
         ]);
 
+        $employee->languages()->sync($request->languages_ids);
+
+        saveImage('Employees images', $request, $employee);
+
         $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
         $employee->cv_path=$cvFilePath;
         $employee->save();
 
-        $employee->languages()->sync($request->languages_ids);
+
         return redirect()->route('employees.index');
     }
 
@@ -66,6 +70,8 @@ class EmployeeController extends Controller
             'previous_experience' => $request->experience,
         ]);
 
+
+        saveImage('Employees images', $request, $employee);
         $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }

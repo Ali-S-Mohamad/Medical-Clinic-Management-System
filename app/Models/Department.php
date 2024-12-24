@@ -25,6 +25,10 @@ class Department extends Model
         return $this->hasMany(Prescription::class);
     }
 
+    public function image()  {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function scopeActive(Builder $builder)
     {
         $builder->where('status', '=', 'active');

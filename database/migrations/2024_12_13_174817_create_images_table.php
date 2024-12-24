@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ratings', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id') -> constrained('users');
-            $table->foreignId('employee_id')-> constrained('employees')-> cascadeOnDelete();
-            $table->decimal('doctor_rate', 3, 1)->check('doctor_rate BETWEEN 1.0 AND 10.0');
-            $table->text('details')->nullable();
+            $table->string ('image_path');
+            $table->integer('imageable_id');
+            $table->string ('imageable_type');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('images');
     }
 };

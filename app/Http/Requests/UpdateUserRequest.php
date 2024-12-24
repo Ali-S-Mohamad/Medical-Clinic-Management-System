@@ -29,6 +29,7 @@ class UpdateUserRequest extends FormRequest
             'academic_qualifications'=> 'nullable|string|max:500',
             'previous_experience'    => 'nullable|string|max:500',
             'pdf_cv' => 'file|mimes:pdf|max:2048',
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048' 
         ];
     }
 }
