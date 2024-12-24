@@ -16,24 +16,24 @@ class Rating extends Model
         'doctor_rate',
         'details'
     ];
-    protected static function boot() { 
-        parent::boot(); 
+    protected static function boot() {
+        parent::boot();
         Log::info('Boot method called');
-        static::saved(function ($rating) { 
-            $employee = Employee::find($rating->employee_id); 
-            if ($employee) { 
-                $average = $employee->ratings()->avg('doctor_rate'); 
+        static::saved(function ($rating) {
+            $employee = Employee::find($rating->employee_id);
+            if ($employee) {
+                $average = $employee->ratings()->avg('doctor_rate');
               //  Log::info('Average calculated: ' . $average);
-                $employee->avg_ratings = $average; 
-                $employee->save(); } 
-            }); 
+                $employee->avg_ratings = $average;
+                $employee->save(); }
+            });
             }
 
-    public function doctor() { 
-        return $this->belongsTo(Employee::class , 'employee_id'); 
+    public function doctor() {
+        return $this->belongsTo(Employee::class , 'employee_id');
     }
 
-    public function user() { 
-        return $this->belongsTo(User::class , 'patient_id'); 
+    public function user() {
+        return $this->belongsTo(User::class , 'patient_id');
     }
 }

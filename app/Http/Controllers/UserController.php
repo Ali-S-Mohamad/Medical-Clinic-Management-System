@@ -24,8 +24,8 @@ class UserController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {  
-        $departments = Department::all();
+    {
+        $departments = Department::active()->get();
         $languages   = Language::all();
         return view('employees.create', compact('departments','languages'));
     }
@@ -90,7 +90,7 @@ class UserController extends Controller
         } else {
             $user->syncRoles('doctor');
         }
-        
+
         // Calling EmployeeController to Update Employee Details
         $employeeController = new EmployeeController();
         return $employeeController->updateEmployeeDetails($user->id, $request);

@@ -31,6 +31,6 @@ class Department extends Model
 
     public function scopeActive(Builder $builder)
     {
-        $builder->where('status', '=', 'active');
+        $builder->where('status', '=', '1');
     }
 }

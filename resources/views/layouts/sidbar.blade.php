@@ -31,11 +31,11 @@
                 <li>
                     <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
                 </li>
-                @canany(['create-role', 'edit-role', 'delete-role'])
+                {{-- @canany(['create-role', 'edit-role', 'delete-role'])
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
                 </li>
-                @endcanany
+                @endcanany --}}
                 <li class="">
                     <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>

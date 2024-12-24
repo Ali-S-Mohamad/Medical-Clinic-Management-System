@@ -20,9 +20,9 @@ class AppointmentController extends Controller
 
         $employee = Employee::where('user_id', auth()->user()->id)->first();
 
-        if (!$employee) {
-            return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
-        }
+        // if (!$employee) {
+        //     return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
+        // }
 
         $isDoctor = auth()->user()->hasRole('doctor');
 

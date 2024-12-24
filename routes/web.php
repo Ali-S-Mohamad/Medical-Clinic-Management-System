@@ -30,6 +30,9 @@ use App\Http\Controllers\EmployeeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/test', function() {
+    return 'Route is working!';
+});
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -66,10 +69,10 @@ Route::get('/doctors-edit', function () {
     return view('doctors.edit');
 })->name('doctors.edit');
 
-// patients routes
-Route::get('/patients', function () {
-    return view('patients.index');
-})->name('patients.index')->middleware('auth');
+// // patients routes
+// Route::get('/patients', function () {
+//     return view('patients.index');
+// })->name('patients.index')->middleware('auth');
 
 // departments routes
 Route::resource('/departments', DepartmentController::class);

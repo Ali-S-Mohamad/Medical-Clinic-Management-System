@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     {
         $employees = Employee::with(['user.roles', 'department'])->get();
         $roles = DB::table('roles')->get();
-        $departments = Department::all();
+        $departments = Department::active()->get();
         return view('employees.index', compact('employees','roles','departments'));
     }
 
