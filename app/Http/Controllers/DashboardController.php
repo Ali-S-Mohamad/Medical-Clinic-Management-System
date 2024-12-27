@@ -12,20 +12,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        
+
         $totalPatients  = Patient::count();
         $totalDoctors   = User::role('doctor')  ->count();
-        $totalemployees = User::role('employee')->count();
+        $totalEmployees = User::role('employee')->count();
         $departments    = Department::count();
         $doctors        = User::role('doctor')->get();
         $active_departments   = Department::where('status', 1)->count();
         $inactive_departments = Department::where('status', 0)->count();
-    
-    
+
+
         $statistics=[
             'totalPatients' => $totalPatients,
             'totalDoctors'  => $totalDoctors,
-            'totalemployees'=> $totalemployees,
+            'totalEmployees'=> $totalEmployees,
             'active_departments'   => $active_departments,
             'inactive_departments' => $inactive_departments,
             'doctors'       => $doctors,

@@ -15,7 +15,7 @@ class PatientController extends Controller
         $patient = Patient::create([
             'user_id' => $user_id,
             'dob' => $request->dob,
-            'insurance_number' => $request->insurance_number
+            'insurance_number' => $request->insurance_number,
         ]);
         return $this->apiResponse([$patient], 'Patient details stored successfully', 201);
     }

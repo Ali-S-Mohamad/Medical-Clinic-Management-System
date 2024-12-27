@@ -17,14 +17,13 @@ class PrescriptionsController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        // dd($user);
-        if ($user->hasRole('doctor')) {
-            $prescriptions = Prescription::with('employee', 'appointment')
-                ->where('doctor_id', $user->employee->id)
-                ->get();
-        } elseif ($user->hasRole('Admin')) {
-            $prescriptions = Prescription::all();
+        $user=Auth::user();
+        if($user->hasRole('doctor')){
+            $prescriptions=Prescription::with('employee','appointment')
+                                    -> where('doctor_id',$user->employee->id)
+                                    -> paginate(3);
+        } elseif ($user->hasRole('Admin')){
+            $prescriptions=Prescription::paginate(3);
         } else {
             return redirect()->back()->with('error', 'unauthorized access');
         }
@@ -35,12 +34,15 @@ class PrescriptionsController extends Controller
      */
     public function create()
     {
+        // dd(Auth::user()->employee);
         $doctorId = Auth::user()->employee->id;
+        // dd($doctorId);
+
         $appointments = Appointment::with('patient')
             ->where('doctor_id', $doctorId)
             ->get();
         return view('prescriptions.create', compact('appointments'));
-    }       
+    }
     /**
      * Store a newly created resource in storage.
      */

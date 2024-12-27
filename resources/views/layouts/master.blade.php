@@ -10,9 +10,13 @@
     @include('layouts.head')
 
     <!--[if lt IE 9]>
-  <script src="assets/js/html5shiv.min.js"></script>
-  <script src="assets/js/respond.min.js"></script>
- <![endif]-->
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="{{ asset('assets/js/html5shiv.min.js') }}"></script>
+    <script src="{{ asset('assets/js/respond.min.js') }}"></script>
+
 </head>
 
 <body>

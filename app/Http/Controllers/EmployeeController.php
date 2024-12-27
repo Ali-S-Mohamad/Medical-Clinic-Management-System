@@ -7,20 +7,42 @@ use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\EmployeeFilterService;
 use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
+    protected $employeeFilterService;
+
+    public function index(Request $request)
+    {
+
+        // استرجاع القيم المدخلة
+        $filters = $request->only(['employee_name', 'department', 'role']);
+        // dd($filters);
+
+        // استدعاء الخدمة
+        $employeeFilterService = app(EmployeeFilterService::class);
+        // dd($employeeFilterService);
+        $employees = $employeeFilterService->filter($filters)->paginate(10);
+        // dd($employees);
+
+        // جلب الأقسام والأدوار لعرضها
+        $departments = Department::active()->get();
+        $roles = DB::table('roles')->get();
+
+        return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $employees = Employee::with(['user.roles', 'department'])->get();
-        $roles = DB::table('roles')->get();
-        $departments = Department::active()->get();
-        return view('employees.index', compact('employees','roles','departments'));
-    }
+    // public function index()
+    // {
+    //     $employees = Employee::with(['user.roles', 'department'])->get();
+    //     $roles = DB::table('roles')->get();
+    //     $departments = Department::active()->get();
+    //     return view('employees.index', compact('employees','roles','departments'));
+    // }
 
     /**
      * Show the form for creating a new resource.

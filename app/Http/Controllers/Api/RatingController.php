@@ -53,12 +53,10 @@ class RatingController extends Controller
                 'doctor_rate'  => $request->doctor_rate,
                 'details'      => $request->details,
             ]);
-            return $this->successResponse( 'Rating added successfully', 200);
-
+            return $this->successResponse('Rating added successfully', 200);
         } else {
-            return $this->errorResponse( 'Not a doctor', 404);
+            return $this->errorResponse('Not a doctor', 404);
         }
-
     }
 
     /**
@@ -68,11 +66,9 @@ class RatingController extends Controller
     {
         $rate = Rating::find($id);
         if ($rate)
-           return $this->apiResponse( new RatingResource($rate) , '', 200);
+            return $this->apiResponse(new RatingResource($rate), '', 200);
 
-        return $this->errorResponse( 'Rating not found to show', 404);
-
-
+        return $this->errorResponse('Rating not found to show', 404);
     }
 
     /**
@@ -87,25 +83,24 @@ class RatingController extends Controller
 
         // التحقق ان التقييم ل دكتور وليس لموظف اداري
         $emp = Employee::find($request->doctor_id);
-        $isDoctor = $emp->user->hasRole('doctor') ;
+        $isDoctor = $emp->user->hasRole('doctor');
 
         $rate = Rating::find($id);
         if (!$rate)
-           return $this->errorResponse( 'Rating not found to delete it', 404);
+            return $this->errorResponse('Rating not found to delete it', 404);
 
         //  يتم تعديل التقييم اذا كان :
         //  التقييم موجود و التقييم  لدكتور و الشخص الذي ضاف التقييم هو الذي يقوم بالتقييم
-        if(Auth::id()==$rate->patient_id && $isDoctor){
+        if (Auth::id() == $rate->patient_id && $isDoctor) {
             $rate->update([
                 'employee_id' => $request->doctor_id,
                 'doctor_rate' => $request->doctor_rate,
                 'details'    => $request->details,
 
             ]);
-            return $this->apiResponse(new RatingResource($rate) , 'Rating updated successfully', 200);
-        }
-        else
-        return $this->errorResponse( 'Not authorized', 401);
+            return $this->apiResponse(new RatingResource($rate), 'Rating updated successfully', 200);
+        } else
+            return $this->errorResponse('Not authorized', 401);
     }
 
     /**
@@ -119,13 +114,12 @@ class RatingController extends Controller
 
         //الحصول على رول الشخص الذي يريد الحذف، اذا كان ادمن فينو يحذف مباشرة
         $user = Auth::guard('sanctum')->user();
-        $isAdmin = $user->hasRole('Admin') ;
+        $isAdmin = $user->hasRole('Admin');
 
-        if ($isAdmin || $user->id == $rate->patient_id){
+        if ($isAdmin || $user->id == $rate->patient_id) {
             $rate->delete();
             return $this->apiResponse([], 'Rating deleted successfully', 200);
-        }
-        else
-            return $this->errorResponse( 'Not authorized', 401);
+        } else
+            return $this->errorResponse('Not authorized', 401);
     }
 }

@@ -58,11 +58,13 @@
                     </div>
                     <div class="col-sm-12 col-md-6"></div>
                 </div>
+
                 <div class="row">
                     <div class="col-sm-12">
                         <role="row" class="even">
-                            </role="row"><table
-                                class="table table-striped custom-table mb-0 datatable dataTable no-footer"
+                            </role="row">
+                            <table
+                                class="table table-striped custom-table mb-0  no-footer"
                                 id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                                 <thead>
                                     <tr role="row">
@@ -141,28 +143,8 @@
                             </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
-                            Showing 1 to 6 of 6 entries</div>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            <ul class="pagination">
-                                <li class="paginate_button page-item previous disabled"
-                                    id="DataTables_Table_0_previous"><a href="#"
-                                        aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
-                                        class="page-link">Previous</a></li>
-                                <li class="paginate_button page-item active"><a href="#"
-                                        aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0"
-                                        class="page-link">1</a></li>
-                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a
-                                        href="#" aria-controls="DataTables_Table_0" data-dt-idx="2"
-                                        tabindex="0" class="page-link">Next</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
+                {{ $prescriptions->links()}}
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 
 class Employee extends Model
 {
@@ -67,4 +68,31 @@ class Employee extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    public function scopeFilterByName($query, $name)
+    {
+        $result = $query->whereHas('user', function ($query) use ($name) {
+            if ($name) {
+                $query->where('name', 'like', '%' . $name . '%');
+            }
+        });
+        return $result;
+    }
+
+    public function scopeFilterByDepartment(Builder $query, $department)
+    {
+        if (!empty($department)) {
+            $query->whereHas('department', function ($q) use ($department) {
+                $q->where('id', $department);
+            });
+        }
+    }
+
+    public function scopeFilterByRole(Builder $query, $role)
+    {
+        if (!empty($role)) {
+            $query->whereHas('user.roles', function ($q) use ($role) {
+                $q->where('name', $role);
+            });
+        }
+    }
 }

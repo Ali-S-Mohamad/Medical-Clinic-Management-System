@@ -12,12 +12,23 @@
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
                 </li>
-                <li class="">
-                    <a href="{{route('doctors.index')}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                <li class="submenu">
+                    <a href="{{route('employees.index')}}"><i class="fa fa-user"></i> <span>All Employees </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="">
+                            <a href="{{route('employees.index',['role' => 'doctor'])}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                        </li>
+                        <li class="">
+                            <a href="{{route('employees.index',['role' => 'employee'])}}"><i class="fa fa-user"></i> <span>Administrative Staffs</span></a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- <li class="">
+                    <a href="{{route('employees.index',['role' => 'doctor'])}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                 </li>
                 <li class="">
                     <a href="{{route('employees.index')}}"><i class="fa fa-user-md"></i> <span>Employees</span></a>
-                </li>
+                </li> --}}
                 @endhasrole
                 <li class="">
                     <a href="{{route('patients.index')}}"><i class="fa fa-wheelchair"></i><span>Patients</span></a>
@@ -32,10 +43,17 @@
                     <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
                 </li>
                 {{-- @canany(['create-role', 'edit-role', 'delete-role'])
+                <li>
+                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
+                </li>
+                @canany(['create-role', 'edit-role', 'delete-role'])
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
                 </li>
                 @endcanany --}}
+                <li>
+                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
+                </li>
                 <li class="">
                     <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>
