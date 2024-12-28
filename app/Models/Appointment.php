@@ -10,6 +10,13 @@ class Appointment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'patient_id',
+        'doctor_id',
+        'appointment_date',
+        'status',
+        'notes',
+       ];       
 
     public function patient(){
         return $this->belongsTo(Patient::class);

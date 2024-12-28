@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMedicalFileRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,13 @@ class StoreMedicalFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|exists:patients,id', // التأكد من وجود المريض
+            'name'  => 'required|string|max:255',
+            'email' => 'email',
+            'department_id' => 'required|exists:departments,id',
+            'is_patient'    =>'boolean',
+            'academic_qualifications'=> 'nullable|string|max:500',
+            'previous_experience'    => 'nullable|string|max:500',
+            // 'cv' => 'required|file|mimes:pdf|max:2048',
         ];
     }
 }
