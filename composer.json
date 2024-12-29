@@ -8,9 +8,9 @@
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
-        "laravel/sanctum": "^3.3",
+        "laravel/sanctum": "*",
         "laravel/tinker": "^2.8",
-        "laravel/ui": "^4.5",
+        "laravel/ui": "^4.6",
         "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
@@ -23,6 +23,11 @@
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
+        "files": [
+        "app/Helpers/UploadFile.php",
+        "app/Helpers/UploadImage.php"
+        ],
+        
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",

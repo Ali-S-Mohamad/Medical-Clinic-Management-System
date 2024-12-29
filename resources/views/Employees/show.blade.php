@@ -14,21 +14,26 @@
             <div class="card shadow-lg" style="width: 50rem; max-width: 90%; border-radius: 15px; padding: 20px;">
                 <div class="card-body text-center">
                     <div class="doctor-img mb-4">
-                        <a class="avatar" href="">
-                            <img alt="Department Image" src="{{ asset('assets/img/user.jpg') }}" class="rounded-circle"
-                                style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #007bff;">
-                        </a>
+                        @php
+                            $image_path=$employee->image ? asset('storage/' . $employee->image->image_path) : asset('assets/img/user.jpg');
+                        @endphp
+                        <a class="avatar" href="{{$image_path}}" target="_blank" style="display: flex; justify-content: center; align-items: center;">
+                            <img alt="ُEmployee Image" 
+                                 src="{{ $image_path }}" 
+                                 style="max-width: 100%; max-height: 100%; width: 300px; height: 300px; object-fit: cover; border-radius: 50%;">
+                        </a>                        
                     </div>
                     <div>
-                        <h3 class="card-title mb-3" style="font-weight: bold; color: #333;">
-                            {{-- <a href="{{ route('departments.show', $department->id) }}" style="text-decoration: none; color: inherit;"> --}}
+                        <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">
                             {{ $employee->user->name }}
-                            {{-- </a> --}}
                         </h3>
+                        <h2 class="card-title mb-3" style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
+                             @if($employee->avg_ratings)
+                                 {{ $employee->avg_ratings }} /10 
+                             @endif
+                        </h2>
                         <h2 class="card-title mb-3" style="font-weight: bold; color: #333;">
-                            {{-- <a href="{{ route('departments.show', $department->id) }}" style="text-decoration: none; color: inherit;"> --}}
                             {{ $employee->department->name }}
-                            {{-- </a> --}}
                         </h2>
                         <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
                             {{ $employee->user->email }}
@@ -36,11 +41,35 @@
                         <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
                             {{ $employee->user->phone_number }}
                         </p>
-                        <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
-                            {{ $employee->academic_qualifications }}
+                        <p style="font-size: 1.1rem; color: #555;">
+                            @if(!$employee->languages->isEmpty())
+                                <label for="languages">Languages:</label> <br/>
+                                @foreach($employee->languages as $language)                          
+                                    {{ ($language->name);}}
+                                @endforeach     
+                            @endif 
                         </p>
-                        <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
-                            {{ $employee->previous_experience }}
+                        <br>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->academic_qualifications)
+                              Academic Qualifications:<br/> {{ $employee->academic_qualifications }}
+                            @endif
+                        </p>
+                        <br>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->previous_experience)
+                               Previous Experience: <br> {{ $employee->previous_experience }}
+                            @endif
+                        </p>
+                        <p class="card-text mb-4" style="font-size: 1.0rem; color: #555;">
+                            @if($employee->cv_path)
+                                @php
+                                   $cvFileName = basename($employee->cv_path);
+                                   $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);  
+                                @endphp           
+                                cv: <br>
+                               <a href="{{asset('storage/'.$employee->cv_path)}}" target="_blank"> {{ $originalFileName }}</a>
+                            @endif
                         </p>
                     </div>
                     <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
@@ -59,4 +88,5 @@
 
 
 @section('scripts')
+ 
 @endsection

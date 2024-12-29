@@ -3,20 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Services\EmployeeFilterService;
 use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
+    protected $employeeFilterService;
+
+    public function index(Request $request)
+    {
+
+        // استرجاع القيم المدخلة
+        $filters = $request->only(['employee_name', 'department', 'role']);
+        // dd($filters);
+
+        // استدعاء الخدمة
+        $employeeFilterService = app(EmployeeFilterService::class);
+        // dd($employeeFilterService);
+        $employees = $employeeFilterService->filter($filters)->paginate(10);
+        // dd($employees);
+
+        // جلب الأقسام والأدوار لعرضها
+        $departments = Department::active()->get();
+        $roles = DB::table('roles')->get();
+
+        return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $employees = Employee::with(['user.roles', 'department'])->get();
-        return view('employees.index', compact('employees'));
-    }
+    // public function index()
+    // {
+    //     $employees = Employee::with(['user.roles', 'department'])->get();
+    //     $roles = DB::table('roles')->get();
+    //     $departments = Department::active()->get();
+    //     return view('employees.index', compact('employees','roles','departments'));
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -30,30 +56,45 @@ class EmployeeController extends Controller
         //
     }
 
-    public function storeEmployeeDetails($userId, Request $request)
+    public function storeEmployeeDetails($userId, Request  $request)
     {
         $employee = Employee::create([
             'user_id' => $userId,
             'department_id' => $request->department_id,
-            'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
             'academic_qualifications' => $request->qualifications,
             'previous_experience' => $request->experience,
         ]);
+
+        $employee->languages()->sync($request->languages_ids);
+
+        saveImage('Employees images', $request, $employee);
+
+        $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
+        $employee->cv_path=$cvFilePath;
+        $employee->save();
+
+
         return redirect()->route('employees.index');
     }
+
     public function updateEmployeeDetails($userId, Request $request)
     {
-        $employee = Employee::where('user_id',$userId);
+
+        $employee = Employee::where('user_id',$userId)->first();
+        // ممكن هالسطر يكون بعد تعديل معلومات الموظف،
+        //  بس حطيتو هون لاختصر سطر انو ارجع عدل مسار سيرتو  بعد ما كون خالصة تعديل البيانات وارجع استدعي السيف
+        $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
 
         $employee->update([
-            'user_id' => $userId,
             'department_id' => $request->department_id,
-            'cv_path' => $request->cv_path,
-            'languages_spoken' => $request->languages,
+            'cv_path' => $cvFilePath,
             'academic_qualifications' => $request->qualifications,
             'previous_experience' => $request->experience,
         ]);
+
+
+        saveImage('Employees images', $request, $employee);
+        $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
 
@@ -62,6 +103,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
+
         return view('employees.show', compact('employee'));
     }
 
@@ -71,7 +113,9 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $departments = Department::all();
-        return view('employees.edit', compact('employee', 'departments'));
+        $languages   = Language::all();
+        $role = $employee->user->roles->first()->name;
+        return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
     /**

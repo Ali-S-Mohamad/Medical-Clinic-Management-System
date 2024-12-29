@@ -27,4 +27,32 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+
+    /**
+     * Report or log an exception.
+     *
+     * @return void
+     */
+    public function report(Throwable $exception)
+    {
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+            return redirect()->route('login')->with('error', 'Your session has expired. Please log in again.');
+        }
+
+        return parent::render($request, $exception);
+    }
+
 }

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Add Employee
+    Add Patient
 @endsection
 
 @section('css')
@@ -12,53 +12,44 @@
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <h4 class="page-title">Add Employee</h4>
+
+                <h4 class="page-title">Add Patient</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <form action="{{ route('users.store') }}" method="post" enctype='multipart/form-data'>
                     @csrf
-                    <div class="form-group">
-                        <label class="display-block">is doctor?</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1">
-                            <label class="form-check-label" for="is_doctor">
-                                yes
-                            </label>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' class="form-control" type="text">
+                                <input name='name' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="department-name" class="nb-2">Department <span
-                                        class="text-danger">*</span></label>
-                                <select required name="department_id" id="department-name" class="form-control">
+                                <label for="department-name" class="nb-2">Department</label>
+                                <select required name="category_id" id="department-name" class="form-control">
                                     <option value="" disabled selected hidden>select Department</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}"> {{ $department->name }} </option>
                                     @endforeach
                                 </select>
-                                <br />
+                                <br/>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
-                                <input required name='email' class="form-control" type="email">
+                                <input name='email' class="form-control" type="email">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Password <span class="text-danger">*</span></label>
-                                <input required name='password' class="form-control" type="password">
+                                <label>Password</label>
+                                <input name='password' class="form-control" type="password">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -67,10 +58,11 @@
                                 <input name='phone' class="form-control" type="text">
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="nb-2" for="languages">Languages</label>
-                                <select class="form-control" id="languages" name="languages">
+                                <select class="form-control" id="languages" name="languages" multiple>
                                     <option value="" disabled selected hidden>select Languages</option>
                                     <option>English</option>
                                     <option>Arabic</option>
@@ -88,16 +80,6 @@
                                         <input type="file" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div id="doctor-info">
-                            <div class="form-group">
-                                <label>Academic Qualifications</label>
-                                <textarea class="form-control" id="qualifications" name="qualifications" rows="5" cols="200"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Work Experience</label>
-                                <textarea class="form-control" id="experience" name="experience" rows="5" cols="200"></textarea>
                             </div>
                         </div>
                     </div>

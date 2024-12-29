@@ -6,7 +6,7 @@
 @endsection
 
 @section('css')
-
+<style>  tbody tr:hover { cursor: pointer; } </style>
 @endsection
 
 
@@ -32,7 +32,7 @@
                     </role="row"><table class="table table-striped custom-table mb-0 datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
             <thead>
                 <tr role="row">
-                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 62.125px;">#</th>
+                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 62.125px;">ID</th>
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Department Name: activate to sort column ascending" style="width: 307.875px;">Department Name</th>
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Department Name: activate to sort column ascending" style="width: 307.875px;">Description</th>
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 194.188px;">Status</th>
@@ -40,8 +40,8 @@
             </thead>
             <tbody>
             @foreach($departments as $department)
-            <tr role="row" class="odd">
-                    <td>{{ $loop->iteration }}</td> <!-- العد التلقائي -->
+            <tr role="row" onclick="window.location='{{ route('departments.show', $department->id) }}' " class="odd">
+                    <td>{{ $department->id }}</td> 
                     <td>{{ $department->name }}</td>
                     <td>{{ $department->description }}</td>
                     <td>
@@ -58,9 +58,7 @@
                     <a class="btn btn-sm btn-primary" href="{{ route('departments.edit', $department->id) }}" style="display: inline-block; margin-right: 5px;">
                     <i class="fa fa-pencil m-r-5"></i> Edit
                     </a>
-                    <a class="btn btn-sm btn-info" href="{{ route('departments.show', $department->id) }}" style="display: inline-block; margin-right: 5px;">
-                    <i class="fa fa-eye m-r-5"></i> Show
-                    </a>
+                    
                     <form action="{{ route('departments.destroy', $department->id) }}" method="POST" style="display: inline-block; margin: 0;">
                      @csrf
                      @method('DELETE')

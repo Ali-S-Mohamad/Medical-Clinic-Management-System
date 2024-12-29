@@ -1,12 +1,19 @@
 <?php
 
+
+use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PrescriptionsController;
 use App\Http\Controllers\DepartmentController;
-
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MedicalFilesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,52 +30,62 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
-
-Route::get('/dashboard', function () {
-    return view('temp');
-});
-
-
 Auth::routes();
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 //Define Role Resource Routes
 Route::resource('roles', RoleController::class);
 
-// doctors routes
-Route::get('/doctors', function () {
-    return view('doctors.index');
-})->name('doctors.index');
 
-Route::get('/doctors-edit', function () {
-    return view('doctors.edit');
-})->name('doctors.edit');
+//Define prescriptions Routes
+Route::get('/prescriptions/trash', [PrescriptionsController::class, 'trash'])->name('prescriptions.trash');
+Route::post('prescriptions/restore/{id}', [PrescriptionsController::class, 'restore'])->name('prescriptions.restore');
+Route::delete('/prescriptions/hard-delete/{id}', [PrescriptionsController::class, 'hardDelete'])->name('prescriptions.hardDelete');
+Route::resource('prescriptions', PrescriptionsController::class);
 
-// patients routes
-Route::get('/patients', function () {
-    return view('patients.index');
-})->name('patients.index');
 
-// departments routes
+//Define MedicalFiles Routes
+Route::get('/medicalFiles/trash', [MedicalFilesController::class ,'trash'])->name('medicalFiles.trash');
+Route::post('medicalFiles/restore/{id}', [MedicalFilesController::class , 'restore'])->name('medicalFiles.restore');
+Route::delete('/medicalFiles/hard-delete/{id}', [MedicalFilesController::class , 'hardDelete'])->name('medicalFiles.hardDelete');
+Route::resource('/medicalFiles', MedicalFilesController::class);
+
+
+//Define Departments Routes
 Route::resource('/departments', DepartmentController::class);
 Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
 Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
 Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
 Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
-// end
 
-// appointments routes
-Route::get('/appointments', function () {
-    return view('appointments.index');
-})->name('appointments.index');
 
-Route::get('update_user',[UserController::class,'update_user'])->name('update_user');
-Route::post('employees/{id}/restore',[EmployeeController::class,'restore'])->name('employees.restore');
+//Define Appointments Routes
+Route::resource('/appointments', AppointmentController::class)->middleware('auth');
+
+
+//Define Users Routes
+Route::resource('users', UserController::class);
+
+
+//Define Employees Routes
+Route::resource('employees', EmployeeController::class);
+Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
+Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
 Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
 Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
-// employees.hardDelete
 
-Route::resource('employees', EmployeeController::class);
-Route::resource('users', UserController::class);
+
+//Define Patients Routes
+Route::resource('patients', PatientController::class)->middleware('auth');
+Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
+
+
+//Define Admin Dashboard Routes
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:Admin');;
+
+
+//Define Ratings Routes
+Route::resource('ratings', RatingController::class);

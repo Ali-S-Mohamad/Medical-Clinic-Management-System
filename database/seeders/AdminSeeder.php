@@ -30,9 +30,9 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'is_patient' => false
         ]);
-        $admin->assignRole('admin');
+        $admin->assignRole('Admin');
 
-        // Creating Doctor User
+        // Creating first Doctor User
         $doctor = User::create([
             'name' => 'Doctor1',
             'email' => 'doctor@gmail.com',
@@ -40,16 +40,31 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('11111111'),
             'is_patient' => false
         ]);
-        $doctor->assignRole('doctor');  
+        $doctor->assignRole('doctor');
+
+        //complete employee fields related to users for doctor2
+        Employee::create([
+            'user_id' => $doctor->id,
+            'department_id' => $department1->id,
+            'academic_qualifications' => 'Bachelors Degree in Cardiology',
+            'previous_experience' => 'hospital1 , hospital2',
+        ]);
+        // Creating second Doctor User
+        $doctor = User::create([
+            'name' => 'Doctor2',
+            'email' => 'doctor2@gmail.com',
+            'phone_number' => '0996522470',
+            'password' => Hash::make('11111111'),
+            'is_patient' => false
+        ]);
+        $doctor->assignRole('doctor');
 
         //complete employee fields related to users for doctor
         Employee::create([
             'user_id' => $doctor->id,
             'department_id' => $department1->id,
-            'cv_path' => 'dont added yet',
             'academic_qualifications' => 'Bachelors Degree in Medicine and Surgery',
-            'previous_experience' => 'hospital1 , hospital2',
-            'languages_spoken' => 'Arabic, English, French'
+            'previous_experience' => 'hospital5 , hospital20',
         ]);
 
         // Creating employee User
@@ -66,10 +81,8 @@ class AdminSeeder extends Seeder
         Employee::create([
             'user_id' => $employee->id,
             'department_id' => $department1->id,
-            'cv_path' => 'dont added yet',
             'academic_qualifications' =>  'Bachelors Degree in Business Administration',
             'previous_experience' => 'XYZ Company, ABC Company',
-            'languages_spoken' => 'Arabic, English'
         ]);
     }
 }
