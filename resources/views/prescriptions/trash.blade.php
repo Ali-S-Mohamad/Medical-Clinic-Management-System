@@ -11,7 +11,7 @@
     <div class="container mt-4">
         <h1>Trash</h1>
 
-        <h2>Department</h2>
+        <h2>Prescription</h2>
         <table class="table">
             <thead>
                 <tr>

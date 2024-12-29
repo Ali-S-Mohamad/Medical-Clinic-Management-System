@@ -8,6 +8,22 @@
 
 
 @section('content')
+    @if(session('error'))
+    <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -18,7 +34,7 @@
                 <a href="{{ route('medicalFiles.create') }}" class="btn btn-primary btn-rounded mr-3">
                     <i class="fa fa-plus"></i> Add Medical File
                 </a>
-                 <!-- أيقونة سلة المحذوفات -->
+                 <!-- Recycle bin icon-->
                <a href="{{ route('medicalFiles.trash')}}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
                 </a> 
@@ -46,12 +62,6 @@
                 </div>
             </div>
         </form>
-        <!-- إذا كانت الملفات الطبية فارغة -->
-        @if($medicalFiles->isEmpty())
-            <div class="alert alert-warning">
-                <p>No medical files found for your patients.</p>
-            </div>
-        @else
         <div class="row">
             <div class="col-md-12">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -161,7 +171,7 @@
             </div>
         </div>
     </div>
-    @endif
+
     </div>
 @endsection
 

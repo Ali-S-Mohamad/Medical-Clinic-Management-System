@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Patient;
 use App\Models\MedicalFile;
 use Illuminate\Http\Request;
+use App\Services\MidecalFileFilterService;
 use App\Http\Requests\MedicalFileRequest;
 
 class MedicalFilesController extends Controller
@@ -13,40 +14,28 @@ class MedicalFilesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $medicalFileFilterService;
     public function index(Request $request)
     {
-        $searchName = $request->input('search_name');
-        $searchInsurance = $request->input('search_insurance');
-        
-        // بدء البحث في ملفات طبية
-        $medicalFiles = MedicalFile::query();
     
-        if ($searchName || $searchInsurance) {
-            // البحث عن المريض باستخدام الاسم أو رقم التأمين
-            $medicalFiles->whereHas('patient', function($query) use ($searchName, $searchInsurance) {
-                if ($searchInsurance) {
-                    $query->where('insurance_number', 'LIKE', "%{$searchInsurance}%");
-                }
-                if ($searchName) {
-                    $query->whereHas('user', function($userQuery) use ($searchName) {
-                        $userQuery->where('name', 'LIKE', "%{$searchName}%");
-                    });
-                }
-            });
+    // Retrive input values
+    $filters = $request->only(['search_name', 'search_insurance']);
+
+    // Service call
+    $medicalFileFilterService = app(MidecalFileFilterService::class);
+    $medicalFiles = $medicalFileFilterService->filter($filters);
+
+    //Check for medical files record based on search
+    if ($medicalFiles->count() == 0) {
+        return redirect()->route('medicalFiles.index')
+                    ->with('error', 'There is not patient with this information');
+    }
+
+     // Is there no search, show all result
+    $medicalFiles = $medicalFiles->paginate(4);
+
+    return view('medicalFiles.index', compact('medicalFiles', 'filters'));
     
-            // التحقق من وجود ملفات طبية بناءً على البحث
-            if ($medicalFiles->count() == 0) {
-                return view('medicalFiles.index', [
-                    'medicalFiles' => $medicalFiles->paginate(4),
-                    'message' => 'there is no medical file with this name.'
-                ]);
-            }
-        }
-    
-        // إذا لم يكن هناك عملية بحث، عرض كل النتائج
-        $medicalFiles = $medicalFiles->paginate(4);
-    
-        return view('medicalFiles.index', compact('medicalFiles'));
     }
 
     /**
@@ -63,23 +52,22 @@ class MedicalFilesController extends Controller
      */
     public function store(MedicalFileRequest $request)
 {
-    // البحث عن المريض باستخدام الاسم
+    // Search for patient by name
     $patient = Patient::whereHas('user', function($query) use ($request) {
         $query->where('name', $request->patient_name);
     })->firstOrFail();
 
-    // التحقق مما إذا كان لدى المريض ملف طبي سابق
+    // Check if the patient has a previous medical record
     if ($patient->medicalFile()->exists()) {
         return redirect()->back()->withErrors(['message' => 'the patient has a previous medical record']);
     }
 
-    // إنشاء ملف طبي جديد باستخدام دالة create
+    // create medical file
     $medicalFile = MedicalFile::create([
         'patient_id' => $patient->id,
         'diagnoses' => $request->diagnoses,
     ]);
 
-    // إعادة التوجيه مع رسالة نجاح
     return redirect()->route('medicalFiles.show', $medicalFile->id)
                     ->with('success', 'the medical file was created successfully');
 }

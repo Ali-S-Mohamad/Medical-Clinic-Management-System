@@ -25,7 +25,7 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="diagnoses">التشخيصات</label>
+            <label for="diagnoses">Diagnoses</label>
             <textarea id="diagnoses" name="diagnoses" class="form-control" rows="4" required>{{$medicalFile->diagnoses}}</textarea>
         </div>
 

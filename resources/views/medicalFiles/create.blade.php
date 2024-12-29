@@ -24,13 +24,13 @@
     <form action="{{ route('medicalFiles.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="patient_name">اسم المريض</label>
-            <input type="text" id="patient_name" name="patient_name" class="form-control" placeholder="ابحث عن اسم المريض" required>
+            <label for="patient_name">Patient name </label>
+            <input type="text" id="patient_name" name="patient_name" class="form-control" placeholder="Search patient name" required>
         </div>
 
-        <!-- حقل إدخال التشخيصات -->
+        <!-- Diagnostics entry field-->
         <div class="form-group">
-            <label for="diagnoses">التشخيصات</label>
+            <label for="diagnoses">Diagnoses</label>
             <textarea id="diagnoses" name="diagnoses" class="form-control" rows="4" required></textarea>
         </div>
 
