@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Models\Patient;
 use App\Models\MedicalFile;
 use Illuminate\Http\Request;
-use App\Services\MidecalFileFilterService;
 use App\Http\Requests\MedicalFileRequest;
+use App\Services\MidecalFileFilterService;
+use App\Http\Requests\UpdateMedicalFileRequest;
 
 class MedicalFilesController extends Controller
 {
@@ -93,10 +94,8 @@ class MedicalFilesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MedicalFile $medicalFile)
-    {   $request->validate([
-        'diagnoses' => 'required|string'
-    ]);
+    public function update(UpdateMedicalFileRequest $request, MedicalFile $medicalFile)
+    {  
         $medicalFile->update([
             'diagnoses' => $request->diagnoses,
         ]);
