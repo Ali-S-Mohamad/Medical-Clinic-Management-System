@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::post('login', [AuthController::class, 'login']);
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+     Route::post('appointments', [AppointmentController::class, 'store']);
+     Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
 });
 
 //Ratings routes  ->middleware('auth:sanctum')
