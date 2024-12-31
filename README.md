@@ -102,6 +102,3 @@ pull request from git website
 
 لاسحب:
 git pull origin main
-
-active appointments  statistics on dashboard
-Add a complete appointment condition to enable rating

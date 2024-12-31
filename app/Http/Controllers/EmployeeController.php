@@ -17,17 +17,17 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
 
-        // استرجاع القيم المدخلة
+        // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
         // dd($filters);
 
-        // استدعاء الخدمة
+        // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
         // dd($employeeFilterService);
         $employees = $employeeFilterService->filter($filters)->paginate(10);
         // dd($employees);
 
-        // جلب الأقسام والأدوار لعرضها
+        // get Roles & Departments
         $departments = Department::active()->get();
         $roles = DB::table('roles')->get();
 
@@ -81,8 +81,7 @@ class EmployeeController extends Controller
     {
 
         $employee = Employee::where('user_id',$userId)->first();
-        // ممكن هالسطر يكون بعد تعديل معلومات الموظف،
-        //  بس حطيتو هون لاختصر سطر انو ارجع عدل مسار سيرتو  بعد ما كون خالصة تعديل البيانات وارجع استدعي السيف
+        // This line may be after modifying the employee information, but I put it here to shorten the code.
         $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
 
         $employee->update([
