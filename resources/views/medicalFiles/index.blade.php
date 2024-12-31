@@ -8,22 +8,22 @@
 
 
 @section('content')
-    @if(session('error'))
-    <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
-        {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
-    @if(session('success'))
-    <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
-        {{ session('success') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @endif
+@if(session('error'))
+        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+        @if(session('success'))
+        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif 
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -62,6 +62,7 @@
                 </div>
             </div>
         </form>
+        @if($medicalFiles->count()>0)
         <div class="row">
             <div class="col-md-12">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -162,7 +163,8 @@
                         </div>
                     </div>
                     {{ $medicalFiles->links()}}
-                    <div class="m-t-20 text-right">
+                    @endif
+                    <div class="m-t-20 text-left">
                         <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mb-3" rel="prev">
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>

@@ -25,18 +25,18 @@ class MedicalFilesController extends Controller
     // Service call
     $medicalFileFilterService = app(MidecalFileFilterService::class);
     $medicalFiles = $medicalFileFilterService->filter($filters);
-
-    //Check for medical files record based on search
-    if ($medicalFiles->count() == 0) {
-        return redirect()->route('medicalFiles.index')
-                    ->with('error', 'There is not patient with this information');
-    }
-
-     // Is there no search, show all result
-    $medicalFiles = $medicalFiles->paginate(4);
-
-    return view('medicalFiles.index', compact('medicalFiles', 'filters'));
     
+    if(!empty($filter['search_name']) || !empty($filter['search_insurance'])){
+        if ($medicalFiles->count() == 0) {
+                return redirect()->route('medicalFiles.index');
+            } 
+        } else {
+    
+     // Is there no search, show all result
+    $medicalFiles = $medicalFiles->orderBy('created_at','asc')->paginate(4);
+    }
+    return view('medicalFiles.index', compact('medicalFiles', 'filters'));
+       
     }
 
     /**
