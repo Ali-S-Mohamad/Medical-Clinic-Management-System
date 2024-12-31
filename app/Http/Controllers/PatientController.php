@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -22,7 +23,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patients.create');
+        $departments = Department::all();
+        return view('patients.create',compact('departments'));
     }
 
     /**

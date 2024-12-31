@@ -13,6 +13,7 @@ if (!function_exists('saveCvFile')) {
             $cvFileName = time() . '_' . $cvFile->getClientOriginalName();
             return $cvFile->storeAs( $folder , $cvFileName, $disk);
         }
-        return $cv_path; // هالسطر لاحتفظ بالمسار القديم وما يتغير بحال تعديل معلومات اليوزر دون ما عدل الملف
+        return $cv_path; 
+        // Keeps the old path without change if the user info is modified without modifying the file..
     }
 }

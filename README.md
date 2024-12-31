@@ -40,14 +40,6 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[WebReinvent](https://webreinvent.com/)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
 - **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
 ## Contributing
 
@@ -93,6 +85,15 @@ delete user /
 عرضت الموظفين بصفحة موجودين فيا كلن.. تعديل صفحة عرض الدكاترة بس
  
 
+Route::get('/testr', function() { 
+         $rating = new Rating; 
+         $rating->employee_id = 1;  
+         $rating->patient_id  = 1;
+         $rating->doctor_rate = 6.3;        
+         $rating->save();             
+        });
+
+
 لعدل:
 git add .
 git commit -m "emplyees CRUD"
@@ -101,3 +102,6 @@ pull request from git website
 
 لاسحب:
 git pull origin main
+
+active appointments  statistics on dashboard
+Add a complete appointment condition to enable rating

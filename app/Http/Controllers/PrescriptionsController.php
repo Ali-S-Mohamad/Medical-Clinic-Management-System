@@ -34,8 +34,15 @@ class PrescriptionsController extends Controller
      */
     public function create()
     {
+        $user =  Auth::user();
+        if($user->hasRole('doctor')){
+            $doctorId = Auth::user()->employee->id;
+        } else {
+            return 
+            redirect()->route('prescriptions.index')->with('error', 'You are not allowed to add prescription');
+        }
         // dd(Auth::user()->employee);
-        $doctorId = Auth::user()->employee->id;
+        // $doctorId = Auth::user()->employee->id;
         // dd($doctorId);
 
         $appointments = Appointment::with('patient')

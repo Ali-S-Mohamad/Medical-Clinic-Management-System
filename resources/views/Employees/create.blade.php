@@ -11,9 +11,7 @@
 
 @section('content')
     <div class="content">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-
+ 
         <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
             <i class="fa fa-arrow-left mr-2"></i> Back
         </a>
@@ -143,32 +141,16 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            $('#languages').select2({
-                placeholder: "Select Languages",
-                allowClear: true
-            });
-        });
-
-        $(document).ready(function() { // إخفاء العناصر في البداية
-            $("#doctor-info").hide(); // استماع لتغيير حالة الـ
-            checkbox $("#is_doctor").change(function() {
-                if (this.checked)
-                    $("#is_doctor").show();
-                else
-                    $("#is_doctor").hide();
-            })
-        }); --}}
+ 
       <script>
-         $(document).ready(function() {
-            $("#doctor-info").hide();
-            $("#is_doctor").change(function() {
-                if ($(this).is(':checked'))
-                    $("#doctor-info").show();
-                else $("#doctor-info").hide();
-            });
-        });
+        //  $(document).ready(function() {
+        //     $("#doctor-info").hide();
+        //     $("#is_doctor").change(function() {
+        //         if ($(this).is(':checked'))
+        //             $("#doctor-info").show();
+        //         else $("#doctor-info").hide();
+        //     });
+        // });
 
 
 // image & image icon
