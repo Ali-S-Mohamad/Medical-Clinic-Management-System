@@ -39,7 +39,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($patients as $patient )
-                                <tr>
+                                <tr>   
                                     <td>{{$patient->name}}</td>
                                     <td>{{$patient->email}}</td>
                                     <td>{{$patient->patient->dob}}</td>

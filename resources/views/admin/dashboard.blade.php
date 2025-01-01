@@ -74,11 +74,13 @@ Dashboard
     </div>
     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
         <div class="dash-widget">
+            <a href="{{route('appointments.index')}}">
             <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
             <div class="dash-widget-info text-right">
-                <h3> ### </h3>
+                <h3> {{$statistics ['active_appointments']}} </h3>
                 <span class="widget-title2">Active appointmnts <i class="fa fa-check" aria-hidden="true"></i></span>
             </div>
+            </a>
         </div>
     </div>
 

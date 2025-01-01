@@ -23,7 +23,7 @@
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-rounded mr-3">
                     <i class="fa fa-plus"></i> Add Employee
                 </a>
-                <!-- أيقونة سلة المحذوفات -->
+                <!-- trash icon -->
                 <a href="{{ route('employees.trash') }}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
                 </a>

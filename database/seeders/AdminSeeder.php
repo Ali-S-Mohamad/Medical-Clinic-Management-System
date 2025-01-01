@@ -18,8 +18,8 @@ class AdminSeeder extends Seeder
     {
         //create a virtual department to use it for employee table
         $department1 = Department::create([
-            'name' => 'eyes' ,
-            'description' => 'the new department'
+            'name' => 'Ophthalmology' ,
+            'description' => 'Ophthalmology services typically include a variety of treatments and procedures such as cataract surgery, glaucoma surgery, cornea transplantation, refractive surgery (including LASIK), and the provision of corrective vision services such as eyeglasses and contact lenses.'
         ]);
 
         // Creating Admin User

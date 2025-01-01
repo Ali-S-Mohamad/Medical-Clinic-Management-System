@@ -44,8 +44,8 @@
                                         <span class="text">{{ $medicalFile->patient->dob }}</span>
                                     </li>
                                     <li>
-                                        <span class="title">Gender:</span>
-                                        <span class="text">Female</span>
+                                        {{-- <span class="title">Gender:</span>
+                                        <span class="text">Female</span> --}}
                                     </li>
                                 </ul>
                             </div>
