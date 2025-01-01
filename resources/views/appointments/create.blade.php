@@ -47,10 +47,10 @@
                         </div>
                     </div>
 
-                                   <div class="form-group">
-                     <label for="appointment_time">Time</label>
-                     <input type="time" id="appointment_time" name="appointment_time" class="form-control" required>
-                 </div>
+                                        <div class="form-group">
+                            <label for="appointment_time">Time</label>
+                            <input type="time" id="appointment_time" name="appointment_time" class="form-control" required step="60">
+                        </div>
 
                     <div class="col-md-6">
                         <div class="form-group">

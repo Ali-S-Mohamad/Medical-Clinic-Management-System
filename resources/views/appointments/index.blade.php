@@ -44,7 +44,8 @@
                                         {{ $appointment->patient->user->name }}
                                     </td>
                                     <td>{{ $appointment->employee->user->name }}</td>
-                                    <td>{{ $appointment->appointment_date }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d H:i') }}
+                                    </td>
                                     <td>
                                         <span
                                             class="custom-badge {{ $appointment->status === 'scheduled' ? 'status-blue' : ($appointment->status === 'completed' ? 'status-green' : 'status-red') }}">
