@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 
 class Employee extends Model
 {
@@ -17,6 +17,7 @@ class Employee extends Model
         'academic_qualifications',
         'previous_experience',
         'languages_spoken',
+        'avg_ratings',
     ];
     protected static function booted()
     {
@@ -50,5 +51,48 @@ class Employee extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function prescriptions(){
+        return $this->hasMany(Prescription::class,'doctor_id');
+    }
+    public function ratings() {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function languages(){
+        return $this->belongsToMany(Language::class,'employee_language','employee_id','language_id');
+    }
+
+    public function image()  {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function scopeFilterByName($query, $name)
+    {
+        $result = $query->whereHas('user', function ($query) use ($name) {
+            if ($name) {
+                $query->where('name', 'like', '%' . $name . '%');
+            }
+        });
+        return $result;
+    }
+
+    public function scopeFilterByDepartment(Builder $query, $department)
+    {
+        if (!empty($department)) {
+            $query->whereHas('department', function ($q) use ($department) {
+                $q->where('id', $department);
+            });
+        }
+    }
+
+    public function scopeFilterByRole(Builder $query, $role)
+    {
+        if (!empty($role)) {
+            $query->whereHas('user.roles', function ($q) use ($role) {
+                $q->where('name', $role);
+            });
+        }
     }
 }

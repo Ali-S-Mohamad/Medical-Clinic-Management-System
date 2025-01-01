@@ -4,7 +4,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +19,7 @@ use App\Http\Controllers\Api\PatientController;
 |
 */
 
-// Public routes of authtication
+// Public routes of authentication
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -25,4 +27,10 @@ Route::post('login', [AuthController::class, 'login']);
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('appointments', [AppointmentController::class, 'store']);
+    Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
 });
+
+//Ratings routes  ->middleware('auth:sanctum')
+Route::post('doctor_ratings', [RatingController::class, 'doctor_ratings_details']);
+Route::apiResource('rating', RatingController::class);

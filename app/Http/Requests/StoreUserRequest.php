@@ -26,10 +26,10 @@ class StoreUserRequest extends FormRequest
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string',
             'department_id' => 'required|exists:departments,id',
-            'cv_path' => 'nullable|string',
             'academic_qualifications' => 'nullable|string',
-            'previous_experience' => 'nullable|string',
-            'languages_spoken' => 'nullable|string',
+            'previous_experience'     => 'nullable|string', 
+            'pdf_cv' => 'file|mimes:pdf|max:2048', 
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048'      
         ];
     }
 }

@@ -3,12 +3,33 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">Main</li>
+                @hasrole('Admin')
+                @if (Auth::check()  && Auth::user()->hasRole('Admin'))
                 <li class="">
-                    <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                    <a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                </li>
+                @endif
+                <li class="">
+                    <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
+                </li>
+                <li class="submenu">
+                    <a href="{{route('employees.index')}}"><i class="fa fa-user"></i> <span>All Employees </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li class="">
+                            <a href="{{route('employees.index',['role' => 'doctor'])}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                        </li>
+                        <li class="">
+                            <a href="{{route('employees.index',['role' => 'employee'])}}"><i class="fa fa-user"></i> <span>Administrative Staffs</span></a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- <li class="">
+                    <a href="{{route('employees.index',['role' => 'doctor'])}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                 </li>
                 <li class="">
-                    <a href="{{route('doctors.index')}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
-                </li>
+                    <a href="{{route('employees.index')}}"><i class="fa fa-user-md"></i> <span>Employees</span></a>
+                </li> --}}
+                @endhasrole
                 <li class="">
                     <a href="{{route('patients.index')}}"><i class="fa fa-wheelchair"></i><span>Patients</span></a>
                 </li>
@@ -16,16 +37,26 @@
                     <a href="{{route('departments.index')}}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                 </li>
                 <li class="">
-                    <a href="{{route('employees.index')}}"><i class="fa fa-user-md"></i> <span>Employees</span></a>
+                    <a href="{{route('appointments.index')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                 </li>
-                <li class="">
-                    <a href="{{route('appointments.index')}}"><i class="fa fa-user-md"></i> <span>Appointments</span></a>
+                <li>
+                    <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
+                </li>
+                {{-- @canany(['create-role', 'edit-role', 'delete-role'])
+                <li>
+                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
                 </li>
                 @canany(['create-role', 'edit-role', 'delete-role'])
                 <li class="">
                     <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
                 </li>
-                @endcanany
+                @endcanany --}}
+                <li>
+                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
+                </li>
+                <li class="">
+                    <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
+                </li>
             </ul>
         </div>
     </div>

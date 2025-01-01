@@ -37,7 +37,7 @@ Edit Appointment
                     </div>
 
                     <!-- Doctor Selection -->
-                    <div class="col-md-6">
+                       <div class="col-md-6">
                         <div class="form-group">
                             <label>Doctor</label>
                             <select name="doctor_id" class="form-control">
@@ -55,18 +55,19 @@ Edit Appointment
 
                 <!-- Appointment Date -->
                 <div class="row">
-                     <div class="col-md-6">
-                         <div class="form-group">
-                             <label>Date</label>
-                             <input type="date" name="appointment_date" class="form-control" 
-                             value="{{ old('appointment_date', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d') : '') }}">
-                             </div>
-                             <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" name="appointment_date" class="form-control"
+                              value="{{ old('appointment_date', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d') : '') }}">
+                            </div>
+                    </div>
+
+                    <div class="form-group">
                             <label for="appointment_time">Time</label>
                             <input type="time" id="appointment_time" name="appointment_time" class="form-control"
                             value="{{ old('appointment_time', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('H:i') : '') }}">
                             </div>
-                        </div>
                     <!-- Status -->
                     <div class="col-md-6">
                         <div class="form-group">

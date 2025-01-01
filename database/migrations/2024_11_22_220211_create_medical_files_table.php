@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('medical_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained('patients')->cascadeOnDelete();
+            $table->string('diagnoses')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

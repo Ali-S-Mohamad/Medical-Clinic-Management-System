@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Employee;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Events\AppointmentCreated;
 use App\Http\Requests\AppointmentRequest;
 
 class AppointmentController extends Controller
@@ -16,35 +17,40 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-    $employee = Employee::where('user_id', auth()->user()->id)->first();
 
-    if (!$employee) {
-        return redirect()->back()->withErrors(['error' => 'لم يتم العثور على الموظف المرتبط بهذا المستخدم']);
+
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+
+        // if (!$employee) {
+        //     return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
+        // }
+
+        $isDoctor = auth()->user()->hasRole('doctor');
+
+        $appointments = Appointment::all();
+
+        // $appointments = Appointment::with(['patient.user', 'employee.user'])
+        //     ->when($isDoctor, function ($query) use ($employee) {
+        //         $query->where('doctor_id', $employee->id);
+        //     }, function ($query) use ($employee) {
+
+        //         $query->whereHas('employee', function ($subQuery) use ($employee) {
+        //             $subQuery->where('department_id', $employee->department_id);
+        //         });
+        //     })
+        //     ->whereHas('patient')
+        //     ->get();
+
+        return view('appointments.index', compact('appointments'));
     }
 
-    $isDoctor = auth()->user()->hasRole('doctor'); 
 
-    $appointments = Appointment::with(['patient.user', 'employee.user'])
-        ->when($isDoctor, function ($query) use ($employee) {
-            $query->where('doctor_id', $employee->id);
-        }, function ($query) use ($employee) {
-
-            $query->whereHas('employee', function ($subQuery) use ($employee) {
-                $subQuery->where('department_id', $employee->department_id);
-            });
-        })->whereHas('patient')->get();
-    
-        return view('appointments.index', compact('appointments'));
-      
-    } 
-
-    /**
-     * Show the form for creating a new resource.
+    /* Show the form for creating a new resource.
      */
     public function create()
     {
-          $patients = Patient::with('user')->get();
-         $doctors = User::role('doctor')->get();
+        $patients = Patient::with('user')->get();
+        $doctors = User::role('doctor')->get();
         return view('appointments.create', compact('patients', 'doctors'));
     }
 
@@ -54,18 +60,17 @@ class AppointmentController extends Controller
      */
     public function store(AppointmentRequest  $request)
     {
-
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
-        Appointment::create([
-        'patient_id' => $request->patient_id,
-        'doctor_id' => $request->doctor_id,
-        'appointment_date' => $appointmentDateTime,
-        'status' => $request->status,
-        'notes' => $request->notes,
-         ]);
 
-       return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
-
+        $appointment = Appointment::create([
+            'patient_id' => $request->patient_id,
+            'doctor_id' => $request->doctor_id,
+            'appointment_date' => $appointmentDateTime,
+            'status' => $request->status,
+            'notes' => $request->notes,
+        ]);
+        event(new AppointmentCreated($appointment));
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
 
     /**
@@ -75,7 +80,7 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::with(['patient', 'employee'])->findOrFail($id);
 
-       return view('appointments.show', compact('appointment'));
+        return view('appointments.show', compact('appointment'));
     }
 
     /**
@@ -83,9 +88,11 @@ class AppointmentController extends Controller
      */
     public function edit(string $id)
     {
-         $appointment = Appointment::findOrFail($id);
-          $patients = Patient::with('user')->get();
-         $doctors = User::role('doctor')->get();
+        $appointment = Appointment::findOrFail($id);
+
+        $patients = Patient::with('user')->get();
+        $doctors = User::role('doctor')->get();
+
 
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
@@ -96,17 +103,18 @@ class AppointmentController extends Controller
      */
     public function update(AppointmentRequest  $request, string $id)
     {
-        $appointment = Appointment::findOrFail($id);
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
+
+        $appointment = Appointment::findOrFail($id);
         $appointment->update([
-        'patient_id' => $request->patient_id,
-        'doctor_id' => $request->doctor_id,
-        'appointment_date' => $appointmentDateTime,
-        'status' => $request->status,
-        'notes' => $request->notes,
+            'patient_id' => $request->patient_id,
+            'doctor_id' => $request->doctor_id,
+            'appointment_date' => $appointmentDateTime,
+            'status' => $request->status,
+            'notes' => $request->notes,
         ]);
 
-     return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
 
     /**
@@ -114,9 +122,8 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-      $appointment = Appointment::findOrFail($id);
-      $appointment->delete();
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
-
-   }
+    }
 }

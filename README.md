@@ -40,14 +40,6 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[WebReinvent](https://webreinvent.com/)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
 - **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
 ## Contributing
 
@@ -68,20 +60,45 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
  
 #الاء 
-سيدر للموظفين
-form request for update emp
+## Ratings api
+delete user /  
 
-pagination for index page
+## pdf
+حذف سيرة
+   
+??
+قسم التقيمات صار جاهز مع عرض متوسط التقييمات لدكتور معين ببروفايلو، ومافينا نضيف تقييم الا ل دكتور حصرا
+واجهة الداشبورد صار فيا شويه احصائيات والهوفر عالكاردات بغير شكل المؤشر والضغط بياخدنا عالصفحة للتفاصيل
+صفحة ادخال + تعديل موظف صار قسم خبرة الموظف بيختفي وبيظهر حسب الرول
+ادخال وحفظ سيفي وعرض اسمو ببروفايل الدكتور والاسم رابط بياخدنا ع تاب جديد ليفتح الملف
+تابع الحفظ / التعديل موجودة ب helper
 
-سيفي الموظف- حطيتوحاليا  null
-اللغات many 2 many
 
+
+حاليا لما بحذف دكتور عم تنحذف تقييماتو
+
+
+##ُ Employees CRUD
+لما بحذف قسم، شو حيصير بالموظفين
+ 
 بس ضمّن سباتي:
 عرضت الموظفين بصفحة موجودين فيا كلن.. تعديل صفحة عرض الدكاترة بس
-رول الدكتور او الموظف لكفي جدول الموظفين
+ 
 
-التشيك بوكس للدكتور مشان اخفي او اظهر حقول
+Route::get('/testr', function() { 
+         $rating = new Rating; 
+         $rating->employee_id = 1;  
+         $rating->patient_id  = 1;
+         $rating->doctor_rate = 6.3;        
+         $rating->save();             
+        });
 
+
+لعدل:
 git add .
 git commit -m "emplyees CRUD"
 git push origin alaa
+pull request from git website
+
+لاسحب:
+git pull origin main

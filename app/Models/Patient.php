@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Patient extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     protected $fillable = [
         'user_id',
@@ -20,11 +21,21 @@ class Patient extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function medicalFiles(){
-        return $this->hasMany(MedicalFile::class);
+    public function medicalFile(){
+        return $this->hasOne(MedicalFile::class);
+    }
+
+    public function prescriptions(){
+        return $this->hasMany(Prescription::class);
     }
 
     public function appointments(){
         return $this->hasMany(Appointment::class);
     }
+
+
+    public function ratings() {
+        return $this->hasMany(Rating::class);
+    }
+
 }

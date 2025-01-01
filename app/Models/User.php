@@ -57,4 +57,8 @@ class User extends Authenticatable
     public function employee(){
         return $this->hasOne(Employee::class);
     }
+
+    public function ratings() {
+        return $this->hasMany(Rating::class);
+   }
 }

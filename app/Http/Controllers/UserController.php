@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Language;
 
 class UserController extends Controller
 {
@@ -25,7 +26,8 @@ class UserController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('users.create', compact('departments'));
+        $languages   = Language::all();
+        return view('employees.create', compact('departments','languages'));
     }
 
     /**
@@ -75,7 +77,6 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
-
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
