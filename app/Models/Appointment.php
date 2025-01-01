@@ -29,4 +29,9 @@ class Appointment extends Model
     public function prescription(){
         return $this->hasOne(Prescription::class);
     }
+    public function timeSlot(){
+         return $this->belongsTo(TimeSlot::class);
+    }
+
+    
 }
