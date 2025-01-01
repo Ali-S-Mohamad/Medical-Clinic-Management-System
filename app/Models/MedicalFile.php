@@ -27,7 +27,7 @@ class MedicalFile extends Model
     {
     if (!empty($insurance)) {
         $query->whereHas('patient', function($query) use ($insurance) {
-            $query->where('insurance_number', 'LIKE', "%{$insurance}%");
+            $query->where('insurance_number', '=', "$insurance");
         });
     }
     }
@@ -37,6 +37,7 @@ class MedicalFile extends Model
         if (!empty($name)) {
             $query->whereHas('patient.user', function($userQuery) use ($name) {
                 $userQuery->where('name', 'LIKE', "%{$name}%");
+        
             });
         }
     }
