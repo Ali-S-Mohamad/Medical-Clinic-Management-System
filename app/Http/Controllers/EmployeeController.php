@@ -20,37 +20,27 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
 
-        // استرجاع القيم المدخلة
+        // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
-        // dd($filters);
 
-        // استدعاء الخدمة
+        // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
-        // dd($employeeFilterService);
-        $employees = $employeeFilterService->filter($filters)->paginate(10);
-        // dd($employees);
 
-        // جلب الأقسام والأدوار لعرضها
+        $employees = $employeeFilterService->filter($filters)->paginate(10);
+
+        // get Roles & Departments
         $departments = Department::active()->get();
         $roles = DB::table('roles')->get();
 
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-    //     $employees = Employee::with(['user.roles', 'department'])->get();
-    //     $roles = DB::table('roles')->get();
-    //     $departments = Department::active()->get();
-    //     return view('employees.index', compact('employees','roles','departments'));
-    // }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create() {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -84,8 +74,6 @@ class EmployeeController extends Controller
     {
 
         $employee = Employee::where('user_id',$userId)->first();
-        // ممكن هالسطر يكون بعد تعديل معلومات الموظف،
-        //  بس حطيتو هون لاختصر سطر انو ارجع عدل مسار سيرتو  بعد ما كون خالصة تعديل البيانات وارجع استدعي السيف
         $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
 
         $employee->update([

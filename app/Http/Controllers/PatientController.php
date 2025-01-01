@@ -23,7 +23,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patients.create');
+        $departments = Department::all();
+        return view('patients.create',compact('departments'));
     }
 
     /**

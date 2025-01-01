@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $departments = Department::active()->get();
+        $departments = Department::all();
         $languages   = Language::all();
         return view('employees.create', compact('departments','languages'));
     }

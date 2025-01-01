@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Rating;
+use App\Models\Patient;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RatingResource;
-use App\Models\Employee;
 
 class RatingController extends Controller
 {
@@ -21,7 +22,7 @@ class RatingController extends Controller
     }
 
     /**
-     * (محتوى الجدول كامل) جميع التقييمات لجميع الدكاترة.
+     *  All Ratings for all doctors (overall Rating table)
      */
     public function index()
     {
@@ -30,7 +31,7 @@ class RatingController extends Controller
         return $this->apiResponse(RatingResource::collection($ratings), 'all ratings:', 200);
     }
 
-    //جميع التقييمات التابعة لدكتور معين
+    // All Ratings related to specific doctor
     public function doctor_ratings_details(Request $request)
 
     {
@@ -39,14 +40,25 @@ class RatingController extends Controller
     }
 
     /**
-     *ادخال تقييم من قبل مريض وتخزينه
+     * store patient rate for a doctor
      */
     public function store(RatingRequest $request)
     {
-        // التحقق من ان التقييم ل دكتور وليس لموظف اداري
+        $user = Auth::guard('sanctum')->user();
+        // dd($user->patient->id);  p.ali id=2
+        // dd(Auth::id());  // id=6 (user)
+        // $patient_id=$user->patient->id;
+        // $hasCompletedAppointment = Patient::where('id', $patient_id)
+        //  ->whereHas('appointments', function ($query) { 
+        //     $query->where('status', 'completed') 
+        //   ->whereBetween('updated_at', [now()->subWeek(), now()]);
+        //     })->exists();
+        // dd($hasCompletedAppointment);
+        
+        // check if the rate is for a doctor (not adminstrative employee)
         $emp = Employee::find($request->doctor_id);
 
-        if ($emp->user->hasRole('doctor')) {
+        if ($emp->user->hasRole('doctor') && $hasCompletedAppointment) {
             Rating::create([
                 'patient_id'   => Auth::id(),
                 'employee_id'  => $request->doctor_id,
@@ -60,7 +72,7 @@ class RatingController extends Controller
     }
 
     /**
-     * عرض تقييم واحد تم ادخاله من قبل مريض محدد.
+     * view one rate
      */
     public function show(string $id)
     {
@@ -72,16 +84,14 @@ class RatingController extends Controller
     }
 
     /**
-     * تحديث تقييم واحد تم ادخاله من قبل مريض
+     * update rate
      */
     public function update(string $id, RatingRequest $request)
     {
-        // بهالطريقة ما فيني مرر القيم الجديدة ببرامترات الطريقة
-        // .. ما بيتعرف عليا..
-        // طلع لازم ابعتن من انسومنيا بالشكل:
+        // The parameters are sent from Insomnia as follows:
         // Body -> json   OR form URL encoded
 
-        // التحقق ان التقييم ل دكتور وليس لموظف اداري
+        // check if the rate is for a doctor (not adminstrative employee)
         $emp = Employee::find($request->doctor_id);
         $isDoctor = $emp->user->hasRole('doctor');
 
@@ -89,9 +99,9 @@ class RatingController extends Controller
         if (!$rate)
             return $this->errorResponse('Rating not found to delete it', 404);
 
-        //  يتم تعديل التقييم اذا كان :
-        //  التقييم موجود و التقييم  لدكتور و الشخص الذي ضاف التقييم هو الذي يقوم بالتقييم
-        if (Auth::id() == $rate->patient_id && $isDoctor) {
+        //  rate can be updated if:
+        //  rate is exsists && rate is for doctor && rate is added by the same patient who wants to update.
+         if (Auth::id() == $rate->patient_id && $isDoctor) {
             $rate->update([
                 'employee_id' => $request->doctor_id,
                 'doctor_rate' => $request->doctor_rate,
@@ -112,7 +122,7 @@ class RatingController extends Controller
         if (!$rate)
             return $this->errorResponse('Rating not found to delete it', 404);
 
-        //الحصول على رول الشخص الذي يريد الحذف، اذا كان ادمن فينو يحذف مباشرة
+         // Get the roll of the person who wants to delete, if ADMIN ==> delete immediately
         $user = Auth::guard('sanctum')->user();
         $isAdmin = $user->hasRole('Admin');
 

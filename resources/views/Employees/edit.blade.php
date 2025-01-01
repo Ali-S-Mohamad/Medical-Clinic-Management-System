@@ -127,8 +127,8 @@
                                 <div class="profile-upload">
                                     @if($employee->cv_path)
                                         @php 
-                                            $cvFileName = basename($employee->cv_path); 
-                                            // إزالة أي أرقام متبوعة بشرطة سفلية في بداية الملف للتخلص من التايم ستامب
+                                            $cvFileName = basename($employee->cv_path);
+                                            // Remove any numbers followed by an underscore at the beginning of the file to get rid of the time stamp.
                                             $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);    
                                         @endphp 
                                         <p id="existing-file"> 
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                         
-                        <div id="doctor-info"  style="display: none;">
+                        <div id="doctor-info">
                             <div class="form-group">
                                 <label>Academic Qualifications</label>
                                 <textarea class="form-control" id="qualifications" name="qualifications" rows="5" cols="200">{{ $employee->academic_qualifications }}</textarea>
@@ -169,24 +169,24 @@
     <script>
     
         //  اظهار واخفاء قسم الخبرة والعمل السابق حسب رول الموظف / طبيب / موظف اداري
-        var employeeRole ="{{ $role }}";
-        document.addEventListener('DOMContentLoaded', function () { 
-            if (employeeRole === 'doctor') 
-                document.getElementById('doctor-info').style.display = 'block'; 
-            else 
-                document.getElementById('doctor-info').style.display = 'none'; 
-             });
+        // var employeeRole ="{{ $role }}";
+        // document.addEventListener('DOMContentLoaded', function () { 
+        //     if (employeeRole === 'doctor') 
+        //         document.getElementById('doctor-info').style.display = 'block'; 
+        //     else 
+        //         document.getElementById('doctor-info').style.display = 'none'; 
+        //      });
 
-            $(document).ready(function() { 
+        //     $(document).ready(function() { 
              
-            $("#is_doctor").change(function() { 
-                if ($(this).is(':checked')) 
-                    $("#doctor-info").show(); 
-                else $("#doctor-info").hide(); 
-            }); })
+        //     $("#is_doctor").change(function() { 
+        //         if ($(this).is(':checked')) 
+        //             $("#doctor-info").show(); 
+        //         else $("#doctor-info").hide(); 
+        //     }); })
 
 
-      //  اخفاء قسم اسم الملف القديم في ال اختيار ملف جديد
+            //  Hide old file name section if new file is selected
             document.getElementById('new-cv').addEventListener('change', function() { 
                 var existingFileMessage = document.getElementById('existing-file'); 
                 if (existingFileMessage) { 
@@ -194,25 +194,25 @@
                 });
           
 
-// image & image icon
+                // image & image icon
             document.addEventListener('DOMContentLoaded', function() {
                 var uploadIcon = document.getElementById('upload-icon');
                 var thumbnail = document.getElementById('thumbnail');
                 var photoInput = document.getElementById('photo');
 
-                // التعامل مع النقر على الأيقونة
+                // Handle clicking on the image icon
                 if (uploadIcon) {
                     uploadIcon.addEventListener('click', function() {
                         photoInput.click();});
                 }
 
-                // التعامل مع النقر على الصورة
+                // Handle by clicking on the image
                 if (thumbnail) {
                     thumbnail.addEventListener('click', function() {
                         photoInput.click();});
                 }
 
-                // التعامل مع تغيير ملف الصورة
+                // Handle image change
                 photoInput.addEventListener('change', function(event) {
                     var file = event.target.files[0];
                     if (file) {
@@ -231,7 +231,7 @@
                                 thumbnail.style.borderRadius = '50%';
                                 uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
                                 
-                                // إعادة إضافة حدث النقر على الصورة الجديدة
+                                // add image click event on the new image
                                 thumbnail.addEventListener('click', function() {
                                     photoInput.click();
                                 });
