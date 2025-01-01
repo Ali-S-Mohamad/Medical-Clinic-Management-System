@@ -27,8 +27,8 @@ Route::post('login', [AuthController::class, 'login']);
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-     Route::post('appointments', [AppointmentController::class, 'store']);
-     Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
+    Route::post('appointments', [AppointmentController::class, 'store']);
+    Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
 });
 
 //Ratings routes  ->middleware('auth:sanctum')
