@@ -37,7 +37,7 @@
                  <!-- Recycle bin icon-->
                <a href="{{ route('medicalFiles.trash')}}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
-                </a> 
+                </a>
             </div>
         </div>
             {{-- for search --}}
@@ -122,7 +122,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($medicalFiles as $file)                              
+                                    @foreach($medicalFiles as $file)
                                             <tr role="row" class="odd">
                                             <td>{{ $file->id }}</td>
                                             <td>{{ $file->patient->id }}</td>
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                     {{ $medicalFiles->links()}}
-                    <div class="m-t-20 text-right">
+                    <div class="m-t-20 text-left">
                         <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mb-3" rel="prev">
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>

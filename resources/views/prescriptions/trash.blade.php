@@ -39,7 +39,7 @@
                             <form action="{{ route('prescriptions.restore', $prescription->id) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
-                                
+
                                 <button type="submit" class="btn btn-success btn-sm">Restore</button>
                             </form>
                             <form action="{{ route('prescriptions.hardDelete', $prescription->id) }}" method="POST"
@@ -55,7 +55,7 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="m-t-20 text-right">
+        <div class="m-t-20 text-left">
             <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mb-3" rel="prev">
                 <i class="fa fa-arrow-left mr-2"></i> Back
             </a>

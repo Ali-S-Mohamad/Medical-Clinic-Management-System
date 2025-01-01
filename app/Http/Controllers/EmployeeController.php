@@ -14,6 +14,9 @@ class EmployeeController extends Controller
 {
     protected $employeeFilterService;
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
 

@@ -30,14 +30,14 @@
         </div>
 
         <div class="d-flex justify-content-start align-items-center gap-2 mt-3">
-            <button type="submit" class="btn btn-primary">update Medical File</button>
-            <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary ml-2" rel="prev">
+            <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mr-2" rel="prev">
                 <i class="fa fa-arrow-left mr-2"></i> Back
             </a>
+            <button type="submit" class="btn btn-primary">update Medical File</button>
         </div>
-        
+
     </form>
-  
+
 </div>
 @endsection
 

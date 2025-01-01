@@ -18,7 +18,7 @@ class MedicalFilesController extends Controller
     protected $medicalFileFilterService;
     public function index(Request $request)
     {
-    
+
     // Retrive input values
     $filters = $request->only(['search_name', 'search_insurance']);
 
@@ -27,16 +27,16 @@ class MedicalFilesController extends Controller
     $medicalFiles = $medicalFileFilterService->filter($filters);
 
     //Check for medical files record based on search
-    if ($medicalFiles->count() == 0) {
-        return redirect()->route('medicalFiles.index')
-                    ->with('error', 'There is not patient with this information');
-    }
+    // if ($medicalFiles->count() == 0) {
+    //     return redirect()->route('medicalFiles.index')
+    //                 ->with('error', 'There is not patient with this information');
+    // }
 
      // Is there no search, show all result
     $medicalFiles = $medicalFiles->paginate(4);
 
     return view('medicalFiles.index', compact('medicalFiles', 'filters'));
-    
+
     }
 
     /**
@@ -95,7 +95,7 @@ class MedicalFilesController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateMedicalFileRequest $request, MedicalFile $medicalFile)
-    {  
+    {
         $medicalFile->update([
             'diagnoses' => $request->diagnoses,
         ]);
@@ -121,10 +121,10 @@ class MedicalFilesController extends Controller
 
     public function restore($id)
     {
-        $medicalFile = MedicalFile::withTrashed()->find($id);     
+        $medicalFile = MedicalFile::withTrashed()->find($id);
             $medicalFile->restore();
 
-        return redirect()->route('medicalFiles.index')->with('success', 'medicalFile restored successfully.'); 
+        return redirect()->route('medicalFiles.index')->with('success', 'medicalFile restored successfully.');
     }
 
     public function hardDelete(string $id)
