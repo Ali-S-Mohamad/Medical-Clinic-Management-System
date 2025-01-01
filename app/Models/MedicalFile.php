@@ -37,6 +37,7 @@ class MedicalFile extends Model
         if (!empty($name)) {
             $query->whereHas('patient.user', function($userQuery) use ($name) {
                 $userQuery->where('name', 'LIKE', "%{$name}%");
+        
             });
         }
     }
