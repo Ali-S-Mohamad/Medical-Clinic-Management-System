@@ -9,9 +9,6 @@
 
 @section('content')
     <div class="content">
-        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
-            <i class="fa fa-arrow-left mr-2"></i> Back
-        </a>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <h4 class="page-title">Edit Department</h4>
@@ -43,9 +40,12 @@
                             <label class="form-check-label" for="product_inactive"> Inactive </label>
                         </div>
                     </div>
-                    <div class="m-t-20 text-center">
-                        <button class="btn btn-primary submit-btn">Save Department</button>
-                    </div>
+                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                    <i class="fa fa-arrow-left mr-2"></i> Back
+                </a>
+                <a href="{{ route('departments.create', $department->id) }}" class="btn btn-primary mb-3" rel="prev">
+                    <i class="fa fa-pencil m-r-5"></i> Add department
+                </a>
                 </form>
             </div>
         </div>

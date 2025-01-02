@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MedicalFilesController;
-
+use App\Http\Controllers\TimeSlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Define Appointments Routes
     Route::resource('/appointments', AppointmentController::class);
+    Route::resource('/time-slots', TimeSlotController::class);
 
 
     //Define Users Routes

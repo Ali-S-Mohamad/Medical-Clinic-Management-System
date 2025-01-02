@@ -4913,4 +4913,18 @@ blockquote p {
 		margin: 0 auto;
 		margin-bottom: 10px;
 	}
+	.scheduled {
+		background-color: red;
+		color: white;
+	}
+
+	.completed {
+		background-color: green;
+		color: white;
+	}
+
+	.canceled {
+		background-color: gray;
+		color: white;
+	}
 }

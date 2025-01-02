@@ -67,7 +67,6 @@ class DepartmentController extends Controller
 
         return redirect()->route('departments.index');
     }
-
     /**
      * to toggle the status
      */
@@ -76,7 +75,7 @@ class DepartmentController extends Controller
     $department = Department::findOrFail($id);
     $department->status = $department->status == 1 ? 0 : 1;
     $department->save();
-    return redirect()->back()->with('success', 'Department status updated successfully.');
+    return redirect()->route('departments.index')->with('success', 'Department status updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
