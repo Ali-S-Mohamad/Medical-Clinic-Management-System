@@ -8,6 +8,22 @@
 
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -18,13 +34,13 @@
                 <a href="{{ route('medicalFiles.create') }}" class="btn btn-primary btn-rounded mr-3">
                     <i class="fa fa-plus"></i> Add Medical File
                 </a>
-                 <!-- أيقونة سلة المحذوفات -->
-               <a href="{{ route('medicalFiles.trash')}}">
+                <!-- Recycle bin icon-->
+                <a href="{{ route('medicalFiles.trash') }}">
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
-                </a> 
+                </a>
             </div>
         </div>
-            {{-- for search --}}
+        {{-- for search --}}
         <form action="{{ route('medicalFiles.index') }}" method="GET">
             <div class="row filter-row">
                 <div class="col-sm-6 col-md-3">
@@ -46,33 +62,27 @@
                 </div>
             </div>
         </form>
-        <!-- إذا كانت الملفات الطبية فارغة -->
-        @if($medicalFiles->isEmpty())
-            <div class="alert alert-warning">
-                <p>No medical files found for your patients.</p>
-            </div>
-        @else
-        <div class="row">
-            <div class="col-md-12">
-                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select
-                                        name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
-                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries</label></div>
+        @if ($medicalFiles->count() > 0)
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select
+                                            name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                                            class="custom-select custom-select-sm form-control form-control-sm">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries</label></div>
+                            </div>
+                            <div class="col-sm-12 col-md-6"></div>
                         </div>
-                        <div class="col-sm-12 col-md-6"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <role="row" class="even">
-                                </role="row"><table
-                                    class="table table-striped custom-table mb-0  no-footer"
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <role="row" class="even">
+                                </role="row"><table class="table table-striped custom-table mb-0  no-footer"
                                     id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                                     <thead>
                                         <tr role="row">
@@ -104,64 +114,65 @@
                                                 rowspan="1" colspan="1"
                                                 aria-label="Status: activate to sort column ascending"
                                                 style="width: 194.188px;">Insurance number</th>
-                                            <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0"
-
-                                            rowspan="1" colspan="1"
+                                            <th class="text-right sorting" tabindex="0"
+                                                aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                 aria-label="Action: activate to sort column ascending"
                                                 style="width: 138.812px;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($medicalFiles as $file)                              
+                                        @foreach ($medicalFiles as $file)
                                             <tr role="row" class="odd">
-                                            <td>{{ $file->id }}</td>
-                                            <td>{{ $file->patient->id }}</td>
-                                            <td>{{ $file->patient->user->name }}</td>
-                                            <td>{{ $file->patient->user->email }}</td>
-                                            <td>{{ $file->patient->user->phone_number }}</td>
-                                            <td>{{ $file->patient->dob }}</td>
-                                            <td>{{ $file->patient->insurance_number }}</td>
-                                             <td class="text-right">
-                                            <div class="action-buttons" style="white-space: nowrap;">
-                                                <a class="btn btn-sm btn-primary"
-                                                    href="{{ route('medicalFiles.edit', $file->id) }}"
-                                                    style="display: inline-block; margin-right: 5px;">
-                                                    <i class="fa fa-pencil m-r-5"></i> Edit
-                                                </a>
-                                                <a class="btn btn-sm btn-info"
-                                                    href="{{ route('medicalFiles.show', $file->id) }}"
-                                                    style="display: inline-block; margin-right: 5px;">
-                                                    <i class="fa fa-eye m-r-5"></i> Show
-                                                </a>
-                                                <form action="{{ route('medicalFiles.destroy', $file->id) }}"
-                                                    method="POST" style="display: inline-block; margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        style="padding: 2px 6px; font-size: 0.9rem; display: inline-block;">
-                                                        <i class="fa fa-trash-o"
-                                                            style="font-size: 0.8rem; margin-right: 3px;"></i> Trash
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                                <td>{{ $file->id }}</td>
+                                                <td>{{ $file->patient->id }}</td>
+                                                <td>{{ $file->patient->user->name }}</td>
+                                                <td>{{ $file->patient->user->email }}</td>
+                                                <td>{{ $file->patient->user->phone_number }}</td>
+                                                <td>{{ $file->patient->dob }}</td>
+                                                <td>{{ $file->patient->insurance_number }}</td>
+                                                <td class="text-right">
+                                                    <div class="action-buttons" style="white-space: nowrap;">
+                                                        <a class="btn btn-sm btn-primary"
+                                                            href="{{ route('medicalFiles.edit', $file->id) }}"
+                                                            style="display: inline-block; margin-right: 5px;">
+                                                            <i class="fa fa-pencil m-r-5"></i> Edit
+                                                        </a>
+                                                        <a class="btn btn-sm btn-info"
+                                                            href="{{ route('medicalFiles.show', $file->id) }}"
+                                                            style="display: inline-block; margin-right: 5px;">
+                                                            <i class="fa fa-eye m-r-5"></i> Show
+                                                        </a>
+                                                        <form action="{{ route('medicalFiles.destroy', $file->id) }}"
+                                                            method="POST" style="display: inline-block; margin: 0;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                                style="padding: 2px 6px; font-size: 0.9rem; display: inline-block;">
+                                                                <i class="fa fa-trash-o"
+                                                                    style="font-size: 0.8rem; margin-right: 3px;"></i>
+                                                                Trash
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
                                         @endforeach
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
                         </div>
-                    </div>
-                    {{ $medicalFiles->links()}}
-                    <div class="m-t-20 text-right">
-                        <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mb-3" rel="prev">
-                            <i class="fa fa-arrow-left mr-2"></i> Back
-                        </a>
-                    </div>
-                </div>
-            </div>
+                        {{ $medicalFiles->links() }}
+        @endif
+        <div class="m-t-20 text-left">
+            <a href="{{ route('medicalFiles.index') }}" class="btn btn-secondary mb-3" rel="prev">
+                <i class="fa fa-arrow-left mr-2"></i> Back
+            </a>
         </div>
     </div>
-    @endif
+    </div>
+    </div>
+    </div>
+
     </div>
 @endsection
 
