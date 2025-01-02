@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+ Department Details
 @endsection
 
 @section('css')

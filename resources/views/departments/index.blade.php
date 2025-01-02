@@ -2,6 +2,7 @@
 @extends('layouts.master')
 
 @section('title')
+  Departments
 
 @endsection
 
@@ -41,7 +42,7 @@
             <tbody>
             @foreach($departments as $department)
             <tr role="row" onclick="window.location='{{ route('departments.show', $department->id) }}' " class="odd">
-                    <td>{{ $department->id }}</td> 
+                    <td>{{ $department->id }}</td>
                     <td>{{ $department->name }}</td>
                     <td>{{ $department->description }}</td>
                     <td>
@@ -58,7 +59,7 @@
                     <a class="btn btn-sm btn-primary" href="{{ route('departments.edit', $department->id) }}" style="display: inline-block; margin-right: 5px;">
                     <i class="fa fa-pencil m-r-5"></i> Edit
                     </a>
-                    
+
                     <form action="{{ route('departments.destroy', $department->id) }}" method="POST" style="display: inline-block; margin: 0;">
                      @csrf
                      @method('DELETE')

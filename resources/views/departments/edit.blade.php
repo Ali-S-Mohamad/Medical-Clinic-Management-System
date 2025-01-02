@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Edit Department
 @endsection
 
 @section('css')
@@ -30,7 +31,7 @@
                         <label>Description</label>
                         <textarea cols="30" name="description" rows="4" class="form-control">{{ $department->description }}</textarea>
                     </div>
-                    <div class="form-group">    
+                    <div class="form-group">
                         <label class="display-block">Department Status</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="status" value="active"
