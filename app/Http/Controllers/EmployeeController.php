@@ -26,7 +26,7 @@ class EmployeeController extends Controller
         // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
 
-        $employees = $employeeFilterService->filter($filters)->paginate(10);
+        $employees = $employeeFilterService->filter($filters)->paginate(5);
 
         // get Roles & Departments
         $departments = Department::active()->get();
@@ -133,7 +133,7 @@ class EmployeeController extends Controller
                 $query->withTrashed();
             }
         ])->get();
-        return view('employees.trash', compact('deletedEmployees'));
+        return view('Employees.trash', compact('deletedEmployees'));
     }
 
     public function restore(string $id)

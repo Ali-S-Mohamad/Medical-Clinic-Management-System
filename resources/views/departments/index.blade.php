@@ -2,7 +2,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+Departments
 @endsection
 
 @section('css')
@@ -28,8 +28,13 @@
         </div>
         <div class="row">
         <div class="col-md-12">
-        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><role="row" class="even">
-                    </role="row"><table class="table table-striped custom-table mb-0 datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="row">
+                                        <div class="col-sm-12 col-md-6"></div></div> 
+                                        <div class="row">
+                                        <div class="col-sm-12"><role="row" class="even">
+                    </role="row">
+                    <table class="table table-striped custom-table mb-0  no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
             <thead>
                 <tr role="row">
                 <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 62.125px;">ID</th>
@@ -70,12 +75,12 @@
                      </td>
                     @endforeach
                   </tr></tbody>
-            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 6 of 6 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-            <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> <i class="fa fa-arrow-left mr-2"></i>Back</a>
-      </div>
-     </div>
-    </div>
- </div>
+            </table>
+        </div>
+</div>
+
+ {{ $departments->links()}}
+
 @endsection
 
 

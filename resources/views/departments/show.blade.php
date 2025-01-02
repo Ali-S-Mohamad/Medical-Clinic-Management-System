@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Show Department
 @endsection
 
 @section('css')
@@ -9,9 +10,6 @@
 
 @section('content')
     <div class="content">
-        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
-            <i class="fa fa-arrow-left mr-2"></i> Back
-        </a>
         <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
             <div class="card shadow-lg" style="width: 50rem; max-width: 90%; border-radius: 15px; padding: 20px;">
                 <div class="card-body text-center">
@@ -39,6 +37,12 @@
                             style="font-size: 1.2rem;">
                             {{ $department->status == 1 ? 'Active' : 'Inactive' }}
                         </button>
+                        <div class="m-t-20 text-center">
+                            <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                                <i class="fa fa-arrow-left mr-2"></i> Back
+                            </a>
+                        </div>
+                        
                     </form>
                 </div>
             </div>

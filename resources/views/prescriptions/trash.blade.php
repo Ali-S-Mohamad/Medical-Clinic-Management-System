@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <div class="m-t-20 text-left">
-            <a href="{{route('medicalFiles.index')}}" class="btn btn-secondary mb-3" rel="prev">
+            <a href="{{route('prescriptions.index')}}" class="btn btn-secondary mb-3" rel="prev">
                 <i class="fa fa-arrow-left mr-2"></i> Back
             </a>
         </div>

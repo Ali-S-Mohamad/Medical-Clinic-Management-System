@@ -72,9 +72,9 @@ Route::middleware(['auth'])->group(function () {
 
     //Define Employees Routes
     Route::resource('employees', EmployeeController::class);
+    Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
-    Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
 
 
