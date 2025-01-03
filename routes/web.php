@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/departments', DepartmentController::class);
     Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
     Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
-    Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+    Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete');
     Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
 
 
@@ -71,11 +71,11 @@ Route::middleware(['auth'])->group(function () {
 
 
     //Define Employees Routes
-    Route::resource('employees', EmployeeController::class);
+    Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
-    Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
-    Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
+    Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete');
+    Route::resource('employees', EmployeeController::class);
 
 
     //Define Patients Routes

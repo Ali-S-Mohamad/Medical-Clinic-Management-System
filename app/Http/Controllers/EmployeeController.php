@@ -126,6 +126,10 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index');
     }
 
+    /**
+     * Summary of trash
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         $deletedEmployees = Employee::onlyTrashed()->with([
