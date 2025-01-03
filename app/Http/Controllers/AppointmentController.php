@@ -48,7 +48,7 @@ class AppointmentController extends Controller
                 });
             })
             ->whereHas('patient')
-            ->get();
+            ->paginate(5);
 
         return view('appointments.index', compact('appointments'));
     }
@@ -67,23 +67,23 @@ class AppointmentController extends Controller
     public function store(AppointmentRequest $request)
     {
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
-    
+
         // Use AppointmentService to book the appointment
         $response = $this->appointmentService->bookAppointment(
-            $request->patient_id, 
-            $request->doctor_id,  
-            $appointmentDateTime  
+            $request->patient_id,
+            $request->doctor_id,
+            $appointmentDateTime
         );
-    
+
         // If the booking was successful
         if ($response['success']) {
             return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
         }
-    
+
         // If there was an error during booking
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -115,7 +115,7 @@ class AppointmentController extends Controller
     {
         // Combine the date and time into one datetime string
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
-    
+
         // Use AppointmentService to check if the new details are valid and update the appointment
         $response = $this->appointmentService->updateAppointment(
             $id,                       // Pass the appointment ID
@@ -125,15 +125,15 @@ class AppointmentController extends Controller
             $request->status,          // Pass the updated status (e.g., 'scheduled', 'completed', etc.)
             $request->notes            // Pass the notes (optional field for additional information)
         );
-    
+
         // If the new appointment details are valid and updated successfully
         if ($response['success']) {
             return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
         }
-    
+
         // If there's a conflict or another issue
         return redirect()->route('appointments.index')->with('error', $response['message']);
-    }    
+    }
 
     /**
      * Remove the specified resource from storage.
