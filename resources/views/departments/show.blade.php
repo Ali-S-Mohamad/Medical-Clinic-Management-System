@@ -19,6 +19,7 @@
                                 style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #007bff;">
                         </a>
                     </div>
+                    <div>
                     <h3 class="card-title mb-3" style="font-weight: bold; color: #333;">
                         <a href="{{ route('departments.show', $department->id) }}"
                             style="text-decoration: none; color: inherit;">
@@ -45,6 +46,12 @@
 
                     </form>
                 </div>
+                <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                    <i class="fa fa-arrow-left mr-2"></i> Back
+                </a>
+                <a href="{{ route('departments.edit', $department->id) }}" class="btn btn-primary mb-3" rel="prev">
+                    <i class="fa fa-pencil m-r-5"></i> Edit
+                </a>
             </div>
         </div>
     </div>

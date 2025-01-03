@@ -9,15 +9,13 @@ use Illuminate\Notifications\Notifiable;
 class Appointment extends Model
 {
     use HasFactory, Notifiable;
-
     protected $fillable = [
         'patient_id',
         'doctor_id',
         'appointment_date',
         'status',
         'notes',
-    ];
-
+       ];       
 
     public function patient()
     {
@@ -33,4 +31,9 @@ class Appointment extends Model
     {
         return $this->hasOne(Prescription::class);
     }
+    public function timeSlot(){
+         return $this->belongsTo(TimeSlot::class);
+    }
+
+    
 }
