@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+Edit Role
 @endsection
 
 @section('css')
@@ -82,8 +82,8 @@
                     </div>
                     
                 </form>
-                <div class="float-right">
-                    <a href="{{ route('roles.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
+                <div class="text-center ">
+                    <a href="{{ route('roles.index') }}" class="btn btn-secondary btn-sm">&larr; Back</a>
                 </div>
             </div>
         </div>

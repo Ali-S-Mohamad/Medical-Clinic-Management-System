@@ -27,7 +27,7 @@ class AppointmentController extends Controller
 
         $isDoctor = auth()->user()->hasRole('doctor');
 
-        $appointments = Appointment::all();
+        $appointments = Appointment::paginate(5);
 
         // $appointments = Appointment::with(['patient.user', 'employee.user'])
         //     ->when($isDoctor, function ($query) use ($employee) {
