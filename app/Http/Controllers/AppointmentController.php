@@ -42,7 +42,6 @@ class AppointmentController extends Controller
             ->when($isDoctor, function ($query) use ($employee) {
                 $query->where('doctor_id', $employee->id);
             }, function ($query) use ($employee) {
-
                 $query->whereHas('employee', function ($subQuery) use ($employee) {
                     $subQuery->where('department_id', $employee->department_id);
                 });

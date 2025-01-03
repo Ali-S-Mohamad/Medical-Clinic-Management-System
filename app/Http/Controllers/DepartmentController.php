@@ -34,8 +34,13 @@ class DepartmentController extends Controller
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
-
-        return redirect()->route('departments.index');    }
+    
+        saveImage('Departments images', $request, $department);
+    
+        return redirect()->route('departments.index');
+    }
+    
+    
 
     /**
      * Display the specified resource.
@@ -57,13 +62,16 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentRequest $request , string $id)
+    public function update(Request $request , string $id)
     {
+        // dd($request->all());
         $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
-        $department->save();
+        $department->save();    
+
+        saveImage('Departments images', $request, $department);
 
         return redirect()->route('departments.index');
     }
@@ -97,9 +105,9 @@ class DepartmentController extends Controller
         return redirect()->route('departments.trash')->with('success', 'department restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forcedelete(string $id)
     {
-    $department = Department::withTrashed()->findOrFail($id); // يشمل السجلات المحذوفة
+    $department = Department::withTrashed()->findOrFail($id); 
     $department->forceDelete(); // حذف نهائي
     return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
     }

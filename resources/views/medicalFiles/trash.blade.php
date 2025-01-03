@@ -42,7 +42,7 @@
 
                                 <button type="submit" class="btn btn-success btn-sm">Restore</button>
                             </form>
-                            <form action="{{ route('medicalFiles.hardDelete', $file->id) }}" method="POST"
+                            <form action="{{ route('medicalFiles.forceDelete', $file->id) }}" method="POST"
                                 style="display: inline-block; margin-right: 5px;">
                                 @csrf
                                 @method('DELETE')

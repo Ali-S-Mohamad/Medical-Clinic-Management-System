@@ -36,6 +36,7 @@
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Department Name: activate to sort column ascending" style="width: 307.875px;">Department Name</th>
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Department Name: activate to sort column ascending" style="width: 307.875px;">Description</th>
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 194.188px;">Status</th>
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 194.188px;">Image</th>
                 <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 138.812px;">Action</th></tr>
             </thead>
             <tbody>
@@ -53,7 +54,16 @@
                     {{ $department->status == 1 ? 'Active' : 'Inactive' }}
                     </button>
                     </form></p></td>
-                    <td class="text-right">
+                    <td>
+                    @php
+                      $image_path = $department->image
+                       ? asset('storage/' . $department->image->image_path)
+                       : asset('assets/img/user.jpg');
+                    @endphp
+                    <img width="50" height="50" src="{{ $image_path }}"
+                     class="rounded-circle" alt="">
+                   </td>            
+                   <td class="text-right">
                     <div class="action-buttons" style="white-space: nowrap;">
                     <a class="btn btn-sm btn-primary" href="{{ route('departments.edit', $department->id) }}" style="display: inline-block; margin-right: 5px;">
                     <i class="fa fa-pencil m-r-5"></i> Edit

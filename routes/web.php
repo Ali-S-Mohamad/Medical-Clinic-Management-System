@@ -43,14 +43,14 @@ Route::middleware(['auth'])->group(function () {
     //Define prescriptions Routes
     Route::get('/prescriptions/trash', [PrescriptionsController::class, 'trash'])->name('prescriptions.trash');
     Route::post('prescriptions/restore/{id}', [PrescriptionsController::class, 'restore'])->name('prescriptions.restore');
-    Route::delete('/prescriptions/hard-delete/{id}', [PrescriptionsController::class, 'hardDelete'])->name('prescriptions.hardDelete');
+    Route::delete('/prescriptions/force-delete/{id}', [PrescriptionsController::class, 'forceDelete'])->name('prescriptions.forceDelete');
     Route::resource('prescriptions', PrescriptionsController::class);
 
 
     //Define MedicalFiles Routes
     Route::get('/medicalFiles/trash', [MedicalFilesController::class, 'trash'])->name('medicalFiles.trash');
     Route::post('medicalFiles/restore/{id}', [MedicalFilesController::class, 'restore'])->name('medicalFiles.restore');
-    Route::delete('/medicalFiles/hard-delete/{id}', [MedicalFilesController::class, 'hardDelete'])->name('medicalFiles.hardDelete');
+    Route::delete('/medicalFiles/force-delete/{id}', [MedicalFilesController::class, 'forceDelete'])->name('medicalFiles.forceDelete');
     Route::resource('/medicalFiles', MedicalFilesController::class);
 
 
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/departments', DepartmentController::class);
     Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
     Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
-    Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
+    Route::delete('/departments/force-delete/{id}', [DepartmentController::class, 'forceDelete'])->name('departments.forceDelete'); // الحذف النهائي
     Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
 
 
@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
     Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
-    Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
+    Route::delete('employees/force-delete/{id}', [EmployeeController::class, 'forceDelete'])->name('employees.forceDelete'); // الحذف النهائي
 
 
     //Define Patients Routes

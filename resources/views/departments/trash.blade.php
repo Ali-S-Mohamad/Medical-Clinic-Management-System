@@ -34,7 +34,7 @@
                                 @method('PUT')
                                 <button type="submit" class="btn btn-success btn-sm">Restore</button>
                             </form>
-                            <form action="{{ route('departments.hardDelete', $department->id) }}" method="POST"
+                            <form action="{{ route('departments.forceDelete', $department->id) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
