@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Show Department
+    Department Details
 @endsection
 
 @section('css')
@@ -42,7 +42,7 @@ Show Department
                                 <i class="fa fa-arrow-left mr-2"></i> Back
                             </a>
                         </div>
-                        
+
                     </form>
                 </div>
             </div>

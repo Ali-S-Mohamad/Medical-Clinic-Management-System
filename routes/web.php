@@ -1,18 +1,19 @@
 <?php
 
 
-use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PrescriptionsController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalFilesController;
+use App\Http\Controllers\PrescriptionsController;
 
 
 /*
@@ -32,9 +33,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth','patient'])->group(function () {
 
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     //Define Role Resource Routes
     Route::resource('roles', RoleController::class);
@@ -55,32 +57,33 @@ Route::middleware(['auth'])->group(function () {
 
 
     //Define Departments Routes
-    Route::resource('/departments', DepartmentController::class);
     Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
     Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
     Route::delete('/departments/hard-delete/{id}', [DepartmentController::class, 'hardDelete'])->name('departments.hardDelete'); // الحذف النهائي
     Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
+    Route::resource('/departments', DepartmentController::class);
 
 
     //Define Appointments Routes
     Route::resource('/appointments', AppointmentController::class);
 
 
-    //Define Users Routes
-    Route::resource('users', UserController::class);
-
 
     //Define Employees Routes
-    Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
     Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::delete('employees/hardDelete/{id}', [EmployeeController::class, 'hardDelete'])->name('employees.hardDelete'); // الحذف النهائي
     Route::resource('employees', EmployeeController::class);
 
 
+    //Define Users Routes
+    Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
+    Route::resource('users', UserController::class);
+
+
     //Define Patients Routes
-    Route::resource('patients', PatientController::class);
     Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
+    Route::resource('patients', PatientController::class);
 
 
     //Define Admin Dashboard Routes
