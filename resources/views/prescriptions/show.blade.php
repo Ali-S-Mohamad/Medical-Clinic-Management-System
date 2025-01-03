@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+Show Prescription
 @endsection
 
 @section('css')

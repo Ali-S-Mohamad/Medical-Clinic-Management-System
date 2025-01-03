@@ -1,30 +1,32 @@
-
 @extends('layouts.master')
 
 @section('title')
-
+    Departments
 @endsection
 
 @section('css')
-<style>  tbody tr:hover { cursor: pointer; } </style>
+    <style>
+        tbody tr:hover {
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 
 @section('content')
-
-<div class="content">
+    <div class="content">
         <div class="row">
-        <div class="col-sm-5 col-5">
-        <h4 class="page-title">Departments</h4>
-        </div>
-        <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
-        <a href="{{route('departments.create')}}" class="btn btn-primary btn-rounded mr-3">
-        <i class="fa fa-plus"></i> Add Department
-        </a>
-        <a href="{{route('departments.trash')}}">
-        <i class="fa fa-trash-o" style="font-size:36px"></i>
-        </a>
-        </div>
+            <div class="col-sm-5 col-5">
+                <h4 class="page-title">Departments</h4>
+            </div>
+            <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
+                <a href="{{ route('departments.create') }}" class="btn btn-primary btn-rounded mr-3">
+                    <i class="fa fa-plus"></i> Add Department
+                </a>
+                <a href="{{ route('departments.trash') }}">
+                    <i class="fa fa-trash-o" style="font-size:36px"></i>
+                </a>
+            </div>
         </div>
         <div class="row">
         <div class="col-md-12">
@@ -90,5 +92,4 @@
 
 
 @section('scripts')
-
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Department;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -13,7 +14,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = User::role('patient')->get();
+        $patients = Patient::all();
         // dd($patients);
         return view('patients.index',compact('patients'));
     }

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Edit Department
 @endsection
 
 @section('css')
@@ -67,6 +68,12 @@
                             <i class="fa fa-arrow-left mr-1"></i> Back
                         </a>
                     </div>
+                    <div class="m-t-20 text-center">
+                        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back
+                        </a>
+                    </div>
+                   
                 </form>
             </div>
         </div>

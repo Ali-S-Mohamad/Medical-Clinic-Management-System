@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Create Medical file
 @endsection
 
 @section('css')

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Show Rating
 @endsection
 
 @section('css')

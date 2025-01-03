@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+    Department Details
 @endsection
 
 @section('css')
@@ -8,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="department-content">
+    <div class="content">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
             <div class="card shadow-lg" style="width: 50rem; max-width: 90%; border-radius: 30px; padding: 40px;">
                 <div class="department-card-body">
