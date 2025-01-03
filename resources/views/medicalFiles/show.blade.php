@@ -2,7 +2,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+Show Medical file
 @endsection
 
 @section('css')

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Edit Department
 @endsection
 
 @section('css')
@@ -9,9 +10,7 @@
 
 @section('content')
     <div class="content">
-        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
-            <i class="fa fa-arrow-left mr-2"></i> Back
-        </a>
+        
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <h4 class="page-title">Edit Department</h4>
@@ -30,7 +29,7 @@
                         <label>Description</label>
                         <textarea cols="30" name="description" rows="4" class="form-control">{{ $department->description }}</textarea>
                     </div>
-                    <div class="form-group">    
+                    <div class="form-group">
                         <label class="display-block">Department Status</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="status" value="active"
@@ -46,6 +45,12 @@
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Save Department</button>
                     </div>
+                    <div class="m-t-20 text-center">
+                        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back
+                        </a>
+                    </div>
+                   
                 </form>
             </div>
         </div>

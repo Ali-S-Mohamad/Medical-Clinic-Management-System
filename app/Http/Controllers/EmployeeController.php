@@ -26,7 +26,7 @@ class EmployeeController extends Controller
         // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
 
-        $employees = $employeeFilterService->filter($filters)->paginate(10);
+        $employees = $employeeFilterService->filter($filters)->paginate(5);
 
         // get Roles & Departments
         $departments = Department::active()->get();

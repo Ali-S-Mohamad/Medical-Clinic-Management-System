@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
+Deleted Medical file
 @endsection
 
 @section('css')

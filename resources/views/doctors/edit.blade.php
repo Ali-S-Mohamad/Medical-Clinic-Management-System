@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-edit doctor
+Edit Employee
 @endsection
 
 @section('css')
