@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Models\Patient;
@@ -9,10 +8,18 @@ use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
+use App\Services\AppointmentService; 
 
 class AppointmentController extends Controller
 {
     use ApiResponse;
+
+    protected $appointmentService; 
+
+    public function __construct(AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService; 
+    }
 
     public function store(AppointmentRequest $request)
     {
@@ -22,25 +29,22 @@ class AppointmentController extends Controller
         if (!$patient) {
             return $this->apiResponse(null, 'User is not associated with a patient.', 403);
         }
+
         // Combine appointment date and time
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
 
-        // Check appointment availability
-        $existingAppointment = Appointment::where('doctor_id', $request->doctor_id)
-            ->where('appointment_date', $appointmentDateTime)
-            ->first();
-        if ($existingAppointment) {
-            return $this->apiResponse(null, 'The appointment slot is already booked.', 409);
+        // use appointmentService
+        $response = $this->appointmentService->bookAppointment(
+            $patient->id, 
+            $request->doctor_id, 
+            $appointmentDateTime
+        );
+
+        if ($response['success']) {
+            return $this->apiResponse([$response['appointment']], 'Appointment created successfully.', 201);
         }
-        //create appointment
-        $appointment = Appointment::create([
-            'patient_id' => $patient->id,
-            'doctor_id' => $request->doctor_id,
-            'appointment_date' => $appointmentDateTime,
-            'status' => $request->status,
-            'notes' => $request->notes,
-        ]);
-        return $this->apiResponse([$appointment], 'Appointment created successfully.', 201);
+
+        return $this->apiResponse(null, $response['message'], 409);
     }
 
     // Display appointments belonging to the patient

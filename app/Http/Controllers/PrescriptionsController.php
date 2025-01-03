@@ -129,7 +129,7 @@ class PrescriptionsController extends Controller
         return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forceDelete(string $id)
     {
         Prescription::withTrashed()->where('id', $id)->forceDelete();
         return redirect()->route('prescriptions.index')->with('success', 'prescriptions permanently deleted.');

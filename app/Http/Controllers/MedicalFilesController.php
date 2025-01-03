@@ -127,7 +127,7 @@ class MedicalFilesController extends Controller
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFile restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forceDelete(string $id)
     {
         MedicalFile::withTrashed()->where('id',$id)->forceDelete();
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFile permanently deleted.');

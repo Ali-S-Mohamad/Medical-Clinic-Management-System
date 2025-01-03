@@ -147,7 +147,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.trash')->with('success', 'employee restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forceDelete(string $id)
     {
         $employee = Employee::withTrashed()->findOrFail($id); // Contain trashed files
         $employee->forceDelete(); // Delete For ever
