@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('appointments', [AppointmentController::class, 'store']);
     Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
+    Route::get('my-prescriptions', [PatientController::class, 'getMyPrescriptions']);
+    Route::get('active-departments', [PatientController::class, 'getActiveDepartments']);
+    Route::get('active-doctors/{departmentId}', [PatientController::class, 'getAvailableDoctorsInDepartment']);
 });
 
 //Ratings routes  ->middleware('auth:sanctum')
