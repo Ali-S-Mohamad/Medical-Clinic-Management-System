@@ -22,4 +22,23 @@ class MedicalFile extends Model
     public function prescriptions(){
         return $this->hasMany(Prescription::class);
     }
+
+    public function scopeFilterByInsurance($query, $insurance)
+    {
+    if (!empty($insurance)) {
+        $query->whereHas('patient', function($query) use ($insurance) {
+            $query->where('insurance_number', '=', "$insurance");
+        });
+    }
+    }
+
+    public function scopeFilterByName($query, $name)
+    {
+        if (!empty($name)) {
+            $query->whereHas('patient.user', function($userQuery) use ($name) {
+                $userQuery->where('name', 'LIKE', "%{$name}%");
+        
+            });
+        }
+    }
 }

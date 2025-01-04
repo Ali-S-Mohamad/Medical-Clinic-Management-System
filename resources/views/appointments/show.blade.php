@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title')
+@section('title','Appointment Details')
 
 @section('css')
 @endsection

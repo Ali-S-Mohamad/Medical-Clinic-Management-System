@@ -27,15 +27,7 @@
 </div>
 @endif
 <div class="card">
-    {{-- <div class="card-header">Manage Roles</div>
-    <div class=" text-right m-b-30 d-flex justify-content-end align-items-center">
-        <!-- زر إضافة الدور -->
-        @can('create-role')
-        <a href="{{ route('roles.create') }}" class="btn btn-primary btn-rounded mr-3">
-            <i class="fa fa-plus"></i> Add Role
-        </a>
-        @endcan
-    </div> --}}
+
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Manage Roles</h5>
         <div class="text-right">
@@ -62,37 +54,31 @@
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $role->name }}</td>
                     <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                            <a href="#" class="action-icon dropdown-toggle"
-                                data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-ellipsis-v"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item"
-                                    href="{{ route('roles.show', $role->id) }}">
+                            <div class="action-buttons" style="white-space: nowrap;">
+                                <a class="btn btn-sm btn-info"
+                                    href="{{ route('roles.show', $role->id) }}"
+                                    style="display: inline-block; margin-right: 5px;">
                                     <i class="fa fa-eye m-r-5"></i> Show
                                 </a>
                                 @if ($role->name != 'Admin')
                                     @can('edit-role')
-                                    <a class="dropdown-item"
-                                        href="{{ route('roles.edit', $role->id) }}">
-                                        <i class="fa fa-pencil m-r-5"></i> Edit
-                                    </a>
+                                    <a class="btn btn-sm btn-primary"
+                                    href="{{ route('roles.edit', $role->id) }}"
+                                    style="display: inline-block; margin-right: 5px;">
+                                    <i class="fa fa-pencil m-r-5"></i> Edit
+                                </a>
                                     @endcan
-
-                                    <form
-                                        action="{{ route('roles.destroy', $role->id) }}"
-                                        method="POST" class="dropdown-item p-0 m-0">
+                                    <form action="{{ route('roles.destroy', $role->id) }}"
+                                        method="POST" style="display: inline-block; margin: 0;">
                                         @csrf
                                         @method('DELETE')
-                                        @can('delete-role')
-                                            @if ($role->name != Auth::user()->hasRole($role->name))
-                                            <button type="submit"
-                                                class="dropdown-item text-danger">
-                                                <i class="fa fa-trash-o m-r-6"></i> Delete
-                                            </button>
-                                            @endif
-                                        @endcan
+                                        @if ($role->name != Auth::user()->hasRole($role->name))
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            style="padding: 2px 6px; font-size: 0.9rem; display: inline-block;">
+                                            <i class="fa fa-trash-o"
+                                                style="font-size: 0.8rem; margin-right: 3px;"></i> Delete
+                                        </button>
+                                        @endif
                                     </form>
                                 @endif
                             </div>

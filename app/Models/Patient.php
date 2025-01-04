@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Patient extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     protected $fillable = [
         'user_id',
@@ -35,6 +36,10 @@ class Patient extends Model
 
     public function ratings() {
         return $this->hasMany(Rating::class);
+    }
+
+    public function image()  {
+        return $this->morphOne(Image::class, 'imageable');
     }
 
 }

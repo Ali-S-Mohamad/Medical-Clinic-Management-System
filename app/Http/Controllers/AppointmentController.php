@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Employee;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Events\AppointmentCreated;
 use App\Http\Requests\AppointmentRequest;
 
 class AppointmentController extends Controller
@@ -26,7 +27,7 @@ class AppointmentController extends Controller
 
         $isDoctor = auth()->user()->hasRole('doctor');
 
-        $appointments = Appointment::all();
+        $appointments = Appointment::paginate(5);
 
         // $appointments = Appointment::with(['patient.user', 'employee.user'])
         //     ->when($isDoctor, function ($query) use ($employee) {
@@ -61,14 +62,14 @@ class AppointmentController extends Controller
     {
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'patient_id' => $request->patient_id,
             'doctor_id' => $request->doctor_id,
             'appointment_date' => $appointmentDateTime,
             'status' => $request->status,
             'notes' => $request->notes,
         ]);
-
+        event(new AppointmentCreated($appointment));
         return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
 

@@ -15,18 +15,19 @@ class EmployeeController extends Controller
 {
     protected $employeeFilterService;
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
 
         // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
-        // dd($filters);
 
         // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
-        // dd($employeeFilterService);
-        $employees = $employeeFilterService->filter($filters)->paginate(10);
-        // dd($employees);
+
+        $employees = $employeeFilterService->filter($filters)->paginate(5);
 
         // get Roles & Departments
         $departments = Department::active()->get();
@@ -34,21 +35,13 @@ class EmployeeController extends Controller
 
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-    //     $employees = Employee::with(['user.roles', 'department'])->get();
-    //     $roles = DB::table('roles')->get();
-    //     $departments = Department::active()->get();
-    //     return view('employees.index', compact('employees','roles','departments'));
-    // }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create() {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -82,7 +75,6 @@ class EmployeeController extends Controller
     {
 
         $employee = Employee::where('user_id',$userId)->first();
-        // This line may be after modifying the employee information, but I put it here to shorten the code.
         $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
 
         $employee->update([
@@ -135,6 +127,10 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index');
     }
 
+    /**
+     * Summary of trash
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         $deletedEmployees = Employee::onlyTrashed()->with([
