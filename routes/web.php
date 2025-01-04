@@ -1,18 +1,19 @@
 <?php
 
 
-use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PrescriptionsController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalFilesController;
+use App\Http\Controllers\PrescriptionsController;
 
 
 /*
@@ -89,4 +90,8 @@ Route::middleware(['auth'])->group(function () {
 
     //Define Ratings Routes
     Route::resource('ratings', RatingController::class);
+
+    //Define Reports Routes
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
 });
