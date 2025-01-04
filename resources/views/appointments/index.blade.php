@@ -66,12 +66,6 @@
                                          </a>
 
 
-                                            <a class="btn btn-sm btn-primary"
-                                                href="{{ route('appointments.edit', $appointment->id) }}"
-                                                style="display: inline-block; margin-right: 5px;">
-                                                <i class="fa fa-pencil m-r-5"></i> Edit
-                                            </a>
-
                                             <a class="btn btn-sm btn-info"
                                                 href="{{ route('appointments.show', $appointment->id) }}"
                                                 style="display: inline-block; margin-right: 5px;">
