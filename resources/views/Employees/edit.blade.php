@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Edit Employee
+Edit Employee
 @endsection
 
 @section('css')
@@ -197,7 +197,7 @@
                 // image & image icon
             document.addEventListener('DOMContentLoaded', function() {
                 var uploadIcon = document.getElementById('upload-icon');
-                var thumbnail = document.getElementById('thumbnail');
+                var thumbnail  = document.getElementById('thumbnail');
                 var photoInput = document.getElementById('photo');
 
                 // Handle clicking on the image icon

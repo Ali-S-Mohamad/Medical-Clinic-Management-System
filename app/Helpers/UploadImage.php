@@ -15,7 +15,6 @@ if (!function_exists('saveImage')) {
             if ($employee->image) {
                 Storage::disk($disk)->delete($employee->image->image_path);
             }
-
             // create OR update employee image
             $employee->image()->updateOrCreate(
                 [],
