@@ -60,14 +60,14 @@ Edit Department
                             <label class="form-check-label" for="product_inactive">Inactive</label>
                         </div>
                     </div>
-
-                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+{{-- <<<<<<<<< Temporary merge branch 1 --}}
+                    {{-- <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
                     <i class="fa fa-arrow-left mr-2"></i> Back
                 </a>
                 <a href="{{ route('departments.create', $department->id) }}" class="btn btn-primary mb-3" rel="prev">
                     <i class="fa fa-pencil m-r-5"></i> Add department
-                </a>
-{{-- =========
+                </a> --}}
+
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Save Department</button>
                     </div>
@@ -77,7 +77,7 @@ Edit Department
                         </a>
                     </div>
 
->>>>>>>>> Temporary merge branch 2 --}}
+
                 </form>
             </div>
         </div>
