@@ -39,12 +39,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($patients as $patient )
-                                <tr>   
-                                    <td>{{$patient->name}}</td>
-                                    <td>{{$patient->email}}</td>
-                                    <td>{{$patient->patient->dob}}</td>
-                                    <td></td>
-                                    <td>{{$patient->patient->insurance_number}}</td>
+                                <tr>
+                                    <td>{{$patient->user->name}}</td>
+                                    <td>{{$patient->user->email}}</td>
+                                    <td>{{$patient->dob}}</td>
+                                    <td>@php
+                                        $image_path = $patient->image
+                                            ? asset('storage/' . $patient->image->image_path)
+                                            : asset('assets/img/user.jpg');
+                                    @endphp
+                                    <img width="40" height="40" src="{{ $image_path }}"
+                                        class="rounded-circle" alt=""></td>
+                                    <td>{{$patient->insurance_number}}</td>
                                 </tr>
                                     @endforeach
                             </tbody>
