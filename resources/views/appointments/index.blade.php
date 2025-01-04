@@ -64,8 +64,7 @@
                                               ? 'pointer-events: none; color: #6c757d;' : '' }}">
                                              <i class="fa fa-pencil m-r-5"></i> Edit
                                          </a>
-
-
+                                         
                                             <a class="btn btn-sm btn-info"
                                                 href="{{ route('appointments.show', $appointment->id) }}"
                                                 style="display: inline-block; margin-right: 5px;">
