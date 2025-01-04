@@ -25,9 +25,9 @@ class Patient extends Model
         return $this->hasOne(MedicalFile::class);
     }
 
-    public function prescriptions(){
-        return $this->hasMany(Prescription::class);
-    }
+    // public function prescriptions(){
+    //     return $this->hasMany(Prescription::class);
+    // }
 
     public function appointments(){
         return $this->hasMany(Appointment::class);
