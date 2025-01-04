@@ -1,4 +1,4 @@
-@extends('layouts.master')
+\@extends('layouts.master')
 
 @section('title')
     Employees
@@ -165,11 +165,6 @@
                 </div>
             </div>
         @endif
-<<<<<<< HEAD
-        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> <i class="fa fa-arrow-left mr-2"></i>Back</a>
-    </div>
-=======
->>>>>>> 7be3f3a6a1fea5cc45bb81ef573cdc8e6e115f14
 
         {{ $employees->links()}}
 

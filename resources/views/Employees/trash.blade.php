@@ -88,7 +88,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm">Restore</button>
                                             </form>
-                                            <form action="{{ route('employees.hardDelete', $employee->id) }}" method="POST"
+                                            <form action="{{ route('employees.forceDelete', $employee->id) }}" method="POST"
                                                 style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
