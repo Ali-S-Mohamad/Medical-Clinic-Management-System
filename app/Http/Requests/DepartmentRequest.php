@@ -24,8 +24,8 @@ class DepartmentRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'status' => 'required|string|in:active,inactive', // قبول active أو inactive
-            'image'  => 'image|mimes:jpg,jpeg,png|max:2048' ,
+            'status' => 'required|string|in:0,1', // قبول active أو inactive
+            'profile_image'  => 'image|mimes:jpg,jpeg,png|max:2048' ,
         ];
     }
 }

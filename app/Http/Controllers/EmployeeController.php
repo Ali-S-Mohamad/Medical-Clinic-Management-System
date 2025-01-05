@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Language;
+use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -137,7 +138,7 @@ class EmployeeController extends Controller
                 $query->withTrashed();
             }
         ])->get();
-        return view('Employees.trash', compact('deletedEmployees'));
+        return view('employees.trash', compact('deletedEmployees'));
     }
 
     public function restore(string $id)
@@ -147,7 +148,7 @@ class EmployeeController extends Controller
         return redirect()->route('employees.trash')->with('success', 'employee restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forceDelete(string $id)
     {
         $employee = Employee::withTrashed()->findOrFail($id); // Contain trashed files
         $employee->forceDelete(); // Delete For ever

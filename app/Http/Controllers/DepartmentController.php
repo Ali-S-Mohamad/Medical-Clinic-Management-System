@@ -35,7 +35,12 @@ class DepartmentController extends Controller
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
 
-        return redirect()->route('departments.index');    }
+        saveImage('Departments images', $request, $department);
+
+        return redirect()->route('departments.index');
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -57,26 +62,30 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentRequest $request , string $id)
+    public function update(Request $request , string $id)
     {
+        dd($request->all());
         $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
 
+        saveImage('Departments images', $request, $department);
+
         return redirect()->route('departments.index');
     }
-
     /**
-     * to toggle the status
+     * Summary of toggleStatus
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function toggleStatus($id)
     {
     $department = Department::findOrFail($id);
     $department->status = $department->status == 1 ? 0 : 1;
     $department->save();
-    return redirect()->back()->with('success', 'Department status updated successfully.');
+    return redirect()->route('departments.index')->with('success', 'Department status updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -98,9 +107,9 @@ class DepartmentController extends Controller
         return redirect()->route('departments.trash')->with('success', 'department restored successfully.');
     }
 
-    public function hardDelete(string $id)
+    public function forcedelete(string $id)
     {
-    $department = Department::withTrashed()->findOrFail($id); // يشمل السجلات المحذوفة
+    $department = Department::withTrashed()->findOrFail($id);
     $department->forceDelete(); // حذف نهائي
     return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
     }

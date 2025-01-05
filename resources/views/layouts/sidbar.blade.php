@@ -37,6 +37,9 @@
                     <a href="{{route('departments.index')}}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                 </li>
                 <li class="">
+                    <a href="{{route('time-slots.index')}}"><i class="fa fa-hospital-o"></i> <span>Time Slot</span></a>
+                </li>
+                <li class="">
                     <a href="{{route('appointments.index')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                 </li>
                 <li>
@@ -58,6 +61,11 @@
                     <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>
                 <li class="">
+                    <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a>
+                    {{-- <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a> --}}
+                </li>
+                <li class="">
+                    {{-- <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a> --}}
                     <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a>
                 </li>
             </ul>
