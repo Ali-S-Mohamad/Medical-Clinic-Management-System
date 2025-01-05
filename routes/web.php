@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\ClinicInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClinicInfoController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalFilesController;
@@ -85,6 +87,13 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:Admin');;
 
 
-    //Define Ratings Routes
-    Route::resource('ratings', RatingController::class);
+
+//Define Ratings Routes
+Route::resource('ratings', RatingController::class);
+
+
+//Define ClinicInfo Routes
+Route::resource('clinic', ClinicInfoController::class);
+
+
 });

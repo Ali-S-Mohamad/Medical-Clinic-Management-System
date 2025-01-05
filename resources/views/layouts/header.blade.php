@@ -1,7 +1,7 @@
 <div class="header">
     <div class="header-left">
         <a href="{{route('home')}}" class="logo">
-            <img src="{{asset('assets/img/logo.png')}}" width="35" height="35" alt=""> <span>Preclinic</span>
+            <img src="{{ $logoPath }}"  width="35" height="35" alt="logo" style="border-radius: 50%; object-fit: cover;"> <span>{{ $clinicName }}</span>
         </a>
     </div>
     <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
