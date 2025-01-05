@@ -76,7 +76,9 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
     /**
-     * to toggle the status
+     * Summary of toggleStatus
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function toggleStatus($id)
     {

@@ -20,6 +20,7 @@ class AppointmentService
     }
     // Retrieve the doctor's time slot for the specified day and time
     $dayOfWeek = date('w', $appointmentStart);
+    // dd($dayOfWeek);
     $timeSlot = TimeSlot::where('doctor_id', $doctorId)
         ->where('day_of_week', $dayOfWeek)
         ->where('is_available', true)
@@ -139,8 +140,8 @@ class AppointmentService
             'patient_id' => $patientId,
             'doctor_id' => $doctorId,
             'appointment_date' => date('Y-m-d H:i:s', $appointmentStart),
-            'status' => $status,      
-            'notes' => $notes      
+            'status' => $status,
+            'notes' => $notes
         ]);
 
         return [
