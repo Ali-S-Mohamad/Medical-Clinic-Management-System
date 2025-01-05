@@ -57,4 +57,23 @@ class Prescription extends Model
     public function department(){
         return $this->belongsTo(Department::class);
     }
-}
+
+     // سكوب فلتر حسب اسم الدواء
+     public function scopeFilterByMedication($query, $medication)
+     {
+         if (!empty($medication)) {
+             $query->where('medications_names', 'LIKE', "%{$medication}%");
+         }
+     }
+ 
+     // سكوب فلتر حسب اسم المريض
+     public function scopeFilterByPatientName($query, $patientName)
+     {
+         if (!empty($patientName)) {
+             $query->whereHas('medicalFile.patient.user', function ($query) use ($patientName) {
+                 $query->where('name', 'LIKE', "%{$patientName}%");
+             });
+         }
+     }
+ }
+

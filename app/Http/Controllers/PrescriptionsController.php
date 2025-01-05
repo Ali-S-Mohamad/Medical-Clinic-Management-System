@@ -7,6 +7,7 @@ use App\Models\MedicalFile;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PrescriptionFilterService;
 use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
@@ -15,18 +16,28 @@ class PrescriptionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    protected $prescriptionFilterService;
+
+    public function index(Request $request)
     {
-        $user=Auth::user();
-        if($user->hasRole('doctor')){
-            $prescriptions=Prescription::with('employee','appointment')
-                                    -> where('doctor_id',$user->employee->id)
-                                    -> paginate(3);
-        } elseif ($user->hasRole('Admin')){
+    // Retrive input values
+        $filters = $request->only(['search_name', 'medications_names']);
+        
+        $user = Auth::user();
+        $prescriptions = Prescription::with('employee', 'appointment');
+
+        if ($user->hasRole('doctor')) {
+            $prescriptions = $prescriptions->where('doctor_id', $user->employee->id);
+        } elseif ($user->hasRole('Admin')) {
             $prescriptions=Prescription::paginate(3);
         } else {
             return redirect()->back()->with('error', 'unauthorized access');
         }
+    
+        // filter
+        $prescriptions = $prescriptions->filterByMedication($filters['medications_names'] ?? '')
+                                        ->filterByPatientName($filters['search_name'] ?? '')
+                                        ->paginate(3);
         return view('prescriptions.index', compact('prescriptions'));
     }
     /**
@@ -45,7 +56,7 @@ class PrescriptionsController extends Controller
         $appointments = Appointment::with('patient')
             ->where('doctor_id', $doctorId)
             ->get();
-        return view('prescriptions.create');
+        return view('prescriptions.create', compact('appointments'));
     }
     /**
      * Store a newly created resource in storage.

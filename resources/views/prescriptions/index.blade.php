@@ -42,6 +42,28 @@
             </a>
         </div>
     </div>
+    {{-- for search --}}
+    <form action="{{ route('prescriptions.index') }}" method="GET">
+        <div class="row filter-row">
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Patient Name</label>
+                    <input type="text" name="search_name" class="form-control floating">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Medications name</label>
+                    <input type="text" name="medications_names" class="form-control floating">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <button type="submit" class="btn btn-success btn-block">
+                    <i class="icon-android-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="col-md-12">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -131,6 +153,12 @@
                 </div>
 
                 {{ $prescriptions->links()}}
+
+                <div class="m-t-20 text-left">
+                    <a href="{{ route('prescriptions.index') }}" class="btn btn-secondary mb-3" rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>
