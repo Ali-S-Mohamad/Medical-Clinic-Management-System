@@ -74,6 +74,7 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
     Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::delete('employees/force-delete/{id}', [EmployeeController::class, 'forceDelete'])->name('employees.forceDelete'); // الحذف النهائي
+    Route::resource('/employees', EmployeeController::class);
 
     //Define Patients Routes
     Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');

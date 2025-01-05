@@ -34,13 +34,13 @@ class DepartmentController extends Controller
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
         $department->save();
-    
+
         saveImage('Departments images', $request, $department);
-    
+
         return redirect()->route('departments.index');
     }
-    
-    
+
+
 
     /**
      * Display the specified resource.
@@ -69,7 +69,7 @@ class DepartmentController extends Controller
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
-        $department->save();    
+        $department->save();
 
         saveImage('Departments images', $request, $department);
 
@@ -107,7 +107,7 @@ class DepartmentController extends Controller
 
     public function forcedelete(string $id)
     {
-    $department = Department::withTrashed()->findOrFail($id); 
+    $department = Department::withTrashed()->findOrFail($id);
     $department->forceDelete(); // حذف نهائي
     return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
     }
