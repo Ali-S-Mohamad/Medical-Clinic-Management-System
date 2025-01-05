@@ -68,7 +68,6 @@ Edit Appointment
                             <input type="time" id="appointment_time" name="appointment_time" class="form-control"
                             value="{{ old('appointment_time', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('H:i') : '') }}">
                             </div>
-
                     <!-- Status -->
                     <div class="col-md-6">
                         <div class="form-group">
@@ -88,7 +87,6 @@ Edit Appointment
                     <textarea name="notes" cols="30" rows="4" class="form-control">{{ old('notes', $appointment->notes) }}</textarea>
                 </div>
 
-
                 <!-- Submit Button -->
                 <div class="m-t-20 text-center">
                     <button class="btn btn-primary submit-btn">Update Appointment</button>
@@ -105,4 +103,3 @@ Edit Appointment
 
 @section('scripts')
 @endsection
-

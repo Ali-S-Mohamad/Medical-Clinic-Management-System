@@ -14,6 +14,28 @@ class MedicalFile extends Model
     'diagnoses',
     ];
 
+    public static function boot()
+{
+    parent::boot();
+
+    static::deleting(function ($medicalFile) {
+        // Check if the deletion is a permanent (force) delete
+        if ($medicalFile->isForceDeleting()) {
+            // Permanently delete associated prescriptions
+            $medicalFile->prescriptions()->forceDelete();
+        } else {
+            // Soft delete associated prescriptions
+            $medicalFile->prescriptions()->delete();
+        }
+    });
+
+    static::restoring(function ($medicalFile) {
+        // Restore associated prescriptions when the medical file is restored
+        $medicalFile->prescriptions()->restore();
+    });
+}
+
+
 
     public function patient(){
         return $this->belongsTo(Patient::class);
@@ -37,7 +59,7 @@ class MedicalFile extends Model
         if (!empty($name)) {
             $query->whereHas('patient.user', function($userQuery) use ($name) {
                 $userQuery->where('name', 'LIKE', "%{$name}%");
-        
+
             });
         }
     }

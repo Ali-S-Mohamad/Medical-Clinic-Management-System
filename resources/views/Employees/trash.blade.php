@@ -75,7 +75,7 @@
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
-                                        </td>                                        
+                                        </td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
                                         <td>...</td>
@@ -88,7 +88,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm">Restore</button>
                                             </form>
-                                            <form action="{{ route('employees.hardDelete', $employee->id) }}" method="POST"
+                                            <form action="{{ route('employees.forceDelete', $employee->id) }}" method="POST"
                                                 style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')

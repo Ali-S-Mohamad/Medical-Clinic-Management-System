@@ -12,7 +12,7 @@ Home
 @section('content')
 <div class="container">
 <br><br><br>
-    <h1>Welcome to our clinic</h1>
+@extends('clinic.show')
 </div>
 
 @endsection
