@@ -58,7 +58,7 @@ class Prescription extends Model
         return $this->belongsTo(Department::class);
     }
 
-     // سكوب فلتر حسب اسم الدواء
+
      public function scopeFilterByMedication($query, $medication)
      {
          if (!empty($medication)) {
@@ -66,7 +66,7 @@ class Prescription extends Model
          }
      }
  
-     // سكوب فلتر حسب اسم المريض
+
      public function scopeFilterByPatientName($query, $patientName)
      {
          if (!empty($patientName)) {
