@@ -70,6 +70,8 @@ Route::middleware(['auth','patient'])->group(function () {
     //Define Appointments Routes
     Route::resource('/appointments', AppointmentController::class);
     Route::resource('/time-slots', TimeSlotController::class);
+    Route::patch('/time-slots/{id}/toggle-Availability', [TimeSlotController::class, 'toggleAvailability'])->name('time-slots.toggleAvailability');
+
 
 
 
@@ -101,7 +103,7 @@ Route::middleware(['auth','patient'])->group(function () {
     //Define Ratings Routes
     Route::resource('ratings', RatingController::class);
 
-    
+
     //Define Reports Routes
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 

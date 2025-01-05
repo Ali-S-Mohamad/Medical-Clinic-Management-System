@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TimeSlot;
 use App\Http\Requests\TimeSlotRequest;
+use App\Models\User;
 
 class TimeSlotController extends Controller
 {
@@ -20,7 +21,7 @@ class TimeSlotController extends Controller
             abort(403, 'You do not have permission to view time slots.');
         }
 
-        return view('time_slots.index', compact('timeSlots'));
+        return view('Timeslot.index', compact('timeSlots'));
     }
 
     /**
@@ -28,16 +29,17 @@ class TimeSlotController extends Controller
      */
     public function create()
     {
-        return view('time_slots.create');
+        $doctors = User::role('doctor')->get();
+        return view('Timeslot.create', compact('doctors'));
     }
-
+    
    /**
      * Store a newly created resource in storage.
      */
     public function store(TimeSlotRequest $request)
     {
         TimeSlot::create($request->validated());
-        return redirect()->route('time_slots.index')->with('success', 'Time Slot created successfully.');
+        return redirect()->route('time-slots.index')->with('success', 'Time Slot created successfully.');
     }
 
     /**
@@ -45,7 +47,7 @@ class TimeSlotController extends Controller
      */
     public function edit(TimeSlot $timeSlot)
     {
-        return view('time_slots.edit', compact('timeSlot'));
+        return view('time-slots.edit', compact('timeSlot'));
     }
 
 
@@ -58,6 +60,15 @@ class TimeSlotController extends Controller
 
         return redirect()->route('time_slots.index')->with('success', 'Time Slot updated successfully.');
     }
+    public function toggleAvailability($id)
+    {
+    $timeSlot = TimeSlot::findOrFail($id);
+    $timeSlot->is_available = !$timeSlot->is_available;
+    $timeSlot->save();
+
+    return redirect()->route('time-slots.index')->with('success', 'time slot availability updated successfully.');
+}
+
 
 
     /**
