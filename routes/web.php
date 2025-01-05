@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DashboardController;
@@ -76,7 +77,13 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::post('employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
     Route::get('employees/trash', [EmployeeController::class, 'trash'])->name('employees.trash');
     Route::delete('employees/force-delete/{id}', [EmployeeController::class, 'forceDelete'])->name('employees.forceDelete'); // الحذف النهائي
-    Route::resource('/employees', EmployeeController::class);
+    Route::resource('employees', EmployeeController::class);
+
+
+    //Define Users Routes
+    Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
+    Route::resource('users', UserController::class);
+
 
     //Define Patients Routes
     Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
@@ -87,13 +94,15 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:Admin');;
 
 
+    //Define ClinicInfo Routes
+    Route::resource('clinic', ClinicInfoController::class);
 
-//Define Ratings Routes
-Route::resource('ratings', RatingController::class);
 
+    //Define Ratings Routes
+    Route::resource('ratings', RatingController::class);
 
-//Define ClinicInfo Routes
-Route::resource('clinic', ClinicInfoController::class);
-
+    
+    //Define Reports Routes
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
 });

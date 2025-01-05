@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\ClinicInfo;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,8 @@ class HomeController extends Controller
         //     $reminderTime->format('Y-m-d H:i:59')
         // ])->get();
         // dd($appointments);
-        return view('temp');
+        $clinic = ClinicInfo::first();
+        return view('clinic.show', compact('clinic'));
+        // return view('temp');
     }
 }
