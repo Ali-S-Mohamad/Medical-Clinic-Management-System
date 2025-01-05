@@ -71,29 +71,6 @@
                             <i class="fa fa-pencil m-r-5"></i> Edit
                             </a>
 
-<<<<<<< HEAD
-                                                        <form action="{{ route('departments.destroy', $department->id) }}"
-                                                            method="POST" style="display: inline-block; margin: 0;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                style="padding: 2px 6px; font-size: 0.9rem; display: inline-block;">
-                                                                <i class="fa fa-trash-o"
-                                                                    style="font-size: 0.8rem; margin-right: 3px;"></i> Trash
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                        @endforeach
-                                        </tr>
-                                    </tbody>
-                                </table>
-                        </div>
-                    </div>
-
-                    {{ $departments->links() }}
-                @endsection
-=======
                             <form action="{{ route('departments.destroy', $department->id) }}" method="POST" style="display: inline-block; margin: 0;">
                              @csrf
                              @method('DELETE')
@@ -114,7 +91,6 @@
    
     {{ $departments->links() }}
 @endsection
->>>>>>> 01815d7227759104f28558c6eb68fe5ff4a744a8
 
 
 @section('scripts')
