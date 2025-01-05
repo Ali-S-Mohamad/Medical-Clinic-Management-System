@@ -45,7 +45,7 @@ class PrescriptionsController extends Controller
         $appointments = Appointment::with('patient')
             ->where('doctor_id', $doctorId)
             ->get();
-        return view('prescriptions.create',compact('appointments'));
+        return view('prescriptions.create', compact('appointments'));
     }
     /**
      * Store a newly created resource in storage.
