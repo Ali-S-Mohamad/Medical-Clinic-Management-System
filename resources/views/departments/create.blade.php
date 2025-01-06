@@ -62,9 +62,11 @@
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Create Department</button>
                     </div>
-                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
-                        <i class="fa fa-arrow-left mr-2"></i> Back
-                    </a>
+                    <div class="m-t-20 text-center">
+                        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back</a>
+                    </div>
+
                 </form>
             </div>
         </div>

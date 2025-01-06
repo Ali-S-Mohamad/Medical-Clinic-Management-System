@@ -27,7 +27,7 @@ Edit Department
                      <div style="display: flex; align-items: center;">
                         @if($department->image)
                     <!-- If there is an image, display it -->
-                      <img id="thumbnail" src="{{ asset('storage/' . $department->image->image_path) }}" 
+                      <img id="thumbnail" src="{{ asset('storage/' . $department->image->image_path) }}"
                       style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
                        @else
                        <!-- If there is no image, display the upload icon -->
@@ -38,7 +38,7 @@ Edit Department
                      </div>
                     </div>
                    </div>
-                   {{-- end  of image section --}} 
+                   {{-- end  of image section --}}
                     <div class="form-group">
                         <label>Department Name</label>
                         <input class="form-control" name="name" type="text" value="{{ $department->name }}">
@@ -60,25 +60,29 @@ Edit Department
                             <label class="form-check-label" for="product_inactive">Inactive</label>
                         </div>
                     </div>
-                    <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-save mr-1"></i> Save Changes
-                        </button>
-                        <a href="javascript:history.back()" class="btn btn-secondary">
-                            <i class="fa fa-arrow-left mr-1"></i> Back
-                        </a>
+{{-- <<<<<<<<< Temporary merge branch 1 --}}
+                    {{-- <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                    <i class="fa fa-arrow-left mr-2"></i> Back
+                </a>
+                <a href="{{ route('departments.create', $department->id) }}" class="btn btn-primary mb-3" rel="prev">
+                    <i class="fa fa-pencil m-r-5"></i> Add department
+                </a> --}}
+
+                    <div class="m-t-20 text-center">
+                        <button class="btn btn-primary submit-btn">Save Department</button>
                     </div>
                     <div class="m-t-20 text-center">
                         <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
-                   
+
+
                 </form>
             </div>
         </div>
     </div>
-      
+
 @endsection
 
 @section('scripts')
@@ -120,7 +124,7 @@ Edit Department
                                 thumbnail.style.cursor = 'pointer';
                                 thumbnail.style.borderRadius = '50%';
                                 uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
-                                
+
                                 // add image click event on the new image
                                 thumbnail.addEventListener('click', function() {
                                     photoInput.click();
@@ -129,7 +133,7 @@ Edit Department
                         };
                         reader.readAsDataURL(file);
                     }
-                                
+
                 });
             });
 </script>

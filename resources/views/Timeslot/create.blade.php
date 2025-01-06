@@ -22,11 +22,11 @@
                     <div class="form-group">
                         <label for="doctor_id">Doctor</label>
                         <select name="doctor_id" class="form-control" required>
-                             <option value="">Select Doctor</option>
-                             @foreach($doctors as $doctor)
-                         <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                         @endforeach
-                        </select>
+                        <option value="">Select Doctor</option>
+                        @foreach($doctors as $employee)
+                        <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
+                        @endforeach
+                    </select>
                     </div>
 
                     {{-- Day of the Week --}}

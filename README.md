@@ -97,6 +97,9 @@ Route::get('/testr', function() {
 لعدل:
 git add .
 git commit -m "emplyees CRUD"
+git pull origin main
+حل التعارضاتت وبرجع لأول وتاني تعليمة بس
+
 git push origin alaa
 pull request from git website
 

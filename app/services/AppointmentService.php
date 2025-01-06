@@ -88,10 +88,10 @@ class AppointmentService
     
 
     //A function that updates the reservation logic
-    public function updateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate , $status, $notes)
+    public function updateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes)
     {
         $appointmentStart = strtotime($appointmentDate);
-
+    
         // Verify that the appointment is not in the past
         if ($appointmentStart < time()) {
             return [
@@ -99,7 +99,7 @@ class AppointmentService
                 'message' => 'Cannot update an appointment to a time in the past.'
             ];
         }
-
+    
         // Retrieve the doctor's time slot for the specified day and time
         $dayOfWeek = date('w', $appointmentStart);
         $timeSlot = TimeSlot::where('doctor_id', $doctorId)
@@ -107,27 +107,38 @@ class AppointmentService
             ->where('is_available', true)
             ->whereRaw('TIME(?) BETWEEN start_time AND end_time', [date('H:i:s', $appointmentStart)])
             ->first();
-
+    
         if (!$timeSlot) {
             return [
                 'success' => false,
                 'message' => 'The selected time does not fall within the doctor\'s available time slots.'
             ];
         }
-
+    
+        // Calculate the end time based on the slot duration
         $slotDuration = $timeSlot->slot_duration * 60; // Convert duration to seconds
         $appointmentEnd = $appointmentStart + $slotDuration;
-
+    
+        // Ensure the appointment start time is not equal to the end time of the time slot
+        if (date('H:i:s', $appointmentStart) === $timeSlot->end_time) {
+            return [
+                'success' => false,
+                'message' => 'Cannot update an appointment at the end of the doctor\'s working hours.'
+            ];
+        }
+    
         // Check for overlapping appointments (scheduled status only), excluding the current appointment
         $overlapExists = Appointment::where('doctor_id', $doctorId)
             ->where('status', 'scheduled') // Only consider scheduled appointments
             ->where('id', '!=', $appointmentId) // Exclude the current appointment
             ->where(function ($query) use ($appointmentStart, $appointmentEnd) {
                 $query
+                    // Case 1: Existing appointment starts during the new appointment
                     ->whereBetween('appointment_date', [
                         date('Y-m-d H:i:s', $appointmentStart),
                         date('Y-m-d H:i:s', $appointmentEnd - 1) // End is exclusive
                     ])
+                    // Case 2: New appointment starts during an existing appointment
                     ->orWhereRaw('DATE_ADD(appointment_date, INTERVAL ? SECOND) > ? AND appointment_date <= ?', [
                         $appointmentEnd - $appointmentStart,
                         date('Y-m-d H:i:s', $appointmentStart),
@@ -135,86 +146,86 @@ class AppointmentService
                     ]);
             })
             ->exists();
-
+    
         if ($overlapExists) {
             return [
                 'success' => false,
                 'message' => 'The selected time slot overlaps with another scheduled appointment.'
             ];
         }
-
+    
         // Update the appointment
         $appointment = Appointment::findOrFail($appointmentId);
         $appointment->update([
             'patient_id' => $patientId,
             'doctor_id' => $doctorId,
             'appointment_date' => date('Y-m-d H:i:s', $appointmentStart),
-            'status' => $status,      
-            'notes' => $notes      
+            'status' => $status,
+            'notes' => $notes
         ]);
-
+    
         return [
             'success' => true,
             'appointment' => $appointment
         ];
     }
-
-    public function getAvailableSlots($doctorId, $date)
-    {
-        $dayOfWeek = date('w', strtotime($date)); // استخراج اليوم
     
-        // استرجاع الفترات الزمنية المتاحة للطبيب
-        $timeSlots = TimeSlot::where('doctor_id', $doctorId)
-            ->where('day_of_week', $dayOfWeek)
-            ->where('is_available', true)
-            ->get();
+    // public function getAvailableSlots($doctorId, $date)
+    // {
+    //     $dayOfWeek = date('w', strtotime($date)); // استخراج اليوم
     
-        // استرجاع المواعيد المحجوزة (فقط المواعيد ذات الحالة "scheduled")
-        $bookedAppointments = Appointment::where('doctor_id', $doctorId)
-            ->whereDate('appointment_date', $date)
-            ->where('status', 'scheduled') // استبعاد المواعيد غير المجدولة
-            ->pluck('appointment_date');
+    //     // استرجاع الفترات الزمنية المتاحة للطبيب
+    //     $timeSlots = TimeSlot::where('doctor_id', $doctorId)
+    //         ->where('day_of_week', $dayOfWeek)
+    //         ->where('is_available', true)
+    //         ->get();
     
-        $availableSlots = [];
+    //     // استرجاع المواعيد المحجوزة (فقط المواعيد ذات الحالة "scheduled")
+    //     $bookedAppointments = Appointment::where('doctor_id', $doctorId)
+    //         ->whereDate('appointment_date', $date)
+    //         ->where('status', 'scheduled') // استبعاد المواعيد غير المجدولة
+    //         ->pluck('appointment_date');
     
-        foreach ($timeSlots as $slot) {
-            $startTime = strtotime($slot->start_time);
-            $endTime = strtotime($slot->end_time);
-            $slotDuration = $slot->slot_duration * 60; // تحويل المدة إلى ثوانٍ
+    //     $availableSlots = [];
     
-            while ($startTime + $slotDuration <= $endTime) {
-                $proposedStart = date('H:i:s', $startTime);
-                $proposedEnd = date('H:i:s', $startTime + $slotDuration);
+    //     foreach ($timeSlots as $slot) {
+    //         $startTime = strtotime($slot->start_time);
+    //         $endTime = strtotime($slot->end_time);
+    //         $slotDuration = $slot->slot_duration * 60; // تحويل المدة إلى ثوانٍ
     
-                // تحقق مما إذا كانت الفترة الزمنية متاحة
-                $isAvailable = true;
+    //         while ($startTime + $slotDuration <= $endTime) {
+    //             $proposedStart = date('H:i:s', $startTime);
+    //             $proposedEnd = date('H:i:s', $startTime + $slotDuration);
     
-                foreach ($bookedAppointments as $appointmentDateTime) {
-                    $appointmentStart = strtotime($appointmentDateTime);
-                    $appointmentEnd = $appointmentStart + $slotDuration;
+    //             // تحقق مما إذا كانت الفترة الزمنية متاحة
+    //             $isAvailable = true;
     
-                    if (
-                        ($startTime >= $appointmentStart && $startTime < $appointmentEnd) || 
-                        ($startTime + $slotDuration > $appointmentStart && $startTime + $slotDuration <= $appointmentEnd)
-                    ) {
-                        $isAvailable = false;
-                        break;
-                    }
-                }
+    //             foreach ($bookedAppointments as $appointmentDateTime) {
+    //                 $appointmentStart = strtotime($appointmentDateTime);
+    //                 $appointmentEnd = $appointmentStart + $slotDuration;
     
-                if ($isAvailable) {
-                    $availableSlots[] = [
-                        'start_time' => $proposedStart,
-                        'end_time' => $proposedEnd,
-                    ];
-                }
+    //                 if (
+    //                     ($startTime >= $appointmentStart && $startTime < $appointmentEnd) || 
+    //                     ($startTime + $slotDuration > $appointmentStart && $startTime + $slotDuration <= $appointmentEnd)
+    //                 ) {
+    //                     $isAvailable = false;
+    //                     break;
+    //                 }
+    //             }
     
-                $startTime += $slotDuration; // الانتقال إلى الفترة الزمنية التالية
-            }
-        }
+    //             if ($isAvailable) {
+    //                 $availableSlots[] = [
+    //                     'start_time' => $proposedStart,
+    //                     'end_time' => $proposedEnd,
+    //                 ];
+    //             }
     
-        return $availableSlots;
-    }
+    //             $startTime += $slotDuration; // الانتقال إلى الفترة الزمنية التالية
+    //         }
+    //     }
+    
+    //     return $availableSlots;
+    // }
     
 
 }

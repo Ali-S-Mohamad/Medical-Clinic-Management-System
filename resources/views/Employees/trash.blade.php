@@ -75,7 +75,7 @@
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
                                             <h2>{{ $employee->user->name }}</h2>
-                                        </td>                                        
+                                        </td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
                                         <td>...</td>

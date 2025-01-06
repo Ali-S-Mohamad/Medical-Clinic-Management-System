@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             LanguageSeeder::class,
             EmployeeLanguageSeeder::class,
+            ClinicInfoSeeder::class
         ]);
     }
 }

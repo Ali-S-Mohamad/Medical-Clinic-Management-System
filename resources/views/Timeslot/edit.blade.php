@@ -16,21 +16,21 @@
         </div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <form action="{{ route('time-slots.update', $timeSlot->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('time-slots.update', $timeSlot->id) }}" method="post">
                     @csrf
-                    @method('PUT') <!-- لتحديد أن هذه عملية تحديث -->
+                    @method('PUT') 
                     
                     {{-- Doctor Section --}}
                     <div class="form-group">
                         <label for="doctor_id">Doctor</label>
                         <select name="doctor_id" class="form-control" required>
-                             <option value="">Select Doctor</option>
-                             @foreach($doctors as $doctor)
-                                 <option value="{{ $doctor->id }}" {{ $doctor->id == $timeSlot->doctor_id ? 'selected' : '' }}>
-                                     {{ $doctor->name }}
-                                 </option>
+                            <option value="">Select Doctor</option>
+                            @foreach($doctors as $employee)
+                            <option value="{{ $employee->id }}" {{ $employee->id == $timeSlot->doctor_id ? 'selected' : '' }}>
+                                   {{ $employee->user->name }}
+                            </option>
                              @endforeach
-                        </select>
+                            </select>
                     </div>
 
                     {{-- Day of the Week --}}
@@ -94,7 +94,4 @@
 @endsection
 
 @section('scripts')
-    <script>
-        // Additional JavaScript for interactions if needed
-    </script>
 @endsection

@@ -9,6 +9,22 @@
 @endsection
 
 @section('content')
+@if(session('error'))
+    <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <div class="content">
         <div class="row">
             <div class="col-sm-4 col-3">
@@ -56,11 +72,17 @@
 
                                     <td class="text-right">
                                         <div class="action-buttons" style="white-space: nowrap;">
-                                            <a class="btn btn-sm btn-primary"
-                                                href="{{ route('appointments.edit', $appointment->id) }}"
-                                                style="display: inline-block; margin-right: 5px;">
-                                                <i class="fa fa-pencil m-r-5"></i> Edit
-                                            </a>
+                                            <a class="btn btn-sm
+                                             {{ ($appointment->status === 'completed' || $appointment->status === 'canceled') ?
+                                             'btn-secondary disabled' : 'btn-primary' }}"
+                                             href="{{ ($appointment->status === 'completed' || $appointment->status === 'cancelled') ? '#' :
+                                              route('appointments.edit', $appointment->id) }}"
+                                             style="display: inline-block; margin-right: 5px;
+                                             {{ ($appointment->status === 'completed' && $appointment->status === 'cancelled')
+                                              ? 'pointer-events: none; color: #6c757d;' : '' }}">
+                                             <i class="fa fa-pencil m-r-5"></i> Edit
+                                         </a>
+                                         
                                             <a class="btn btn-sm btn-info"
                                                 href="{{ route('appointments.show', $appointment->id) }}"
                                                 style="display: inline-block; margin-right: 5px;">
@@ -82,7 +104,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    
+
                     {{ $appointments->links()}}
                     <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> <i
                             class="fa fa-arrow-left mr-2"></i>Back</a>

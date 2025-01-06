@@ -48,7 +48,7 @@
                         <i class="fa fa-pencil m-r-5"></i> Edit
                     </a>
                 </div>
-            </div></center>  
+            </div></center>
         </div>
     </div>
 @endsection
