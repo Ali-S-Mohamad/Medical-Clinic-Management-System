@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Appointment;
 use App\Models\TimeSlot;
+use Carbon\Carbon;
 
 class AppointmentService
 {
@@ -169,64 +170,51 @@ class AppointmentService
             'appointment' => $appointment
         ];
     }
+
+    //A function that displays the available times for each doctor on a specific date
+    public function getAvailableSlots($doctorId, $dayOfWeek, $date)
+    {
+        // Retrieve the time slot details for the specified doctor and day of the week
+        $timeSlot = TimeSlot::where('doctor_id', $doctorId)
+            ->where('day_of_week', $dayOfWeek)
+            ->where('is_available', true) // Only get available slots
+            ->first();
     
-    // public function getAvailableSlots($doctorId, $date)
-    // {
-    //     $dayOfWeek = date('w', strtotime($date)); // استخراج اليوم
+        // If no time slot is found for the given doctor and day, return an empty array
+        if (!$timeSlot) {
+            return []; 
+        }
     
-    //     // استرجاع الفترات الزمنية المتاحة للطبيب
-    //     $timeSlots = TimeSlot::where('doctor_id', $doctorId)
-    //         ->where('day_of_week', $dayOfWeek)
-    //         ->where('is_available', true)
-    //         ->get();
+        // Parse the start and end time from the time slot
+        $startTime = Carbon::parse($timeSlot->start_time); // Start time as a Carbon object
+        $endTime = Carbon::parse($timeSlot->end_time); // End time as a Carbon object
+        $slotDuration = $timeSlot->slot_duration; // Duration of each time slot in minutes
     
-    //     // استرجاع المواعيد المحجوزة (فقط المواعيد ذات الحالة "scheduled")
-    //     $bookedAppointments = Appointment::where('doctor_id', $doctorId)
-    //         ->whereDate('appointment_date', $date)
-    //         ->where('status', 'scheduled') // استبعاد المواعيد غير المجدولة
-    //         ->pluck('appointment_date');
+        // Initialize an array to hold all available time slots
+        $allSlots = [];
+        // Loop through the available time slots from start time to end time
+        while ($startTime->lt($endTime)) {
+            $allSlots[] = $startTime->format('H:i'); // Add the current time slot to the array
+            $startTime->addMinutes($slotDuration); // Increment start time by the slot duration
+        }
     
-    //     $availableSlots = [];
+        // Retrieve all appointments for the given doctor on the specified date
+        $appointments = Appointment::where('doctor_id', $doctorId)
+            ->whereDate('appointment_date', $date) // Filter by the exact date
+            ->whereIn('status', ['scheduled', 'completed']) // Exclude cancelled appointments
+            ->get();
     
-    //     foreach ($timeSlots as $slot) {
-    //         $startTime = strtotime($slot->start_time);
-    //         $endTime = strtotime($slot->end_time);
-    //         $slotDuration = $slot->slot_duration * 60; // تحويل المدة إلى ثوانٍ
+        // Map the appointments to their respective start times (in HH:mm format)
+        $bookedSlots = $appointments->map(function ($appointment) {
+            return Carbon::parse($appointment->appointment_date)->format('H:i');
+        })->toArray();
     
-    //         while ($startTime + $slotDuration <= $endTime) {
-    //             $proposedStart = date('H:i:s', $startTime);
-    //             $proposedEnd = date('H:i:s', $startTime + $slotDuration);
+        // Find the available slots by excluding the booked slots from all slots
+        $availableSlots = array_diff($allSlots, $bookedSlots);
     
-    //             // تحقق مما إذا كانت الفترة الزمنية متاحة
-    //             $isAvailable = true;
-    
-    //             foreach ($bookedAppointments as $appointmentDateTime) {
-    //                 $appointmentStart = strtotime($appointmentDateTime);
-    //                 $appointmentEnd = $appointmentStart + $slotDuration;
-    
-    //                 if (
-    //                     ($startTime >= $appointmentStart && $startTime < $appointmentEnd) || 
-    //                     ($startTime + $slotDuration > $appointmentStart && $startTime + $slotDuration <= $appointmentEnd)
-    //                 ) {
-    //                     $isAvailable = false;
-    //                     break;
-    //                 }
-    //             }
-    
-    //             if ($isAvailable) {
-    //                 $availableSlots[] = [
-    //                     'start_time' => $proposedStart,
-    //                     'end_time' => $proposedEnd,
-    //                 ];
-    //             }
-    
-    //             $startTime += $slotDuration; // الانتقال إلى الفترة الزمنية التالية
-    //         }
-    //     }
-    
-    //     return $availableSlots;
-    // }
-    
+        // Return the available slots (resetting the array keys)
+        return array_values($availableSlots); 
+    }  
 
 }
 
