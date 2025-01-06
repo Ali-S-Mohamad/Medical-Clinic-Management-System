@@ -18,11 +18,10 @@
             <div class="col-lg-8 offset-lg-2">
                 <form action="{{ route('time-slots.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
-
                     {{-- Doctor Section --}}
                     <div class="form-group">
                         <label for="doctor_id">Doctor</label>
-                        <select name="employee_id" class="form-control" required>
+                        <select name="doctor_id" class="form-control" required>
                              <option value="">Select Doctor</option>
                              @foreach($doctors as $doctor)
                          <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
@@ -35,13 +34,13 @@
                         <label for="day_of_week">Day of Week</label>
                         <select required name="day_of_week" id="day_of_week" class="form-control">
                             <option value="">Select Day</option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
                         </select>
                     </div>
 

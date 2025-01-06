@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TimeSlot;
 use App\Http\Requests\TimeSlotRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class TimeSlotController extends Controller
 {
@@ -47,7 +48,8 @@ class TimeSlotController extends Controller
      */
     public function edit(TimeSlot $timeSlot)
     {
-        return view('time-slots.edit', compact('timeSlot'));
+        $doctors = User::role('doctor')->get();
+        return view('Timeslot.edit', compact('timeSlot' ,'doctors'));
     }
 
 
@@ -57,9 +59,9 @@ class TimeSlotController extends Controller
     public function update(TimeSlotRequest $request, TimeSlot $timeSlot)
     {
         $timeSlot->update($request->validated());
-
-        return redirect()->route('time_slots.index')->with('success', 'Time Slot updated successfully.');
+        return redirect()->route('time-slots.index')->with('success', 'Time Slot updated successfully.');
     }
+
     public function toggleAvailability($id)
     {
     $timeSlot = TimeSlot::findOrFail($id);

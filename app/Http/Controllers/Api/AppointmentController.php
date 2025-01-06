@@ -62,4 +62,20 @@ class AppointmentController extends Controller
         $appointments = $patient->appointments()->orderBy('appointment_date', 'desc')->get();
         return $this->apiResponse($appointments, 'Appointments retrieved successfully.', 200);
     }
+
+    // public function getAvailableSlots(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'doctor_id' => 'required|exists:employees,id',
+    //         'date' => 'required|date',
+    //     ]);
+    
+    //     $doctorId = $validatedData['doctor_id'];
+    //     $date = $validatedData['date'];
+    
+    //     // استدعاء الخدمة
+    //     $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $date);
+    
+    //     return response()->json(['available_slots' => $availableSlots]);
+    // }
 }
