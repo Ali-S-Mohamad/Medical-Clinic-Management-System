@@ -2,7 +2,9 @@
 
 
 use App\Models\ClinicInfo;
+use App\Exports\PatientsExport;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
@@ -11,13 +13,13 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClinicInfoController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalFilesController;
 use App\Http\Controllers\PrescriptionsController;
-use App\Http\Controllers\TimeSlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,9 @@ use App\Http\Controllers\TimeSlotController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+// Route::get('/export-patients', function () {
+//     return Excel::download(new PatientsExport, 'patients.xlsx');
+// });
 
 Auth::routes();
 

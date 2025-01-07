@@ -22,7 +22,7 @@ class PrescriptionsController extends Controller
     {
     // Retrive input values
         $filters = $request->only(['search_name', 'medications_names']);
-        
+
         $user = Auth::user();
         $prescriptions = Prescription::with('employee', 'appointment');
 
@@ -33,11 +33,11 @@ class PrescriptionsController extends Controller
         } else {
             return redirect()->back()->with('error', 'unauthorized access');
         }
-    
+
         // filter
-        $prescriptions = $prescriptions->filterByMedication($filters['medications_names'] ?? '')
-                                        ->filterByPatientName($filters['search_name'] ?? '')
-                                        ->paginate(3);
+        // $prescriptions = $prescriptions->filterByMedication($filters['medications_names'] ?? '')
+        //                                 ->filterByPatientName($filters['search_name'] ?? '')
+        //                                 ->paginate(3);
         return view('prescriptions.index', compact('prescriptions'));
     }
     /**

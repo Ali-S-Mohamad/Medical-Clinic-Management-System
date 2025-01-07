@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Traits\ApiResponse;
-use App\Models\Department;
-use App\Models\Employee;
-use App\Models\Patient;
 use App\Models\User;
+use App\Models\Patient;
+use App\Models\Employee;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Http\Traits\ApiResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorsResource;
+use App\Http\Resources\DepartmentsResource;
 
 
 class PatientController extends Controller
@@ -51,7 +53,7 @@ class PatientController extends Controller
      */
     public function getActiveDepartments(){
         $activeDepartments = Department::active()->get();
-        return $this->apiResponse($activeDepartments, 'Active Departments retrieved successfully.', 200);
+        return $this->apiResponse(DepartmentsResource::collection($activeDepartments), 'Active Departments retrieved successfully.', 200);
     }
     public function getAvailableDoctorsInDepartment($departmentId){
 
@@ -59,8 +61,6 @@ class PatientController extends Controller
                 ->whereHas('employee',function ($query) use ($departmentId) {
                                 $query->where('department_id', $departmentId);
                             })->get();
-        return $this->apiResponse($availableDoctors, 'Active Doctors retrieved successfully.', 200);
+        return $this->apiResponse(DoctorsResource::collection($availableDoctors), 'Active Doctors retrieved successfully.', 200);
     }
-
-
 }
