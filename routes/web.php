@@ -106,5 +106,7 @@ Route::middleware(['auth','patient'])->group(function () {
 
     //Define Reports Routes
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/export-reports', [ReportController::class, 'export'])->name('reports.export');
+   
 
 });

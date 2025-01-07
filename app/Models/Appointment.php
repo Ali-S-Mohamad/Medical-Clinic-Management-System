@@ -35,5 +35,15 @@ class Appointment extends Model
          return $this->belongsTo(TimeSlot::class);
     }
 
-    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($appointment) {
+            if ($appointment->isDirty('status') && $appointment->status === 'completed') {
+                // استدعاء دالة storeReport عند تغيير الحالة إلى completed
+                app(ReportController::class)->storeReport($appointment);
+            }
+        });
+    }
 }

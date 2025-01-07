@@ -22,12 +22,16 @@
                     <div class="form-group">
                         <label class="nb-2" for="appointment_id">Choose Patient: </label>
                         <select class="form-control" name="appointment_id" id="appointment_id" required>
+                            @if($appointments->isEmpty())
+                            <option value=""> You don't have appointments</option>
+                        @else
                             @foreach ($appointments as $appointment)
                                 <option value="" disabled selected hidden>select Patient</option>
                                 <option value="{{ $appointment->id }}">
                                     {{ $appointment->patient->user->name }} - {{ $appointment->appointment_date }}
                                 </option>
                             @endforeach
+                        @endif
                         </select>
                     </div>
                     <div class="form-group">

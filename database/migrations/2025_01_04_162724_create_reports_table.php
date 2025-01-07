@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('patient_name'); //من الموعد
             $table->string('doctor_name'); //من الموعد
             $table->date('appointment_date'); //من الموعد
+            $table->text('medications_names')->nullable();
             $table->text('instructions'); //من الوصفات
             $table->text('details')->nullable(); //من الوصفات
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

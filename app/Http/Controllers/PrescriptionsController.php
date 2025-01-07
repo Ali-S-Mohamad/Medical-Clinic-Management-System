@@ -7,7 +7,7 @@ use App\Models\MedicalFile;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\PrescriptionFilterService;
+//use App\Services\PrescriptionFilterService;
 use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
@@ -16,30 +16,34 @@ class PrescriptionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    protected $prescriptionFilterService;
-
     public function index(Request $request)
     {
-    // Retrive input values
+        // Retrieve input values
         $filters = $request->only(['search_name', 'medications_names']);
         
         $user = Auth::user();
         $prescriptions = Prescription::with('employee', 'appointment');
-
-        if ($user->hasRole('doctor')) {
+        if ($user->hasRole('doctor')) 
+        {
             $prescriptions = $prescriptions->where('doctor_id', $user->employee->id);
-        } elseif ($user->hasRole('Admin')) {
-            $prescriptions=Prescription::paginate(3);
+        } elseif ($user->hasRole('Admin'))
+        {
+        $prescriptions=Prescription::paginate(3);
         } else {
             return redirect()->back()->with('error', 'unauthorized access');
         }
     
-        // filter
-        $prescriptions = $prescriptions->filterByMedication($filters['medications_names'] ?? '')
-                                        ->filterByPatientName($filters['search_name'] ?? '')
-                                        ->paginate(3);
+        // Apply filters 
+        if (!empty($filters['medications_names'])) {
+            $prescriptions = $prescriptions->filterByMedication($filters['medications_names']);
+        }
+        if (!empty($filters['search_name'])) {
+            $prescriptions = $prescriptions->filterByPatientName($filters['search_name']);
+        }
+        $prescriptions = $prescriptions->paginate(3);
+    
         return view('prescriptions.index', compact('prescriptions'));
-    }
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -55,6 +59,7 @@ class PrescriptionsController extends Controller
 
         $appointments = Appointment::with('patient')
             ->where('doctor_id', $doctorId)
+            ->where('status', 'scheduled')
             ->get();
         return view('prescriptions.create', compact('appointments'));
     }
@@ -91,6 +96,7 @@ class PrescriptionsController extends Controller
     {
         return view('prescriptions.show', compact('prescription'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
