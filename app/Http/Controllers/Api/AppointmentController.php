@@ -27,39 +27,62 @@ class AppointmentController extends Controller
         // Verify that the current user is a patient
         $patient = $user->patient;
         if (!$patient) {
-            return $this->apiResponse(null, 'User is not associated with a patient.', 403);
+            // Use errorResponse from ApiResponse trait
+            return $this->errorResponse('User is not associated with a patient.', 403);
         }
-
+    
         // Combine appointment date and time
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
-
-        // use appointmentService
+    
+        // Use appointmentService
         $response = $this->appointmentService->bookAppointment(
             $patient->id, 
             $request->doctor_id, 
             $appointmentDateTime
         );
-
+    
         if ($response['success']) {
-            return $this->apiResponse([$response['appointment']], 'Appointment created successfully.', 201);
+            // Use successResponse from ApiResponse trait
+            return $this->successResponse([$response['appointment']], 'Appointment created successfully.', 201);
         }
-
-        return $this->apiResponse(null, $response['message'], 409);
+    
+        // Use errorResponse for failure
+        return $this->errorResponse($response['message'], 409);
     }
-
+    
     // Display appointments belonging to the patient
     public function myAppointments(Request $request)
     {
         $user = $request->user();
-
+    
         // Verify that the current user is a patient
         $patient = $user->patient;
         if (!$patient) {
-            return $this->apiResponse(null, 'User is not associated with a patient.', 403);
+            // Use errorResponse from ApiResponse trait
+            return $this->errorResponse('User is not associated with a patient.', 403);
         }
-
+    
         // Retrieve appointments associated with the patient
         $appointments = $patient->appointments()->orderBy('appointment_date', 'desc')->get();
-        return $this->apiResponse($appointments, 'Appointments retrieved successfully.', 200);
+    
+        // Use successResponse from ApiResponse trait
+        return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
+    }    
+
+    public function getAvailableSlots(Request $request, $doctorId, $dayOfWeek)
+    {
+        // Receipt date of customer order
+        $date = $request->query('date');
+    
+        if (!$date) {
+            // Return an error response using the errorResponse method from ApiResponse trait
+            return $this->errorResponse('Date is required.', 400);
+        }
+    
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $date);
+    
+        // Return a success response with the available slots data using successResponse
+        return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
+    
 }
