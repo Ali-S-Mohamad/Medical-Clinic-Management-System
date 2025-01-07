@@ -39,41 +39,43 @@ class Prescription extends Model
                 $medicalFile->forceDelete();
             }
         });
-    
-}
-
-    public function employee(){
-        return $this->belongsTo(Employee::class,'doctor_id');
     }
 
-    public function medicalFile(){
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'doctor_id');
+    }
+
+    public function medicalFile()
+    {
         return $this->belongsTo(MedicalFile::class);
     }
 
-    public function appointment(){
+    public function appointment()
+    {
         return $this->belongsTo(Appointment::class, 'appointment_id');
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
 
-     public function scopeFilterByMedication($query, $medication)
-     {
-         if (!empty($medication)) {
-             $query->where('medications_names', 'LIKE', "%{$medication}%");
-         }
-     }
- 
+    public function scopeFilterByMedication($query, $medication)
+    {
+        if (!empty($medication)) {
+            $query->where('medications_names', 'LIKE', "%{$medication}%");
+        }
+    }
 
-     public function scopeFilterByPatientName($query, $patientName)
-     {
-         if (!empty($patientName)) {
-             $query->whereHas('medicalFile.patient.user', function ($query) use ($patientName) {
-                 $query->where('name', 'LIKE', "%{$patientName}%");
-             });
-         }
-     }
- }
 
+    public function scopeFilterByPatientName($query, $patientName)
+    {
+        if (!empty($patientName)) {
+            $query->whereHas('medicalFile.patient.user', function ($query) use ($patientName) {
+                $query->where('name', 'LIKE', "%{$patientName}%");
+            });
+        }
+    }
+}
