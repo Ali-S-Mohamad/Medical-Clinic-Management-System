@@ -61,7 +61,7 @@ class EmployeeController extends Controller
 
         $employee->languages()->sync($request->languages_ids);
 
-        saveImage('Employees images', $request, $employee);
+        saveImage('Employees images', $request, $employee->user);
 
         $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
         $employee->cv_path=$cvFilePath;
@@ -85,7 +85,7 @@ class EmployeeController extends Controller
         ]);
 
 
-        saveImage('Employees images', $request, $employee);
+        saveImage('Employees images', $request, $employee->user);
         $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
