@@ -7,7 +7,6 @@ use App\Models\MedicalFile;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use App\Services\PrescriptionFilterService;
 use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
@@ -20,30 +19,25 @@ class PrescriptionsController extends Controller
     {
         // Retrieve input values
         $filters = $request->only(['search_name', 'medications_names']);
-
-        $user = Auth::user();
+        
+        // Start the query with the necessary relationships
         $prescriptions = Prescription::with('employee', 'appointment');
-        if ($user->hasRole('doctor')) 
-        {
-            $prescriptions = $prescriptions->where('doctor_id', $user->employee->id);
-        } elseif ($user->hasRole('Admin'))
-        {
-        $prescriptions=Prescription::paginate(3);
-        } else {
-            return redirect()->back()->with('error', 'unauthorized access');
-        }
     
-        // Apply filters 
+        // Apply filters before pagination
         if (!empty($filters['medications_names'])) {
             $prescriptions = $prescriptions->filterByMedication($filters['medications_names']);
         }
+    
         if (!empty($filters['search_name'])) {
             $prescriptions = $prescriptions->filterByPatientName($filters['search_name']);
         }
-        $prescriptions = $prescriptions->paginate(3);
     
+        // Pagination
+        $prescriptions = $prescriptions->paginate(4);
+        
         return view('prescriptions.index', compact('prescriptions'));
-}
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -87,6 +81,7 @@ class PrescriptionsController extends Controller
             'instructions' => $request->instructions,
             'details' => $request->details,
         ]);
+        
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
     }
     /**

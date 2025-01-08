@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Report;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -14,33 +15,21 @@ class ReportController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index()
-     {
-        $reports = Report::paginate(5); // استرجاع كل التقارير
-        return view('reports.index', compact('reports'));
-     }
-
-     public function export()
+    public function index()
     {
-         return Excel::download(new ReportsExport, 'reports.xlsx');
+        $reports = Report::paginate(5);
+        return view('reports.index', compact('reports'));
+    }
+
+
+    public function export()
+    { 
+       // add date export to file name
+        $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
+        return Excel::download(new ReportsExport, $fileName);
     } 
 
-     
-     public function storeReport(Appointment $appointment)
-     {
-         if ($appointment->status === 'completed') {
-            $prescription = $appointment->prescription;
-            Report::create([
-                'patient_id' => $appointment->patient_id,
-                'doctor_id' => $appointment->doctor_id,
-                'appointment_date' => $appointment->appointment_date,
-                'medications_names' => $prescription -> medications_names,
-                'instructions' => $prescription ->instructions,
-                'details' => $prescription ->details,
-            ]);
-         }
-     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
