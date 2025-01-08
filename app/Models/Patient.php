@@ -38,8 +38,4 @@ class Patient extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function image()  {
-        return $this->morphOne(Image::class, 'imageable');
-    }
-
 }

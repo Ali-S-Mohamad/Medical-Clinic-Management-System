@@ -27,9 +27,11 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        dd($request);
+        // dd($request);
+        $department = $request->validated();
+        dd($department);
         $department = new Department();
         $department->name = $request->name;
         $department->description = $request->description;

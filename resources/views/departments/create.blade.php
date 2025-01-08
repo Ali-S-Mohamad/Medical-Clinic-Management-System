@@ -24,7 +24,7 @@
                                 <label for="photo">image :</label>
                                 <div style="display: flex; align-items: center;">
                                     <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
-=                                    <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png"
+                                   <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png"
                                         style="display: none;">
                                     <img id="thumbnail"
                                         style="display:none; width: 70px; height: 70px; margin-left: 10px; cursor: pointer;">

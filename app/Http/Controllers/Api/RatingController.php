@@ -101,7 +101,7 @@ class RatingController extends Controller
 
         //  rate can be updated if:
         //  rate is exsists && rate is for doctor && rate is added by the same patient who wants to update.
-         if (Auth::id() == $rate->patient_id && $isDoctor) {
+        if (Auth::id() == $rate->patient_id && $isDoctor) {
             $rate->update([
                 'employee_id' => $request->doctor_id,
                 'doctor_rate' => $request->doctor_rate,
