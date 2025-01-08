@@ -1,7 +1,13 @@
 @extends('layouts.master')
-@section('title','Add Appoimtment')
+
+@section('title', 'Add Appointment')
 
 @section('css')
+    <style>
+        tbody tr:hover {
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -30,7 +36,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Doctor</label>
-                            <select name="doctor_id" class="form-control" required>
+                            <select name="doctor_id" id="doctor_id" class="form-control" required>
                                 <option value="">Select</option>
                                 @foreach ($doctors as $doctor)
                                 <option value="{{ $doctor->employee->id }}">{{ $doctor->employee->user->name }}</option>
@@ -39,40 +45,38 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Date</label>
-                            <input type="date" name="appointment_date" class="form-control" required>
+                            <input type="date" name="appointment_date" id="appointment_date" class="form-control" required>
                         </div>
                     </div>
 
-                                        <div class="form-group">
-                            <label for="appointment_time">Time</label>
-                            <input type="time" id="appointment_time" name="appointment_time" class="form-control" required step="60">
-                        </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Status</label>
-                            <select name="status" class="form-control" required>
-                                <option value="scheduled">Scheduled</option>
-                                <option value="completed">Completed</option>
-                                <option value="canceled">Canceled</option>
+                            <label for="appointment_time">Available Time</label>
+                            <select name="appointment_time" id="appointment_time" class="form-control" required>
+                                <option value="">Select Time</option>
                             </select>
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label>Notes</label>
                     <textarea name="notes" cols="30" rows="4" class="form-control"></textarea>
                 </div>
+
                 <div class="m-t-20 text-center">
                     <button class="btn btn-primary submit-btn">Create Appointment</button>
                 </div>
-                <div class="m-t-20 text-center" >
-                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> <i
-                        class="fa fa-arrow-left mr-2"></i>Back</a>
+
+                <div class="m-t-20 text-center">
+                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i>Back
+                    </a>
                 </div>
             </form>
         </div>
@@ -81,4 +85,28 @@
 @endsection
 
 @section('scripts')
+<script>
+    // When doctor or date is selected, fetch available slots
+    $('#doctor_id, #appointment_date').change(function() {
+        var doctorId = $('#doctor_id').val();
+        var appointmentDate = $('#appointment_date').val();
+
+        if (doctorId && appointmentDate) {
+            $.ajax({
+                url: '/get-available-slots/' + doctorId + '/' + appointmentDate,
+                method: 'GET',
+                success: function(response) {
+                    $('#appointment_time').empty();  // Clear existing options
+                    if (response.availableSlots.length > 0) {
+                        response.availableSlots.forEach(function(slot) {
+                            $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
+                        });
+                    } else {
+                        $('#appointment_time').append('<option value="">No available slots</option>');
+                    }
+                }
+            });
+        }
+    });
+</script>
 @endsection

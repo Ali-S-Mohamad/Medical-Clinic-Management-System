@@ -60,7 +60,7 @@ Route::middleware(['auth','patient'])->group(function () {
 
 
     //Define Departments Routes
-    Route::get('trash', [DepartmentController::class, 'trash'])->name('departments.trash');
+    Route::get('/departments/trash', [DepartmentController::class, 'trash'])->name('departments.trash');
     Route::put('/departments/restore/{id}', [DepartmentController::class, 'restore'])->name('departments.restore');
     Route::delete('/departments/force-delete/{id}', [DepartmentController::class, 'forceDelete'])->name('departments.forceDelete'); // الحذف النهائي
     Route::patch('/departments/{id}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('departments.toggleStatus');
@@ -71,6 +71,7 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::resource('/appointments', AppointmentController::class);
     Route::resource('/time-slots', TimeSlotController::class);
     Route::patch('/time-slots/{id}/toggle-Availability', [TimeSlotController::class, 'toggleAvailability'])->name('time-slots.toggleAvailability');
+    Route::get('/get-available-slots/{doctorId}/{appointmentDate}', [AppointmentController::class, 'getAvailableSlots']);
 
 
 

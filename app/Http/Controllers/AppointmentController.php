@@ -11,6 +11,7 @@ use App\Events\AppointmentCreated;
 use App\Services\AppointmentService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -53,37 +54,51 @@ class AppointmentController extends Controller
 
         return view('appointments.index', compact('appointments'));
     }
-
-
     /* Show the form for creating a new resource.
      */
     public function create()
     {
-        $patients = Patient::with('user')->get();
-        $doctors = User::role('doctor')->get();
-        return view('appointments.create', compact('patients', 'doctors'));
+         $patients = Patient::with('user')->get();
+         $doctors = User::role('doctor')->get();
+         
+         return view('appointments.create', compact('patients', 'doctors'));
     }
-
-    // Store method to create an appointment
+    public function getAvailableSlots($doctorId, $appointmentDate)
+    {
+        $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;  // Get the day of the week from the appointment date
+        
+        // Debugging: Check if dayOfWeek is correct
+        \Log::info("Day of Week: ".$dayOfWeek);
+    
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $appointmentDate);
+    
+        // Debugging: Check the available slots
+        \Log::info("Available Slots: ".json_encode($availableSlots));
+    
+        return response()->json([
+            'availableSlots' => $availableSlots
+        ]);
+    }
     public function store(AppointmentRequest $request)
     {
-        $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
+    $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
 
-        // Use AppointmentService to book the appointment
-        $response = $this->appointmentService->bookAppointment(
-            $request->patient_id,
-            $request->doctor_id,
-            $appointmentDateTime
-        );
+    // Use AppointmentService to book the appointment
+    $response = $this->appointmentService->bookAppointment(
+        $request->patient_id,
+        $request->doctor_id,
+        $appointmentDateTime,
+    );
 
-        // If the booking was successful
-        if ($response['success']) {
-            return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
-        }
-
-        // If there was an error during booking
-        return redirect()->route('appointments.index')->with('error', $response['message']);
+    // If the booking was successful
+    if ($response['success']) {
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
+
+    // If there was an error during booking
+    return redirect()->route('appointments.index')->with('error', $response['message']);
+}
+
 
     /**
      * Display the specified resource.

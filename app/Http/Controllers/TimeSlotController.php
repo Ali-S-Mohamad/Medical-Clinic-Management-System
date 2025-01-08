@@ -6,6 +6,8 @@ use App\Models\TimeSlot;
 use App\Http\Requests\TimeSlotRequest;
 use App\Models\Employee;
 use App\Models\User;
+use App\Services\AppointmentService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TimeSlotController extends Controller
@@ -98,10 +100,7 @@ class TimeSlotController extends Controller
     $timeSlot->save();
 
     return redirect()->route('time-slots.index')->with('success', 'time slot availability updated successfully.');
-}
-
-
-
+    }    
     /**
      * Remove the specified resource from storage.
      */
