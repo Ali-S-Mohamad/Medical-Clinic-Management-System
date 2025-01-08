@@ -13,14 +13,6 @@ use App\Models\Language;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -42,6 +34,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'is_patient' => false,
         ]);
+        saveImage('Users images', $request, $user);
         // Checking User's role
         $isDoctor = $request->input('is_doctor', 0);
         if ($isDoctor) {
@@ -53,22 +46,6 @@ class UserController extends Controller
         // Calling EmployeeController to store Employee Details
         $employeeController = new EmployeeController();
         return $employeeController->storeEmployeeDetails($user->id, $request);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -96,16 +73,4 @@ class UserController extends Controller
         return $employeeController->updateEmployeeDetails($user->id, $request);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
-
-    public function restore(string $id)
-    {
-        //
-    }
 }

@@ -29,7 +29,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             // 'is_patient' => true
         ]);
-
+        saveImage('Users images', $request, $user);
         $user_id = $user->id;
         $user->assignRole('patient');
 
