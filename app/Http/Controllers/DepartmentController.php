@@ -27,8 +27,9 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DepartmentRequest $request)
+    public function store(Request $request)
     {
+        dd($request);
         $department = new Department();
         $department->name = $request->name;
         $department->description = $request->description;
@@ -62,9 +63,9 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request , string $id)
+    public function update(DepartmentRequest $request , string $id)
     {
-        dd($request->all());
+        // dd($request->all());
         $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;

@@ -49,12 +49,12 @@ class RatingController extends Controller
         // dd(Auth::id());  // id=6 (user)
         // $patient_id=$user->patient->id;
         // $hasCompletedAppointment = Patient::where('id', $patient_id)
-        //  ->whereHas('appointments', function ($query) { 
-        //     $query->where('status', 'completed') 
+        //  ->whereHas('appointments', function ($query) {
+        //     $query->where('status', 'completed')
         //   ->whereBetween('updated_at', [now()->subWeek(), now()]);
         //     })->exists();
         // dd($hasCompletedAppointment);
-        
+
         // check if the rate is for a doctor (not adminstrative employee)
         $emp = Employee::find($request->doctor_id);
 

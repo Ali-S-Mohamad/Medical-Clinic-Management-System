@@ -41,7 +41,9 @@ class PermissionSeeder extends Seeder
             'show-rating',
             'show-reports',
             'export-excelReport',
-            'export-pdfReport'
+            'export-pdfReport',
+            'create-timeslot',
+            'edit-timeslot',
         ];
 
         // Looping and Inserting Array's Permissions into Permission Table

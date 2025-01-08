@@ -20,7 +20,7 @@ class PrescriptionsController extends Controller
     {
         // Retrieve input values
         $filters = $request->only(['search_name', 'medications_names']);
-        
+
         $user = Auth::user();
         $prescriptions = Prescription::with('employee', 'appointment');
         if ($user->hasRole('doctor')) 

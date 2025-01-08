@@ -30,6 +30,8 @@ class RoleSeeder extends Seeder
             'delete-patientFile',
             'show-patientFile',
             'show-rating',
+            'create-timeslot',
+            'edit-timeslot',
         ]);
 
         $employee->givePermissionTo([
@@ -44,6 +46,8 @@ class RoleSeeder extends Seeder
             'show-rating',
             'show-reports',
             'export-excelReport',
+            'create-timeslot',
+            'edit-timeslot',
         ]);
 
         $patient->givePermissionTo([
