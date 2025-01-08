@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -13,48 +13,66 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'Admin']);
+        $admin = Role::create(['name' => 'Admin']);
         $doctor = Role::create(['name' => 'doctor']);
         $employee = Role::create(['name' => 'employee']);
         $patient = Role::create(['name' => 'patient']);
 
+        // Assign all permissions to Admin
+        $admin->syncPermissions(Permission::all());
 
+        // Doctor Permissions
         $doctor->givePermissionTo([
-            'edit-employee',
-            'show-employee',
-            'show-patient',
-            'show-department',
-            'show-clinicInformation',
-            'create-patientFile',
-            'edit-patientFile',
-            'delete-patientFile',
-            'show-patientFile',
+            'view-medicalFiles',
+            'create-medicalFile',
+            'edit-medicalFile',
+            'delete-medicalFile',
+            'show-medicalFile',
+            'view-prescriptions',
+            'create-prescription',
+            'edit-prescription',
+            'delete-prescription',
+            'show-prescription',
+            'view-appointment',
+            'create-appointment',
+            'edit-appointment',
+            'delete-appointment',
+            'view-timeSlotes',
+            'create-timeSlote',
+            'edit-timeSlote',
+            'delete-timeSlote',
+            'show-timeSlote',
             'show-rating',
         ]);
 
+        // Employee Permissions
         $employee->givePermissionTo([
+            'view-employees',
+            'create-employee',
             'edit-employee',
+            'delete-employee',
             'show-employee',
-            'delete-patient',
-            'show-patient',
-            'show-department',
-            'show-clinicInformation',
+            'view-appointment',
+            'create-appointment',
+            'edit-appointment',
+            'delete-appointment',
             'show-appointment',
-            'cancel-appointment',
-            'show-rating',
-            'show-reports',
-            'export-excelReport',
+            'create-department',
+            'edit-department',
+            'delete-department',
+            'show-department',
+            'view-timeSlotes',
         ]);
 
+        // Patient Permissions
         $patient->givePermissionTo([
-            'show-clinicInformation',
-            'book-appointment',
+            'create-appointment',
+            'view-appointments',
             'show-appointment',
-            'cancel-appointment',
+            'show-medicalFile',
+            'show-prescription',
             'create-rating',
             'show-rating',
-            'export-pdfReport'
-
         ]);
     }
 }
