@@ -37,10 +37,10 @@ Edit Appointment
                     </div>
 
                     <!-- Doctor Selection -->
-                       <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Doctor</label>
-                            <select name="doctor_id" class="form-control">
+                            <select name="doctor_id" id="doctor_id" class="form-control">
                                 <option value="">Select</option>
                                 @foreach ($doctors as $doctor)
                                 <option value="{{ $doctor->employee->id }}"
@@ -58,17 +58,26 @@ Edit Appointment
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Date</label>
-                            <input type="date" name="appointment_date" class="form-control"
+                            <input type="date" name="appointment_date" id="appointment_date" class="form-control"
                               value="{{ old('appointment_date', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d') : '') }}">
-                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
+                    <!-- Appointment Time -->
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="appointment_time">Time</label>
-                            <input type="time" id="appointment_time" name="appointment_time" class="form-control"
-                            value="{{ old('appointment_time', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('H:i') : '') }}">
-                            </div>
-                    <!-- Status -->
+                            <select id="appointment_time" name="appointment_time" class="form-control">
+                                <option value="{{ old('appointment_time', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('H:i') : '') }}">
+                                    {{ old('appointment_time', $appointment->appointment_date ? \Carbon\Carbon::parse($appointment->appointment_date)->format('H:i') : 'Select Time') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Status</label>
@@ -91,9 +100,10 @@ Edit Appointment
                 <div class="m-t-20 text-center">
                     <button class="btn btn-primary submit-btn">Update Appointment</button>
                 </div>
-                <div class="m-t-20 text-center" >
-                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> <i
-                        class="fa fa-arrow-left mr-2"></i>Back</a>
+                <div class="m-t-20 text-center">
+                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> 
+                        <i class="fa fa-arrow-left mr-2"></i>Back
+                    </a>
                 </div>
             </form>
         </div>
@@ -102,4 +112,33 @@ Edit Appointment
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function() {
+        // When you change your doctor or history
+        $('#doctor_id, #appointment_date').change(function() {
+            var doctorId = $('#doctor_id').val();
+            var appointmentDate = $('#appointment_date').val();
+
+            if (doctorId && appointmentDate) {
+                $.ajax({
+                    url: '/get-available-slots/' + doctorId + '/' + appointmentDate,
+                    method: 'GET',
+                    success: function(response) {
+                        $('#appointment_time').empty();
+                        if (response.availableSlots.length > 0) {
+                            response.availableSlots.forEach(function(slot) {
+                                $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
+                            });
+                        } else {
+                            $('#appointment_time').append('<option value="">No available slots</option>');
+                        }
+                    },
+                    error: function() {
+                        alert('Error fetching available slots');
+                    }
+                });
+            }
+        });
+    });
+</script>
 @endsection
