@@ -2,20 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Report;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $reports = Report::all();
+        $reports = Report::paginate(5);
         return view('reports.index', compact('reports'));
     }
 
+
+    public function export()
+    { 
+       // add date export to file name
+        $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
+        return Excel::download(new ReportsExport, $fileName);
+    } 
+
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -63,4 +77,7 @@ class ReportController extends Controller
     {
         //
     }
+
+   
+
 }

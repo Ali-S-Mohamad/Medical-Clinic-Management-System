@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->string('patient_name'); //من الموعد
-            $table->string('doctor_name'); //من الموعد
-            $table->date('appointment_date'); //من الموعد
-            $table->text('instructions'); //من الوصفات
-            $table->text('details')->nullable(); //من الوصفات
+            $table->foreignId('patient_id');
+            $table->string('patient_name'); 
+            $table->string('doctor_name');
+            $table->date('appointment_date');
+            $table->text('medications_names')->nullable();
+            $table->text('instructions'); 
+            $table->text('details')->nullable(); 
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

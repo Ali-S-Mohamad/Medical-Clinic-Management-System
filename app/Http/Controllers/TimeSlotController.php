@@ -18,33 +18,33 @@ class TimeSlotController extends Controller
         if (auth()->user()->hasRole('Admin')) {
             // إذا كان المستخدم Admin، يتم جلب جميع الـ TimeSlots مع العلاقة
             $timeSlots = TimeSlot::with('doctor')->get();
-        } elseif (auth()->user()->hasRole('Doctor')) {
+        } elseif (auth()->user()->hasRole('doctor')) {
             // إذا كان المستخدم Doctor، يتم جلب السجلات الخاصة به فقط
             $timeSlots = TimeSlot::where('doctor_id', auth()->user()->employee->id)->with('doctor')->get();
         } else {
             // إذا لم يكن المستخدم Admin أو Doctor، يتم منعه من الوصول
             abort(403, 'You do not have permission to view time slots.');
         }
-    
+
         return view('Timeslot.index', compact('timeSlots'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $doctors = Employee::with('user') 
+        $doctors = Employee::with('user')
                     ->whereHas('user.roles', function ($query) {
-                        $query->where('name', 'doctor'); 
+                        $query->where('name', 'doctor');
                     })
                     ->get();
-    
+
         return view('Timeslot.create', compact('doctors'));
     }
-    
-    
+
+
    /**
      * Store a newly created resource in storage.
      */
@@ -65,9 +65,9 @@ class TimeSlotController extends Controller
      */
     public function edit(TimeSlot $timeSlot)
     {
-        $doctors = Employee::with('user') 
+        $doctors = Employee::with('user')
         ->whereHas('user.roles', function ($query) {
-            $query->where('name', 'doctor'); 
+            $query->where('name', 'doctor');
         })
         ->get();
             return view('Timeslot.edit', compact('timeSlot' ,'doctors'));

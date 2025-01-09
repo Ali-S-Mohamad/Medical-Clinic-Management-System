@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\AppointmentController;
 
@@ -34,6 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('active-departments', [PatientController::class, 'getActiveDepartments']);
     Route::get('active-doctors/{departmentId}', [PatientController::class, 'getAvailableDoctorsInDepartment']);
     Route::get('available-slots/{doctorId}/{dayOfWeek}', [AppointmentController::class, 'getAvailableSlots']);
+
+    Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
+    Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
 });
 
 //Ratings routes  ->middleware('auth:sanctum')

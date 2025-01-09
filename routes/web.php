@@ -41,7 +41,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth','patient'])->group(function () {
+// Route::middleware(['auth','patient'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -111,5 +112,7 @@ Route::middleware(['auth','patient'])->group(function () {
 
     //Define Reports Routes
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/export-reports', [ReportController::class, 'export'])->name('reports.export');
+
 
 });
