@@ -15,7 +15,7 @@ class Appointment extends Model
         'appointment_date',
         'status',
         'notes',
-       ];       
+    ];
 
     public function patient()
     {
@@ -31,9 +31,8 @@ class Appointment extends Model
     {
         return $this->hasOne(Prescription::class);
     }
-    public function timeSlot(){
-         return $this->belongsTo(TimeSlot::class);
+    public function timeSlot()
+    {
+        return $this->belongsTo(TimeSlot::class);
     }
-
-    
 }

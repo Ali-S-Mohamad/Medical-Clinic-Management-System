@@ -54,6 +54,12 @@ class PatientController extends Controller
         $activeDepartments = Department::active()->get();
         return $this->apiResponse(DepartmentsResource::collection($activeDepartments), 'Active Departments retrieved successfully.', 200);
     }
+
+    /**
+     * Summary of getAvailableDoctorsInDepartment
+     * @param mixed $departmentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAvailableDoctorsInDepartment($departmentId){
 
         $availableDoctors= User::role('doctor')->with('employee')
