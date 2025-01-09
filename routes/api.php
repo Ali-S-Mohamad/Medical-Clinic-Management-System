@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('active-departments', [PatientController::class, 'getActiveDepartments']);
     Route::get('active-doctors/{departmentId}', [PatientController::class, 'getAvailableDoctorsInDepartment']);
     Route::get('available-slots/{doctorId}/{dayOfWeek}', [AppointmentController::class, 'getAvailableSlots']);
+    Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
+
 });
 
 //Ratings routes  ->middleware('auth:sanctum')

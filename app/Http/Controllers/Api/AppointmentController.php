@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Models\Patient;
-use App\Models\Appointment;
-use Illuminate\Http\Request;
-use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\CancelAppointmentRequest;
+use App\Http\Traits\ApiResponse;
+use App\Models\Appointment;
+use App\Models\Patient;
 use App\Services\AppointmentService;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -88,6 +88,23 @@ class AppointmentController extends Controller
 
         // Return a success response with the available slots data using successResponse
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
+    }
+    public function canceledAppointment(CancelAppointmentRequest $request, Appointment $appointment)
+    {
+        // Ensure the appointment is currently scheduled
+        if ($appointment->status !== 'scheduled') {
+            return response()->json(['message' => 'Only scheduled appointments can be canceled'], 400);
+        }
+
+        // Update the appointment status to "canceled"
+        $appointment->status = 'canceled';
+        $appointment->save();
+
+        // Return a success response
+        return response()->json([
+            'message' => 'Appointment canceled successfully',
+            'appointment' => $appointment,
+        ]);
     }
 
 }
