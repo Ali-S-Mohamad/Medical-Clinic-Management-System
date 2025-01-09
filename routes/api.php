@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\AppointmentController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('login-doctor', [AuthController::class, 'loginDoctorAsPatient']);
 
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
