@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\AppointmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TimeSlotController extends Controller
 {
@@ -17,15 +18,23 @@ class TimeSlotController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasRole('Admin')) {
-            // إذا كان المستخدم Admin، يتم جلب جميع الـ TimeSlots مع العلاقة
-            $timeSlots = TimeSlot::with('doctor')->get();
-        } elseif (auth()->user()->hasRole('Doctor')) {
-            // إذا كان المستخدم Doctor، يتم جلب السجلات الخاصة به فقط
-            $timeSlots = TimeSlot::where('doctor_id', auth()->user()->employee->id)->with('doctor')->get();
-        } else {
-            // إذا لم يكن المستخدم Admin أو Doctor، يتم منعه من الوصول
-            abort(403, 'You do not have permission to view time slots.');
+        // الحصول على المستخدم الحالي
+        $user = Auth::user();
+    
+        // إذا كان Admin أو Employee، عرض جميع الأوقات
+        if ($user->hasRole(['Admin', 'employee'])) {
+            // جلب الأوقات مع بيانات الأطباء وتقسيمها إلى صفحات
+            $timeSlots = TimeSlot::with('doctor.user')->paginate(5);
+        } 
+        // إذا كان Doctor، عرض الأوقات الخاصة به فقط
+        elseif ($user->hasRole('doctor')) {
+            // جلب الأوقات الخاصة بالطبيب الحالي وتقسيمها إلى صفحات
+            $timeSlots = TimeSlot::with('doctor.user')
+                ->where('doctor_id', $user->employee->id)
+                ->paginate(5);
+        } 
+        else {
+            abort(403, 'Unauthorized');
         }
     
         return view('Timeslot.index', compact('timeSlots'));
