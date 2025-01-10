@@ -68,6 +68,10 @@ class RoleSeeder extends Seeder
 
             'show-clinicInformation',
 
+            'show-MedicalFile',
+
+            'show-prescription',
+
             'show-Appointment',
             'create-Appointment',
             'edit-Appointment',

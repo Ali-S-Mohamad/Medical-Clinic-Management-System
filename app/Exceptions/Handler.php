@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
             return redirect()->route('login')->with('error', 'Your session has expired. Please log in again.');
+        }
+
+        if ($exception instanceof UnauthorizedException) {
+            return redirect()->route('error.403')->with('error', 'You do not have permission to access this method.');
         }
 
         return parent::render($request, $exception);
