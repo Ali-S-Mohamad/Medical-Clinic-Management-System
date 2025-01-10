@@ -1,6 +1,6 @@
 <div class="header">
     <div class="header-left">
-        <a href="index-2.html" class="logo">
+        <a href="{{route('home')}}" class="logo">
             <img src="{{$logoPath}}" width="35" height="35" alt=""> <span>{{$clinicName}}</span>
         </a>
     </div>

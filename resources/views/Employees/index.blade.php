@@ -111,7 +111,7 @@
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department?->name }}</td>
-                                        <td>
+                                        <td class="language-container d-flex flex-wrap">
                                             @if (!$employee->Languages->isEmpty())
                                                 @foreach ($employee->Languages as $Language)
                                                     <p class="badge badge-pill badge-dark"> {{ $Language->name }}</p>
