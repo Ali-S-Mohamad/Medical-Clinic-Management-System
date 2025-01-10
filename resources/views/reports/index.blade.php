@@ -15,19 +15,12 @@ Reports
         <div class="col-sm-5 col-5">
             <h4 class="page-title">Reports</h4>
         </div>
-<<<<<<< HEAD
         <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">           
              <!-- زر  تصدير -->
              <a href="{{ route('reports.export') }}" class="btn btn-primary btn-rounded mr-3">
                 <i class="fa fa-plus"></i> Export Table
-=======
-        <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
-            <!-- أيقونة سلة المحذوفات -->
-            <a href="">
-                <i class="fa fa-trash-o" style="font-size:36px"></i>
->>>>>>> 9f3048ffd88aed06a22cc271c7e8e78be5f3afe3
             </a>
-            <!-- أيقونة سلة المحذوفات -->
+            
         
         </div>
 

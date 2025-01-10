@@ -12,6 +12,18 @@ use App\Http\Requests\UpdateMedicalFileRequest;
 
 class MedicalFilesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:show-MedicalFile', ['only' => ['index','show']]);
+        $this->middleware('permission:create-MedicalFile', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-MedicalFile', ['only' => ['edit','update']]);
+        $this->middleware('permission:Archive-MedicalFile', ['only' => ['destroy']]);
+        $this->middleware('permission:view-archiveMedicalFile', ['only' => ['trash']]);
+        $this->middleware('permission:restore-MedicalFile', ['only' => ['restore']]);
+        $this->middleware('permission:delete-MedicalFile', ['only' => ['forcedelete']]);
+
+    }
     /**
      * Display a listing of the resource.
      */

@@ -16,9 +16,15 @@ class AppointmentController extends Controller
 {
     protected $appointmentService; // Declare variable to hold the service
 
-    // Constructor to inject AppointmentService
     public function __construct(AppointmentService $appointmentService)
-    {
+    {   
+        $this->middleware('auth');
+        $this->middleware('permission:show-Appointment', ['only' => ['index','show']]);
+        $this->middleware('permission:create-Appointment', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-Appointment', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete-Appointment', ['only' => ['destroy']]);
+    
+        // Constructor to inject AppointmentService
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
 

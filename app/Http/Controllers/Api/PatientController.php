@@ -15,6 +15,13 @@ use App\Http\Resources\DepartmentsResource;
 
 class PatientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum','permission:get-PatientPrescriptions'])->only(['getMyPrescriptions']);
+        $this->middleware(['auth:sanctum','permission:get-ActiveDepartments'])->only(['getActiveDepartments']);
+        $this->middleware(['auth:sanctum','permission:get-AvailableDoctorforPatient'])->only('getAvailableDoctorsInDepartment');
+
+    }
     use ApiResponse;
 
     /**

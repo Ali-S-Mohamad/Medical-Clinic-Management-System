@@ -17,33 +17,76 @@ class PermissionSeeder extends Seeder
             'create-role',
             'edit-role',
             'delete-role',
-            'show-role',
+
+            'show-dashboard',
+
+            'show-clinicInformation',
+            'edit-clinicInformation',
+
+            'show-employee',
             'create-employee',
             'edit-employee',
+            'Archive-employee',
+            'view-archiveEmpolyess',
+            'restore-employee',
             'delete-employee',
-            'show-employee',
-            'delete-patient',
+
             'show-patient',
+
+            'show-department',
             'create-department',
             'edit-department',
+            'Archive-department',
+            'view-archiveDepartment',
+            'restore-department',
             'delete-department',
-            'show-department',
-            'edit-clinicInformation',
-            'show-clinicInformation',
-            'book-appointment',
-            'show-appointment',
-            'cancel-appointment',
-            'create-patientFile',
-            'edit-patientFile',
-            'delete-patientFile',
-            'show-patientFile',
-            'create-rating',
+
+            
+            'show-MedicalFile',
+            'create-MedicalFile',
+            'edit-MedicalFile',
+            'Archive-MedicalFile',
+            'view-archiveMedicalFile',
+            'restore-MedicalFile',
+            'delete-MedicalFile',
+
+            'show-prescription',
+            'create-prescription',
+            'edit-prescription',
+            'Archive-prescription',
+            'view-archivePrescription',
+            'restore-prescription',
+            'delete-prescription',
+
+            'show-Appointment',
+            'create-Appointment',
+            'edit-Appointment',
+            'delete-Appointment',
+            'store-AppointmentforPatient',      //api
+            'get-AppointmentforPatient',        //api
+            'get-AvailableSlot',               //api
+
+        
+            'show-TimeSlot',
+            'create-TimeSlot',
+            'edit-TimeSlot',
+            'delete-TimeSlot',
+            
             'show-rating',
-            'show-reports',
-            'export-excelReport',
-            'export-pdfReport',
-            'create-timeslot',
-            'edit-timeslot',
+            'show-patientRatings',
+            'create-rating',     //api
+            'edit-rating',      //api
+            'delete-rating', 
+              
+            
+            'show-report',
+            'export-report',
+
+            'get-PatientPrescriptions',  //api
+            'get-ActiveDepartments',     //api
+            'get-AvailableDoctorforPatient'     //api
+
+
         ];
 
         // Looping and Inserting Array's Permissions into Permission Table

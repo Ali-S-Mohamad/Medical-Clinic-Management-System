@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum','permission:show-report'])->only(['getPatientReports']);
+        $this->middleware(['auth:sanctum','permission:export-report'])->only(['exportPatientReports']);
+
+    }
     use ApiResponse;
     public function getPatientReports($patientId)
     {

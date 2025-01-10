@@ -13,6 +13,18 @@ use App\Http\Requests\UpdatePrescriptionRequest;
 
 class PrescriptionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:show-prescription', ['only' => ['index','show']]);
+        $this->middleware('permission:create-prescription', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-prescription', ['only' => ['edit','update']]);
+        $this->middleware('permission:Archive-prescription', ['only' => ['destroy']]);
+        $this->middleware('permission:view-archivePrescription', ['only' => ['trash']]);
+        $this->middleware('permission:restore-prescription', ['only' => ['restore']]);
+        $this->middleware('permission:delete-prescription', ['only' => ['forcedelete']]);
+
+    }
     /**
      * Display a listing of the resource.
      */

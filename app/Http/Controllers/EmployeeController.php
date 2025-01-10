@@ -14,7 +14,19 @@ use App\Http\Requests\UpdateUserRequest;
 class EmployeeController extends Controller
 {
     protected $employeeFilterService;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:show-employee', ['only' => ['index','show']]);
+        $this->middleware('permission:create-employee', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-employee', ['only' => ['edit','update']]);
+        $this->middleware('permission:Archive-employee', ['only' => ['destroy']]);
+        $this->middleware('permission:view-archiveEmpolyess', ['only' => ['trash']]);
+        $this->middleware('permission:restore-employee', ['only' => ['restore']]);
+        $this->middleware('permission:delete-employee', ['only' => ['forcedelete']]);
 
+    }
     /**
      * Display a listing of the resource.
      * @param \Illuminate\Http\Request $request

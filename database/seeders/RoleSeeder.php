@@ -20,44 +20,90 @@ class RoleSeeder extends Seeder
 
 
         $doctor->givePermissionTo([
-            'edit-employee',
-            'show-employee',
             'show-patient',
+
             'show-department',
+
+            'show-employee',
+
             'show-clinicInformation',
-            'create-patientFile',
-            'edit-patientFile',
-            'delete-patientFile',
-            'show-patientFile',
+
+            'show-MedicalFile',
+            'create-MedicalFile',
+            'edit-MedicalFile',
+            'Archive-MedicalFile',
+            'view-archiveMedicalFile',
+            'restore-MedicalFile',
+            'delete-MedicalFile',
+
+            'show-prescription',
+            'create-prescription',
+            'edit-prescription',
+            'Archive-prescription',
+            'view-archivePrescription',
+            'restore-prescription',
+            'delete-prescription',
+
+            'show-Appointment',
+            'edit-Appointment',
+            'delete-Appointment',
+
             'show-rating',
-            'create-timeslot',
-            'edit-timeslot',
+
+            'show-report',
+            'export-report',
+
+            'show-TimeSlot',
+            'create-TimeSlot',
+            'edit-TimeSlot',
+            'delete-TimeSlot',
         ]);
 
         $employee->givePermissionTo([
-            'edit-employee',
-            'show-employee',
-            'delete-patient',
             'show-patient',
+            
             'show-department',
+
+            'show-employee',
+
             'show-clinicInformation',
-            'show-appointment',
-            'cancel-appointment',
+
+            'show-Appointment',
+            'create-Appointment',
+            'edit-Appointment',
+            'delete-Appointment',
+
             'show-rating',
-            'show-reports',
-            'export-excelReport',
-            'create-timeslot',
-            'edit-timeslot',
+
+            'show-report',
+            'export-report', 
+
+            //'show-TimeSlot',
+
+            'show-report',
+            'export-report',
+ 
         ]);
 
         $patient->givePermissionTo([
             'show-clinicInformation',
-            'book-appointment',
-            'show-appointment',
-            'cancel-appointment',
-            'create-rating',
-            'show-rating',
-            'export-pdfReport'
+            
+            'store-AppointmentforPatient',      //api
+            'get-AppointmentforPatient',        //api
+            'get-AvailableSlot',               //api
+
+            'get-PatientPrescriptions',  //api
+            'get-ActiveDepartments',     //api
+            'get-AvailableDoctorforPatient',     //api
+
+            'show-report',
+            'export-report',
+
+            'show-patientRatings',
+            'create-rating',     //api
+            'edit-rating',      //api
+            'delete-rating', 
+
 
         ]);
     }

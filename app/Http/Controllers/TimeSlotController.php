@@ -10,6 +10,15 @@ use Illuminate\Http\Request;
 
 class TimeSlotController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:show-TimeSlot', ['only' => ['index','show']]);
+        $this->middleware('permission:create-TimeSlot', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-TimeSlot', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete-TimeSlot', ['only' => ['destroy']]);
+
+    }
     /**
      * Display a listing of the resource.
      */

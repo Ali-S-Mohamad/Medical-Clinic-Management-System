@@ -10,7 +10,11 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
-{
+{ 
+    public function __construct() { 
+    $this->middleware('role:Admin')->only('index'); 
+    }
+    
     public function index()
     {
 

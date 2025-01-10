@@ -19,6 +19,7 @@
             <div class="col-sm-5 col-5">
                 <h4 class="page-title">Departments</h4>
             </div>
+            @if (Auth::check()  && Auth::user()->hasRole('Admin'))
             <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">
                 <a href="{{ route('departments.create') }}" class="btn btn-primary btn-rounded mr-3">
                     <i class="fa fa-plus"></i> Add Department
@@ -27,6 +28,7 @@
                     <i class="fa fa-trash-o" style="font-size:36px"></i>
                 </a>
             </div>
+            @endif
         </div>
         <div class="row">
             <div class="col-md-12">

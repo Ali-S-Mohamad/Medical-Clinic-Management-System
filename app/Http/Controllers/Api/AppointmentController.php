@@ -18,6 +18,10 @@ class AppointmentController extends Controller
 
     public function __construct(AppointmentService $appointmentService)
     {
+        $this->middleware(['auth:sanctum','permission:store-AppointmentforPatient'])->only(['store']);
+        $this->middleware(['auth:sanctum','permission:get-AppointmentforPatient'])->only(['myAppointments']);
+        $this->middleware(['auth:sanctum','permission:get-AvailableSlot'])->only('getAvailableSlots');
+
         $this->appointmentService = $appointmentService;
     }
 
