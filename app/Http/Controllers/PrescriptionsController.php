@@ -7,6 +7,7 @@ use App\Models\MedicalFile;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PrescriptionFilterService;
 use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
@@ -22,8 +23,15 @@ class PrescriptionsController extends Controller
         
         // Start the query with the necessary relationships
         $prescriptions = Prescription::with('employee', 'appointment');
+
+        // Check user role
+        $user = Auth::user();
+        if ($user->hasRole('doctor')) {
+            // If the user is a doctor, filter prescriptions by the doctor's ID
+            $prescriptions = $prescriptions->where('doctor_id', $user->employee->id);
+        }
     
-        // Apply filters before pagination
+        //Apply filters before pagination
         if (!empty($filters['medications_names'])) {
             $prescriptions = $prescriptions->filterByMedication($filters['medications_names']);
         }
@@ -31,13 +39,12 @@ class PrescriptionsController extends Controller
         if (!empty($filters['search_name'])) {
             $prescriptions = $prescriptions->filterByPatientName($filters['search_name']);
         }
-    
         // Pagination
-        $prescriptions = $prescriptions->paginate(4);
-        
+        $prescriptions = $prescriptions->paginate(4);     
         return view('prescriptions.index', compact('prescriptions'));
     }
 
+    
     /**
      * Show the form for creating a new resource.
      */

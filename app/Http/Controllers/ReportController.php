@@ -24,7 +24,7 @@ class ReportController extends Controller
 
     public function export()
     { 
-       // add date export to file name
+       // add  export date to file name
         $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
         return Excel::download(new ReportsExport, $fileName);
     } 
