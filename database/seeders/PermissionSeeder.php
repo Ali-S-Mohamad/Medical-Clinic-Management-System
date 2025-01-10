@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,41 +13,78 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            // Roles
             'create-role',
             'edit-role',
             'delete-role',
             'show-role',
+
+            // Emplyees
+            'view-employees',
             'create-employee',
             'edit-employee',
             'delete-employee',
             'show-employee',
-            'delete-patient',
+
+            // Patients
             'show-patient',
+            'delete-patient',
+
+            // Departments
             'create-department',
             'edit-department',
             'delete-department',
             'show-department',
-            'edit-clinicInformation',
-            'show-clinicInformation',
-            'book-appointment',
+
+            // Appointments
+            'view-appointments',
+            'create-appointment',
+            'edit-appointment',
+            'delete-appointment',
             'show-appointment',
-            'cancel-appointment',
-            'create-patientFile',
-            'edit-patientFile',
-            'delete-patientFile',
-            'show-patientFile',
+
+            // Clinic Information
+            'edit-clinicInfo',
+            'show-clinicInfo',
+
+            // Medical Files
+            'view-medicalFiles',
+            'create-medicalFile',
+            'edit-medicalFile',
+            'delete-medicalFile',
+            'show-medicalFile',
+
+            // Prescriptions
+            'view-prescriptions',
+            'create-prescription',
+            'edit-prescription',
+            'delete-prescription',
+            'show-prescription',
+
+            // Ratings
             'create-rating',
             'show-rating',
+
+            // Reports
             'show-reports',
             'export-excelReport',
             'export-pdfReport',
-            'create-timeslot',
-            'edit-timeslot',
+
+            //Time Slots
+            'view-timeSlotes',
+            'create-timeSlote',
+            'edit-timeSlote',
+            'delete-timeSlote',
+            'show-timeSlote',
+
         ];
 
         // Looping and Inserting Array's Permissions into Permission Table
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
+
         }
-    }
+
+
+   }
 }
