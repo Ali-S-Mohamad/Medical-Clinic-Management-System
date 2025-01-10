@@ -29,7 +29,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             // 'is_patient' => true
         ]);
-
+        saveImage('Users images', $request, $user);
         $user_id = $user->id;
         $user->assignRole('patient');
 
@@ -67,5 +67,33 @@ class AuthController extends Controller
     {
         auth()->user()->tokens()->delete();
         return $this->successResponse('user logged out');
+    }
+
+    public function loginDoctorAsPatient(Request $request){
+        $user = User::where('email', $request->email)->first();
+
+        if($user->hasRole('doctor')){
+            $user->update([
+                'is_patient' => 1
+            ]);
+        }
+
+        // Check password
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return $this->errorResponse('Invalid credentials', 401);
+        }
+
+        $user_id = $user->id;
+        $user->assignRole('patient');
+
+        // Calling PatientController to store Patient Details
+        $patientController = new PatientController();
+        $patient = $patientController->storePatientDetails($user_id, $request);
+
+        $data['token'] = $user->createToken($request->email)->plainTextToken;
+        $data['user'] = $user;
+        $data['details'] = $patient;
+
+        return $this->apiResponse($data, 'Login success', 200);
     }
 }

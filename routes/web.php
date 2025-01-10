@@ -112,8 +112,4 @@ Route::middleware(['auth','patient'])->group(function () {
     //Define Reports Routes
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
-
-// //Define ClinicInfo Routes
-// Route::resource('time-slots', TimeSlotController::class);
-    
 });

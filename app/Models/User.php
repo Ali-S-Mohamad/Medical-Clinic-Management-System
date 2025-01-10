@@ -50,15 +50,22 @@ class User extends Authenticatable
     ];
 
 
-    public function patient(){
+    public function patient()
+    {
         return $this->hasOne(Patient::class);
     }
 
-    public function employee(){
+    public function employee()
+    {
         return $this->hasOne(Employee::class);
     }
 
-    public function ratings() {
+    public function ratings()
+    {
         return $this->hasMany(Rating::class);
-   }
+    }
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

@@ -1,4 +1,3 @@
-
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -69,8 +68,15 @@
                     {{-- <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a> --}}
                     <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a>
                 </li>
+<<<<<<< HEAD
                
             </ul>
         </div>
     </div>
 </div>
+=======
+            </ul>
+        </div>
+    </div>
+</div>
+>>>>>>> 9f3048ffd88aed06a22cc271c7e8e78be5f3afe3

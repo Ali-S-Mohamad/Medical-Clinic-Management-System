@@ -64,9 +64,7 @@ class Employee extends Model
         return $this->belongsToMany(Language::class,'employee_language','employee_id','language_id');
     }
 
-    public function image()  {
-        return $this->morphOne(Image::class, 'imageable');
-    }
+    
 
     public function scopeFilterByName($query, $name)
     {

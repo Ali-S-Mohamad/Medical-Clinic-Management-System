@@ -56,7 +56,7 @@ class SendAppointmentReminders extends Command
 
         // $this->info('Reminders sent successfully!');
         $now = Carbon::now();
-        $reminderTime = $now->addMinutes(1);
+        $reminderTime = $now->addMinutes(120);
 
         // Fetch appointments in the next minute
         $appointments = Appointment::whereBetween('appointment_date', [

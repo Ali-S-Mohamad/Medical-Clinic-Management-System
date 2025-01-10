@@ -17,6 +17,8 @@ class EmployeeController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -37,20 +39,12 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Summary of storeEmployeeDetails
+     * @param mixed $userId
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request){
-        //
-    }
-
-    public function storeEmployeeDetails($userId, Request  $request)
+    public function storeEmployeeDetails($userId, Request $request)
     {
         $employee = Employee::create([
             'user_id' => $userId,
@@ -61,8 +55,6 @@ class EmployeeController extends Controller
 
         $employee->languages()->sync($request->languages_ids);
 
-        saveImage('Employees images', $request, $employee);
-
         $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
         $employee->cv_path=$cvFilePath;
         $employee->save();
@@ -71,6 +63,12 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index');
     }
 
+    /**
+     * Summary of updateEmployeeDetails
+     * @param mixed $userId
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function updateEmployeeDetails($userId, Request $request)
     {
 
@@ -85,13 +83,15 @@ class EmployeeController extends Controller
         ]);
 
 
-        saveImage('Employees images', $request, $employee);
+        saveImage('Employees images', $request, $employee->user);
         $employee->languages()->sync($request->languages_ids);
         return redirect()->route('employees.index');
     }
 
     /**
      * Display the specified resource.
+     * @param \App\Models\Employee $employee
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Employee $employee)
     {
@@ -101,6 +101,8 @@ class EmployeeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param \App\Models\Employee $employee
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Employee $employee)
     {
@@ -110,13 +112,6 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Employee $employee)
-    {
-      //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -141,6 +136,11 @@ class EmployeeController extends Controller
         return view('employees.trash', compact('deletedEmployees'));
     }
 
+    /**
+     * Summary of restore
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore(string $id)
     {
         $employee = Employee::withTrashed()->where('id', $id)->first();
@@ -148,6 +148,11 @@ class EmployeeController extends Controller
         return redirect()->route('employees.trash')->with('success', 'employee restored successfully.');
     }
 
+    /**
+     * Summary of forceDelete
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function forceDelete(string $id)
     {
         $employee = Employee::withTrashed()->findOrFail($id); // Contain trashed files

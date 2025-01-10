@@ -1,7 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
+<<<<<<< HEAD
 Rating Details
+=======
+Show Rating
+>>>>>>> 9f3048ffd88aed06a22cc271c7e8e78be5f3afe3
 @endsection
 
 @section('css')

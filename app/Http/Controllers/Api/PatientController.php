@@ -29,7 +29,6 @@ class PatientController extends Controller
             'dob' => $request->dob,
             'insurance_number' => $request->insurance_number,
         ]);
-        saveImage('Patient images', $request, $patient);
         return $this->apiResponse([$patient], 'Patient details stored successfully', 201);
     }
 

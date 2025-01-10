@@ -101,8 +101,8 @@
                                         <td>{{ $employee->id }}</td>
                                         <td>
                                             @php
-                                                $image_path = $employee->image
-                                                    ? asset('storage/' . $employee->image->image_path)
+                                                $image_path = $employee->user->image
+                                                    ? asset('storage/' . $employee->user->image->image_path)
                                                     : asset('assets/img/user.jpg');
                                             @endphp
                                             <img width="40" height="40" src="{{ $image_path }}"
@@ -166,7 +166,6 @@
             </div>
         @endif
 
-        
         {{ $employees->links()}}
 
     </div> {{-- content div --}}
