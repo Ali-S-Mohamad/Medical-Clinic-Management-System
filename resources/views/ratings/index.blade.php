@@ -36,7 +36,7 @@ Ratings
                     <label class="focus-label">Doctor Name</label>
                     <input type="text" class="form-control floating">
                 </div>
-            </div>
+            </div>   
             <div class="col-sm-6 col-md-3">
                 <div class="form-group form-focus select-focus">
                     <label class="focus-label">Rate</label>
@@ -80,8 +80,8 @@ Ratings
                                     <td>{{ $rating->id }}</td>
                                     <td>  
                                          <h2>{{ $rating->doctor->user->name }}</h2> 
-                                    </td>                                        
-                                    <td> {{ $rating->user->name }}</td>
+                                    </td>                          
+                                    <td> {{ $rating->patient->user->name }}</td>
                                     <td> {{ $rating->doctor_rate }}</td>
                                     <td class="details-cell"> {{ $rating->details }} </td>
                                    
@@ -112,6 +112,7 @@ Ratings
             </div>
         </div>
         @endif
+        {{ $ratings->links()}}
   </div>
 @endsection
 

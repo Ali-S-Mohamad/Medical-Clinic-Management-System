@@ -10,11 +10,11 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
-{ 
-    public function __construct() { 
-    $this->middleware('role:Admin')->only('index'); 
+{
+    public function __construct() {
+    $this->middleware('role:Admin')->only('index');
     }
-    
+
     public function index()
     {
 
@@ -36,7 +36,7 @@ class DashboardController extends Controller
             'inactive_departments' => $inactive_departments,
             'active_appointments'  => $active_appointments ,
             'doctors'       => $doctors,
-            
+
         ];
         return view('admin.dashboard',compact('statistics'));
     }

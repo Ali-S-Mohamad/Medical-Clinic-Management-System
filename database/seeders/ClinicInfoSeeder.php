@@ -16,7 +16,6 @@ class ClinicInfoSeeder extends Seeder
     public function run(): void
     {
         $clinicInfo = ClinicInfo::create([
-        //  'logo' => 'storage/logos/logo.png',
             'name' => 'MediCore',
             'email'=> 'info@MediCore.com',
             'address' =>  'Damas, Syria',

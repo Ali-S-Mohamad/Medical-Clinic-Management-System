@@ -33,7 +33,7 @@ class Rating extends Model
         return $this->belongsTo(Employee::class , 'employee_id');
     }
 
-    public function user() {
-        return $this->belongsTo(User::class , 'patient_id');
+    public function patient() {
+        return $this->belongsTo(Patient::class);
     }
 }

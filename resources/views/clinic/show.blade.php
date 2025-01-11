@@ -26,7 +26,7 @@
                                 @endphp
                                 <a class="avatar" href="{{ $logo_path }}" target="_blank"
                                     style="display: flex; justify-content: center; align-items: center;">
-                                    <img alt="ُEmployee Image" src="{{ $logo_path }}"
+                                    <img alt="ُlogo" src="{{ $logo_path }}"
                                         style="max-width: 100%; max-height: 100%; width: 300px; height: 300px; object-fit: cover; border-radius: 50%;">
                                 </a>
                             </div>

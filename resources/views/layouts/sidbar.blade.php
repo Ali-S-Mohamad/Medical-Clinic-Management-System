@@ -23,12 +23,6 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="">
-                    <a href="{{route('employees.index',['role' => 'doctor'])}}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
-                </li>
-                <li class="">
-                    <a href="{{route('employees.index')}}"><i class="fa fa-user-md"></i> <span>Employees</span></a>
-                </li> --}}
                 @endhasrole
                 <li class="">
                     <a href="{{route('patients.index')}}"><i class="fa fa-wheelchair"></i><span>Patients</span></a>
@@ -45,15 +39,6 @@
                 <li>
                     <a href="{{route('prescriptions.index')}}"><i class="fa fa-cube"></i> <span>Prescriptions</span></a>
                 </li>
-                {{-- @canany(['create-role', 'edit-role', 'delete-role'])
-                <li>
-                    <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
-                </li>
-                @canany(['create-role', 'edit-role', 'delete-role'])
-                <li class="">
-                    <a href="{{route('roles.index')}}"><i class="fa fa-key"></i> <span>Roles &amp; Permissions</span></a>
-                </li>
-                @endcanany --}}
                 <li>
                     <a href="{{route('medicalFiles.index')}}"><i class="fa fa-cube"></i> <span>Medical Files</span></a>
                 </li>
@@ -62,10 +47,8 @@
                 </li>
                 <li class="">
                     <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a>
-                    {{-- <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a> --}}
                 </li>
                 <li class="">
-                    {{-- <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a> --}}
                     <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a>
                 </li>
             </ul>
