@@ -112,5 +112,7 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/export-reports', [ReportController::class, 'export'])->name('reports.export');
 
+    Route::get('/error/403', function() {
+        return view ('errors.errors403');     })->name('error.403');
 
 });

@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                {{-- {{ $prescriptions->links()}} --}}
+                {{ $prescriptions->links()}}
 
                 <div class="m-t-20 text-left">
                     <a href="{{ route('prescriptions.index') }}" class="btn btn-secondary mb-3" rel="prev">

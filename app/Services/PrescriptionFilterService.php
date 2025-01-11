@@ -15,4 +15,3 @@ class PrescriptionFilterService
     return $query;
 }
 }
-

@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    public function __construct() { 
-        $this->middleware('role:Admin')->only('destroy'); 
+    // public function __construct() { 
+    //     $this->middleware('role:Admin')->only('destroy'); 
+    // }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:show-rating', ['only' => ['index']]);
+        $this->middleware('permission:delete-rating', ['only' => ['destroy']]);
+
     }
     /**
      * Display a listing of the resource.
