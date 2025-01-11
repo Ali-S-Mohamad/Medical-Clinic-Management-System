@@ -37,7 +37,7 @@
                     <a href="{{route('departments.index')}}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                 </li>
                 <li class="">
-                    <a href="{{route('time-slots.index')}}"><i class="fa fa-hospital-o"></i> <span>Time Slot</span></a>
+                    <a href="{{route('time-slots.index')}}"><i class="fa fa-calendar-check-o"></i><span>Time Slot</span></a>
                 </li>
                 <li class="">
                     <a href="{{route('appointments.index')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>

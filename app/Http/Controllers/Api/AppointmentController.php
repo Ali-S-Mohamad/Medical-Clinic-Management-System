@@ -8,6 +8,7 @@ use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\CancelAppointmentRequest;
 use App\Services\AppointmentService;
 
 class AppointmentController extends Controller
@@ -89,5 +90,6 @@ class AppointmentController extends Controller
         // Return a success response with the available slots data using successResponse
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
+
 
 }
