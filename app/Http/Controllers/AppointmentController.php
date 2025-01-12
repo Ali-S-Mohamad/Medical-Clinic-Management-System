@@ -18,13 +18,13 @@ class AppointmentController extends Controller
     protected $appointmentService; // Declare variable to hold the service
 
     public function __construct(AppointmentService $appointmentService)
-    {   
+    {
         $this->middleware('auth');
-        $this->middleware('permission:show-Appointment', ['only' => ['index','show']]);
-        $this->middleware('permission:create-Appointment', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-Appointment', ['only' => ['edit','update']]);
+        $this->middleware('permission:show-Appointment', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create-Appointment', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-Appointment', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete-Appointment', ['only' => ['destroy']]);
-    
+
         // Constructor to inject AppointmentService
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
@@ -35,17 +35,17 @@ class AppointmentController extends Controller
     public function index()
     {
 
-        $employee = Employee::where('user_id', auth()->user()->id)->first();
 
-        // if (!$employee) {
-        //     return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
-        // }
 
         $appointments = Appointment::paginate(5);
-        if(Auth::user()->hasAnyRole(['Admin','employee'])){
+        if (Auth::user()->hasAnyRole(['Admin', 'employee'])) {
             return view('appointments.index', compact('appointments'));
         }
 
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+        if (!$employee) {
+            return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
+        }
         $isDoctor = auth()->user()->hasRole('doctor');
         $appointments = Appointment::with(['patient.user', 'employee.user'])
             ->when($isDoctor, function ($query) use ($employee) {
@@ -64,43 +64,41 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-         $patients = Patient::with('user')->get();
-         $doctors = User::role('doctor')->get();
-         
-         return view('appointments.create', compact('patients', 'doctors'));
+        $patients = Patient::with('user')->get();
+        $doctors = User::role('doctor')->get();
+
+        return view('appointments.create', compact('patients', 'doctors'));
     }
-    
+
     // Function to fetch available slots for a doctor on a selected date
     public function getAvailableSlots($doctorId, $appointmentDate)
     {
-         $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;  // Get the day of the week from the appointment date
-         
-         $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $appointmentDate);
-
-
-         return response()->json([
-        'availableSlots' => $availableSlots ]);
-    } 
+        $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;  // Get the day of the week from the appointment date
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $appointmentDate);
+        return response()->json([
+            'availableSlots' => $availableSlots
+        ]);
+    }
 
     public function store(AppointmentRequest $request)
     {
-    $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
+        $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
 
-    // Use AppointmentService to book the appointment
-    $response = $this->appointmentService->bookAppointment(
-        $request->patient_id,
-        $request->doctor_id,
-        $appointmentDateTime,
-    );
+        // Use AppointmentService to book the appointment
+        $response = $this->appointmentService->bookAppointment(
+            $request->patient_id,
+            $request->doctor_id,
+            $appointmentDateTime,
+        );
 
-    // If the booking was successful
-    if ($response['success']) {
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        // If the booking was successful
+        if ($response['success']) {
+            return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        }
+
+        // If there was an error during booking
+        return redirect()->route('appointments.index')->with('error', $response['message']);
     }
-
-    // If there was an error during booking
-    return redirect()->route('appointments.index')->with('error', $response['message']);
-}
 
 
     /**

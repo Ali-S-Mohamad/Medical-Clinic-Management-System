@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,6 +13,7 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            // Roles
             'create-role',
             'edit-role',
             'delete-role',
@@ -41,7 +41,7 @@ class PermissionSeeder extends Seeder
             'restore-department',
             'delete-department',
 
-            
+
             'show-MedicalFile',
             'create-MedicalFile',
             'edit-MedicalFile',
@@ -66,19 +66,19 @@ class PermissionSeeder extends Seeder
             'get-AppointmentforPatient',        //api
             'get-AvailableSlot',               //api
 
-        
+
             'show-TimeSlot',
             'create-TimeSlot',
             'edit-TimeSlot',
             'delete-TimeSlot',
-            
+
             'show-rating',
             'show-patientRatings',
             'create-rating',     //api
             'edit-rating',      //api
-            'delete-rating', 
-              
-            
+            'delete-rating',
+
+
             'show-report',
             'export-report',
 
@@ -92,6 +92,9 @@ class PermissionSeeder extends Seeder
         // Looping and Inserting Array's Permissions into Permission Table
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
+
         }
-    }
+
+
+   }
 }

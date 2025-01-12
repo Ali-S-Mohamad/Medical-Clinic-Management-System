@@ -31,7 +31,7 @@ class TimeSlotController extends Controller
         $user = Auth::user();
 
         // إذا كان Admin أو Employee، عرض جميع الأوقات
-        if ($user->hasRole(['Admin', 'employee'])) {
+        if ($user->hasAnyRole(['Admin', 'employee'])) {
             // جلب الأوقات مع بيانات الأطباء وتقسيمها إلى صفحات
             $timeSlots = TimeSlot::with('doctor.user')->paginate(5);
         }
@@ -65,7 +65,7 @@ class TimeSlotController extends Controller
     }
 
 
-    /**
+   /**
      * Store a newly created resource in storage.
      */
     public function store(TimeSlotRequest $request)

@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -13,12 +13,15 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'Admin']);
+        $admin = Role::create(['name' => 'Admin']);
         $doctor = Role::create(['name' => 'doctor']);
         $employee = Role::create(['name' => 'employee']);
         $patient = Role::create(['name' => 'patient']);
 
+        // Assign all permissions to Admin
+        $admin->syncPermissions(Permission::all());
 
+        // Doctor Permissions
         $doctor->givePermissionTo([
             'show-patient',
 
@@ -59,9 +62,10 @@ class RoleSeeder extends Seeder
             'delete-TimeSlot',
         ]);
 
+        // Employee Permissions
         $employee->givePermissionTo([
             'show-patient',
-            
+
             'show-department',
 
             'show-employee',
@@ -80,18 +84,19 @@ class RoleSeeder extends Seeder
             'show-rating',
 
             'show-report',
-            'export-report', 
+            'export-report',
 
             //'show-TimeSlot',
 
             'show-report',
             'export-report',
- 
+
         ]);
 
+        // Patient Permissions
         $patient->givePermissionTo([
             'show-clinicInformation',
-            
+
             'store-AppointmentforPatient',      //api
             'get-AppointmentforPatient',        //api
             'get-AvailableSlot',               //api
@@ -106,7 +111,7 @@ class RoleSeeder extends Seeder
             'show-patientRatings',
             'create-rating',     //api
             'edit-rating',      //api
-            'delete-rating', 
+            'delete-rating',
 
 
         ]);

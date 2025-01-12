@@ -37,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
     Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
+    Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
+
 });
 
 //Ratings routes  ->middleware('auth:sanctum')
