@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-
+Show report
 @endsection
 
 @section('css')

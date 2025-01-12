@@ -33,19 +33,42 @@ Reports
         </div>
         <div class="col-sm-7 col-7 text-right m-b-30 d-flex justify-content-end align-items-center">           
             <!-- زر  تصدير -->
-             <a href="{{ route('reports.export') }}" class="btn btn-primary btn-rounded mr-3">
+            <a href="{{ route('reports.export', request()->all()) }}" class="btn btn-primary btn-rounded mr-3">
                 <i class="fa fa-plus"></i> Export Table
             </a>
             <!-- أيقونة سلة المحذوفات -->
             <a href="{{route('reports.trash')}}">
                 <i class="fa fa-trash-o" style="font-size:36px"></i>
             </a>
-
-            
-        
         </div>
-
     </div>
+        {{-- for search --}}
+    <form action="{{ route('reports.index') }}" method="GET">
+        <div class="row filter-row">
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Patient Name</label>
+                    <input type="text" name="patient_name" value="{{ request()->input('patient_name') }}" class="form-control floating">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus">
+                    <label class="focus-label">Doctor name</label>
+                    <input type="text" name="doctor_name" value="{{ request()->input('doctor_name') }}" class="form-control floating">
+                </div>
+            </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="form-group form-focus">
+            <input type="date" name="appointment_date" class="form-control" value="{{ request()->input('appointment_date') }}">
+        </div>
+    </div>
+            <div class="col-sm-6 col-md-3">
+                <button type="submit" class="btn btn-success btn-block">
+                    <i class="icon-android-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="col-md-12">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -146,6 +169,12 @@ Reports
                 </div>
 
                 {{ $reports->links()}}
+
+                <div class="m-t-20 text-left">
+                    <a href="{{ route('reports.index') }}" class="btn btn-secondary mb-3" rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>

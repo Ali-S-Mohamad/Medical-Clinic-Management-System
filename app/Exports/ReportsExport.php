@@ -18,24 +18,23 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
 
     protected $reportId;
 
-    public function __construct($reportId = null)
+    public function __construct($filters = [] , $reportId = null)
     {
+        $this->filters = $filters;
         $this->reportId = $reportId;
     }
 
-    // public function collection()
-    // {
-    //     return Report::all();
-    // }
     
     public function collection()
     {
         if ($this->reportId) {
-            // تصدير تقرير فردي
+        // export one report  
             return Report::where('id', $this->reportId)->get();
         } else {
-            // تصدير جميع التقارير
-            return Report::all();
+        //export all reports
+           // return Report::all();
+           return Report::filter($this->filters)->get();
+
         }
     }
 

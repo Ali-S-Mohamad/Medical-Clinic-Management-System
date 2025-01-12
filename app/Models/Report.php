@@ -29,4 +29,29 @@ class Report extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+
+    //filter by patient name
+    public function scopeFilterByName($query, $name)
+    {
+        if ($name) {
+            return $query->where('patient_name', 'like', '%' . $name . '%');
+        }
+        return $query;
+    }
+    //filter by doctor name
+    public function scopeFilterByDoctor($query, $doctor)
+    {
+        if ($doctor) {
+            return $query->where('doctor_name', 'like', '%' . $doctor . '%');
+        }
+        return $query;
+    }
+    //filter by date
+    public function scopeFilterByDate($query, $date)
+    {
+        if ($date) {
+            return $query->whereDate('appointment_date', $date);
+        }
+        return $query;
+    }
 }
