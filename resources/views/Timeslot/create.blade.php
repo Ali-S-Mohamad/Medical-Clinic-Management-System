@@ -8,6 +8,16 @@
 @endsection
 
 @section('content')
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -22,11 +32,21 @@
                     <div class="form-group">
                         <label for="doctor_id">Doctor</label>
                         <select name="doctor_id" class="form-control" required>
-                        <option value="">Select Doctor</option>
-                        @foreach($doctors as $employee)
-                        <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
-                        @endforeach
-                    </select>
+                            @auth
+                                @php
+                                    $employee = Auth::user();
+                                @endphp
+                                @hasrole('doctor')
+                                    <option value="{{ $employee->employee->id }}">{{ $employee->name }}</option>
+                                @endhasrole
+                                @hasanyrole(['Admin', 'employee'])
+                                    <option value="">Select Doctor</option>
+                                    @foreach ($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}">{{ $doctor->user->name }}</option>
+                                    @endforeach
+                                @endhasanyrole
+                            @endauth
+                        </select>
                     </div>
 
                     {{-- Day of the Week --}}
@@ -59,7 +79,8 @@
                     {{-- Slot Duration --}}
                     <div class="form-group">
                         <label for="slot_duration">Slot Duration (minutes)</label>
-                        <input required type="number" name="slot_duration" id="slot_duration" class="form-control" min="1">
+                        <input required type="number" name="slot_duration" id="slot_duration" class="form-control"
+                            min="1">
                     </div>
 
                     {{-- Availability --}}

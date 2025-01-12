@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    // public function __construct() { 
-    //     $this->middleware('role:Admin')->only('destroy'); 
+    // public function __construct() {
+    //     $this->middleware('role:Admin')->only('destroy');
     // }
 
     public function __construct()
@@ -23,8 +23,9 @@ class RatingController extends Controller
      */
     public function index()
     {
-        $ratings = Rating::all();
-        // $ratings = Rating::with(['doctor', 'user'])->get();
+        $ratings = Rating::paginate(5);
+        // $ratings = Rating::with(['doctor.user', 'patient.user'])->paginate(5);
+        // $ratings = Rating::with(['doctor', 'patient'])->get();
         return view('ratings.index', compact('ratings'));
     }
 
@@ -72,7 +73,7 @@ class RatingController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Rating $rating)
-    {      
+    {
         $rating->delete();
         return redirect()->route('ratings.index');
     }

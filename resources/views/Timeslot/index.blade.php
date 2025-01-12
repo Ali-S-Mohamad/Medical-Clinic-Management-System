@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Departments
+    Time Slots
 @endsection
 
 @section('css')
@@ -13,6 +13,15 @@
 @endsection
 
 @section('content')
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -46,7 +55,7 @@
                         @foreach($timeSlots as $timeSlot)
                             <tr role="row">
                                 <td>{{ $timeSlot->id }}</td>
-                                <td>{{ $timeSlot->doctor->user->name}}</td> 
+                                <td>{{ $timeSlot->doctor->user->name}}</td>
                                 <td>{{ ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][$timeSlot->day_of_week] }}</td>
                                 <td>{{ $timeSlot->start_time }}</td>
                                 <td>{{ $timeSlot->end_time }}</td>
@@ -78,6 +87,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $timeSlots->links() }}
                 </div>
             </div>
         </div>

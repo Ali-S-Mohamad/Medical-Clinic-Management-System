@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
+use App\Models\Report;
 use Illuminate\Http\Request;
+use App\Exports\ReportsExport;
 use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {

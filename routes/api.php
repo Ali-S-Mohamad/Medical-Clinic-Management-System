@@ -24,7 +24,6 @@ use App\Http\Controllers\Api\AppointmentController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('login-doctor', [AuthController::class, 'loginDoctorAsPatient']);
 
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
@@ -38,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
     Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
+    Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
+
 });
 
 //Ratings routes  ->middleware('auth:sanctum')

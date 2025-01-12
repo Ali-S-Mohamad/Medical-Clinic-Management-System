@@ -22,11 +22,9 @@ class RatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'patient_id' => 'required|exists:patients,id',
-            // 'patient_id' => 'exists:users,id',
-            'doctor_id'  => 'required|exists:employees,id',
-            'doctor_rate'=> 'required|integer|between:0,10',
-            'details'    => 'nullable|string|max:200',
+           'doctor_id'   => 'required|exists:employees,id',
+           'doctor_rate' => 'required|numeric|between:1.0,10.0',
+           'details'     => 'nullable|string|max:200',
         ];
 
     }

@@ -44,8 +44,8 @@
                                     <td>{{$patient->user->email}}</td>
                                     <td>{{$patient->dob}}</td>
                                     <td>@php
-                                        $image_path = $patient->image
-                                            ? asset('storage/' . $patient->image->image_path)
+                                        $image_path = $patient->user->image
+                                            ? asset('storage/' . $patient->user->image->image_path)
                                             : asset('assets/img/user.jpg');
                                     @endphp
                                     <img width="40" height="40" src="{{ $image_path }}"

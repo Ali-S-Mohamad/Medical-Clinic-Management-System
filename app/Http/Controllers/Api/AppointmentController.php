@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Models\Patient;
-use App\Models\Appointment;
-use Illuminate\Http\Request;
-use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\CancelAppointmentRequest;
+use App\Http\Traits\ApiResponse;
+use App\Models\Appointment;
+use App\Models\Patient;
 use App\Services\AppointmentService;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -59,7 +59,14 @@ class AppointmentController extends Controller
         return $this->errorResponse($response['message'], 409);
     }
 
-    // Display appointments belonging to the patient
+
+
+
+    /**
+     * Display appointments belonging to the patient
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function myAppointments(Request $request)
     {
         $user = $request->user();
@@ -78,6 +85,16 @@ class AppointmentController extends Controller
         return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
     }
 
+
+
+
+    /**
+     * Summary of getAvailableSlots
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $doctorId
+     * @param mixed $dayOfWeek
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAvailableSlots(Request $request, $doctorId, $dayOfWeek)
     {
         // Receipt date of customer order
@@ -92,6 +109,33 @@ class AppointmentController extends Controller
 
         // Return a success response with the available slots data using successResponse
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
+    }
+
+
+
+
+    /**
+     * Summary of canceledAppointment
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Appointment $appointment
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function canceledAppointment(Request $request, Appointment $appointment)
+    {
+        // Ensure the appointment is currently scheduled
+        if ($appointment->status !== 'scheduled') {
+            return response()->json(['message' => 'Only scheduled appointments can be canceled'], 400);
+        }
+
+        // Update the appointment status to "canceled"
+        $appointment->status = 'canceled';
+        $appointment->save();
+
+        // Return a success response
+        return response()->json([
+            'message' => 'Appointment canceled successfully',
+            'appointment' => $appointment,
+        ]);
     }
 
 }

@@ -62,18 +62,18 @@ Reports
                                             rowspan="1" colspan="1" aria-sort="ascending"
                                             aria-label="#: activate to sort column descending" style="width: 62.125px;">
                                             #</th>
-                                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
                                             rowspan="1" colspan="1" aria-sort="ascending"
                                             aria-label="#: activate to sort column descending" style="width: 62.125px;">
-                                            Patient_id</th>  
+                                            Patient_id</th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                             rowspan="1" colspan="1"
                                             aria-label="Department Name: activate to sort column ascending"
-                                            style="width: 307.875px;">Patient Name</th> 
+                                            style="width: 307.875px;">Patient Name</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                             rowspan="1" colspan="1"
                                             aria-label="Department Name: activate to sort column ascending"
-                                            style="width: 307.875px;">Doctor Name</th>            
+                                            style="width: 307.875px;">Doctor Name</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                             rowspan="1" colspan="1"
                                             aria-label="Department Name: activate to sort column ascending"
@@ -102,11 +102,11 @@ Reports
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
-                                    @foreach ($reports as $report) 
+
+                                    @foreach ($reports as $report)
                                         <tr role="row" class="odd">
                                             <td>{{ $loop->iteration }}</td> <!-- العد التلقائي -->
-                                            <td>{{ $report->patient_id }}</td> 
+                                            <td>{{ $report->patient_id }}</td>
                                             <td>{{ $report->patient_name }}</td>
                                             <td>{{ $report->doctor_name }}</td>
                                             <td>{{ $report->appointment_date }}</td>
@@ -145,7 +145,7 @@ Reports
                     </div>
                 </div>
 
-                {{ $reports->links()}} 
+                {{ $reports->links()}}
             </div>
         </div>
     </div>

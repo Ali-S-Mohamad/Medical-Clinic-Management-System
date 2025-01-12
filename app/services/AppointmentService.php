@@ -25,7 +25,7 @@ class AppointmentService
         $dayOfWeek = date('w', $appointmentStart);
         $timeSlot = TimeSlot::where('doctor_id', $doctorId)
             ->where('day_of_week', $dayOfWeek)
-            ->where('is_available', true)
+            ->where('is_available', 1)
             ->whereRaw('TIME(?) BETWEEN start_time AND end_time', [date('H:i:s', $appointmentStart)])
             ->first();
 

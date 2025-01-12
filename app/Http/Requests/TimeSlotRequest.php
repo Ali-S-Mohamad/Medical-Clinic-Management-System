@@ -23,12 +23,19 @@ class TimeSlotRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'doctor_id' => 'required|exists:employees,id',  
-            'start_time' => 'required|date_format:H:i',      
-            'end_time' => 'required|date_format:H:i|after:start_time', 
-            'day_of_week' => 'required|integer|between:0,6',  
-            'is_available' => 'required|boolean',             
-            'slot_duration' => 'required|integer|min:15',   
+            'doctor_id' => 'required|exists:employees,id',
+            'start_time' => [
+                'required',
+                'regex:/^([01]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/'
+            ],
+            'end_time' => [
+                'required',
+                'regex:/^([01]?[0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?$/',
+                'after:start_time'
+            ],
+            'day_of_week' => 'required|integer|between:0,6',
+            'is_available' => 'required|boolean',
+            'slot_duration' => 'required|integer|min:15',
         ];
     }
 }

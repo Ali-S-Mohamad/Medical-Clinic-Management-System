@@ -42,12 +42,12 @@
                     <table class="table table-striped custom-table">
                         <thead>
                             <tr>
-                                <th>Appointment ID</th>
-                                <th>Patient Name</th>
-                                <th>Doctor Name</th>
-                                <th>Appointment Date</th>
-                                <th>Status</th>
-                                <th class="text-right">Action</th>
+                                <th class="text-center">Appointment ID</th>
+                                <th class="text-center">Patient Name</th>
+                                <th class="text-center">Doctor Name</th>
+                                <th class="text-center">Appointment Date</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,7 +82,7 @@
                                               ? 'pointer-events: none; color: #6c757d;' : '' }}">
                                              <i class="fa fa-pencil m-r-5"></i> Edit
                                          </a>
-                                         
+
                                             <a class="btn btn-sm btn-info"
                                                 href="{{ route('appointments.show', $appointment->id) }}"
                                                 style="display: inline-block; margin-right: 5px;">

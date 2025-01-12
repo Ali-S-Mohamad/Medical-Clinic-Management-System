@@ -41,10 +41,7 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        // dd($request);
-        $department = $request->validated();
-        dd($department);
-        $department = new Department();
+        $department = new Department(); 
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
