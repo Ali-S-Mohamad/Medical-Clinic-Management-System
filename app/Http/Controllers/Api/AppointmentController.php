@@ -59,7 +59,14 @@ class AppointmentController extends Controller
         return $this->errorResponse($response['message'], 409);
     }
 
-    // Display appointments belonging to the patient
+
+
+
+    /**
+     * Display appointments belonging to the patient
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function myAppointments(Request $request)
     {
         $user = $request->user();
@@ -78,6 +85,16 @@ class AppointmentController extends Controller
         return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
     }
 
+
+
+
+    /**
+     * Summary of getAvailableSlots
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $doctorId
+     * @param mixed $dayOfWeek
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAvailableSlots(Request $request, $doctorId, $dayOfWeek)
     {
         // Receipt date of customer order
@@ -93,7 +110,17 @@ class AppointmentController extends Controller
         // Return a success response with the available slots data using successResponse
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
-    public function canceledAppointment(CancelAppointmentRequest $request, Appointment $appointment)
+
+
+
+
+    /**
+     * Summary of canceledAppointment
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Appointment $appointment
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function canceledAppointment(Request $request, Appointment $appointment)
     {
         // Ensure the appointment is currently scheduled
         if ($appointment->status !== 'scheduled') {
