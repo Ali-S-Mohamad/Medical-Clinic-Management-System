@@ -36,6 +36,13 @@ class ReportController extends Controller
         return Excel::download(new ReportsExport, $fileName);
     } 
 
+
+    public function exportSingle($id)
+    {
+        $fileName = 'report_' . $id . '_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
+        return Excel::download(new ReportsExport($id), $fileName);
+    
+    }
     
     /**
      * Show the form for creating a new resource.
@@ -56,9 +63,10 @@ class ReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Report $report)
+    public function show($id)
     {
-        //
+        $report = Report::findOrFail($id);
+        return view('reports.show', compact('report'));
     }
 
     /**
@@ -80,11 +88,30 @@ class ReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        //
+        $report = Report::findOrFail($id);
+        $report->delete();
+        return redirect()->route('reports.index')->with('success', 'report is deleted successfully');
     }
 
-   
+    public function trash()
+    {
+        $reports = Report::onlyTrashed()->paginate(5);
+        return view('reports.trash', compact('reports'));
+    }
+
+    public function restore($id)
+    {
+        $report = Report::onlyTrashed()->findOrFail($id);
+        $report->restore();
+        return redirect()->route('reports.index')->with('success', 'report restored successfully.');
+    }
+
+    public function forceDelete(string $id)
+    {
+        Report::withTrashed()->where('id', $id)->forceDelete();
+        return redirect()->route('reports.trash')->with('success', 'report permanently deleted.');
+    }
 
 }
