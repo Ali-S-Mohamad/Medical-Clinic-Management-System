@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentRequest;
 use App\Http\Requests\CancelAppointmentRequest;
+use App\Http\Resources\AppointmentsResource;
 use App\Http\Traits\ApiResponse;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Services\AppointmentService;
 use Illuminate\Http\Request;
+use App\Http\Resources\DoctorsResource;
 
 class AppointmentController extends Controller
 {
@@ -79,13 +81,17 @@ class AppointmentController extends Controller
         }
 
         // Retrieve appointments associated with the patient
-        $appointments = $patient->appointments()->orderBy('appointment_date', 'desc')->get();
+        $appointments = $patient->appointments()->with('employee')->orderBy('appointment_date', 'desc')->paginate(5);
 
         // Use successResponse from ApiResponse trait
-        return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
+        return $this->apiResponse(AppointmentsResource::collection($appointments), 'Appointments retrieved successfully.', 200);
     }
 
 
+    public function showAppointment(string $id){
+        $appointment = Appointment::with('employee','patient')->findOrFail($id);
+        
+    }
 
 
     /**
