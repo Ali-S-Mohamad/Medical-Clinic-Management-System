@@ -27,29 +27,35 @@ class MedicalFilesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    protected $medicalFileFilterService;
     public function index(Request $request)
     {
+        $filters = $request->only(['search_name', 'search_insurance']);
+    
+        $query = MedicalFile::query();
+    
+        if (!empty($filters['search_name'])) {
+            $query->whereHas('patient.user', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search_name'] . '%');
+            });
+        }
+    
+        if (!empty($filters['search_insurance'])) {
+            $query->whereHas('patient', function ($q) use ($filters) {
+                $q->where('insurance_number', 'like', '%' . $filters['search_insurance'] . '%');
+            });
+        }
+        $medicalFiles = $query->paginate(5); 
 
-    // Retrive input values
-    $filters = $request->only(['search_name', 'search_insurance']);
-
-    // Service call
-    $medicalFileFilterService = app(MidecalFileFilterService::class);
-    $medicalFiles = $medicalFileFilterService->filter($filters);
-
-    if(!empty($filter['search_name']) || !empty($filter['search_insurance'])){
-        if ($medicalFiles->count() == 0) {
-                return redirect()->route('medicalFiles.index');
-            }
-        } else {
-
-     // Is there no search, show all result
-    $medicalFiles = $medicalFiles->orderBy('created_at','asc')->paginate(4);
-    }
-    return view('medicalFiles.index', compact('medicalFiles', 'filters'));
-
-    }
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('medicalFiles.partials.table', compact('medicalFiles'))->render()
+            ]);
+        }
+    
+        return view('medicalFiles.index', compact('medicalFiles', 'filters'));
+    }    
+    
+    
 
     /**
      * Show the form for creating a new resource.
