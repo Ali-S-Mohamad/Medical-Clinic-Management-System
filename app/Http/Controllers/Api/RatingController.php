@@ -33,12 +33,19 @@ class RatingController extends Controller
         return $this->apiResponse(RatingResource::collection($ratings), 'all ratings:', 200);
     }
 
+    public function getMyRatings(Request $request)
+    {
+        $user = $request->user();
+        $myRatings = Rating::where('patient_id',$user->patient->id)->paginate(3);;
+        return $this->apiResponse(RatingResource::collection($myRatings), 'My ratings:', 200);
+    }
+
     // All Ratings related to specific doctor
-    public function doctor_ratings_details(Request $request)
+    public function doctorRatingsDetails(Request $request)
 
     {
-        $doctor_ratings = Rating::where('employee_id', $request->doctor_id)->paginate(3);
-        return $this->apiResponse(RatingResource::collection($doctor_ratings), 'all ratings:', 200);
+        $doctorRatings = Rating::where('employee_id', $request->doctor_id)->paginate(3);
+        return $this->apiResponse(RatingResource::collection($doctorRatings), 'all ratings:', 200);
     }
 
     /**
@@ -58,11 +65,8 @@ class RatingController extends Controller
                     ->whereBetween('appointment_date', [now()->subWeek(), now()]);
             })->exists();
 
-
-
         // check if the rate is for a doctor (not adminstrative employee)
         $emp = Employee::find($request->doctor_id);
-
         if ($emp->user->hasRole('doctor') && $hasCompletedAppointment) {
             Rating::create([
                 'patient_id'   => $patient_id,
@@ -107,14 +111,12 @@ class RatingController extends Controller
         if (!$rate)
             return $this->errorResponse('Rating not found to delete it', 404);
 
-
         $hasCompletedAppointment = Patient::where('id', $patient_id)
             ->whereHas('appointments', function ($query) use ($request) {
                 $query->where('status', 'completed')
                     ->where('doctor_id', $request->doctor_id)
                     ->whereBetween('appointment_date', [now()->subWeek(), now()]);
             })->exists();
-
 
         //  rate can be updated if:
         //  rate is exsists && rate is for doctor && rate is added by the same patient who wants to update.

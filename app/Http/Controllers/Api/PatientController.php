@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use App\Models\Patient;
-use App\Models\Employee;
-use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Traits\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DoctorsResource;
-use App\Http\Resources\DepartmentsResource;
+
 
 
 class PatientController extends Controller

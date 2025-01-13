@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\PatientController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Api\AppointmentController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+
 //Protected routes of logout
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
@@ -33,8 +35,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('my-prescriptions', [PatientController::class, 'getMyPrescriptions']);
 
+    Route::get('list-departments', [DepartmentController::class, 'listDepartments']);
+    Route::get('show-department/{department}', [DepartmentController::class, 'showDepartment']);
     Route::get('active-departments', [DepartmentController::class, 'getActiveDepartments']);
+
     Route::get('active-doctors/{departmentId}', [DepartmentController::class, 'getAvailableDoctorsInDepartment']);
+    Route::get('all-doctors', [DoctorController::class, 'listDoctors']);
+    Route::get('show-doctor/{doctor}', [DoctorController::class, 'showDoctor']);
 
     Route::get('available-slots/{doctorId}/{dayOfWeek}', [AppointmentController::class, 'getAvailableSlots']);
 
@@ -42,8 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
     Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
 
+    Route::get('my-ratings', [RatingController::class, 'getMyRatings']);
+
 });
 
 //Ratings routes  ->middleware('auth:sanctum')
-Route::post('doctor_ratings', [RatingController::class, 'doctor_ratings_details']);
+Route::post('doctor_ratings', [RatingController::class, 'doctorRatingsDetails']);
+Route::get('clinic-info', [DepartmentController::class, 'getClinicInfo']);
 Route::apiResource('rating', RatingController::class);
