@@ -54,12 +54,4 @@ class Report extends Model
         }
         return $query;
     }
-
-    public function scopeFilter($query, $filters)
-    {
-        return $query->filterByName($filters['patient_name'] ?? null)
-                     ->filterByDoctor($filters['doctor_name'] ?? null)
-                     ->filterByDate($filters['appointment_date'] ?? null);
-    }
-
 }

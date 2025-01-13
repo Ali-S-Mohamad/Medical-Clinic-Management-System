@@ -16,4 +16,6 @@ class ReportFilterService
 
         return $query->paginate(5);
     }
+
+    
 }

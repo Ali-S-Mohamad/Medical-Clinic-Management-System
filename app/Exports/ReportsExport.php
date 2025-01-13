@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Report;
 use App\Models\Appointment;
+use App\Services\ReportFilterService;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -17,6 +18,7 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
     */
 
     protected $reportId;
+    protected $filters;
 
     public function __construct($filters = [] , $reportId = null)
     {
@@ -33,7 +35,9 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
         } else {
         //export all reports
            // return Report::all();
-           return Report::filter($this->filters)->get();
+           //return Report::filter($this->filters)->get();
+           $reportFilterService = new ReportFilterService();
+           return $reportFilterService->filter($this->filters); 
 
         }
     }
