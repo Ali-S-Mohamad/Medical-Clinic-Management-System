@@ -50,29 +50,4 @@ class PatientController extends Controller
         $prescriptions = $patient->medicalFile->prescriptions()->get();
         return $this->apiResponse($prescriptions, 'Prescriptions retrieved successfully.', 200);
     }
-
-
-
-    /**
-     * Summary of getActiveDepartments
-     * @return mixed|\Illuminate\Http\JsonResponse
-     */
-    public function getActiveDepartments(){
-        $activeDepartments = Department::active()->get();
-        return $this->apiResponse(DepartmentsResource::collection($activeDepartments), 'Active Departments retrieved successfully.', 200);
-    }
-
-    /**
-     * Summary of getAvailableDoctorsInDepartment
-     * @param mixed $departmentId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getAvailableDoctorsInDepartment($departmentId){
-
-        $availableDoctors= User::role('doctor')->with('employee')
-                ->whereHas('employee',function ($query) use ($departmentId) {
-                                $query->where('department_id', $departmentId);
-                            })->get();
-        return $this->apiResponse(DoctorsResource::collection($availableDoctors), 'Active Doctors retrieved successfully.', 200);
-    }
 }
