@@ -21,6 +21,8 @@ return new class extends Migration
             $table->text('instructions'); 
             $table->text('details')->nullable(); 
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

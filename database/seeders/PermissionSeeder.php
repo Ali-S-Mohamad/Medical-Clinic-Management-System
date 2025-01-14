@@ -81,6 +81,12 @@ class PermissionSeeder extends Seeder
 
             'show-report',
             'export-report',
+            'Archive-report',
+            'view-archivereport',
+            'restore-report',
+            'delete-report',
+
+
 
             'get-PatientPrescriptions',  //api
             'get-ActiveDepartments',     //api

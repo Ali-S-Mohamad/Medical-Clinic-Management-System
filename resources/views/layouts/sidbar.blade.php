@@ -23,6 +23,9 @@
                         </li>
                     </ul>
                 </li>
+                <li class="">
+                    <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a>
+                </li>
                 @endhasrole
                 <li class="">
                     <a href="{{route('patients.index')}}"><i class="fa fa-wheelchair"></i><span>Patients</span></a>
@@ -45,9 +48,7 @@
                 <li class="">
                     <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>
-                <li class="">
-                    <a href="{{route('clinic.show', ['clinic' => 1] )}}"><i class="fa fa-cogs"></i> <span>Clini Info</span></a>
-                </li>
+
                 <li class="">
                     <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a>
                 </li>

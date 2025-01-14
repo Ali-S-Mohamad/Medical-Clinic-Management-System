@@ -26,6 +26,7 @@ class DashboardController extends Controller
         $active_departments   = Department::where('status', 1)->count();
         $inactive_departments = Department::where('status', 0)->count();
         $active_appointments  = Appointment::where('status', 'scheduled')->count();
+        $pending_appointments  = Appointment::where('status', 'pending')->get();
 
 
         $statistics=[
@@ -35,6 +36,7 @@ class DashboardController extends Controller
             'active_departments'   => $active_departments,
             'inactive_departments' => $inactive_departments,
             'active_appointments'  => $active_appointments ,
+            'pending_appointments'  => $pending_appointments ,
             'doctors'       => $doctors,
 
         ];

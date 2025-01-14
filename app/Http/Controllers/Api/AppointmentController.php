@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentRequest;
 use App\Http\Requests\CancelAppointmentRequest;
+use App\Http\Resources\AppointmentsResource;
 use App\Http\Traits\ApiResponse;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Services\AppointmentService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Resources\DoctorsResource;
 
 class AppointmentController extends Controller
 {
@@ -79,13 +82,17 @@ class AppointmentController extends Controller
         }
 
         // Retrieve appointments associated with the patient
-        $appointments = $patient->appointments()->orderBy('appointment_date', 'desc')->get();
+        $appointments = $patient->appointments()->with('employee')->orderBy('appointment_date', 'desc')->paginate(5);
 
         // Use successResponse from ApiResponse trait
-        return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
+        return $this->apiResponse(AppointmentsResource::collection($appointments), 'Appointments retrieved successfully.', 200);
     }
 
 
+    public function showAppointment(string $id){
+        $appointment = Appointment::with('employee','patient')->findOrFail($id);
+        
+    }
 
 
     /**
@@ -95,24 +102,22 @@ class AppointmentController extends Controller
      * @param mixed $dayOfWeek
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAvailableSlots(Request $request, $doctorId, $dayOfWeek)
+    public function getAvailableSlots(Request $request, $doctorId, $date)
     {
-        // Receipt date of customer order
-        $date = $request->query('date');
-
         if (!$date) {
-            // Return an error response using the errorResponse method from ApiResponse trait
             return $this->errorResponse('Date is required.', 400);
         }
-
-        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $date);
-
-        // Return a success response with the available slots data using successResponse
+    
+        // Get the day of the week
+        $dayOfWeek = Carbon::parse($date)->dayOfWeek;
+    
+        // Call the appointment service to obtain available times
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $date);
+    
+        // Returns the times available as a successful response
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
-
-
-
+    
 
     /**
      * Summary of canceledAppointment
