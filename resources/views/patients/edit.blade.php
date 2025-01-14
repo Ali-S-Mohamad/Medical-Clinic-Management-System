@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Add Patient
+    Edit Patient
 @endsection
 
 @section('css')
@@ -13,13 +13,14 @@
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <h4 class="page-title">Add Patient</h4>
+                <h4 class="page-title">Edit Patient</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <form action="{{ route('users.store') }}" method="post" enctype='multipart/form-data'>
+                <form action="{{ route('users.update', $patient->user->id) }}" method="post" enctype='multipart/form-data'>
                     @csrf
+                    @method('PUT')
 
                     <div class="row">
                         {{-- image section --}}
@@ -44,40 +45,40 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' class="form-control" type="text">
+                                <input required name='name' value='{{ $patient->user->name }}' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number <span class="text-danger">*</span> </label>
-                                <input required name='phone' class="form-control" type="text">
+                                <input required name='phone' value='{{ $patient->user->phone_number }}'  class="form-control" type="text">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
-                                <input required name='email' class="form-control" type="email">
+                                <input required name='email' value='{{ $patient->user->email }}'  class="form-control" type="email">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Password <span class="text-danger">*</span></label>
-                                <input required name='password' class="form-control" type="password">
+                                <input required name='password' value='{{ $patient->user->email }}' class="form-control" type="password">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Insurance Number   </label>
-                                <input  name='insurance_number' class="form-control" type="text">
+                                <label>Insurance Number <span class="text-danger">*</span> </label>
+                                <input  name='insurance_number' value='{{ $patient->insurance_number }}'  class="form-control" type="text">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Date of birth <span class="text-danger">*</span> </label>
-                                <input required name='dob' class="form-control" type="date">
+                                <input required name='dob' value='{{ $patient->dob }}' class="form-control" type="date">
                             </div>
                         </div>
                         
@@ -86,7 +87,7 @@
                      
                     </div>
                     <div class="m-t-20 text-center">
-                        <button class="btn btn-primary submit-btn">Create Patient</button>
+                        <button class="btn btn-primary submit-btn">Edit Patient</button>
                     </div>
 
                     <div class="m-t-20 text-center">
