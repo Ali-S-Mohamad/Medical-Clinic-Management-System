@@ -46,8 +46,8 @@ class PatientController extends Controller
     {
         Patient::create([
             'user_id' => $userId,
-            'insurance_number' => $request->insurance_number, 
-            'dob' => $request->dob, 
+            'insurance_number' => $request->insurance_number,
+            'dob' => $request->dob,
         ]);
 
         return redirect()->route('patients.index');
@@ -57,15 +57,15 @@ class PatientController extends Controller
     {
 
         $patient = Patient::where('user_id',$userId)->first();
-        
+
 
         $patient->update([
             'user_id' => $userId,
-            'insurance_number' => $request->insurance_number, 
-            'dob' => $request->dob, 
+            'insurance_number' => $request->insurance_number,
+            'dob' => $request->dob,
         ]);
 
-     
+    
         return redirect()->route('patients.index');
     }
 
@@ -114,7 +114,7 @@ class PatientController extends Controller
     }
 
     public function restore(string $id)
-    {  
+    {
         $patient = Patient::withTrashed()->where('id', $id)->first();
         $patient->restore();
         return redirect()->route('patients.trash')->with('success', 'patient restored successfully.');
@@ -124,7 +124,7 @@ class PatientController extends Controller
     public function forceDelete(string $id)
     {
         $patient = Patient::withTrashed()->findOrFail($id);
-        $patient->forceDelete(); 
+        $patient->forceDelete();
         return redirect()->route('patients.trash')->with('success', 'patient permanently deleted.');
     }
 

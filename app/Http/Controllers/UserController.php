@@ -32,24 +32,24 @@ class UserController extends Controller
             'email' => $request->email,
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
-            
+
         ]);
-      
-        if ($request->has('is_patient')) { // هو مريض 
-            $user->assignRole('patient'); 
+
+        if ($request->has('is_patient')) { // هو مريض
+            $user->assignRole('patient');
             saveImage('Patient images', $request, $user);
 
             $patientController = new PatientController();
             return $patientController->storePatientDetails($user->id, $request);
-        } 
-        else { // هو موظف 
+        }
+        else { // هو موظف
             $isDoctor = $request->input('is_doctor', 0);
             if ($isDoctor) {
                 $user->assignRole('doctor');
             } else {
                 $user->assignRole('employee');
             }
-            $user->update([ 'is_patient' => false ]); 
+            $user->update([ 'is_patient' => false ]);
 
             saveImage('Employee images', $request, $user);
 
@@ -58,15 +58,15 @@ class UserController extends Controller
             return $employeeController->storeEmployeeDetails($user->id, $request);
 
         }
-       
-        
+
+
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, string $id)
-    {   
+    {
         $user = User::findOrFail($id);
         $user->update([
             'name' => $request->name,
@@ -74,32 +74,29 @@ class UserController extends Controller
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
         ]);
-       
-        if ($request->has('is_patient')) { 
-            $user->assignRole('patient'); 
+
+        if ($request->has('is_patient')) {
+            $user->assignRole('patient');
             saveImage('Patient images', $request, $user);
 
             $patientController = new PatientController();
             return $patientController->updatePatientDetails($user->id, $request);
-        } 
-        else { 
+        }
+        else {
             $isDoctor = $request->input('is_doctor', 0);
             if ($isDoctor) {
                 $user->assignRole('doctor');
             } else {
                 $user->assignRole('employee');
             }
-            $user->update([ 'is_patient' => false ]); 
+            $user->update([ 'is_patient' => false ]);
 
             saveImage('Employee images', $request, $user);
 
             // Calling EmployeeController to Update Employee Details
             $employeeController = new EmployeeController();
             return $employeeController->updateEmployeeDetails($user->id, $request);
-
         }
-
-       
     }
 
 }

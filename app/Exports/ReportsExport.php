@@ -19,7 +19,6 @@ class ReportsExport implements FromCollection, WithHeadings, WithStyles
 
     protected $reportId;
     protected $filters;
-    protected $filters;
 
     public function __construct($filters = [], $reportId = null)
     {
