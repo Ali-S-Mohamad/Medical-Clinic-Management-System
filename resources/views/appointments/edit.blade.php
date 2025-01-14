@@ -78,16 +78,20 @@ Edit Appointment
 
                 <!-- Status -->
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select name="status" class="form-control">
-                                <option value="scheduled" {{ old('status', $appointment->status) == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
-                                <option value="completed" {{ old('status', $appointment->status) == 'completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="canceled" {{ old('status', $appointment->status) == 'canceled' ? 'selected' : '' }}>Canceled</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                <label>Status</label>
+                <select name="status" class="form-control">
+                <option value="scheduled" {{ old('status', $appointment->status) == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
+                <option value="completed" {{ old('status', $appointment->status) == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="canceled" {{ old('status', $appointment->status) == 'canceled' ? 'selected' : '' }}>Canceled</option>
+
+                @if (old('status', $appointment->status) == 'pending')
+                <option value="pending" selected>Pending</option>
+                @endif
+             </select>
+            </div>
+               </div>
                 </div>
 
                 <!-- Notes -->
@@ -113,32 +117,34 @@ Edit Appointment
 
 @section('scripts')
 <script>
-    $(document).ready(function() {
-        // When you change your doctor or history
-        $('#doctor_id, #appointment_date').change(function() {
-            var doctorId = $('#doctor_id').val();
-            var appointmentDate = $('#appointment_date').val();
+$(document).ready(function() {
+    // Trigger when doctor or appointment date is selected
+    $('#doctor_id, #appointment_date').change(function() {
+        var doctorId = $('#doctor_id').val();
+        var appointmentDate = $('#appointment_date').val();
 
-            if (doctorId && appointmentDate) {
-                $.ajax({
-                    url: '/get-available-slots/' + doctorId + '/' + appointmentDate,
-                    method: 'GET',
-                    success: function(response) {
-                        $('#appointment_time').empty();
-                        if (response.availableSlots.length > 0) {
-                            response.availableSlots.forEach(function(slot) {
-                                $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
-                            });
-                        } else {
-                            $('#appointment_time').append('<option value="">No available slots</option>');
-                        }
-                    },
-                    error: function() {
-                        alert('Error fetching available slots');
+        if (doctorId && appointmentDate) {
+            $.ajax({
+                url: '/get-available-slots/' + doctorId,
+                method: 'GET',
+                data: { date: appointmentDate },
+                success: function(response) {
+                    $('#appointment_time').empty();
+                    if (response.availableSlots && response.availableSlots.length > 0) {
+                        response.availableSlots.forEach(function(slot) {
+                            $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
+                        });
+                    } else {
+                        $('#appointment_time').append('<option value="">No available slots</option>');
                     }
-                });
-            }
-        });
+                },
+                error: function(xhr) {
+                    var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'An error occurred';
+                    alert('Error fetching available slots: ' + errorMessage);
+                }
+            });
+        }
     });
+});
 </script>
 @endsection

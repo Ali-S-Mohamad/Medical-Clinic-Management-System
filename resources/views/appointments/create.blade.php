@@ -86,27 +86,34 @@
 
 @section('scripts')
 <script>
-    // When doctor or date is selected, fetch available slots
-    $('#doctor_id, #appointment_date').change(function() {
-        var doctorId = $('#doctor_id').val();
-        var appointmentDate = $('#appointment_date').val();
+// When doctor or date is selected, fetch available slots
+$('#doctor_id, #appointment_date').change(function() {
+    var doctorId = $('#doctor_id').val(); // Get your doctor's ID
 
-        if (doctorId && appointmentDate) {
-            $.ajax({
-                url: '/get-available-slots/' + doctorId + '/' + appointmentDate,
-                method: 'GET',
-                success: function(response) {
-                    $('#appointment_time').empty();  // Clear existing options
-                    if (response.availableSlots.length > 0) {
-                        response.availableSlots.forEach(function(slot) {
-                            $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
-                        });
-                    } else {
-                        $('#appointment_time').append('<option value="">No available slots</option>');
-                    }
+    var appointmentDate = $('#appointment_date').val(); // Get date from input date
+
+    if (doctorId && appointmentDate) {
+        $.ajax({
+            url: '/get-available-slots/' + doctorId, // Use only the doctor ID in the link
+            method: 'GET',
+            data: { date: appointmentDate }, // Submit date as Query Parameter
+            success: function(response) {
+                $('#appointment_time').empty(); // Dump current options
+
+                if (response.availableSlots && response.availableSlots.length > 0) {
+                    response.availableSlots.forEach(function(slot) {
+                        $('#appointment_time').append('<option value="' + slot + '">' + slot + '</option>');
+                    });
+                } else {
+                    $('#appointment_time').append('<option value="">No available slots</option>');
                 }
-            });
-        }
-    });
+            },
+            error: function(xhr) {
+                var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'An error occurred';
+                alert('Error fetching available slots: ' + errorMessage);
+            }
+        });
+    }
+});
 </script>
 @endsection

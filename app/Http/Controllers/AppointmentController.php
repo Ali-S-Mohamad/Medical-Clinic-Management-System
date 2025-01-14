@@ -71,24 +71,32 @@ class AppointmentController extends Controller
     }
 
     // Function to fetch available slots for a doctor on a selected date
-    public function getAvailableSlots($doctorId, $appointmentDate)
+    public function getAvailableSlots(Request $request, $doctorId)
     {
-        $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;  // Get the day of the week from the appointment date
-        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $appointmentDate);
+        $appointmentDate = $request->input('date');
+        if (!$appointmentDate) {
+            return response()->json([
+                'message' => 'Appointment date is required.'
+            ], 400);
+        }
+        $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $appointmentDate);
         return response()->json([
             'availableSlots' => $availableSlots
         ]);
     }
+    
 
     public function store(AppointmentRequest $request)
     {
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
-
         // Use AppointmentService to book the appointment
         $response = $this->appointmentService->bookAppointment(
             $request->patient_id,
             $request->doctor_id,
             $appointmentDateTime,
+            $request->status,
+            $request->notes,
         );
 
         // If the booking was successful
