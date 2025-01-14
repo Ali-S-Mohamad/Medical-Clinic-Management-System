@@ -92,7 +92,9 @@ Route::middleware(['auth','patient'])->group(function () {
 
 
     //Define Patients Routes
+    Route::post('patients/{id}/restore', [PatientController::class, 'restore'])->name('patients.restore');
     Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
+    Route::delete('patients/force-delete/{id}', [PatientController::class, 'forceDelete'])->name('patients.forceDelete'); // الحذف النهائي
     Route::resource('patients', PatientController::class);
 
 

@@ -20,7 +20,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
+        $patients = Patient::paginate(5);
         // dd($patients);
         return view('patients.index',compact('patients'));
     }
@@ -30,8 +30,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $departments = Department::all();
-        return view('patients.create',compact('departments'));
+        // $departments = Department::all();
+        return view('patients.create');
     }
 
     /**
@@ -42,20 +42,48 @@ class PatientController extends Controller
         //
     }
 
+    public function storePatientDetails($userId, Request $request)
+    {
+        Patient::create([
+            'user_id' => $userId,
+            'insurance_number' => $request->insurance_number, 
+            'dob' => $request->dob, 
+        ]);
+
+        return redirect()->route('patients.index');
+    }
+
+    public function updatePatientDetails ($userId, Request $request)
+    {
+
+        $patient = Patient::where('user_id',$userId)->first();
+        
+
+        $patient->update([
+            'user_id' => $userId,
+            'insurance_number' => $request->insurance_number, 
+            'dob' => $request->dob, 
+        ]);
+
+     
+        return redirect()->route('patients.index');
+    }
+
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Patient $patient)
     {
-        //
+        return view('patients.show', compact('patient'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Patient $patient)
     {
-        //
+        return view('patients.edit', compact('patient'));
     }
 
     /**
@@ -69,8 +97,35 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+        return redirect()->route('patients.index');
     }
+
+    public function trash()
+    {
+        $deletedPatients = Patient::onlyTrashed()->with([
+            'user' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->paginate(5);
+        return view('patients.trash', compact('deletedPatients'));
+    }
+
+    public function restore(string $id)
+    {  
+        $patient = Patient::withTrashed()->where('id', $id)->first();
+        $patient->restore();
+        return redirect()->route('patients.trash')->with('success', 'patient restored successfully.');
+    }
+
+    // Delete patient For ever
+    public function forceDelete(string $id)
+    {
+        $patient = Patient::withTrashed()->findOrFail($id);
+        $patient->forceDelete(); 
+        return redirect()->route('patients.trash')->with('success', 'patient permanently deleted.');
+    }
+
 }

@@ -78,9 +78,27 @@
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
                                         <td>{{ $employee->department->name }}</td>
-                                        <td>...</td>
+                                        <td class="language-container d-flex flex-wrap">
+                                            @if (!$employee->Languages->isEmpty())
+                                                @foreach ($employee->Languages as $Language)
+                                                    <p class="badge badge-pill badge-dark"> {{ $Language->name }}</p>
+                                                @endforeach
+                                            @endif
+                                        </td>
                                         <td>
-                                            <span class="custom-badge status-green">Nurse</span>
+                                            @if ($employee->user->roles->isNotEmpty())
+                                                @php
+                                                    $role = $employee->user->roles->first()->name;
+                                                    $badgeClass = match ($role) {
+                                                        'doctor' => 'status-green',
+                                                        'employee' => 'status-blue',
+                                                        default => 'status-grey',
+                                                    };
+                                                @endphp
+                                                <span class="custom-badge {{ $badgeClass }}">{{ $role }}</span>
+                                            @else
+                                                <span class="custom-badge status-red">No Role Assigned</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <form action="{{ route('employees.restore', $employee->id) }}" method="POST"
@@ -107,6 +125,7 @@
     </div>
     </div>
     @endif
+    {{ $employees->links()}}
     </div>
 
 @endsection

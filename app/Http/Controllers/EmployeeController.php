@@ -144,7 +144,7 @@ class EmployeeController extends Controller
             'user' => function ($query) {
                 $query->withTrashed();
             }
-        ])->get();
+        ])->paginate(5);
         return view('employees.trash', compact('deletedEmployees'));
     }
 

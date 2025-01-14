@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status',['scheduled', 'completed', 'canceled'])->default('scheduled');
             $table->text('notes');
             $table->timestamps();
-            $table->softDeletes();
+
         });
     }
 

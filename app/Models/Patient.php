@@ -17,6 +17,48 @@ class Patient extends Model
         'insurance_number'
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($patients) {
+            if ($patients->user) {
+                $patients->user->delete();
+            }
+
+            if ($patients->medicalFile) {
+                $patients->medicalFile->delete();
+            }
+
+            if ($patients->appointments) {
+                foreach ($patients->appointments as $appointment) {
+                    $appointment->delete();
+                }
+            }
+        });
+
+        static::restoring(function ($patients) {
+            if ($patients->user()->withTrashed()->exists()) {
+                $patients->user()->withTrashed()->restore();
+            }
+
+            if ($patients->medicalFile()->withTrashed()->exists()) {
+                $patients->medicalFile()->withTrashed()->restore();
+            }
+
+        });
+
+    static::forceDeleting(function ($patients) {
+        if ($patients->user()->withTrashed()->exists()) {
+            $patients->user()->forceDelete();
+        }
+
+        if ($patients->medicalFile()->withTrashed()->exists()) {
+            $patients->medicalFile()->forceDelete();
+        }
+
+    });
+}
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }

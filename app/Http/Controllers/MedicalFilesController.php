@@ -125,9 +125,12 @@ class MedicalFilesController extends Controller
         $medicalFile->delete();
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFiles is deleted successfully');
     }
-    public function trash()
+    public function trash() 
     {
-        $medicalFiles= MedicalFile::onlyTrashed()->get();
+        $medicalFiles = MedicalFile::onlyTrashed()->with([ 
+            'patient' => function ($query) { $query->withTrashed()->with([ 
+                'user' => function ($query) { $query->withTrashed(); } ]); } 
+                ])->paginate(5);
         return view ('medicalFiles.trash' , compact('medicalFiles'));
     }
 
