@@ -55,7 +55,7 @@ Create Role
                     <div class="mb-3 row">
                         <label for="permissions" class="col-md-4 col-form-label text-md-end text-start">Permissions</label>
                         <div class="col-md-6">
-                            <label for="permissions">الصلاحيات</label>
+                          
                             @forelse ($permissions as $permission)
                                 <div class="form-check">
                                     <input 

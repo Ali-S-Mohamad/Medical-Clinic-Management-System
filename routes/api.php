@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all-doctors', [DoctorController::class, 'listDoctors']);
     Route::get('show-doctor/{doctor}', [DoctorController::class, 'showDoctor']);
 
-    Route::get('available-slots/{doctorId}/{dayOfWeek}', [AppointmentController::class, 'getAvailableSlots']);
+    Route::get('available-slots/{doctorId}/{date}', [AppointmentController::class, 'getAvailableSlots']);
 
     Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
     Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
