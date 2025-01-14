@@ -17,6 +17,7 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
     */
 
     protected $reportId;
+    protected $filters;
 
     public function __construct($filters = [] , $reportId = null)
     {
@@ -24,16 +25,16 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
         $this->reportId = $reportId;
     }
 
-    
+
     public function collection()
     {
         if ($this->reportId) {
-        // export one report  
+        // export one report
             return Report::where('id', $this->reportId)->get();
         } else {
         //export all reports
            // return Report::all();
-           return Report::filter($this->filters)->get();
+            return Report::filterByName($this->filters)->get();
 
         }
     }
@@ -57,7 +58,7 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
 
 public function styles(Worksheet $sheet)
     {
-        
+
         $sheet->getStyle('A1:J1')->applyFromArray([
             'font' => [
                 'bold' => true,
