@@ -26,7 +26,7 @@ class AppointmentRequest extends FormRequest
             'doctor_id' => 'required|exists:employees,id',
             'appointment_date' => 'required|date',
             'appointment_time' => 'required|date_format:H:i',
-            'status' => 'in:scheduled,completed,canceled',
+            'status' => 'in:scheduled,completed,canceled,pending',
             'notes' => 'nullable|string|max:500',
         ];
     }

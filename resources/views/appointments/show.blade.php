@@ -33,11 +33,13 @@
                     <h5>Appointment Information</h5>
                     <p><strong>Date:</strong> {{ $appointment->appointment_date }}</p>
                     <p><strong>Status:</strong>
-                        @if($appointment->status == 'scheduled') Scheduled
-                        @elseif($appointment->status == 'completed') Completed
-                        @else Canceled
-                        @endif
-                    </p>
+                    @if($appointment->status == 'scheduled') Scheduled
+                    @elseif($appointment->status == 'completed') Completed
+                    @elseif($appointment->status == 'canceled') Canceled
+                    @elseif($appointment->status == 'pending') Pending
+                    @endif
+                  </p>
+
                     <p><strong>Notes:</strong> {{ $appointment->notes ?? 'No notes provided' }}</p>
                 </div>
 
