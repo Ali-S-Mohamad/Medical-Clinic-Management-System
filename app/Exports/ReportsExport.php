@@ -26,11 +26,11 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
         $this->reportId = $reportId;
     }
 
-    
+
     public function collection()
     {
         if ($this->reportId) {
-        // export one report  
+        // export one report
             return Report::where('id', $this->reportId)->get();
         } else {
         //export all reports
@@ -61,7 +61,7 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
 
 public function styles(Worksheet $sheet)
     {
-        
+
         $sheet->getStyle('A1:J1')->applyFromArray([
             'font' => [
                 'bold' => true,

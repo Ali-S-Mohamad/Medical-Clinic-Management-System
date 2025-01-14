@@ -28,34 +28,30 @@ class PrescriptionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, PrescriptionFilterService $filterService)
     {
-        // Retrieve input values
         $filters = $request->only(['search_name', 'medications_names']);
         
-        // Start the query with the necessary relationships
-        $prescriptions = Prescription::with('employee', 'appointment');
-
-        // Check user role
+        $query = Prescription::with(['employee', 'appointment']);
+        
         $user = Auth::user();
         if ($user->hasRole('doctor')) {
-            // If the user is a doctor, filter prescriptions by the doctor's ID
-            $prescriptions = $prescriptions->where('doctor_id', $user->employee->id);
+            $query->where('doctor_id', $user->employee->id);
+        }
+        
+        if (!empty($filters)) {
+            $query = $filterService->filter($filters);
+        }
+        
+        if ($request->ajax()) {
+            $prescriptions = $query->paginate(5); 
+            return view('prescriptions.partials.table', compact('prescriptions'))->render();
         }
     
-        //Apply filters before pagination
-        if (!empty($filters['medications_names'])) {
-            $prescriptions = $prescriptions->filterByMedication($filters['medications_names']);
-        }
-    
-        if (!empty($filters['search_name'])) {
-            $prescriptions = $prescriptions->filterByPatientName($filters['search_name']);
-        }
-        // Pagination
-        $prescriptions = $prescriptions->paginate(4);     
+        $prescriptions = $query->paginate(5);
         return view('prescriptions.index', compact('prescriptions'));
     }
-
+    
     
     /**
      * Show the form for creating a new resource.
