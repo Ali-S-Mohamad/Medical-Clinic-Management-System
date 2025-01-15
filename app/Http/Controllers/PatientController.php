@@ -42,32 +42,17 @@ class PatientController extends Controller
         //
     }
 
-    public function storePatientDetails($userId, Request $request)
+    
+    public function saveOrupdatePatientDetails($userId, Request $request)
     {
-        Patient::create([
-            'user_id' => $userId,
-            'insurance_number' => $request->insurance_number, 
-            'dob' => $request->dob, 
-        ]);
-
+        Patient::updateOrCreate(
+            ['user_id' => $userId],
+            [ 'insurance_number' => $request->insurance_number, 
+            'dob' => $request->dob ]
+        );
+    
         return redirect()->route('patients.index');
-    }
-
-    public function updatePatientDetails ($userId, Request $request)
-    {
-
-        $patient = Patient::where('user_id',$userId)->first();
-        
-
-        $patient->update([
-            'user_id' => $userId,
-            'insurance_number' => $request->insurance_number, 
-            'dob' => $request->dob, 
-        ]);
-
-     
-        return redirect()->route('patients.index');
-    }
+    }      
 
 
     /**

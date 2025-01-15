@@ -16,7 +16,9 @@ Show Employee
                 <div class="card-body text-center">
                     <div class="doctor-img mb-4">
                         @php
-                            $image_path=$employee->image ? asset('storage/' . $employee->image->image_path) : asset('assets/img/user.jpg');
+                            $image_path = $employee->user->image
+                                                ? asset('storage/' . $employee->user->image->image_path)
+                                                : asset('assets/img/user.jpg');
                         @endphp
                         <a class="avatar" href="{{$image_path}}" target="_blank" style="display: flex; justify-content: center; align-items: center;">
                             <img alt="ُEmployee Image" 

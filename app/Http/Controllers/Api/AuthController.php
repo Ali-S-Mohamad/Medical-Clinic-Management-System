@@ -27,7 +27,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
-            // 'is_patient' => true
         ]);
         saveImage('Users images', $request, $user);
         $user_id = $user->id;

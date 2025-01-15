@@ -40,9 +40,9 @@ Edit Employee
                         <div class="form-group">
                             <label for="photo">Profile Image:</label>
                             <div style="display: flex; align-items: center;">
-                                @if($employee->image)
+                                @if($employee->user->image)
                                     <!-- IF there is an image -> display it -->
-                                    <img id="thumbnail" src="{{ asset('storage/' . $employee->image->image_path) }}" 
+                                    <img id="thumbnail" src="{{ asset('storage/' . $employee->user->image->image_path) }}" 
                                          style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
                                 @else
                                     <!-- IF there is not an image -> display upload icon -->
