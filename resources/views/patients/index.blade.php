@@ -58,7 +58,7 @@
                                     </td>
                                     <td>{{$patient->user->email}}</td>
                                     <td>{{$patient->dob}}</td>
-                                     
+
                                     <td>{{$patient->insurance_number}}</td>
 
                                     <td class="text-right">

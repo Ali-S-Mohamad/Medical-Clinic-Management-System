@@ -8,13 +8,14 @@ use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Services\EmployeeFilterService;
 use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
     protected $employeeFilterService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -36,23 +37,23 @@ class EmployeeController extends Controller
     {
         // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
-    
+
         // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
-    
+
         // Fetch the filtered employees
         $employees = $employeeFilterService->filter($filters)->paginate(5);
-    
+
         // Check if the request is AJAX
         if ($request->ajax()) {
             // Return the table partial with employees data
             return view('employees.partials.table', compact('employees'));
         }
-    
+
         // get Roles & Departments
         $departments = Department::active()->get();
         $roles = DB::table('roles')->get();
-    
+
         // Return the main index view with employees, departments, roles, and filters
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
@@ -74,7 +75,7 @@ class EmployeeController extends Controller
         $cvFilePath = uploadCvFile('Employees CVs', $request, $employee->cv_path);
         $employee->cv_path = $cvFilePath;
         $employee->save();
- 
+
         return redirect()->route('employees.index');
     }
 

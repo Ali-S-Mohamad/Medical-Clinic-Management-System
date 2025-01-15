@@ -173,9 +173,8 @@ class AppointmentService
     }
 
     //A function that displays the available times for each doctor on a specific date
-    public function getAvailableSlots($doctorId, $date)
+    public function getAvailableSlots($doctorId, $dayOfWeek, $date)
     {
-        $dayOfWeek = Carbon::parse($date)->dayOfWeek;
         // Retrieve the time slot details for the specified doctor and day of the week
         $timeSlot = TimeSlot::where('doctor_id', $doctorId)
             ->where('day_of_week', $dayOfWeek)

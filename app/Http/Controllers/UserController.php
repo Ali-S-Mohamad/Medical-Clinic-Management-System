@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = new User(); 
+        $user = new User();
         return $this->saveOrUpdateUserDetails($user, $request);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, string $id)
-    {   
+    {
         $user = User::findOrFail($id);
         return $this->saveOrUpdateUserDetails($user, $request);
     }
@@ -47,22 +47,22 @@ class UserController extends Controller
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
         ])->save();
-        
-        if ($request->has('is_patient')) { 
-            $user->assignRole('patient'); 
+
+        if ($request->has('is_patient')) {
+            $user->assignRole('patient');
             saveImage('Patient images', $request, $user);
 
             $patientController = new PatientController();
             return $patientController->saveOrupdatePatientDetails($user->id, $request);
-        } 
-        else { 
+        }
+        else {
             $isDoctor = $request->input('is_doctor', 0);
             if ($isDoctor) {
                 $user->assignRole('doctor');
             } else {
                 $user->assignRole('employee');
             }
-            $user->update([ 'is_patient' => false ]); 
+            $user->update([ 'is_patient' => false ]);
 
             saveImage('Employees images', $request, $user);
 
@@ -71,7 +71,7 @@ class UserController extends Controller
             return $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
 
         }
-    
+
     }
 
 }

@@ -4,22 +4,23 @@ namespace App\Exports;
 
 use App\Models\Report;
 use App\Models\Appointment;
+use App\Services\ReportFilterService;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ReportsExport implements FromCollection, WithHeadings , WithStyles
+class ReportsExport implements FromCollection, WithHeadings, WithStyles
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
 
     protected $reportId;
     protected $filters;
 
-    public function __construct($filters = [] , $reportId = null)
+    public function __construct($filters = [], $reportId = null)
     {
         $this->filters = $filters;
         $this->reportId = $reportId;
@@ -29,12 +30,14 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
     public function collection()
     {
         if ($this->reportId) {
-        // export one report
+            // export one report
             return Report::where('id', $this->reportId)->get();
         } else {
         //export all reports
            // return Report::all();
-            return Report::filterByName($this->filters)->get();
+           //return Report::filter($this->filters)->get();
+           $reportFilterService = new ReportFilterService();
+           return $reportFilterService->filter($this->filters);
 
         }
     }
@@ -53,10 +56,9 @@ class ReportsExport implements FromCollection, WithHeadings , WithStyles
             'Created_at',
             'Updated_at'
         ];
+    }
 
-}
-
-public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet)
     {
 
         $sheet->getStyle('A1:J1')->applyFromArray([
@@ -73,8 +75,5 @@ public function styles(Worksheet $sheet)
         foreach (range('A', 'J') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
-
-
-}
-
+    }
 }
