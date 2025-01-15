@@ -15,7 +15,7 @@ use App\Http\Requests\UpdateUserRequest;
 class EmployeeController extends Controller
 {
     protected $employeeFilterService;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -37,84 +37,46 @@ class EmployeeController extends Controller
     {
         // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
-    
+
         // call the service
         $employeeFilterService = app(EmployeeFilterService::class);
-    
+
         // Fetch the filtered employees
         $employees = $employeeFilterService->filter($filters)->paginate(5);
-    
+
         // Check if the request is AJAX
         if ($request->ajax()) {
             // Return the table partial with employees data
             return view('employees.partials.table', compact('employees'));
         }
-    
+
         // get Roles & Departments
         $departments = Department::active()->get();
         $roles = DB::table('roles')->get();
-    
+
         // Return the main index view with employees, departments, roles, and filters
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
-    
 
-    /**
-     * Summary of storeEmployeeDetails
-     * @param mixed $userId
-     * @param \Illuminate\Http\Request $request
-     * @return mixed|\Illuminate\Http\RedirectResponse
-     */
-    public function storeEmployeeDetails($userId, Request $request)
+
+    public function saveOrUpdateEmployeeDetails($userId, Request $request)
     {
-        $employee = Employee::create([
-            'user_id' => $userId,
-            'department_id' => $request->department_id,
-            'academic_qualifications' => $request->qualifications,
-            'previous_experience' => $request->experience,
-        ]);
+        $employee = Employee::updateOrCreate(
+            ['user_id' => $userId],
+            [
+                'department_id' => $request->department_id,
+                'academic_qualifications' => $request->qualifications,
+                'previous_experience' => $request->experience,
+            ]
+        );
 
         $employee->languages()->sync($request->languages_ids);
 
-        $cvFilePath = uploadCvFile('Employees CVs' , $request , $employee->cv_path );
-        $employee->cv_path=$cvFilePath;
+        $cvFilePath = uploadCvFile('Employees CVs', $request, $employee->cv_path);
+        $employee->cv_path = $cvFilePath;
         $employee->save();
 
-
         return redirect()->route('employees.index');
-    }
-
-    /**
-     * Summary of updateEmployeeDetails
-     * @param mixed $userId
-     * @param \Illuminate\Http\Request $request
-     * @return mixed|\Illuminate\Http\RedirectResponse
-     */
-    public function updateEmployeeDetails($userId, Request $request)
-    {
-
-        $employee = Employee::where('user_id',$userId)->first();
-        $cvFilePath = uploadCvFile('Employees CVs', $request , $employee->cv_path );
-
-        $employee->update([
-            'department_id' => $request->department_id,
-            'cv_path' => $cvFilePath,
-            'academic_qualifications' => $request->qualifications,
-            'previous_experience' => $request->experience,
-        ]);
-
-
-        saveImage('Employees images', $request, $employee->user);
-        $employee->languages()->sync($request->languages_ids);
-
-        //return redirect()->route('employees.show',$userId );
-        //return redirect()->back()->with('success', 'employee update successfully.');;
-        if (Auth::id() == $userId) {
-            return redirect()->route('employees.show', auth()->user()->employee->id)->with('success', ' update successfully.'); // استبدل 'profile.show' بالراوت الخاص بملفك الشخصي
-        } else {
-            return redirect()->route('employees.index', $userId)->with('success', ' update successfully.');
-        }
-
     }
 
     /**

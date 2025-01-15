@@ -26,18 +26,22 @@
                         {{-- image section --}}
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="photo">Image :</label>
+                                <label for="photo"> Image:</label>
                                 <div style="display: flex; align-items: center;">
-                                    <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
-                                    <!-- حقل إدخال الصورة -->
-                                    <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png"
-                                        style="display: none;"> <!-- مكان عرض الصورة المصغرة -->
-                                    <img id="thumbnail"
-                                        style="display:none; width: 70px; height: 70px; margin-left: 10px; cursor: pointer;">
-
+                                    @if($patient->user->image)
+                                        <!-- IF there is an image -> display it -->
+                                        <img id="thumbnail" src="{{ asset('storage/' . $patient->user->image->image_path) }}" 
+                                             style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
+                                    @else
+                                        <!-- IF there is not an image -> display upload icon -->
+                                        <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
+                                    @endif
+                                        <!-- input field -->
+                                    <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png" style="display: none;">
+                                     
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         {{-- image section --}}
                     </div> {{-- row end --}}
 
@@ -91,7 +95,7 @@
                     </div>
 
                     <div class="m-t-20 text-center">
-                        <a href="{{ route('employees.index') }}" class="btn btn-secondary mb-3" rel="prev">
+                        <a href="{{ route('patients.index') }}" class="btn btn-secondary mb-3" rel="prev">
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
@@ -106,26 +110,55 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // image & image icon
-        document.getElementById('upload-icon').onclick = function() {
-            document.getElementById('photo').click();
-        };
-        document.getElementById('photo').onchange = function(event) {
-            var file = event.target.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('upload-icon').style.display = 'none';
-                    var img = document.getElementById('thumbnail');
-                    img.src = e.target.result;
-                    img.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
+       
+      // image & image icon
+      document.addEventListener('DOMContentLoaded', function() {
+                var uploadIcon = document.getElementById('upload-icon');
+                var thumbnail  = document.getElementById('thumbnail');
+                var photoInput = document.getElementById('photo');
 
-        document.getElementById('thumbnail').onclick = function() {
-            document.getElementById('photo').click();
-        }
-    </script>
+                // Handle clicking on the image icon
+                if (uploadIcon) {
+                    uploadIcon.addEventListener('click', function() {
+                        photoInput.click();});
+                }
+
+                // Handle by clicking on the image
+                if (thumbnail) {
+                    thumbnail.addEventListener('click', function() {
+                        photoInput.click();});
+                }
+
+                // Handle image change
+                photoInput.addEventListener('change', function(event) {
+                    var file = event.target.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            if (thumbnail) {
+                                thumbnail.src = e.target.result;
+                            } else {
+                                thumbnail = document.createElement('img');
+                                thumbnail.id = 'thumbnail';
+                                thumbnail.src = e.target.result;
+                                thumbnail.style.width = '80px';
+                                thumbnail.style.height = '80px';
+                                thumbnail.style.marginLeft = '10px';
+                                thumbnail.style.cursor = 'pointer';
+                                thumbnail.style.borderRadius = '50%';
+                                uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
+                                
+                                // add image click event on the new image
+                                thumbnail.addEventListener('click', function() {
+                                    photoInput.click();
+                                });
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+
+
+</script>
 @endsection

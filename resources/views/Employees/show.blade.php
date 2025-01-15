@@ -24,7 +24,7 @@ Show Employee
                     <a href="javascript:void(0)" class="btn btn-secondary" rel="prev" id="backButton">
                         <i class="fa fa-arrow-left mr-2"></i> Back
                     </a>
-                    
+
                 </div>
             </div>
             <div class="card-box profile-header">
@@ -50,7 +50,7 @@ Show Employee
                                             <small class="text-muted"> {{ $employee->department->name }}</small>
                                             <h2 class="card-title mb-3" style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
                                                 @if($employee->avg_ratings)
-                                                    {{ $employee->avg_ratings }} /10 
+                                                    {{ $employee->avg_ratings }} /10
                                                 @endif
                                            </h2>
                                         </div>
@@ -72,7 +72,7 @@ Show Employee
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,11 +98,11 @@ Show Employee
                                             <a href="#/" class="name"> @if($employee->academic_qualifications)
                                             {{ $employee->academic_qualifications }}
                                               @endif</a>
-                                        
+
                                         </div>
                                     </div>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -116,7 +116,7 @@ Show Employee
                                     </div>
                                     <div class="experience-content">
                                         <div class="timeline-content">
-                                            <a href="#/" class="name"> 
+                                            <a href="#/" class="name">
                                             @if($employee->previous_experience)
                                             {{ $employee->previous_experience }}
                                             @endif</a>
@@ -126,7 +126,7 @@ Show Employee
                             </ul>
                         </div>
                     </div>
-                
+
                     <div class="card-box ">
                         <h3 class="card-title">language :</h3>
                         <div class="experience-box">
@@ -136,14 +136,14 @@ Show Employee
                                         <div class="before-circle"></div>
                                     </div>
                                     @if(!$employee->languages->isEmpty())
-                                            @foreach($employee->languages as $language) 
+                                            @foreach($employee->languages as $language)
                                     <div class="experience-content">
                                         <div class="timeline-content">
                                                 {{ ($language->name);}}
                                         </div>
                                     </div>
-                                    @endforeach     
-                                    @endif 
+                                    @endforeach
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -162,8 +162,8 @@ Show Employee
                                             @if($employee->cv_path)
                                 @php
                                    $cvFileName = basename($employee->cv_path);
-                                   $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);  
-                                @endphp           
+                                   $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);
+                                @endphp
                                <a href="{{asset('storage/'.$employee->cv_path)}}" target="_blank"> {{ $originalFileName }}</a>
                                 @endif
                                         </div>
@@ -175,7 +175,7 @@ Show Employee
                 </div>
             </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

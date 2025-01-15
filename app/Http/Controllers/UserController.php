@@ -27,39 +27,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone,
-            'password' => bcrypt($request->password),
-
-        ]);
-
-        if ($request->has('is_patient')) { // هو مريض
-            $user->assignRole('patient');
-            saveImage('Patient images', $request, $user);
-
-            $patientController = new PatientController();
-            return $patientController->storePatientDetails($user->id, $request);
-        }
-        else { // هو موظف
-            $isDoctor = $request->input('is_doctor', 0);
-            if ($isDoctor) {
-                $user->assignRole('doctor');
-            } else {
-                $user->assignRole('employee');
-            }
-            $user->update([ 'is_patient' => false ]);
-
-            saveImage('Employee images', $request, $user);
-
-            // Calling EmployeeController to store Employee Details
-            $employeeController = new EmployeeController();
-            return $employeeController->storeEmployeeDetails($user->id, $request);
-
-        }
-
-
+        $user = new User();
+        return $this->saveOrUpdateUserDetails($user, $request);
     }
 
     /**
@@ -68,19 +37,23 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
-        $user->update([
+        return $this->saveOrUpdateUserDetails($user, $request);
+    }
+
+    protected function saveOrUpdateUserDetails($user, $request) {
+        $user->fill([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
-        ]);
+        ])->save();
 
         if ($request->has('is_patient')) {
             $user->assignRole('patient');
             saveImage('Patient images', $request, $user);
 
             $patientController = new PatientController();
-            return $patientController->updatePatientDetails($user->id, $request);
+            return $patientController->saveOrupdatePatientDetails($user->id, $request);
         }
         else {
             $isDoctor = $request->input('is_doctor', 0);
@@ -91,12 +64,14 @@ class UserController extends Controller
             }
             $user->update([ 'is_patient' => false ]);
 
-            saveImage('Employee images', $request, $user);
+            saveImage('Employees images', $request, $user);
 
             // Calling EmployeeController to Update Employee Details
             $employeeController = new EmployeeController();
-            return $employeeController->updateEmployeeDetails($user->id, $request);
+            return $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
+
         }
+
     }
 
 }
