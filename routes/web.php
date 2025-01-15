@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\Rating;
 use App\Models\ClinicInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
