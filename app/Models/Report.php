@@ -17,7 +17,7 @@ class Report extends Model
         'medications_names',
         'instructions',
         'details',
-        'appointment_id', 
+        'appointment_id',
     ];
 
     public function appointment()

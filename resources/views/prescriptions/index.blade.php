@@ -83,17 +83,17 @@
         $('#filterForm').on('submit', function(e) {
             e.preventDefault();
 
-            var filters = $(this).serialize(); 
+            var filters = $(this).serialize();
 
             $.ajax({
-                url: "{{ route('prescriptions.index') }}", 
+                url: "{{ route('prescriptions.index') }}",
                 method: "GET",
                 data: filters,
                 beforeSend: function() {
                     $('#prescriptionsTableContainer').html('<p>Loading...</p>');
                 },
                 success: function(response) {
-                    $('#prescriptionsTableContainer').html(response); 
+                    $('#prescriptionsTableContainer').html(response);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);

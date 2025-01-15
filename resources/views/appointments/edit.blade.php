@@ -105,7 +105,7 @@ Edit Appointment
                     <button class="btn btn-primary submit-btn">Update Appointment</button>
                 </div>
                 <div class="m-t-20 text-center">
-                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev"> 
+                    <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
                         <i class="fa fa-arrow-left mr-2"></i>Back
                     </a>
                 </div>

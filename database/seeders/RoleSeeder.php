@@ -29,7 +29,7 @@ class RoleSeeder extends Seeder
 
             'show-employee',
             'edit-employee',
-            
+
             'show-clinicInformation',
 
             'show-MedicalFile',

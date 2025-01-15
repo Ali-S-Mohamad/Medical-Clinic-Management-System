@@ -91,8 +91,8 @@ class AppointmentController extends Controller
 
     public function showAppointment(string $id){
         $appointment = Appointment::with('employee','patient')->findOrFail($id);
-        
-    }   
+
+    }
 
     /**
      * Summary of getAvailableSlots
