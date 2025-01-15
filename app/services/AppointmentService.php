@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\TimeSlot;
 use App\Models\Appointment;
 use App\Events\AppointmentCreated;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentReminderMail;
+use App\Mail\AppointmentNotificationMail;
 
 class AppointmentService
 {
@@ -81,7 +85,7 @@ class AppointmentService
     }
 
     // A function to create or update an appointment
-    private function createOrUpdateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status , $notes)
+    private function createOrUpdateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes)
     {
         $validationResult = $this->isAppointmentInPast($appointmentDate);
         if (!$validationResult['success']) {
@@ -96,7 +100,7 @@ class AppointmentService
 
         $timeSlot = $availabilityResult['timeSlot'];
         $appointmentStart = $availabilityResult['appointmentStart'];
-        $slotDuration = $timeSlot->slot_duration * 60; 
+        $slotDuration = $timeSlot->slot_duration * 60;
         $appointmentEnd = $appointmentStart + $slotDuration;
 
         // Check for overlapping appointments
@@ -105,17 +109,17 @@ class AppointmentService
             return $overlapResult;
         }
 
-    // Determine status based on who is creating the appointment
-    // Assume `$status` is passed from the controller (e.g., 'pending' for patient, 'scheduled' for others)
-    if (!$appointmentId && $status === 'pending') {
-        // When creating a new appointment by the patient, the status is 'pending'
-        $status = 'pending'; // You can override this based on business logic
-    } else {
-        // When updating or a non-patient creates the appointment, set status to 'scheduled'
-        if (!$appointmentId) {
-            $status = 'scheduled'; // Default to 'scheduled' for admin/doctor creation
+        // Determine status based on who is creating the appointment
+        // Assume `$status` is passed from the controller (e.g., 'pending' for patient, 'scheduled' for others)
+        if (!$appointmentId && $status === 'pending') {
+            // When creating a new appointment by the patient, the status is 'pending'
+            $status = 'pending'; // You can override this based on business logic
+        } else {
+            // When updating or a non-patient creates the appointment, set status to 'scheduled'
+            if (!$appointmentId) {
+                $status = 'scheduled'; // Default to 'scheduled' for admin/doctor creation
+            }
         }
-    }
         if ($appointmentId) {
             // If the appointment already exists, we update it
             $appointment = Appointment::findOrFail($appointmentId);
@@ -136,7 +140,8 @@ class AppointmentService
                 'notes' => $notes
             ]);
         }
-
+        $patientEmail = $appointment->patient->user->email;
+        Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
         return [
             'success' => true,
             'appointment' => $appointment
@@ -148,7 +153,7 @@ class AppointmentService
     {
         if (is_null($status)) {
             $currentUser = auth()->user();
-    
+
             if ($currentUser->hasRole('patient')) {
                 $status = 'pending';
             } else {
@@ -157,8 +162,8 @@ class AppointmentService
         }
         return $this->createOrUpdateAppointment(null, $patientId, $doctorId, $appointmentDate, $status, $notes);
     }
-    
-    
+
+
     // A function to update the appointment
     public function updateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes)
     {
@@ -210,6 +215,4 @@ class AppointmentService
         // Return the available slots (resetting the array keys)
         return array_values($availableSlots);
     }
-
 }
-

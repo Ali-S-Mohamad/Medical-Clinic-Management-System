@@ -62,6 +62,7 @@ class AppointmentController extends Controller
 
     public function getAvailableSlots(Request $request, $doctorId)
     {
+        $appointmentDate = $request->date;
         $dayOfWeek = Carbon::parse($appointmentDate)->dayOfWeek;  // Get the day of the week from the appointment date
         $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $dayOfWeek, $appointmentDate);
         $appointmentDate = $request->input('date');

@@ -8,6 +8,7 @@ use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Services\EmployeeFilterService;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -105,7 +106,15 @@ class EmployeeController extends Controller
 
         saveImage('Employees images', $request, $employee->user);
         $employee->languages()->sync($request->languages_ids);
-        return redirect()->route('employees.index');
+
+        //return redirect()->route('employees.show',$userId );
+        //return redirect()->back()->with('success', 'employee update successfully.');;
+        if (Auth::id() == $userId) {
+            return redirect()->route('employees.show', auth()->user()->employee->id)->with('success', ' update successfully.'); // استبدل 'profile.show' بالراوت الخاص بملفك الشخصي
+        } else {
+            return redirect()->route('employees.index', $userId)->with('success', ' update successfully.');
+        }
+
     }
 
     /**

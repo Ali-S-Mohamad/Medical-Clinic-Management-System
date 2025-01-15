@@ -39,12 +39,13 @@ class AppointmentNotificationMail extends Mailable
      */
     public function content(): Content
     {
-        // dd($this->appointmentDetails);
         return new Content(
             view: 'emails.appointment_notification', // مسار العرض الصحيح
             with: [
                 'patientName' => $this->appointmentDetails->patient->user->name ?? 'N/A', // تجنب الأخطاء إذا كان الاسم فارغاً
                 'appointmentDate' => $this->appointmentDetails->appointment_date ?? 'N/A',
+                'doctorName' => 'Dr.' . $this->appointmentDetails->employee->user->name ?? 'N/A',
+                'appointment_url' => url('appointments',$this->appointmentDetails)
             ]
         );
     }
