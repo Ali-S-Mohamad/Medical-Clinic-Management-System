@@ -58,8 +58,14 @@ class AppointmentController extends Controller
         return view('appointments.create', compact('patients', 'doctors'));
     }
 
-    // Function to fetch available slots for a doctor on a selected date
 
+
+    /**
+     * Function to fetch available slots for a doctor on a selected date
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $doctorId
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function getAvailableSlots(Request $request, $doctorId)
     {
         $appointmentDate = $request->date;
