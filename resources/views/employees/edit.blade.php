@@ -26,7 +26,7 @@ Edit Employee
                     <div class="form-group">
                         <label class="display-block">is doctor?</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1"
+                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" 
                                 @if ($employee->user->getRoleNames()->first() == 'doctor') checked @endif>
                             <label class="form-check-label" for="is_doctor">
                                 yes
@@ -150,6 +150,36 @@ Edit Employee
                             </div>
                         </div>
                     </div>
+                        {{-- upgrade to patient --}}     
+                            <div class="form-group">
+                                <label class="display-block">is patient?</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="is_patient_employee" id="is_patient_employee" value="1">
+                                    <label class="form-check-label" for="is_patient_employee">
+                                        yes
+                                    </label>
+                                </div>  
+                            </div>
+                     
+                        
+                        <div class="row"> 
+                            <div class="col-sm-6 patient-field" style="display: none;">
+                                <div class="form-group">
+                                    <label>Insurance Number</label>
+                                    <input name="insurance_number" class="form-control" type="text">
+                                </div>
+                            </div>
+                        
+                            <div class="col-sm-6 patient-field" style="display: none;">
+                                <div class="form-group">
+                                    <label>Date of birth <span class="text-danger">*</span> </label>
+                                    <input   name="dob" class="form-control" type="date">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {{-- end of pateint section --}}
+                    
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Update Employee</button>
                     </div>
@@ -158,10 +188,11 @@ Edit Employee
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
+                 
                 </form>
             </div>
         </div>
-
+    </div>
 @endsection
 
 
@@ -170,22 +201,24 @@ Edit Employee
 @section('scripts')
     <script>
 
-        //  اظهار واخفاء قسم الخبرة والعمل السابق حسب رول الموظف / طبيب / موظف اداري
-        // var employeeRole ="{{ $role }}";
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     if (employeeRole === 'doctor')
-        //         document.getElementById('doctor-info').style.display = 'block';
-        //     else
-        //         document.getElementById('doctor-info').style.display = 'none';
-        //      });
+        // Hide / display patient fields && // Date of birth validation
+        document.addEventListener('DOMContentLoaded', function () {
+        const isPatientCheckbox = document.getElementById('is_patient_employee');
+        const patientFields = document.querySelectorAll('.patient-field');
+        const dobField = document.querySelector('input[name="dob"]');
 
-        //     $(document).ready(function() {
+        function togglePatientFields() {
+            const isPatient = isPatientCheckbox.checked;
+            patientFields.forEach(field => {
+                field.style.display = isPatient ? 'block' : 'none';
+            });
+            dobField.required = isPatient;
+        }
 
-        //     $("#is_doctor").change(function() {
-        //         if ($(this).is(':checked'))
-        //             $("#doctor-info").show();
-        //         else $("#doctor-info").hide();
-        //     }); })
+        togglePatientFields();
+
+        isPatientCheckbox.addEventListener('change', togglePatientFields);
+    });
 
 
             //  Hide old file name section if new file is selected

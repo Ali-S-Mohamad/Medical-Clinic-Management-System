@@ -21,7 +21,8 @@ Show Employee
                     </a>
 
                 </div>
-            </div>
+            </div>   
+             {{-- {{dd($employee->user->roles->pluck('name'))}} --}}
             <div class="card-box profile-header">
                 <div class="row">
                     <div class="col-md-12">
