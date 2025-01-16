@@ -28,37 +28,17 @@ class AppointmentController extends Controller
         // Constructor to inject AppointmentService
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-
-
-        $appointments = Appointment::paginate(5);
-        if (Auth::user()->hasAnyRole(['Admin', 'employee'])) {
+        try {
+            $appointments = $this->appointmentService->getAppointmentsForUser();
             return view('appointments.index', compact('appointments'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        $employee = Employee::where('user_id', auth()->user()->id)->first();
-        if (!$employee) {
-            return redirect()->back()->withErrors(['error' => 'The employee associated with this user was not found.']);
-        }
-        $isDoctor = auth()->user()->hasRole('doctor');
-        $appointments = Appointment::with(['patient.user', 'employee.user'])
-            ->when($isDoctor, function ($query) use ($employee) {
-                $query->where('doctor_id', $employee->id);
-            }, function ($query) use ($employee) {
-                $query->whereHas('employee', function ($subQuery) use ($employee) {
-                    $subQuery->where('department_id', $employee->department_id);
-                });
-            })
-            ->whereHas('patient')
-            ->paginate(5);
-
-        return view('appointments.index', compact('appointments'));
     }
     /* Show the form for creating a new resource.
      */
@@ -107,8 +87,6 @@ class AppointmentController extends Controller
         // If there was an error during booking
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
-
-
     /**
      * Display the specified resource.
      */
@@ -128,8 +106,6 @@ class AppointmentController extends Controller
 
         $patients = Patient::with('user')->get();
         $doctors = User::role('doctor')->get();
-
-
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
 
@@ -155,10 +131,28 @@ class AppointmentController extends Controller
         if ($response['success']) {
             return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
         }
-
         // If there's a conflict or another issue
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
+    
+    public function updateStatus(Request $request, $id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $appointment->status = $request->status;
+        $appointment->save();
+        // Returns the modified HTML of the row after changing the case
+        $appointmentRowHtml = view('appointments.partials.appointment_row', compact('appointment'))->render();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully!',
+            'appointment' => $appointment,
+            'html' => $appointmentRowHtml 
+        ]);
+    }
+    
+    
+
 
     /**
      * Remove the specified resource from storage.
