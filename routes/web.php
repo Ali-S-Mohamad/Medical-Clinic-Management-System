@@ -94,7 +94,9 @@ Route::middleware(['auth','patient'])->group(function () {
 
 
     //Define Patients Routes
+    Route::post('patients/{id}/restore', [PatientController::class, 'restore'])->name('patients.restore');
     Route::get('patients/trash', [PatientController::class, 'trash'])->name('patients.trash');
+    Route::delete('patients/force-delete/{id}', [PatientController::class, 'forceDelete'])->name('patients.forceDelete'); // الحذف النهائي
     Route::resource('patients', PatientController::class);
 
 
@@ -111,8 +113,15 @@ Route::middleware(['auth','patient'])->group(function () {
 
 
     //Define Reports Routes
+    Route::get('/reports/trash', [ReportController::class, 'trash'])->name('reports.trash');
+    Route::post('/reports/restore/{id}', [ReportController::class, 'restore'])->name('reports.restore');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/export-reports', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('/reports/export/{id}', [ReportController::class, 'exportSingle'])->name('reports.exportOne');
+    Route::delete('/reports/{id}', [ReportController::class, 'destroy'])->name('reports.destroy');
+    Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
+    Route::delete('reports/force-delete/{id}', [ReportController::class, 'forceDelete'])->name('reports.forceDelete'); // الحذف النهائي
+
 
     Route::get('/error/403', function() {
         return view ('errors.errors403');     })->name('error.403');

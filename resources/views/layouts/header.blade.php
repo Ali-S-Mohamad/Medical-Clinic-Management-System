@@ -1,7 +1,7 @@
 <div class="header">
     <div class="header-left">
         <a href="{{route('home')}}" class="logo">
-            <img src="{{$logoPath}}" width="35" height="35" alt=""> <span>{{$clinicName}}</span>
+            <img src="{{$logoPath}}" width="35" height="35" alt="" style='border-radius: 50%'> <span>{{$clinicName}}</span>
         </a>
     </div>
     <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -26,15 +26,24 @@
         <li class="nav-item dropdown has-arrow">
             <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                 <span class="user-img">
-                    <img class="rounded-circle" src="{{ asset('assets/img/user.jpg') }}" width="24" alt="Admin">
-                    <span class="status online"></span>
-                </span>
+                    @php
+            // تأكد من استرجاع الصورة بشكل صحيح
+            $image_path = auth()->user()->image
+                ? asset('storage/' . auth()->user()->image->image_path)
+                : asset('assets/img/user.jpg');
+            @endphp
+            <img width="60" height="40" src="{{ $image_path }}" class="rounded-circle" alt="">
                 <span>{{Auth::user()->name}}</span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="profile.html">My Profile</a>
-                <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                @if(auth()->user()->hasRole('doctor') || auth()->user()->hasRole('employee'))
+                <a class="dropdown-item" href="{{ route('employees.show', auth()->user()->employee->id) }}">My Profile</a>
+                <a class="dropdown-item" href="{{ route('employees.edit', auth()->user()->employee->id) }}">Edit Profile</a>
+                @endif
+
+                @if(auth()->user()->hasRole('admin'))
                 <a class="dropdown-item" href="settings.html">Settings</a>
+                @endif
                 {{-- add logout route              --}}
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
@@ -53,9 +62,14 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
                 class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
-            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-            <a class="dropdown-item" href="settings.html">Settings</a>
+            @if(auth()->user()->hasRole('doctor') || auth()->user()->hasRole('employee'))
+            <a class="dropdown-item" href="{{ route('employees.show', auth()->user()->id) }}">My Profile</a>
+            <a class="dropdown-item" href="{{ route('employees.edit', auth()->user()->id) }}">Edit Profile</a>
+            @endif
+
+            @if(auth()->user()->hasRole('admin'))
+            <a class="dropdown-item" href="{{route('clinic.show')}}">Settings</a>
+            @endif
             <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">

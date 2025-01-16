@@ -8,10 +8,10 @@ use App\Http\Requests\ClinicInfoRequest;
 
 class ClinicInfoController extends Controller
 {
-    public function __construct() { 
-        $this->middleware('role:Admin')->only(['edit', 'update']); 
+    public function __construct() {
+        $this->middleware('role:Admin')->only(['edit', 'update']);
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -41,8 +41,8 @@ class ClinicInfoController extends Controller
      */
     public function show(string $id)
     {
-        $clinic = ClinicInfo::findOrFail($id); 
-        return view('clinic.show', compact('clinic'));   
+        $clinic = ClinicInfo::findOrFail($id);
+        return view('clinic.show', compact('clinic'));
     }
 
     /**
@@ -60,7 +60,6 @@ class ClinicInfoController extends Controller
     {
         $clinic = ClinicInfo::findOrFail($id);
         $clinic->update([
-            // 'logo'  => 'mmm', //$request->logo,
             'name'  => $request->name,
             'email' => $request->email,
             'address' => $request->address,

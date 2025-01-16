@@ -30,32 +30,32 @@ class MedicalFilesController extends Controller
     public function index(Request $request)
     {
         $filters = $request->only(['search_name', 'search_insurance']);
-    
+
         $query = MedicalFile::query();
-    
+
         if (!empty($filters['search_name'])) {
             $query->whereHas('patient.user', function ($q) use ($filters) {
                 $q->where('name', 'like', '%' . $filters['search_name'] . '%');
             });
         }
-    
+
         if (!empty($filters['search_insurance'])) {
             $query->whereHas('patient', function ($q) use ($filters) {
                 $q->where('insurance_number', 'like', '%' . $filters['search_insurance'] . '%');
             });
         }
-        $medicalFiles = $query->paginate(5); 
+        $medicalFiles = $query->paginate(5);
 
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('medicalFiles.partials.table', compact('medicalFiles'))->render()
             ]);
         }
-    
+
         return view('medicalFiles.index', compact('medicalFiles', 'filters'));
-    }    
-    
-    
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -133,7 +133,10 @@ class MedicalFilesController extends Controller
     }
     public function trash()
     {
-        $medicalFiles= MedicalFile::onlyTrashed()->get();
+        $medicalFiles = MedicalFile::onlyTrashed()->with([
+            'patient' => function ($query) { $query->withTrashed()->with([
+                'user' => function ($query) { $query->withTrashed(); } ]); }
+                ])->paginate(5);
         return view ('medicalFiles.trash' , compact('medicalFiles'));
     }
 

@@ -31,28 +31,28 @@ class PrescriptionsController extends Controller
     public function index(Request $request, PrescriptionFilterService $filterService)
     {
         $filters = $request->only(['search_name', 'medications_names']);
-        
+
         $query = Prescription::with(['employee', 'appointment']);
-        
+
         $user = Auth::user();
         if ($user->hasRole('doctor')) {
             $query->where('doctor_id', $user->employee->id);
         }
-        
+
         if (!empty($filters)) {
             $query = $filterService->filter($filters);
         }
-        
+
         if ($request->ajax()) {
-            $prescriptions = $query->paginate(5); 
+            $prescriptions = $query->paginate(5);
             return view('prescriptions.partials.table', compact('prescriptions'))->render();
         }
-    
+
         $prescriptions = $query->paginate(5);
         return view('prescriptions.index', compact('prescriptions'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -96,7 +96,7 @@ class PrescriptionsController extends Controller
             'instructions' => $request->instructions,
             'details' => $request->details,
         ]);
-        
+
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
     }
     /**

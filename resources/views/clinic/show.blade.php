@@ -19,14 +19,9 @@
                     <div class="profile-view">
                         <div class="profile-img-wrap">
                             <div class="profile-img">
-                                @php
-                                    $logo_path = $clinic->image
-                                        ? asset('storage/' . $clinic->image->image_path)
-                                        : asset('assets/img/user.jpg');
-                                @endphp
-                                <a class="avatar" href="{{ $logo_path }}" target="_blank"
+                                <a class="avatar" href="{{ $logoPath}}" target="_blank"
                                     style="display: flex; justify-content: center; align-items: center;">
-                                    <img alt="ُlogo" src="{{ $logo_path }}"
+                                    <img alt="ُlogo" src="{{ $logoPath}}"
                                         style="max-width: 100%; max-height: 100%; width: 300px; height: 300px; object-fit: cover; border-radius: 50%;">
                                 </a>
                             </div>

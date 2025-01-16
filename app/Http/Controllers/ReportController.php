@@ -8,35 +8,52 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Exports\ReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Services\ReportFilterService;
 
 class ReportController extends Controller
 {
-    public function __construct()
+    public function __construct(ReportFilterService $reportFilterService)
     {
         $this->middleware('auth');
-        $this->middleware('permission:show-report', ['only' => ['index']]);
-        $this->middleware('permission:export-report', ['only' => ['export']]);
+        $this->middleware('permission:show-report', ['only' => ['index', 'show']]);
+        $this->middleware('permission:export-report', ['only' => ['export','exportSingle']]);
+        $this->middleware('permission:Archive-report', ['only' => ['destroy']]);
+        $this->middleware('permission:view-archivereport', ['only' => ['trash']]);
+        $this->middleware('permission:restore-report', ['only' => ['restore']]);
+        $this->middleware('permission:delete-report', ['only' => ['forceDelete']]);
 
+        $this->reportFilterService = $reportFilterService;
     }
     /**
      * Display a listing of the resource.
      */
-
-    public function index()
+    protected $reportFilterService;
+    public function index(Request $request)
     {
-        $reports = Report::paginate(5);
-        return view('reports.index', compact('reports'));
+        $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
+        // Service call
+        $reportFilterService = app(ReportFilterService::class);
+        $reports = $reportFilterService->filter($filters);
+
+        return view('reports.index', compact('reports', 'filters'));
+    }
+
+    public function export(Request $request)
+    {
+        $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
+        $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
+        return Excel::download(new ReportsExport($filters), $fileName);
     }
 
 
-    public function export()
-    { 
-       // add  export date to file name
-        $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
-        return Excel::download(new ReportsExport, $fileName);
-    } 
+    public function exportSingle($id ,Request $request)
+    {
+        $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
+        $fileName = 'report_' . $id . '_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
+        return Excel::download(new ReportsExport($filters , $id), $fileName);
 
-    
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -56,9 +73,10 @@ class ReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Report $report)
+    public function show($id)
     {
-        //
+        $report = Report::findOrFail($id);
+        return view('reports.show', compact('report'));
     }
 
     /**
@@ -80,11 +98,30 @@ class ReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Report $report)
+    public function destroy($id)
     {
-        //
+        $report = Report::findOrFail($id);
+        $report->delete();
+        return redirect()->route('reports.index')->with('success', 'report is deleted successfully');
     }
 
-   
+    public function trash()
+    {
+        $reports = Report::onlyTrashed()->paginate(5);
+        return view('reports.trash', compact('reports'));
+    }
+
+    public function restore($id)
+    {
+        $report = Report::onlyTrashed()->findOrFail($id);
+        $report->restore();
+        return redirect()->route('reports.index')->with('success', 'report restored successfully.');
+    }
+
+    public function forceDelete(string $id)
+    {
+        Report::withTrashed()->where('id', $id)->forceDelete();
+        return redirect()->route('reports.trash')->with('success', 'report permanently deleted.');
+    }
 
 }

@@ -28,6 +28,7 @@ class RoleSeeder extends Seeder
             'show-department',
 
             'show-employee',
+            'edit-employee',
 
             'show-clinicInformation',
 

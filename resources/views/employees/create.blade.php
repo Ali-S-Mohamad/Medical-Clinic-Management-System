@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    Add Patient
+    Add Employee
 @endsection
 
 @section('css')
@@ -13,7 +13,7 @@
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <h4 class="page-title">Add Patient</h4>
+                <h4 class="page-title">Add Employee</h4>
             </div>
         </div>
         <div class="row">
@@ -22,10 +22,22 @@
                     @csrf
 
                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="display-block">is doctor?</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor"
+                                        value="1">
+                                    <label class="form-check-label" for="is_doctor">
+                                        yes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         {{-- image section --}}
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="photo">Image :</label>
+                                <label for="photo">profile image :</label>
                                 <div style="display: flex; align-items: center;">
                                     <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
                                     <!-- حقل إدخال الصورة -->
@@ -47,10 +59,18 @@
                                 <input required name='name' class="form-control" type="text">
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Phone Number <span class="text-danger">*</span> </label>
-                                <input required name='phone' class="form-control" type="text">
+                                <label for="department-name" class="nb-2">Department <span
+                                        class="text-danger">*</span></label>
+                                <select required name="department_id" id="department-name" class="form-control">
+                                    <option value="" disabled selected hidden>select Department</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}"> {{ $department->name }} </option>
+                                    @endforeach
+                                </select>
+                                <br />
                             </div>
                         </div>
 
@@ -66,27 +86,55 @@
                                 <input required name='password' class="form-control" type="password">
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Insurance Number   </label>
-                                <input  name='insurance_number' class="form-control" type="text">
+                                <label>Phone Number <span class="text-danger">*</span> </label>
+                                <input required name='phone' class="form-control" type="text">
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Date of birth <span class="text-danger">*</span> </label>
-                                <input required name='dob' class="form-control" type="date">
+                                <label class="nb-2" for="languages">Languages</label>
+                                <div class="d-flex flex-wrap">
+                                    @foreach ($languages as $index => $language)
+                                        <div class="col-sm-6 mb-2">
+                                            <div class='form-check' id='language'>
+                                                <input name='languages_ids[]' value='{{ $language->id }}'
+                                                    class='form-check-input' type="checkbox"
+                                                    id='flexCeckCecked{{ $index }}'>
+                                                <label class='form-check-label' for='flexCeckCecked{{ $index }}'>
+                                                    {{ $language->name }} </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-
-
-                        <input type="hidden" name="is_patient" value="1">
-
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>CV:</label>
+                                <div class="profile-upload">
+                                    <div class="upload-input">
+                                        <input type="file" name="pdf_cv" accept=".pdf" class="form-control">
+                                        <p id="errorMessage" style="color: red; display: none;"> size must be less than 2
+                                            MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="doctor-info">
+                            <div class="form-group">
+                                <label>Academic Qualifications</label>
+                                <textarea class="form-control" id="qualifications" name="qualifications" rows="5" cols="200"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Work Experience</label>
+                                <textarea class="form-control" id="experience" name="experience" rows="5" cols="200"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="m-t-20 text-center">
-                        <button class="btn btn-primary submit-btn">Create Patient</button>
+                        <button class="btn btn-primary submit-btn">Create Employee</button>
                     </div>
 
                     <div class="m-t-20 text-center">
