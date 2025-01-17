@@ -217,7 +217,7 @@ class AppointmentService
         // Return the available slots (resetting the array keys)
         return array_values($availableSlots);
     }
-    
+
     //Fetches appointments for the user based on their permissions
     public function getAppointmentsForUser()
     {
