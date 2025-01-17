@@ -27,6 +27,9 @@ class DashboardController extends Controller
         $inactive_departments = Department::where('status', 0)->count();
         $active_appointments  = Appointment::where('status', 'scheduled')->count();
         $pending_appointments  = Appointment::where('status', 'pending')->get();
+        $scheduling_appointments  = Appointment::where('status', 'scheduled')->get();
+        // Merging pending and scheduled appointments in one object
+        $upcoming_appointments = $pending_appointments->merge($scheduling_appointments);
 
 
         $statistics=[
@@ -37,6 +40,8 @@ class DashboardController extends Controller
             'inactive_departments' => $inactive_departments,
             'active_appointments'  => $active_appointments ,
             'pending_appointments'  => $pending_appointments ,
+            'scheduling_appointments'  => $scheduling_appointments ,
+            'upcoming_appointments'  => $upcoming_appointments ,
             'doctors'       => $doctors,
 
         ];

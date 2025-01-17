@@ -141,7 +141,7 @@
         </div> {{-- row --}}
 
         @php
-            $appointments = $statistics['pending_appointments'];
+            $appointments = $statistics['upcoming_appointments'];
         @endphp
         <div class="row">
             <div class="col-12 col-md-6 col-lg-8 col-xl-8">
