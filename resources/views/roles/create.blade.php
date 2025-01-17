@@ -55,15 +55,15 @@ Create Role
                     <div class="mb-3 row">
                         <label for="permissions" class="col-md-4 col-form-label text-md-end text-start">Permissions</label>
                         <div class="col-md-6">
-                          
+
                             @forelse ($permissions as $permission)
                                 <div class="form-check">
-                                    <input 
-                                        class="form-check-input @error('permissions') is-invalid @enderror" 
-                                        type="checkbox" 
-                                        id="permission_{{ $permission->id }}" 
-                                        name="permissions[]" 
-                                        value="{{ $permission->id }}" 
+                                    <input
+                                        class="form-check-input @error('permissions') is-invalid @enderror"
+                                        type="checkbox"
+                                        id="permission_{{ $permission->id }}"
+                                        name="permissions[]"
+                                        value="{{ $permission->id }}"
                                         {{ in_array($permission->id, old('permissions') ?? []) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="permission_{{ $permission->id }}">
                                         {{ $permission->name }}
@@ -72,15 +72,15 @@ Create Role
                             @empty
                                 <p> No pemissions  </p>
                             @endforelse
-                        
+
                             @if ($errors->has('permissions'))
                                 <span class="text-danger">{{ $errors->first('permissions') }}</span>
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="mb-3 row">
-                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Add Role">           
+                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Add Role">
                     </div>
                     <div class="m-t-20 text-center">
                         <a href="{{route('roles.index')}}" class="btn btn-secondary ml-5" rel="prev">
@@ -88,10 +88,10 @@ Create Role
                         </a>
                         </div>
                 </form>
-                
+
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 

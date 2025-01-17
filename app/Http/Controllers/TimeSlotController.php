@@ -106,7 +106,7 @@ class TimeSlotController extends Controller
             $query->where('name', 'doctor');
         })
         ->get();
-            return view('Timeslot.edit', compact('timeSlot' ,'doctors'));
+            return view('timeslot.edit', compact('timeSlot' ,'doctors'));
     }
 
 

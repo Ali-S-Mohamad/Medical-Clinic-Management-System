@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\AppointmentController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('/verify-account', [AuthController::class, 'verifyAccount']);
+
+
 
 
 //Protected routes of logout
@@ -43,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all-doctors', [DoctorController::class, 'listDoctors']);
     Route::get('show-doctor/{doctor}', [DoctorController::class, 'showDoctor']);
 
-    Route::get('available-slots/{doctorId}/{date}', [AppointmentController::class, 'getAvailableSlots']);
+    Route::get('available-slots/{doctorId}', [AppointmentController::class, 'getAvailableSlots']);
 
     Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
     Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);

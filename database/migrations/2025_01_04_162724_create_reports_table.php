@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id');
-            $table->string('patient_name'); 
+            $table->string('patient_name');
             $table->string('doctor_name');
             $table->date('appointment_date');
             $table->text('medications_names')->nullable();
-            $table->text('instructions'); 
-            $table->text('details')->nullable(); 
+            $table->text('instructions');
+            $table->text('details')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -6,6 +6,7 @@
 
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 @endsection
 
 @section('content')
@@ -19,71 +20,79 @@
             <div class="col-lg-8 offset-lg-2">
                 <form action="{{ route('users.store') }}" method="post" enctype='multipart/form-data'>
                     @csrf
+
+                    <div class="row">
+                        {{-- image section --}}
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="photo">Image :</label>
+                                <div style="display: flex; align-items: center;">
+                                    <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
+                                    <!-- حقل إدخال الصورة -->
+                                    <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png"
+                                        style="display: none;"> <!-- مكان عرض الصورة المصغرة -->
+                                    <img id="thumbnail"
+                                        style="display:none; width: 70px; height: 70px; margin-left: 10px; cursor: pointer;">
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- image section --}}
+                    </div> {{-- row end --}}
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Name <span class="text-danger">*</span></label>
-                                <input name='name' class="form-control" type="text">
+                                <input required name='name' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="department-name" class="nb-2">Department</label>
-                                <select required name="category_id" id="department-name" class="form-control">
-                                    <option value="" disabled selected hidden>select Department</option>
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}"> {{ $department->name }} </option>
-                                    @endforeach
-                                </select>
-                                <br/>
+                                <label>Phone Number <span class="text-danger">*</span> </label>
+                                <input required name='phone' class="form-control" type="text">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Email <span class="text-danger">*</span></label>
-                                <input name='email' class="form-control" type="email">
+                                <input required name='email' class="form-control" type="email">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Password</label>
-                                <input name='password' class="form-control" type="password">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Phone Number</label>
-                                <input name='phone' class="form-control" type="text">
+                                <label>Password <span class="text-danger">*</span></label>
+                                <input required name='password' class="form-control" type="password">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="nb-2" for="languages">Languages</label>
-                                <select class="form-control" id="languages" name="languages" multiple>
-                                    <option value="" disabled selected hidden>select Languages</option>
-                                    <option>English</option>
-                                    <option>Arabic</option>
-                                    <option>Hindi</option>
-                                    <option>Germany</option>
-                                    <option>French</option>
-                                </select>
+                                <label>Insurance Number   </label>
+                                <input  name='insurance_number' class="form-control" type="text">
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>CV:</label>
-                                <div class="profile-upload">
-                                    <div class="upload-input">
-                                        <input type="file" class="form-control">
-                                    </div>
-                                </div>
+                                <label>Date of birth <span class="text-danger">*</span> </label>
+                                <input required name='dob' class="form-control" type="date">
                             </div>
                         </div>
+
+
+                        <input type="hidden" name="is_patient" value="1">
+
                     </div>
                     <div class="m-t-20 text-center">
-                        <button class="btn btn-primary submit-btn">Create Employee</button>
+                        <button class="btn btn-primary submit-btn">Create Patient</button>
+                    </div>
+
+                    <div class="m-t-20 text-center">
+                        <a href="{{ route('employees.index') }}" class="btn btn-secondary mb-3" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back
+                        </a>
                     </div>
                 </form>
             </div>
@@ -94,22 +103,28 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#languages').select2({
-                placeholder: "Select Languages",
-                allowClear: true
-            });
-        });
 
-        $(document).ready(function() { // إخفاء العناصر في البداية
-            $("#doctor-info").hide(); // استماع لتغيير حالة الـ
-            checkbox $("#is_doctor").change(function() {
-                if (this.checked)
-                    $("#is_doctor").show();
-                else
-                    $("#is_doctor").hide();
-            })
-        });
+    <script>
+        // image & image icon
+        document.getElementById('upload-icon').onclick = function() {
+            document.getElementById('photo').click();
+        };
+        document.getElementById('photo').onchange = function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('upload-icon').style.display = 'none';
+                    var img = document.getElementById('thumbnail');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('thumbnail').onclick = function() {
+            document.getElementById('photo').click();
+        }
     </script>
 @endsection

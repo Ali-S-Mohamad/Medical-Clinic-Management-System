@@ -48,7 +48,6 @@
                 <li class="">
                     <a href="{{route('ratings.index')}}"><i class="fa fa-dashboard"></i> <span>Ratings</span></a>
                 </li>
-
                 <li class="">
                     <a href="{{route('reports.index')}}"><i class="fa fa-dashboard"></i> <span>Reports</span></a>
                 </li>

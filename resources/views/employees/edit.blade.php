@@ -10,22 +10,6 @@ Edit Employee
 @endsection
 
 @section('content')
-@if (session('error'))
-        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -56,9 +40,9 @@ Edit Employee
                         <div class="form-group">
                             <label for="photo">Profile Image:</label>
                             <div style="display: flex; align-items: center;">
-                                @if($employee->image)
+                                @if($employee->user->image)
                                     <!-- IF there is an image -> display it -->
-                                    <img id="thumbnail" src="{{ asset('storage/' . $employee->image->image_path) }}" 
+                                    <img id="thumbnail" src="{{ asset('storage/' . $employee->user->image->image_path) }}"
                                          style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
                                 @else
                                     <!-- IF there is not an image -> display upload icon -->
@@ -66,14 +50,14 @@ Edit Employee
                                 @endif
                                     <!-- input field -->
                                 <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png" style="display: none;">
-                                 
+
                             </div>
                         </div>
-                    </div> 
-                    
-                    {{-- end  of image section --}} 
-                </div>       
- 
+                    </div>
+
+                    {{-- end  of image section --}}
+                </div>
+
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -139,22 +123,22 @@ Edit Employee
                                 <label>CV:</label>
                                 <div class="profile-upload">
                                     @if($employee->cv_path)
-                                        @php 
+                                        @php
                                             $cvFileName = basename($employee->cv_path);
                                             // Remove any numbers followed by an underscore at the beginning of the file to get rid of the time stamp.
-                                            $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);    
-                                        @endphp 
-                                        <p id="existing-file"> 
+                                            $originalFileName = preg_replace('/^\d+_/', '', $cvFileName);
+                                        @endphp
+                                        <p id="existing-file">
                                           <a href="{{ asset('storage/'.$employee->cv_path) }}" target="_blank">{{ $originalFileName }}</a>
                                         </p>
                                     @endif
-                                    <div class="upload-input"> 
-                                          <input type="file" id="new-cv" name="pdf_cv" accept=".pdf" class="form-control" > 
+                                    <div class="upload-input">
+                                          <input type="file" id="new-cv" name="pdf_cv" accept=".pdf" class="form-control" >
                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div id="doctor-info">
                             <div class="form-group">
                                 <label>Academic Qualifications</label>
@@ -177,7 +161,7 @@ Edit Employee
                 </form>
             </div>
         </div>
-  
+
 @endsection
 
 
@@ -185,32 +169,32 @@ Edit Employee
 
 @section('scripts')
     <script>
-    
+
         //  اظهار واخفاء قسم الخبرة والعمل السابق حسب رول الموظف / طبيب / موظف اداري
         // var employeeRole ="{{ $role }}";
-        // document.addEventListener('DOMContentLoaded', function () { 
-        //     if (employeeRole === 'doctor') 
-        //         document.getElementById('doctor-info').style.display = 'block'; 
-        //     else 
-        //         document.getElementById('doctor-info').style.display = 'none'; 
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     if (employeeRole === 'doctor')
+        //         document.getElementById('doctor-info').style.display = 'block';
+        //     else
+        //         document.getElementById('doctor-info').style.display = 'none';
         //      });
 
-        //     $(document).ready(function() { 
-             
-        //     $("#is_doctor").change(function() { 
-        //         if ($(this).is(':checked')) 
-        //             $("#doctor-info").show(); 
-        //         else $("#doctor-info").hide(); 
+        //     $(document).ready(function() {
+
+        //     $("#is_doctor").change(function() {
+        //         if ($(this).is(':checked'))
+        //             $("#doctor-info").show();
+        //         else $("#doctor-info").hide();
         //     }); })
 
 
             //  Hide old file name section if new file is selected
-            document.getElementById('new-cv').addEventListener('change', function() { 
-                var existingFileMessage = document.getElementById('existing-file'); 
-                if (existingFileMessage) { 
-                    existingFileMessage.style.display = 'none'; } 
+            document.getElementById('new-cv').addEventListener('change', function() {
+                var existingFileMessage = document.getElementById('existing-file');
+                if (existingFileMessage) {
+                    existingFileMessage.style.display = 'none'; }
                 });
-          
+
 
                 // image & image icon
             document.addEventListener('DOMContentLoaded', function() {
@@ -248,7 +232,7 @@ Edit Employee
                                 thumbnail.style.cursor = 'pointer';
                                 thumbnail.style.borderRadius = '50%';
                                 uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
-                                
+
                                 // add image click event on the new image
                                 thumbnail.addEventListener('click', function() {
                                     photoInput.click();
@@ -260,7 +244,7 @@ Edit Employee
                 });
             });
 
- 
+
 
     </script>
 @endsection

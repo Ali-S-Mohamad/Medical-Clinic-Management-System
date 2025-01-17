@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'exists:departments,id',
             'academic_qualifications' => 'nullable|string',
             'previous_experience'     => 'nullable|string',
             'pdf_cv' => 'file|mimes:pdf|max:2048',

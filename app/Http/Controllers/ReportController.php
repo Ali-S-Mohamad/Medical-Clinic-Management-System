@@ -51,9 +51,9 @@ class ReportController extends Controller
         $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
         $fileName = 'report_' . $id . '_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
         return Excel::download(new ReportsExport($filters , $id), $fileName);
-    
+
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */

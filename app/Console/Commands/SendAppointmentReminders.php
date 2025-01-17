@@ -38,23 +38,6 @@ class SendAppointmentReminders extends Command
      */
     public function handle()
     {
-        // $now = Carbon::now();
-        // $reminderTime = $now->addRealMinutes(1);
-
-        // // Fetch appointments happening in 1 minute
-        // // $appointments = Appointment::where('appointment_date', $reminderTime->format('Y-m-d H:i:s'))
-        // //     ->get();
-        // $appointments = Appointment::whereBetween('appointment_date', [
-        //     $now->format('Y-m-d H:i:00'),
-        //     $reminderTime->format('Y-m-d H:i:59')
-        // ])->get();
-        // dd($appointments);
-
-        // foreach($appointments as $appointment) {
-        //     $appointment->patient->user->notify(new AppointmentReminder($appointment));
-        // }
-
-        // $this->info('Reminders sent successfully!');
         $now = Carbon::now();
         $reminderTime = $now->addMinutes(120);
 
@@ -63,7 +46,6 @@ class SendAppointmentReminders extends Command
             $now->format('Y-m-d H:i:00'),
             $reminderTime->format('Y-m-d H:i:59')
         ])->get();
-        // dd($appointments);
 
         if ($appointments->isEmpty()) {
             $this->info('No appointments found for reminders.');

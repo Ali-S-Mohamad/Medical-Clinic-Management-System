@@ -141,11 +141,11 @@
         </div> {{-- row --}}
 
         @php
-            $appointments = $statistics['pending_appointments'];
+            $appointments = $statistics['upcoming_appointments'];
         @endphp
         <div class="row">
             <div class="col-12 col-md-6 col-lg-8 col-xl-8">
-                <div class="card">
+                <div class="card member-panel">
                     <div class="card-header">
                         <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="#"
                             class="btn btn-primary float-right">View all</a>
@@ -199,6 +199,10 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer text-center bg-white">
+                        <a href="{{ route('appointments.index') }}" class="text-muted">View all
+                            Appointments</a>
                     </div>
                 </div>
             </div>

@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentRequest;
 use App\Http\Requests\CancelAppointmentRequest;
-use App\Http\Resources\AppointmentsResource;
 use App\Http\Traits\ApiResponse;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Services\AppointmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\DoctorsResource;
 
 class AppointmentController extends Controller
 {
@@ -24,7 +22,6 @@ class AppointmentController extends Controller
         $this->middleware(['auth:sanctum','permission:store-AppointmentforPatient'])->only(['store']);
         $this->middleware(['auth:sanctum','permission:get-AppointmentforPatient'])->only(['myAppointments']);
         $this->middleware(['auth:sanctum','permission:get-AvailableSlot'])->only('getAvailableSlots');
-
         $this->appointmentService = $appointmentService;
     }
 
@@ -42,7 +39,6 @@ class AppointmentController extends Controller
             // Use errorResponse from ApiResponse trait
             return $this->errorResponse('User is not associated with a patient.', 403);
         }
-
         // Combine appointment date and time
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
 
@@ -50,21 +46,17 @@ class AppointmentController extends Controller
         $response = $this->appointmentService->bookAppointment(
             $patient->id,
             $request->doctor_id,
-            $appointmentDateTime
+            $appointmentDateTime,
+            null,
+            $request->notes,
         );
-
         if ($response['success']) {
             // Use successResponse from ApiResponse trait
             return $this->successResponse([$response['appointment']], 'Appointment created successfully.', 201);
         }
-
         // Use errorResponse for failure
         return $this->errorResponse($response['message'], 409);
     }
-
-
-
-
     /**
      * Display appointments belonging to the patient
      * @param \Illuminate\Http\Request $request
@@ -82,18 +74,16 @@ class AppointmentController extends Controller
         }
 
         // Retrieve appointments associated with the patient
-        $appointments = $patient->appointments()->with('employee')->orderBy('appointment_date', 'desc')->paginate(5);
+        $appointments = $patient->appointments()->orderBy('appointment_date', 'desc')->get();
 
         // Use successResponse from ApiResponse trait
-        return $this->apiResponse(AppointmentsResource::collection($appointments), 'Appointments retrieved successfully.', 200);
+        return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
     }
-
 
     public function showAppointment(string $id){
         $appointment = Appointment::with('employee','patient')->findOrFail($id);
-        
-    }
 
+    }
 
     /**
      * Summary of getAvailableSlots
@@ -102,23 +92,21 @@ class AppointmentController extends Controller
      * @param mixed $dayOfWeek
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAvailableSlots(Request $request, $doctorId, $date)
+    public function getAvailableSlots(Request $request, $doctorId )
     {
+        // Receipt date of customer order
+        $date = $request->input('date');
+
         if (!$date) {
+            // Return an error response using the errorResponse method from ApiResponse trait
             return $this->errorResponse('Date is required.', 400);
         }
-    
-        // Get the day of the week
         $dayOfWeek = Carbon::parse($date)->dayOfWeek;
-    
-        // Call the appointment service to obtain available times
-        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId, $date);
-    
-        // Returns the times available as a successful response
+        $availableSlots = $this->appointmentService->getAvailableSlots($doctorId , $date);
+
+        // Return a success response with the available slots data using successResponse
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
-    
-
     /**
      * Summary of canceledAppointment
      * @param \Illuminate\Http\Request $request
@@ -129,18 +117,17 @@ class AppointmentController extends Controller
     {
         // Ensure the appointment is currently scheduled
         if ($appointment->status !== 'scheduled') {
-            return response()->json(['message' => 'Only scheduled appointments can be canceled'], 400);
+            return $this->errorResponse('Only scheduled appointments can be canceled', 400);
         }
-
         // Update the appointment status to "canceled"
         $appointment->status = 'canceled';
         $appointment->save();
 
         // Return a success response
-        return response()->json([
-            'message' => 'Appointment canceled successfully',
-            'appointment' => $appointment,
-        ]);
+        return $this->successResponse(
+            ['appointment' => $appointment],
+            'Appointment canceled successfully'
+        );
     }
 
 }

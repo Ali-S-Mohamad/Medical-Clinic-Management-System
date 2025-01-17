@@ -26,7 +26,6 @@ class PermissionSeeder extends Seeder
             'show-employee',
             'create-employee',
             'edit-employee',
-            
             'Archive-employee',
             'view-archiveEmpolyess',
             'restore-employee',

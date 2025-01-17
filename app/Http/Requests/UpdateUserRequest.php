@@ -24,12 +24,13 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'  => 'required|string|max:255',
             'email' => 'email',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'exists:departments,id',
             'is_patient'    =>'boolean',
             'academic_qualifications'=> 'nullable|string|max:500',
             'previous_experience'    => 'nullable|string|max:500',
             'pdf_cv' => 'file|mimes:pdf|max:2048',
-            'image'  => 'image|mimes:jpg,jpeg,png|max:2048' 
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048' ,
+            'dob' => 'date|before_or_equal:today' ,
         ];
     }
 }
