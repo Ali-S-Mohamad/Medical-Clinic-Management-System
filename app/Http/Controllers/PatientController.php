@@ -29,7 +29,6 @@ class PatientController extends Controller
             $patients = Patient::whereHas('medicalFile.prescriptions', function ($query) use ($user) { 
                 $query->where('doctor_id', $user->employee->id); 
             })->paginate(5);
-           // $patients = Patient::paginate(5);
         }
         else if ($user->hasRole('employee') ){
             $departmentId = $user->employee->department_id;
@@ -42,7 +41,6 @@ class PatientController extends Controller
         else {  
         abort(403, 'Unauthorized');
         }
-     //   dd($user->roles);
         return view('patients.index',compact('patients'));
     }
 
