@@ -9,6 +9,8 @@ use App\Events\AppointmentCreated;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentReminderMail;
 use App\Mail\AppointmentNotificationMail;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentService
 {
@@ -153,7 +155,6 @@ class AppointmentService
     {
         if (is_null($status)) {
             $currentUser = auth()->user();
-
             if ($currentUser->hasRole('patient')) {
                 $status = 'pending';
             } else {
@@ -215,4 +216,33 @@ class AppointmentService
         // Return the available slots (resetting the array keys)
         return array_values($availableSlots);
     }
+    
+    //Fetches appointments for the user based on their permissions
+    public function getAppointmentsForUser()
+    {
+        $appointments = Appointment::paginate(5);
+
+        if (Auth::user()->hasAnyRole(['Admin', 'employee'])) {
+            return $appointments;
+        }
+
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+
+        if (!$employee) {
+            throw new \Exception('The employee associated with this user was not found.');
+        }
+
+        $isDoctor = auth()->user()->hasRole('doctor');
+        return Appointment::with(['patient.user', 'employee.user'])
+            ->when($isDoctor, function ($query) use ($employee) {
+                $query->where('doctor_id', $employee->id);
+            }, function ($query) use ($employee) {
+                $query->whereHas('employee', function ($subQuery) use ($employee) {
+                    $subQuery->where('department_id', $employee->department_id);
+                });
+            })
+            ->whereHas('patient')
+            ->paginate(5);
+    }
+
 }
