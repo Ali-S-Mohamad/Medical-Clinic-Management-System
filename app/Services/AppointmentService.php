@@ -141,7 +141,8 @@ class AppointmentService
             ]);
         }
         $patientEmail = $appointment->patient->user->email;
-        Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
+        if($appointment->status === 'scheduled')
+            Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
         return [
             'success' => true,
             'appointment' => $appointment
