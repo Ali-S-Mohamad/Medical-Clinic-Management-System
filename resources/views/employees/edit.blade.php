@@ -166,14 +166,14 @@ Edit Employee
                             <div class="col-sm-6 patient-field" style="display: none;">
                                 <div class="form-group">
                                     <label>Insurance Number</label>
-                                    <input name="insurance_number" class="form-control" type="text">
+                                    <input name="insurance_number" type="text" value="{{ $employee->user->patient?->insurance_number }}" class="form-control" >
                                 </div>
                             </div>
                         
                             <div class="col-sm-6 patient-field" style="display: none;">
                                 <div class="form-group">
                                     <label>Date of birth <span class="text-danger">*</span> </label>
-                                    <input   name="dob" class="form-control" type="date">
+                                    <input   name="dob" type="date" value="{{ $employee->user->patient?->dob }}" class="form-control" >
                                 </div>
                             </div>
                         </div>

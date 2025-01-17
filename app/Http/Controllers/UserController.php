@@ -51,7 +51,7 @@ class UserController extends Controller
         // Handel image
         saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
        
-        // User is both patient & employee  (only for edit edit request)
+        // User is both patient & employee  (only for edit request)
         if ($request->has('is_patient_employee')) { 
             if ($request->input('is_doctor', 0)) { 
                 $user->assignRole('doctor'); 
