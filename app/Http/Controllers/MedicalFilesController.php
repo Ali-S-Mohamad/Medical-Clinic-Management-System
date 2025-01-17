@@ -70,29 +70,6 @@ class MedicalFilesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-//     public function store(MedicalFileRequest $request)
-//     {
-//     //earch for patient by name
-//     $patient = Patient::whereHas('user', function($query) use ($request) {
-//         $query->where('firstname', $request->patient_name)
-//                ->orwhere('lastname', $request->patient_name);
-//     })->firstOrFail();
-
-    
-//     // Check if the patient has a previous medical record
-//     if ($patient->medicalFile()->exists()) {
-//         return redirect()->back()->withErrors(['message' => 'the patient has a previous medical record']);
-//     }
-
-//     // create medical file
-//     $medicalFile = MedicalFile::create([
-//         'patient_id' => $patient->id,
-//         'diagnoses' => $request->diagnoses,
-//     ]);
-
-//     return redirect()->route('medicalFiles.show', $medicalFile->id)
-//                     ->with('success', 'the medical file was created successfully');
-// }
     public function store(MedicalFileRequest $request)
 {
     //earch for patient by name
