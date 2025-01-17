@@ -24,6 +24,9 @@ use App\Http\Controllers\Api\AppointmentController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('/verify-account', [AuthController::class, 'verifyAccount']);
+
+
 
 
 //Protected routes of logout

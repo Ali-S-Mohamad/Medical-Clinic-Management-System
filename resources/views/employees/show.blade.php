@@ -10,9 +10,21 @@
 
 @section('content')
     <div class="content">
-        <div class="row">
-            <div class="col-sm-7 col-6">
-                <h4 class="page-title">My Profile</h4>
+            <div class="row">
+                <div class="col-sm-7 col-6">
+                    <h4 class="page-title">My Profile</h4>
+                </div>
+
+                <div class="col-sm-5 col-6 text-right m-b-30">
+                    <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary "><i class="fa fa-plus"></i> Edit Profile</a>
+                    {{-- <a href="javascript:history.back()" class="btn btn-secondary " rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a> --}}
+                    <a href="{{ route('employees.index')}}" class="btn btn-secondary" rel="prev" id="backButton">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a>
+
+                </div>
             </div>
 
             <div class="col-sm-5 col-6 text-right m-b-30">

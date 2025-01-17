@@ -46,6 +46,7 @@ class UserController extends Controller
             'email' => $request->email,
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
+            'is_verified' => true,
         ])->save();
 
         // Handel image
