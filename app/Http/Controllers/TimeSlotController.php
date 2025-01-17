@@ -46,7 +46,7 @@ class TimeSlotController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        return view('Timeslot.index', compact('timeSlots'));
+        return view('timeslot.index', compact('timeSlots'));
     }
 
 
@@ -61,7 +61,7 @@ class TimeSlotController extends Controller
                     })
                     ->get();
 
-        return view('Timeslot.create', compact('doctors'));
+        return view('timeslot.create', compact('doctors'));
     }
 
 
