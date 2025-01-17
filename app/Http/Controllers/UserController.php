@@ -89,30 +89,4 @@ class UserController extends Controller
         } 
     }
           
-        //old
-//         if ($request->has('is_patient')) {  // only patient
-//             $user->assignRole('patient');
-//             saveImage('Patient images', $request, $user);
-// ///dd('alaaa');
-//             $patientController = new PatientController();
-//             return $patientController->saveOrupdatePatientDetails($user->id, $request);
-//         }
-//         else {   // employee or doctor
-//             $isDoctor = $request->input('is_doctor', 0);
-//             if ($isDoctor) {
-//                 $user->assignRole('doctor');
-//             } else {
-//                 $user->assignRole('employee');
-//             }
-//             $user->update([ 'is_patient' => $request->has('is_patient_employee') ]);
-//             saveImage('Employees images', $request, $user);
-
-//             // Calling EmployeeController to Update Employee Details
-//             $employeeController = new EmployeeController();
-//             return $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
-
-//         }
-
-//     }
-
 }
