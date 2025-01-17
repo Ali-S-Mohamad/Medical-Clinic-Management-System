@@ -48,8 +48,14 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' value='{{ $patient->user->name }}' class="form-control" type="text">
+                                <label>First name <span class="text-danger">*</span></label>
+                                <input required name='firstname' value='{{ $patient->user->firstname }}' class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Last name <span class="text-danger">*</span></label>
+                                <input required name='lastname' value='{{ $patient->user->lastname }}' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -64,6 +70,7 @@
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input required name='email' value='{{ $patient->user->email }}'  class="form-control" type="email">
                             </div>
+                            
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -76,6 +83,10 @@
                             <div class="form-group">
                                 <label>Insurance Number <span class="text-danger">*</span> </label>
                                 <input  name='insurance_number' value='{{ $patient->insurance_number }}'  class="form-control" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender <span class="text-danger">*</span></label>
+                                <input required name='gender' value='{{ $patient->user->gender }}'  class="form-control" type="text">
                             </div>
                         </div>
 

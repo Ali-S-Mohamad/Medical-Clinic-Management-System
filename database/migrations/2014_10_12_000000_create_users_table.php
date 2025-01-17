@@ -11,18 +11,33 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Schema::create('users', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('name');
+        //     $table->string('email')->unique();
+        //     $table->string('phone_number')->unique();
+        //     $table->boolean('is_patient')->default(true);
+        //     $table->timestamp('email_verified_at')->nullable();
+        //     $table->string('password');
+        //     $table->rememberToken();
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        // });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('firstname'); 
+            $table->string('lastname');  
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
             $table->boolean('is_patient')->default(true);
+            $table->string('gender')->nullable(); 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('confirm_password')->nullable(); 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-        });
+        }); 
     }
 
     /**

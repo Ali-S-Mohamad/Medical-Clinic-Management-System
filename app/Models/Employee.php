@@ -64,16 +64,16 @@ class Employee extends Model
         return $this->belongsToMany(Language::class,'employee_language','employee_id','language_id');
     }
 
-    
-
     public function scopeFilterByName($query, $name)
     {
-        $result = $query->whereHas('user', function ($query) use ($name) {
-            if ($name) {
-                $query->where('name', 'like', '%' . $name . '%');
-            }
-        });
-        return $result;
+    return $query->whereHas('user', function ($query) use ($name) {
+        if ($name) {
+            $query->where(function ($query) use ($name) {
+                $query->where('firstname', 'like', '%' . $name . '%')
+                      ->orWhere('lastname', 'like', '%' . $name . '%');
+            });
+        }
+    });
     }
 
     public function scopeFilterByDepartment(Builder $query, $department)

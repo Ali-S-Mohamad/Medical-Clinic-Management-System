@@ -14,7 +14,6 @@
 
 
 @section('content')
-<<<<<<< HEAD
 @if (session('error'))
         <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
             {{ session('error') }}
@@ -31,8 +30,6 @@
             </button>
         </div>
     @endif
-=======
->>>>>>> 571124fa38939e12e504de3a249c61a7e971866c
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -95,46 +92,6 @@
             </form>
         </div>
         @if ($employees->isEmpty())
-<<<<<<< HEAD
-    <h3>No Employees .. please add one</h3>
-@else
-    @include('employees.partials.table', ['employees' => $employees])
-@endif
-
-{{ $employees->links() }}
-    </div>
-@endsection
-
-@section('scripts')
-<script>
-    $(document).ready(function() {
-        $('#filterForm').on('submit', function(e) {
-            e.preventDefault(); // Prevent page reloading
-
-            // Collect filter data page
-            let filters = $(this).serialize();
-
-            // Make an AJAX request
-            $.ajax({
-                url: "{{ route('employees.index') }}", // The link supports AJAX requests
-                method: "GET",
-                data: filters,
-                beforeSend: function() {
-                    // Add a loading indicator
-                    $('#employeeTable').html('<tr><td colspan="7" class="text-center">Loading...</td></tr>');
-                },
-                success: function(response) {
-                    $('#employeeTable').html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error("An error occurred:", error);
-                    alert("Failed to filter employees. Please try again.");
-                }
-            });
-        });
-    });
-</script>
-=======
             <h3>No Employees .. please add one</h3>
         @else
             <div class="row">
@@ -145,7 +102,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th style="min-width:175px;">Name</th>
+                                    
                                     <th>Email</th>
+                                    <th>Gender</th>
                                     <th>Department</th>
                                     <th class="text-center">Languages</th>
                                     <th class="text-center">Role</th>
@@ -166,9 +125,11 @@
                                             @endphp
                                             <img width="40" height="40" src="{{ $image_path }}"
                                                 class="rounded-circle" alt="">
-                                            <h2>{{ $employee->user->name }}</h2>
+                                            <h2>{{ $employee->user->firstname }}</h2>
+                                            <h2>{{ $employee->user->lastname }}</h2>
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
+                                        <td>{{ $employee->user->gender }}</td>
                                         <td>{{ $employee->department?->name }}</td>
                                         <td class="language-container d-flex flex-wrap">
                                             @if (!$employee->Languages->isEmpty())
@@ -234,5 +195,4 @@
 @section('scripts')
 
 
->>>>>>> 571124fa38939e12e504de3a249c61a7e971866c
 @endsection

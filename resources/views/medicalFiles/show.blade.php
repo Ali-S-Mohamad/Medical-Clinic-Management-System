@@ -25,7 +25,7 @@ Show Medical file
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="profile-info-left">
-                                    <h3 class="user-name m-t-0 mb-0">{{ $medicalFile->patient->user->name }}</h3>
+                                    <h3 class="user-name m-t-0 mb-0">{{ $medicalFile->patient->user->firstname }} {{ $medicalFile->patient->user->lastname }}</h3>
                                     <div class="staff-id">Patient insurance number : {{ $medicalFile->patient->insurance_number }}</div>
                                 </div>
                             </div>
@@ -44,8 +44,8 @@ Show Medical file
                                         <span class="text">{{ $medicalFile->patient->dob }}</span>
                                     </li>
                                     <li>
-                                        {{-- <span class="title">Gender:</span>
-                                        <span class="text">Female</span> --}}
+                                        <span class="title">Gender:</span>
+                                        <span class="text">{{ $medicalFile->patient->user->gender }}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -85,7 +85,7 @@ Show Medical file
                 <h3 class="card-title">Recent prescription</h3>
                 <div class="experience-box">
                     @foreach($prescriptions as $prescription)
-                    <p class="card-text"><strong>Doctor:</strong> {{ $prescription->employee->user->name }} </p>
+                    <p class="card-text"><strong>Doctor:</strong> {{ $prescription->employee->user->firstname }}  {{ $prescription->employee->user->lastname }} </p>
                     <p class="card-text"><strong>Appointment date: </strong>{{ $prescription->appointment->appointment_date }}</p>
                     <p class="card-text"><strong>Medication name: </strong>{{ $prescription->medications_names }}</p>
                     <p class="card-text"><strong>instruction:</strong>{{ $prescription->instructions }}</p>

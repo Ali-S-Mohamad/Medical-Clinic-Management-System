@@ -41,11 +41,20 @@ class UserController extends Controller
     }
 
     protected function saveOrUpdateUserDetails($user, $request) {
+        //check password
+        if ($request->password !== $request->confirm_password) {
+           return redirect()->back()->with('error', 'Pasword does not match .');
+        
+        }
+
         $user->fill([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
+            'gender' => $request->gender,
             'phone_number' => $request->phone,
             'password' => bcrypt($request->password),
+            'confirm_password' => bcrypt($request->confirm_password),
             'is_verified' => true,
         ])->save();
 

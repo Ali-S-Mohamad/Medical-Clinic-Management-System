@@ -45,7 +45,7 @@ Show Employee
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="profile-info-left">
-                                            <h3 class="user-name m-t-0 mb-0">{{ $employee->user->name }}</h3>
+                                            <h3 class="user-name m-t-0 mb-0">{{ $employee->user->firstname }}  {{ $employee->user->lastname }}</h3>
                                             <small class="text-muted"> {{ $employee->department->name }}</small>
                                             <h2 class="card-title mb-3" style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
                                                 @if($employee->avg_ratings)
@@ -63,6 +63,10 @@ Show Employee
                                             <li>
                                                 <span class="title">Email:</span>
                                                 <span class="text"><a href="#"> {{ $employee->user->email }}</a></span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Gender:</span>
+                                                <span class="text"><a href="#"> {{ $employee->user->gender }}</a></span>
                                             </li>
                                         </br>
                                     </br>

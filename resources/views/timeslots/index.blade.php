@@ -55,7 +55,7 @@
                         @foreach($timeSlots as $timeSlot)
                             <tr role="row">
                                 <td>{{ $timeSlot->id }}</td>
-                                <td>{{ $timeSlot->doctor->user->name}}</td>
+                                <td>{{ $timeSlot->doctor->user->firstname}} {{ $timeSlot->doctor->user->lastname}}</td>
                                 <td>{{ ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][$timeSlot->day_of_week] }}</td>
                                 <td>{{ $timeSlot->start_time }}</td>
                                 <td>{{ $timeSlot->end_time }}</td>

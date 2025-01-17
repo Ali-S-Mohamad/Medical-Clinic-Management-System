@@ -54,13 +54,24 @@ class MedicalFile extends Model
     }
     }
 
+    // public function scopeFilterByName($query, $name)
+    // {
+    //     if (!empty($name)) {
+    //         $query->whereHas('patient.user', function($userQuery) use ($name) {
+    //             $userQuery->where('name', 'LIKE', "%{$name}%");
+
+    //         });
+    //     }
+    // }
+
     public function scopeFilterByName($query, $name)
     {
-        if (!empty($name)) {
-            $query->whereHas('patient.user', function($userQuery) use ($name) {
-                $userQuery->where('name', 'LIKE', "%{$name}%");
-
-            });
-        }
+    if (!empty($name)) {
+        $query->whereHas('patient.user', function($userQuery) use ($name) {
+            $userQuery->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%{$name}%"]);
+        });
     }
+    }
+
+ 
 }

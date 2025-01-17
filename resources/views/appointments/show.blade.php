@@ -17,8 +17,9 @@
                 <div class="card-body">
 
                     <h5>Patient Information</h5>
-                    <p><strong>Name:</strong> {{ $appointment->patient->user->name }}</p>
+                    <p><strong>Name:</strong> {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }}</p>
                     <p><strong>Email:</strong> {{ $appointment->patient->user->email }}</p>
+                    <p><strong>Email:</strong> {{ $appointment->patient->user->gender }}</p>
                     <p><strong>Phone:</strong> {{ $appointment->patient->user->phone_number }}</p>
 
                     <hr>

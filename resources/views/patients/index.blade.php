@@ -38,6 +38,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Gender</th>
                                     <th>Birth date</th>
                                     <th>insurance Number</th>
                                 </tr>
@@ -54,9 +55,10 @@
                                         @endphp
                                     <img width="40" height="40" src="{{ $image_path }}"
                                         class="rounded-circle" alt="">
-                                    <h2>{{ $patient->user->name }}</h2>
+                                    <h2>{{ $patient->user->firstname }} {{ $patient->user->lastname }}</h2>
                                     </td>
                                     <td>{{$patient->user->email}}</td>
+                                    <td>{{$patient->user->gender}}</td>
                                     <td>{{$patient->dob}}</td>
 
                                     <td>{{$patient->insurance_number}}</td>
