@@ -75,6 +75,8 @@ Route::middleware(['auth','patient'])->group(function () {
     Route::resource('/time-slots', TimeSlotController::class);
     Route::patch('/time-slots/{id}/toggle-Availability', [TimeSlotController::class, 'toggleAvailability'])->name('time-slots.toggleAvailability');
     Route::get('/get-available-slots/{doctorId}', [AppointmentController::class, 'getAvailableSlots']);
+    Route::patch('/appointments/{id}/update-status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+
 
 
 
