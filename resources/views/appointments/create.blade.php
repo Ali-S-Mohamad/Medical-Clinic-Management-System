@@ -66,7 +66,7 @@
 
                 <div class="form-group">
                     <label>Notes</label>
-                    <textarea name="notes" cols="30" rows="4" class="form-control"></textarea>
+                    <textarea name="notes" required cols="30" rows="4" class="form-control"></textarea>
                 </div>
 
                 <div class="m-t-20 text-center">
