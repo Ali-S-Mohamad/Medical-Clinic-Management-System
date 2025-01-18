@@ -62,8 +62,13 @@ Edit Employee
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' value='{{ $employee->user->name }}' class="form-control"
+                                <label>First Name <span class="text-danger">*</span></label>
+                                <input required name='firstname' value='{{ $employee->user->firstname }}' class="form-control"
+                                    type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="text-danger">*</span></label>
+                                <input required name='lastname' value='{{ $employee->user->lastname }}' class="form-control"
                                     type="text">
                             </div>
                         </div>
@@ -87,11 +92,19 @@ Edit Employee
                                 <input  required name='email' class="form-control" type="email"
                                     value="{{ $employee->user->email }}">
                             </div>
+                            <div class="form-group">
+                                <label>Gender <span class="text-danger">*</span></label>
+                                <input required name='gender' class="form-control" type="text" value="{{ $employee->user->gender }}">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Password</label>
                                 <input name='password' class="form-control" type="password">
+                            </div>
+                            <div class="form-group">
+                                <label> Confirm Password</label>
+                                <input name='confirm_password' class="form-control" type="password">
                             </div>
                         </div>
                         <div class="col-sm-6">

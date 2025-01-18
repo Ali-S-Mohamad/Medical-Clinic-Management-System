@@ -29,7 +29,7 @@ Patient
                     </div>
                     <div>
                         <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">
-                            {{ $patient->user->name }}
+                            {{ $patient->user->firstname }}   {{ $patient->user->lastname }}
                         </h3>
                         
                         <h2 class="card-title mb-3" style="font-weight: bold; color: #333;">
@@ -48,6 +48,9 @@ Patient
                             @if ($patient->user->phone_number)
                                 Mobile Number: <br>  {{ $patient->user->phone_number }}
                              @endif
+                        </p>
+                        <p class="card-text mb-4" style="font-size: 1.1rem; color: #555;">
+                                gender: <br>  {{ $patient->user->gender }}
                         </p>
                         <p style="font-size: 1.1rem; color: #555;">
                             

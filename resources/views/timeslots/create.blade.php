@@ -42,7 +42,7 @@
                                 @hasanyrole(['Admin', 'employee'])
                                     <option value="">Select Doctor</option>
                                     @foreach ($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}">{{ $doctor->user->name }}</option>
+                                        <option value="{{ $doctor->id }}">{{ $doctor->user->firstname }}  {{ $doctor->user->lastname }}</option>
                                     @endforeach
                                 @endhasanyrole
                             @endauth

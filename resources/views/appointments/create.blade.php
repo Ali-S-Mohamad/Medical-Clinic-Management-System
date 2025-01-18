@@ -28,7 +28,7 @@
                             <select name="patient_id" class="form-control" required>
                                   <option value="">Select</option>
                                 @foreach ($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
+                                <option value="{{ $patient->id }}">{{ $patient->user->firstname }} {{ $patient->user->lastname }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -39,7 +39,7 @@
                             <select name="doctor_id" id="doctor_id" class="form-control" required>
                                 <option value="">Select</option>
                                 @foreach ($doctors as $doctor)
-                                <option value="{{ $doctor->employee->id }}">{{ $doctor->employee->user->name }}</option>
+                                <option value="{{ $doctor->employee->id }}">{{ $doctor->employee->user->firstname }} {{ $doctor->employee->user->lastname }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -20,19 +20,23 @@ class UpdateUserRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-{ 
-    $rules = [
-        'name'  => 'required|string|max:255',
-        'email' => 'email',
-        'department_id' => 'exists:departments,id',
-        'academic_qualifications' => 'nullable|string|max:500',
-        'previous_experience'     => 'nullable|string|max:500',
-        'pdf_cv' => 'file|mimes:pdf|max:2048',
-        'image'  => 'image|mimes:jpg,jpeg,png|max:2048',
-        'dob'    => 'nullable|date|before_or_equal:today',
-    ];
-    
-    if ($this->input('is_patient_employee') == '1') {
+    {
+        return [
+            'firstname'  => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'email' => 'email',
+            'password' => 'required|string',
+            'confirm_password' => 'required|string',
+            'gender' => 'nullable|string|max:500',
+            'department_id' => 'exists:departments,id',
+            // 'is_patient'    =>'boolean',
+            'academic_qualifications'=> 'nullable|string|max:500',
+            'previous_experience'    => 'nullable|string|max:500',
+            'pdf_cv' => 'file|mimes:pdf|max:2048',
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048' ,
+            'dob' => 'nullable|date|before_or_equal:today' ,
+        ];
+         if ($this->input('is_patient_employee') == '1') {
         $rules['dob'] = 'required|date|before_or_equal:today';
     }
 

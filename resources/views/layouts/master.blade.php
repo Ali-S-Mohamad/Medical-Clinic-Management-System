@@ -31,9 +31,11 @@
             @yield('content')
 
         </div>
+        @include('layouts.footer')
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
 
+   
     @include('layouts.foot_scr')
 
 </body>
