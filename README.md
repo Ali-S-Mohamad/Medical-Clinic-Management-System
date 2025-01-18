@@ -51,11 +51,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
  
 #الاء 
-## Ratings api
-delete user /  
 
-## pdf
-حذف سيرة
    
 ??
 قسم التقيمات صار جاهز مع عرض متوسط التقييمات لدكتور معين ببروفايلو، ومافينا نضيف تقييم الا ل دكتور حصرا
@@ -71,9 +67,6 @@ delete user /
 
 ##ُ Employees CRUD
 لما بحذف قسم، شو حيصير بالموظفين
- 
-بس ضمّن سباتي:
-عرضت الموظفين بصفحة موجودين فيا كلن.. تعديل صفحة عرض الدكاترة بس
  
 
 Route::get('/testr', function() { 

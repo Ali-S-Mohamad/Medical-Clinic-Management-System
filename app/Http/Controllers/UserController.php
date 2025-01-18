@@ -60,7 +60,7 @@ class UserController extends Controller
                 $user->assignRole('employee'); 
             }  
             $user->assignRole('patient'); 
-            $user->assignRole('employee'); 
+            
             $user->update([ 'is_patient' => true]);
             // Pass false to avoid redirect 
             $patientController = new PatientController();

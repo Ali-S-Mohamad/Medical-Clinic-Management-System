@@ -50,29 +50,6 @@ class RatingController extends Controller
     }
 
     /**
-     *  All Ratings for all doctors (overall Rating table)
-     */
-    // public function index()
-    // {
-    //     $ratings = Rating::paginate(3);;
-    //     return $this->apiResponse(RatingResource::collection($ratings), 'all ratings:', 200);
-    // }
-
-    // public function getMyRatings(Request $request)
-    // {
-    //     $user = $request->user();
-    //     $myRatings = Rating::where('patient_id',$user->patient->id)->paginate(3);;
-    //     return $this->apiResponse(RatingResource::collection($myRatings), 'My ratings:', 200);
-    // }
-
-    // // All Ratings related to specific doctor
-    // public function doctorRatingsDetails(Request $request)
-    // {
-    //     $doctorRatings = Rating::where('employee_id', $request->doctor_id)->paginate(3);
-    //     return $this->apiResponse(RatingResource::collection($doctorRatings), 'all ratings:', 200);
-    // }
-
-    /**
      * store patient rate for a doctor
      */
     public function store(RatingRequest $request)
