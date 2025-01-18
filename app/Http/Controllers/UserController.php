@@ -3,15 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Language;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Services\PatientService;
+use App\Services\EmployeeService;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Controllers\EmployeeController;
-use App\Models\Language;
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    protected $employeeService;
+    protected $patientService;
+
+    public function __construct(UserService $userService, EmployeeService $employeeService, PatientService $patientService)
+    {
+        $this->userService = $userService;
+        $this->employeeService = $employeeService;
+        $this->patientService = $patientService;
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -19,7 +33,7 @@ class UserController extends Controller
     {
         $departments = Department::all();
         $languages   = Language::all();
-        return view('employees.create', compact('departments','languages'));
+        return view('employees.create', compact('departments', 'languages'));
     }
 
     /**
@@ -27,8 +41,19 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = new User();
-        return $this->saveOrUpdateUserDetails($user, $request);
+        $data = $request->validated();
+        // Store The Basic Information Of User Using User Service
+        $user = $this->userService->saveOrUpdateUserDetails($data, $request->id);
+
+        // If user is doctor/employee store the specialized information
+        if ($user->hasAnyRole(['doctor', 'employee'])) {
+            $employee = $this->employeeService->saveOrUpdateEmployeeDetails($request, $user);
+            return redirect()->route('employees.index');
+            // If user is patient store the specialized information
+        } elseif ($user->hasRole('patient')) {
+            $patient = $this->patientService->saveOrUpdatePatientDetails($user->id, $request, false);
+            return redirect()->route('patients.index');
+        }
     }
 
     /**
@@ -36,66 +61,23 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, string $id)
     {
+        // dd($request->all());
         $user = User::findOrFail($id);
-        return $this->saveOrUpdateUserDetails($user, $request);
+        $data = $request->validated();
+        $user = $this->userService->saveOrUpdateUserDetails($data, $id);
+
+        // If user is doctor/employee update the specialized information
+        if ($user->hasAnyRole(['doctor', 'employee'])) {
+            $employee = $this->employeeService->saveOrUpdateEmployeeDetails($request, $user);
+        }
+
+            // If user is patient update the specialized information
+        if ($user->hasRole('patient')) {
+            $patient = $this->patientService
+            ->saveOrUpdatePatientDetails($user->id, $request->only(['insurance_number', 'dob']), false);
+            return redirect()->route('patients.index');
+        }
+
+        return redirect()->back();
     }
-
-    protected function saveOrUpdateUserDetails($user, $request) {
-        //check password
-        if ($request->password !== $request->confirm_password) {
-           return redirect()->back()->with('error', 'Pasword does not match .');
-        
-        }
-
-        $user->fill([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'phone_number' => $request->phone,
-            'password' => bcrypt($request->password),
-            'confirm_password' => bcrypt($request->confirm_password),
-            'is_verified' => true,
-        ])->save();
-
-        // Handel image
-        saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
-
-        // User is both patient & employee  (only for edit request)
-        if ($request->has('is_patient_employee')) {
-            if ($request->input('is_doctor', 0)) {
-                $user->assignRole('doctor');
-            } else {
-                $user->assignRole('employee');
-            }
-            $user->assignRole('patient');
-            $user->assignRole('employee');
-            $user->update([ 'is_patient' => true]);
-            // Pass false to avoid redirect
-            $patientController = new PatientController();
-            $patientController->saveOrUpdatePatientDetails($user->id, $request, false);
-
-            $employeeController = new EmployeeController();
-            $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
-            return redirect()->route('employees.index');
-        }
-        // User is only patient
-        elseif ($request->has('is_patient')) {
-            $user->assignRole('patient');
-            $patientController = new PatientController();
-            return $patientController->saveOrupdatePatientDetails($user->id, $request);
-        }
-        // User is only employee / doctor
-        else {
-            if ($request->input('is_doctor', 0)) {
-                $user->assignRole('doctor');
-            } else {
-                $user->assignRole('employee');
-            }
-            $user->update([ 'is_patient' => false]);
-            $employeeController = new EmployeeController();
-            return $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
-        }
-    }
-
 }

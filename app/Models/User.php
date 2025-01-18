@@ -23,11 +23,11 @@ class User extends Authenticatable
         'firstname',
         'lastname',
         'email',
+        'phone_number',
+        'is_patient',
         'gender',
         'password',
         'confirm_password',
-        'phone_number',
-        'is_patient',
         'is_verified',
     ];
 

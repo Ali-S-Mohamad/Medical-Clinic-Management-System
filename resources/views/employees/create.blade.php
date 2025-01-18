@@ -71,11 +71,11 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>First Name <span class="text-danger">*</span></label>
-                                <input required name='firstname' class="form-control" type="text">
+                                <input required name="firstname" class="form-control" type="text">
                             </div>
                             <div class="form-group">
                                 <label>Last Name <span class="text-danger">*</span></label>
-                                <input required name='lastname' class="form-control" type="text">
+                                <input required name="lastname" class="form-control" type="text">
                             </div>
                         </div>
 
@@ -116,7 +116,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number <span class="text-danger">*</span> </label>
-                                <input required name='phone' class="form-control" type="text">
+                                <input required name='phone_number' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">

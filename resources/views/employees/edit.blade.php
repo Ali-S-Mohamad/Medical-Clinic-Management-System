@@ -10,6 +10,16 @@ Edit Employee
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -26,7 +36,7 @@ Edit Employee
                     <div class="form-group">
                         <label class="display-block">is doctor?</label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" 
+                            <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1"
                                 @if ($employee->user->getRoleNames()->first() == 'doctor') checked @endif>
                             <label class="form-check-label" for="is_doctor">
                                 yes
@@ -110,7 +120,7 @@ Edit Employee
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number</label>
-                                <input  required name='phone' class="form-control" type="text"
+                                <input  required name='phone_number' class="form-control" type="text"
                                     value="{{ $employee->user->phone_number }}">
                             </div>
                         </div>
@@ -163,7 +173,7 @@ Edit Employee
                             </div>
                         </div>
                     </div>
-                        {{-- upgrade to patient --}}     
+                        {{-- upgrade to patient --}}
                             <div class="form-group">
                                 <label class="display-block">is patient?</label>
                                 <div class="form-check form-check-inline">
@@ -171,18 +181,18 @@ Edit Employee
                                     <label class="form-check-label" for="is_patient_employee">
                                         yes
                                     </label>
-                                </div>  
+                                </div>
                             </div>
-                     
-                        
-                        <div class="row"> 
+
+
+                        <div class="row">
                             <div class="col-sm-6 patient-field" style="display: none;">
                                 <div class="form-group">
                                     <label>Insurance Number</label>
                                     <input name="insurance_number" type="text" value="{{ $employee->user->patient?->insurance_number }}" class="form-control" >
                                 </div>
                             </div>
-                        
+
                             <div class="col-sm-6 patient-field" style="display: none;">
                                 <div class="form-group">
                                     <label>Date of birth <span class="text-danger">*</span> </label>
@@ -190,9 +200,9 @@ Edit Employee
                                 </div>
                             </div>
                         </div>
-                        
+
                         {{-- end of pateint section --}}
-                    
+
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Update Employee</button>
                     </div>
@@ -201,7 +211,7 @@ Edit Employee
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
-                 
+
                 </form>
             </div>
         </div>
