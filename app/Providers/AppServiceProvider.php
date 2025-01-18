@@ -26,8 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
+
         // $clinic = ClinicInfo::with('image')->first();
         // $logoPath = $clinic->image ? asset('storage/' . $clinic->image->image_path) : asset('assets/img/logo.png');
+
 
         // $clinicName = $clinic->name;
 

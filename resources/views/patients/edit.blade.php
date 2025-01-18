@@ -74,7 +74,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Insurance Number <span class="text-danger">*</span> </label>
+                                <label>Insurance Number  </label>
                                 <input  name='insurance_number' value='{{ $patient->insurance_number }}'  class="form-control" type="text">
                             </div>
                         </div>

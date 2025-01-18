@@ -49,30 +49,44 @@ class UserController extends Controller
             'is_verified' => true,
         ])->save();
 
-        if ($request->has('is_patient')) {
-            $user->assignRole('patient');
-            saveImage('Patient images', $request, $user);
-
+        // Handel image
+        saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
+       
+        // User is both patient & employee  (only for edit request)
+        if ($request->has('is_patient_employee')) { 
+            if ($request->input('is_doctor', 0)) { 
+                $user->assignRole('doctor'); 
+            } else { 
+                $user->assignRole('employee'); 
+            }  
+            $user->assignRole('patient'); 
+            $user->assignRole('employee'); 
+            $user->update([ 'is_patient' => true]);
+            // Pass false to avoid redirect 
+            $patientController = new PatientController();
+            $patientController->saveOrUpdatePatientDetails($user->id, $request, false); 
+            
+            $employeeController = new EmployeeController();
+            $employeeController->saveOrUpdateEmployeeDetails($user->id, $request); 
+            return redirect()->route('employees.index'); 
+        } 
+        // User is only patient 
+        elseif ($request->has('is_patient')) {     
+            $user->assignRole('patient'); 
             $patientController = new PatientController();
             return $patientController->saveOrupdatePatientDetails($user->id, $request);
-        }
-        else {
-            $isDoctor = $request->input('is_doctor', 0);
-            if ($isDoctor) {
-                $user->assignRole('doctor');
-            } else {
+        } 
+        // User is only employee / doctor 
+        else {      
+            if ($request->input('is_doctor', 0)) { 
+                $user->assignRole('doctor'); 
+            } else { 
                 $user->assignRole('employee');
-            }
-            $user->update([ 'is_patient' => false ]);
-
-            saveImage('Employees images', $request, $user);
-
-            // Calling EmployeeController to Update Employee Details
+            }  
+            $user->update([ 'is_patient' => false]);
             $employeeController = new EmployeeController();
             return $employeeController->saveOrUpdateEmployeeDetails($user->id, $request);
-
-        }
-
+        } 
     }
-
+          
 }

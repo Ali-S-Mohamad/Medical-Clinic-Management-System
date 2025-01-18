@@ -43,15 +43,17 @@ class PatientController extends Controller
     }
 
 
-    public function saveOrupdatePatientDetails($userId, Request $request)
+    public function saveOrupdatePatientDetails($userId, Request $request , $redirect = true)
     {
         Patient::updateOrCreate(
             ['user_id' => $userId],
             [ 'insurance_number' => $request->insurance_number,
             'dob' => $request->dob ]
         );
-
-        return redirect()->route('patients.index');
+        if ($redirect) { 
+            return redirect()->route('patients.index'); 
+        }
+        
     }
 
 
