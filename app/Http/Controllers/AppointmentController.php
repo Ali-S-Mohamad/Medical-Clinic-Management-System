@@ -7,7 +7,6 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Events\AppointmentCreated;
 use App\Services\AppointmentService;
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
 use Carbon\Carbon;
@@ -30,12 +29,14 @@ class AppointmentController extends Controller
     public function index()
     {
         try {
-            $appointments = $this->appointmentService->getAppointmentsForUser();
+            $user = Auth::user(); 
+            $appointments = $this->appointmentService->getAppointmentsForUser($user);
             return view('appointments.index', compact('appointments'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+    
     /* Show the form for creating a new resource.
      */
     public function create()
