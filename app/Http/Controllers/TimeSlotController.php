@@ -46,7 +46,7 @@ class TimeSlotController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        return view('Timeslot.index', compact('timeSlots'));
+        return view('timeslots.index', compact('timeSlots'));
     }
 
 
@@ -61,7 +61,7 @@ class TimeSlotController extends Controller
                     })
                     ->get();
 
-        return view('Timeslot.create', compact('doctors'));
+        return view('timeslots.create', compact('doctors'));
     }
 
 
@@ -106,7 +106,7 @@ class TimeSlotController extends Controller
             $query->where('name', 'doctor');
         })
         ->get();
-            return view('Timeslot.edit', compact('timeSlot' ,'doctors'));
+            return view('timeslots.edit', compact('timeSlot' ,'doctors'));
     }
 
 
