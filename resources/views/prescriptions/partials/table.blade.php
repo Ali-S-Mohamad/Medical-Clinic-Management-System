@@ -15,8 +15,8 @@
 @foreach ($prescriptions as $prescription)
 <tr role="row" class="odd">
 <td>{{ $loop->iteration }}</td> 
-<td>{{ $prescription->employee->user->name }}</td>
-<td>{{ $prescription->Appointment->patient->user->name }}</td>
+<td>{{ $prescription->employee->user->firstname }}  {{ $prescription->employee->user->lastname }}</td>
+<td>{{ $prescription->Appointment->patient->user->firstname }} {{ $prescription->Appointment->patient->user->lastname }}</td>
 <td>{{ $prescription->appointment->appointment_date }}</td>
 <td>{{ $prescription->medications_names }}</td>
 <td>{{ $prescription->instructions }}</td>

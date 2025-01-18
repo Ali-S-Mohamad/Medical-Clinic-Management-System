@@ -21,7 +21,7 @@
                             : asset('assets/img/user.jpg');
                     @endphp
                     <img width="40" height="40" src="{{ $image_path }}" class="rounded-circle" alt="">
-                    <h2>{{ $employee->user->name }}</h2>
+                    <h2>{{ $employee->user->firstname }}  {{ $employee->user->lastname }}</h2>
                 </td>
                 <td>{{ $employee->user->email }}</td>
                 <td>{{ $employee->department?->name }}</td>

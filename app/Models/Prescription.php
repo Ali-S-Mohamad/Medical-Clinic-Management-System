@@ -70,12 +70,13 @@ class Prescription extends Model
     }
 
 
+
     public function scopeFilterByPatientName($query, $patientName)
     {
-        if (!empty($patientName)) {
-            $query->whereHas('medicalFile.patient.user', function ($query) use ($patientName) {
-                $query->where('name', 'LIKE', "%{$patientName}%");
-            });
-        }
+    if (!empty($patientName)) {
+        $query->whereHas('medicalFile.patient.user', function ($query) use ($patientName) {
+            $query->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%{$patientName}%"]);
+        });
+    }
     }
 }

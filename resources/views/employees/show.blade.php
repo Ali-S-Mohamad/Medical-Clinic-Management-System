@@ -14,7 +14,7 @@
                 <div class="col-sm-7 col-6">
                     <h4 class="page-title">My Profile</h4>
                 </div>
- 
+
                 <div class="col-sm-5 col-6 text-right m-b-30">
                     <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary "><i class="fa fa-plus"></i> Edit Profile</a>
                     {{-- <a href="javascript:history.back()" class="btn btn-secondary " rel="prev">
@@ -26,64 +26,63 @@
 
                 </div>
             </div>
-
-
-        <div class="card-box profile-header">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="profile-view">
-                        <div class="profile-img-wrap">
-                            <div class="profile-img">
-                                @php
-                                    $image_path = $employee->user->image
-                                        ? asset('storage/' . $employee->user->image->image_path)
-                                        : asset('assets/img/user.jpg');
-                                @endphp
-                                <img width="40" height="40" src="{{ $image_path }}" class="rounded-circle"
-                                    alt="">
-                            </div>
-                        </div>
-                        <div class="profile-basic">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="profile-info-left">
-                                        <h3 class="user-name m-t-0 mb-0">{{ $employee->user->name }}</h3>
-                                        <small class="text-muted"> {{ $employee->department->name }}</small>
-                                        <h2 class="card-title mb-3"
-                                            style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
-                                            @if ($employee->avg_ratings)
-                                                {{ $employee->avg_ratings }} /10
-                                            @endif
-                                        </h2>
-                                    </div>
+            <div class="card-box profile-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    @php
+                                                $image_path = $employee->user->image
+                                                    ? asset('storage/' . $employee->user->image->image_path)
+                                                    : asset('assets/img/user.jpg');
+                                            @endphp
+                                            <img width="40" height="40" src="{{ $image_path }}"
+                                                class="rounded-circle" alt="">
                                 </div>
-                                <div class="col-md-7">
-                                    <ul class="personal-info">
-                                        <li>
-                                            <span class="title">Phone:</span>
-                                            <span class="text"><a
-                                                    href="#">{{ $employee->user->phone_number }}</a></span>
-                                        </li>
-                                        <li>
-                                            <span class="title">Email:</span>
-                                            <span class="text"><a href="#"> {{ $employee->user->email }}</a></span>
-                                        </li>
+                            </div>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h3 class="user-name m-t-0 mb-0">{{ $employee->user->firstname }}  {{ $employee->user->lastname }}</h3>
+                                            <small class="text-muted"> {{ $employee->department->name }}</small>
+                                            <h2 class="card-title mb-3" style="font-weight: bold; color: {{ $employee->avg_ratings < 6 ? 'orange' : ' #4caa59;' }};">
+                                                @if($employee->avg_ratings)
+                                                    {{ $employee->avg_ratings }} /10
+                                                @endif
+                                           </h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <ul class="personal-info">
+                                            <li>
+                                                <span class="title">Phone:</span>
+                                                <span class="text"><a href="#">{{ $employee->user->phone_number }}</a></span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Email:</span>
+                                                <span class="text"><a href="#"> {{ $employee->user->email }}</a></span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Gender:</span>
+                                                <span class="text"><a href="#"> {{ $employee->user->gender }}</a></span>
+                                            </li>
                                         </br>
-                                        </br>
-                                        </br>
-                                    </ul>
+                                    </br>
+                                </br>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="profile-tabs">
-            <ul class="nav nav-tabs nav-tabs-bottom">
-                <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Profile</a></li>
-            </ul>
-            
+            <div class="profile-tabs">
+                <ul class="nav nav-tabs nav-tabs-bottom">
+                    <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Profile</a></li>
+                </ul>
 
             <div class="tab-content">
                 <div class="tab-pane show active" id="about-cont">
@@ -132,7 +131,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
 
                             <div class="card-box ">
                                 <h3 class="card-title">language :</h3>

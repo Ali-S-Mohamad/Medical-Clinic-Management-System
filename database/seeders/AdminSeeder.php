@@ -39,10 +39,13 @@ class AdminSeeder extends Seeder
 
         // Creating Admin User
         $admin = User::create([
-            'name' => 'admin',
+            'firstname' => 'admin',
+            'lastname'  => 'admin' ,
             'email' => 'admin@gmail.com',
+            'gender'=> 'male',
             'phone_number' => '0996522488',
             'password' => Hash::make('12345678'),
+            'confirm_password' => Hash::make('12345678'),
             'is_patient' => false,
             'is_verified' => true
         ]);
@@ -50,10 +53,13 @@ class AdminSeeder extends Seeder
 
         // Creating first Doctor User
         $doctor = User::create([
-            'name' => 'Doctor 1',
+            'firstname' => 'Doctor',
+            'lastname'  => 'one' ,
             'email' => 'doctor@gmail.com',
+            'gender'=> 'male',
             'phone_number' => '0996522477',
             'password' => Hash::make('123123123'),
+            'confirm_password' => Hash::make('123123123'),
             'is_patient' => false,
             'is_verified' => true
         ]);
@@ -68,10 +74,13 @@ class AdminSeeder extends Seeder
         ]);
         // Creating second Doctor User
         $doctor = User::create([
-            'name' => 'Doctor 2',
+            'firstname' => 'Doctor',
+            'lastname'  => 'two' ,   
             'email' => 'doctor2@gmail.com',
+            'gender'=> 'male',
             'phone_number' => '0996522470',
             'password' => Hash::make('123123123'),
+            'confirm_password' => Hash::make('123123123'),
             'is_patient' => false,
             'is_verified' => true
         ]);
@@ -87,10 +96,13 @@ class AdminSeeder extends Seeder
 
         // Creating employee User
         $employee = User::create([
-            'name' => 'Employee1',
+            'firstname' => 'Employee',
+            'lastname'  => 'one' ,  
             'email' => 'employee@gmail.com',
+            'gender'=> 'male',
             'phone_number' => '0996522466',
             'password' => Hash::make('123123123'),
+            'confirm_password' => Hash::make('123123123'),
             'is_patient' => false,
             'is_verified' => true
         ]);
@@ -106,10 +118,13 @@ class AdminSeeder extends Seeder
 
         // Creating employee User
         $employee = User::create([
-            'name' => 'Employee2',
+            'firstname' => 'Employee',
+            'lastname'  => 'two' ,
             'email' => 'employee2@gmail.com',
+            'gender'=> 'male',
             'phone_number' => '0996522446',
             'password' => Hash::make('123123123'),
+            'confirm_password' => Hash::make('123123123'),
             'is_patient' => false,
             'is_verified' => true
         ]);

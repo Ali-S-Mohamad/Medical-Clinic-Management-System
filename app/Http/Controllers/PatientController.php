@@ -7,6 +7,8 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class PatientController extends Controller
 {
     public function __construct()
@@ -53,28 +55,6 @@ class PatientController extends Controller
         return view('patients.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function saveOrupdatePatientDetails($userId, Request $request , $redirect = true)
-    {
-        Patient::updateOrCreate(
-            ['user_id' => $userId],
-            [ 'insurance_number' => $request->insurance_number,
-            'dob' => $request->dob ]
-        );
-        if ($redirect) { 
-            return redirect()->route('patients.index'); 
-        }
-        
-    }
-
 
     /**
      * Display the specified resource.
@@ -92,13 +72,6 @@ class PatientController extends Controller
         return view('patients.edit', compact('patient'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

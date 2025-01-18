@@ -36,7 +36,7 @@
                             <option value="">Select Doctor</option>
                             @foreach($doctors as $employee)
                             <option value="{{ $employee->id }}" {{ $employee->id == $timeSlot->doctor_id ? 'selected' : '' }}>
-                                   {{ $employee->user->name }}
+                                   {{ $employee->user->firstname }}    {{ $employee->user->lastname }}
                             </option>
                              @endforeach
                             </select>

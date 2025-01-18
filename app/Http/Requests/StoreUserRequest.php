@@ -21,15 +21,29 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name'     => 'required|string|max:255',
+        $rules = [
+            'firstname'     => 'required|string|max:255',
+            'lastname'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
+            'gender'     => 'string|max:255',
+            'phone_number' => 'required|string',
             'password' => 'required|string',
-            'department_id' => 'exists:departments,id',
+            'confirm_password' => 'required|string',
+            'department_id' => 'nullable|exists:departments,id',
             'academic_qualifications' => 'nullable|string',
             'previous_experience'     => 'nullable|string',
+            'insurance_number'     => 'string',
             'pdf_cv' => 'file|mimes:pdf|max:2048',
-            'image'  => 'image|mimes:jpg,jpeg,png|max:2048'
+            'image'  => 'image|mimes:jpg,jpeg,png|max:2048',
+            'is_doctor' => 'nullable|in:0,1',
+            'is_patient' => 'nullable|in:0,1',
+            'dob' => 'nullable|date|before_or_equal:today',
         ];
+
+        if ($this->input('is_patient_employee') == '1') {
+            $rules['dob'] = 'required|date|before_or_equal:today';
+        }
+        return $rules;
+
     }
 }

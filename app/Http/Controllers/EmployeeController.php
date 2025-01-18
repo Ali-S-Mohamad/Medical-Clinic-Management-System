@@ -7,6 +7,7 @@ use App\Models\Language;
 use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Services\EmployeeService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Services\EmployeeFilterService;
@@ -14,9 +15,9 @@ use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
-    protected $employeeFilterService;
+    protected $employeeService;
 
-    public function __construct()
+    public function __construct(EmployeeService $employeeService)
     {
         $this->middleware('auth');
         $this->middleware('permission:show-employee', ['only' => ['index','show']]);
@@ -27,6 +28,7 @@ class EmployeeController extends Controller
         $this->middleware('permission:restore-employee', ['only' => ['restore']]);
         $this->middleware('permission:delete-employee', ['only' => ['forcedelete']]);
 
+        $this->employeeService = $employeeService; // Inject the service into the controller
     }
     /**
      * Display a listing of the resource.
@@ -38,11 +40,8 @@ class EmployeeController extends Controller
         // Retrieve input values
         $filters = $request->only(['employee_name', 'department', 'role']);
 
-        // call the service
-        $employeeFilterService = app(EmployeeFilterService::class);
-
         // Fetch the filtered employees
-        $employees = $employeeFilterService->filter($filters)->paginate(5);
+        $employees = $this->employeeService->filter($filters)->paginate(5);
 
         // Check if the request is AJAX
         if ($request->ajax()) {

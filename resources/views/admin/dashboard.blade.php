@@ -13,6 +13,7 @@
         .card {
             box-shadow: 0 4px 15px rgba(1, 26, 107, 0.3);
         }
+
     </style>
 @endsection
 
@@ -227,7 +228,7 @@
                                                     class="status online"></span></a>
                                         </div>
                                         <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">{{ $doctor->name }}</span>
+                                            <span class="contact-name text-ellipsis">Dr. {{ $doctor->firstname . ' ' . $doctor->lastname}}</span>
                                             <span class="contact-date">{{ $doctor->employee->department->name }}</span>
                                         </div>
                                     </div>
