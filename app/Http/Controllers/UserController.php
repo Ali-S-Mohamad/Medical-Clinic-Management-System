@@ -27,15 +27,9 @@ class UserController extends Controller
         $this->employeeService = $employeeService;
         $this->patientService = $patientService;
     }
-<<<<<<< HEAD
  
     /**
      * Show the form for creating a new user.
-=======
-
-    /**
-     * Summary of create
->>>>>>> 0a9e22faef54d045354a18bfba531b9b4f83312d
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
@@ -69,11 +63,7 @@ class UserController extends Controller
 
  
     /**
-<<<<<<< HEAD
      * Update the specified user in user table then in the table related to user role (patients X employees) .
-=======
-     * Summary of update
->>>>>>> 0a9e22faef54d045354a18bfba531b9b4f83312d
      * @param \App\Http\Requests\UpdateUserRequest $request
      * @param string $id
      * @return mixed|\Illuminate\Http\RedirectResponse
