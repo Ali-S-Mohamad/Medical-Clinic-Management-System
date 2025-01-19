@@ -7,19 +7,23 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    // public function __construct() {
-    //     $this->middleware('role:Admin')->only('destroy');
-    // }
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('permission:show-rating', ['only' => ['index']]);
         $this->middleware('permission:delete-rating', ['only' => ['destroy']]);
 
-    }
+    } 
     /**
-     * Display a listing of the resource.
+     * Display a listing of ratings.
+     *
+     * @return void
      */
     public function index()
     {
@@ -28,45 +32,12 @@ class RatingController extends Controller
         // $ratings = Rating::with(['doctor', 'patient'])->get();
         return view('ratings.index', compact('ratings'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */
     public function show(Rating $rating)
     {
         return view('ratings.show', compact('rating'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     /**

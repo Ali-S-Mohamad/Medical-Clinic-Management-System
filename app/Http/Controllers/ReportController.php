@@ -12,7 +12,13 @@ use App\Services\ReportFilterService;
 
 class ReportController extends Controller
 {
-    protected $reportFilterService;
+    protected $reportFilterService;    
+    /**
+     * __construct
+     *
+     * @param  mixed $reportFilterService
+     * @return void
+     */
     public function __construct(ReportFilterService $reportFilterService)
     {
         $this->middleware('auth');
@@ -25,8 +31,12 @@ class ReportController extends Controller
 
         $this->reportFilterService = $reportFilterService;
     }
+       
     /**
      * Display a listing of the resource.
+     *
+     * @param  mixed $request
+     * @return void
      */
     public function index(Request $request)
     {
@@ -36,7 +46,13 @@ class ReportController extends Controller
 
         return view('reports.index', compact('reports', 'filters'));
     }
-
+    
+    /**
+     * export Export all reports for a specific period
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function export(Request $request)
     {
         $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
@@ -44,7 +60,14 @@ class ReportController extends Controller
         return Excel::download(new ReportsExport($filters), $fileName);
     }
 
-
+    
+    /**
+     * exportSingle Export a single report
+     *
+     * @param  mixed $id
+     * @param  mixed $request
+     * @return void
+     */
     public function exportSingle($id ,Request $request)
     {
         $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
@@ -52,50 +75,24 @@ class ReportController extends Controller
         return Excel::download(new ReportsExport($filters , $id), $fileName);
 
     }
-
+    
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Display the specified report.
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function show($id)
     {
         $report = Report::findOrFail($id);
         return view('reports.show', compact('report'));
     }
-
+    
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * destroy the specified resource from storage.
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function destroy($id)
     {
@@ -103,20 +100,37 @@ class ReportController extends Controller
         $report->delete();
         return redirect()->route('reports.index')->with('success', 'report is deleted successfully');
     }
-
+    
+    /**
+     * Display the trashed reports
+     *
+     * @return void
+     */
     public function trash()
     {
         $reports = Report::onlyTrashed()->paginate(5);
         return view('reports.trash', compact('reports'));
     }
-
+    
+    /**
+     * Restore the specified Report from trash
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function restore($id)
     {
         $report = Report::onlyTrashed()->findOrFail($id);
         $report->restore();
         return redirect()->route('reports.index')->with('success', 'report restored successfully.');
     }
-
+    
+    /**
+     * Remove specified Report from storage
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function forceDelete(string $id)
     {
         Report::withTrashed()->where('id', $id)->forceDelete();

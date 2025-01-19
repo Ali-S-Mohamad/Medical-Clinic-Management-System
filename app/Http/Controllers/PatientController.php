@@ -7,15 +7,23 @@ use Illuminate\Support\Facades\Auth;
 
 
 class PatientController extends Controller
-{
+{    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('permission:show-patient', ['only' => ['index']]);
 
     }
+    
     /**
-     * Display a listing of the resource.
+     * Display a listing of patients.
+     *
+     * @return void
      */
     public function index()
     {
@@ -43,43 +51,57 @@ class PatientController extends Controller
         }
         return view('patients.index',compact('patients'));
     }
-
+    
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new Patient.
+     *
+     * @return void
      */
     public function create()
     {
         // $departments = Department::all();
         return view('patients.create');
     }
-
-
+    
     /**
-     * Display the specified resource.
+     * Display the specified Patient.
+     *
+     * @param  mixed $patient
+     * @return void
      */
     public function show(Patient $patient)
     {
         return view('patients.show', compact('patient'));
     }
-
+    
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified Patient.
+     *
+     * @param  mixed $patient
+     * @return void
      */
     public function edit(Patient $patient)
     {
         return view('patients.edit', compact('patient'));
     }
-
-
+    
     /**
-     * Remove the specified resource from storage.
+     * destroy the specified resource from storage.
+     *
+     * @param  mixed $patient
+     * @return void
      */
     public function destroy(Patient $patient)
     {
         $patient->delete();
         return redirect()->route('patients.index');
     }
-
+    
+    /**
+     * Display the trashed Patients
+     *
+     * @return void
+     */
     public function trash()
     {
         $deletedPatients = Patient::onlyTrashed()->with([
@@ -89,15 +111,26 @@ class PatientController extends Controller
         ])->paginate(5);
         return view('patients.trash', compact('deletedPatients'));
     }
-
+    
+    /**
+     * Restore the specified patient from trash
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function restore(string $id)
     {
         $patient = Patient::withTrashed()->where('id', $id)->first();
         $patient->restore();
         return redirect()->route('patients.trash')->with('success', 'patient restored successfully.');
     }
-
-    // Delete patient For ever
+    
+    /**
+     * Remove specified patient from storage
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function forceDelete(string $id)
     {
         $patient = Patient::withTrashed()->findOrFail($id);
