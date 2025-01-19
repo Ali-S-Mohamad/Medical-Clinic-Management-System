@@ -173,6 +173,7 @@ Edit Employee
                             </div>
                         </div>
                     </div>
+                    
                         {{-- upgrade to patient --}}
                             <div class="form-group">
                                 <label class="display-block">is patient?</label>
