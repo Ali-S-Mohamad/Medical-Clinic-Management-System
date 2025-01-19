@@ -5,7 +5,7 @@
              class="rounded-circle m-r-5" alt="">
         {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }}
     </td>
-    <td>Dr. {{ $appointment->employee->user->lastname }} {{ $appointment->employee->user->lastname }}</td>
+    <td>{{ $appointment->employee->user->firstname }} {{ $appointment->employee->user->lastname }}</td>
     <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d H:i') }}</td>
     <td>
         <span class="custom-badge {{ $appointment->status === 'scheduled' ? 'status-blue' : ($appointment->status === 'completed' ? 'status-green' : 'status-red') }}">

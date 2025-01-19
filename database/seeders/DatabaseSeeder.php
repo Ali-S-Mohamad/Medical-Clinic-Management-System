@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\AdminSeeder;
+use Database\Seeders\PatientSeeder;
 use Database\Seeders\PermissionSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             LanguageSeeder::class,
             EmployeeLanguageSeeder::class,
+            PatientSeeder::class
         ]);
     }
 }
