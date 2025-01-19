@@ -10,15 +10,22 @@ Edit Employee
 @endsection
 
 @section('content')
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@if (session('error'))
+        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
     <div class="content">
         <div class="row">
@@ -208,7 +215,11 @@ Edit Employee
                         <button class="btn btn-primary submit-btn">Update Employee</button>
                     </div>
                     <div class="m-t-20 text-center">
-                        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                        {{-- <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                            <i class="fa fa-arrow-left mr-2"></i> Back
+                        </a> --}}
+
+                        <a href="javascript:void(0)" class="btn btn-secondary" rel="prev" id="backButton">
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
@@ -302,6 +313,16 @@ Edit Employee
             });
 
 
+           //for back boutton
+            document.getElementById('backButton').onclick = function() {
+                // check if user has role admin
+                @if(auth()->user()->hasRole('Admin'))
+                    window.location.href = '{{ route("employees.index") }}';
+                @else
+                    window.location.href = '{{ url("/home") }}';
+                @endif
+            };
+      
 
     </script>
 @endsection

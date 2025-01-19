@@ -17,10 +17,7 @@
 
                 <div class="col-sm-5 col-6 text-right m-b-30">
                     <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary "><i class="fa fa-plus"></i> Edit Profile</a>
-                    {{-- <a href="javascript:history.back()" class="btn btn-secondary " rel="prev">
-                        <i class="fa fa-arrow-left mr-2"></i> Back
-                    </a> --}}
-                    <a href="{{ route('employees.index')}}" class="btn btn-secondary" rel="prev" id="backButton">
+                    <a href="javascript:void(0)" class="btn btn-secondary" rel="prev" id="backButton">
                         <i class="fa fa-arrow-left mr-2"></i> Back
                     </a>
 
@@ -192,4 +189,16 @@
 
 
         @section('scripts')
+
+        <script>
+            document.getElementById('backButton').onclick = function() {
+                // check if user has role admin
+                @if(auth()->user()->hasRole('Admin'))
+                    window.location.href = '{{ route("employees.index") }}';
+                @else
+                    window.location.href = '{{ url("/home") }}';
+                @endif
+            };
+        </script>
+
         @endsection

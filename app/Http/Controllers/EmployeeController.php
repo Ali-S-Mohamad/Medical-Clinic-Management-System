@@ -71,7 +71,13 @@ class EmployeeController extends Controller
         $employee->cv_path = $cvFilePath;
         $employee->save();
 
-        return redirect()->route('employees.index');
+        return redirect()->back()->with('success', ' update successfully.');
+
+        // if (Auth::id() == $userId) {
+        //     return redirect()->route('employees.show', auth()->user()->employee->id)->with('success', ' update successfully.'); 
+        // } else {
+        //     return redirect()->route('employees.index', $userId)->with('success', ' update successfully.');
+        // }
     }
 
     /**
