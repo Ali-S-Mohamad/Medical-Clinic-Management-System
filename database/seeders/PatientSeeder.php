@@ -20,7 +20,7 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
         //create patient
             $user = User::create([
                 'firstname' => 'patient',
@@ -34,7 +34,7 @@ class PatientSeeder extends Seeder
                 'is_verified' => true,
             ]);
             $user->assignRole('patient');
-        
+
             $patient = Patient::create([
                 'user_id' => $user->id,
                 'dob' => now()->subYears(rand(20, 50)), //random birthday
@@ -53,7 +53,7 @@ class PatientSeeder extends Seeder
                     'doctor_id' => 1,
                     'start_time' => '09:00:00',
                     'end_time' => '12:00:00',
-                    'day_of_week' => 0,  
+                    'day_of_week' => $i-1,
                     'is_available' => true,
                     'slot_duration' => 30,
                 ],
@@ -61,7 +61,7 @@ class PatientSeeder extends Seeder
                     'doctor_id' => 1,
                     'start_time' => '13:00:00',
                     'end_time' => '17:00:00',
-                    'day_of_week' => 0, 
+                    'day_of_week' => $i-1,
                     'is_available' => true,
                     'slot_duration' => 30,
                 ],
@@ -69,7 +69,7 @@ class PatientSeeder extends Seeder
                     'doctor_id' => 2,
                     'start_time' => '10:00:00',
                     'end_time' => '14:00:00',
-                    'day_of_week' => 1, 
+                    'day_of_week' => $i-1,
                     'is_available' => true,
                     'slot_duration' => 30,
                 ],
@@ -77,27 +77,27 @@ class PatientSeeder extends Seeder
                     'doctor_id' => 2,
                     'start_time' => '15:00:00',
                     'end_time' => '18:00:00',
-                    'day_of_week' => 1, 
+                    'day_of_week' => $i-1,
                     'is_available' => true,
                     'slot_duration' => 30,
                 ],
             ];
-    
+
             DB::table('time_slots')->insert($timeSlots);
-    
+
             // create two appointment for each patient
             for ($j = 1; $j <= 2; $j++) {
                 $doctorId = rand(1, 2); // doctors
-    
+
                 // return timeslots for each doctor
                 $availableTimeSlots = TimeSlot::where('doctor_id', $doctorId)
                     ->where('is_available', true)
                     ->get();
-    
+
                 if ($availableTimeSlots->isNotEmpty()) {
                     // select a random time
                     $selectedTimeSlot = $availableTimeSlots->random();
-    
+
                     // create appointment
                     $appointment = Appointment::create([
                         'patient_id' => $patient->id,
@@ -105,8 +105,8 @@ class PatientSeeder extends Seeder
                         'appointment_date' => now()->addDays(rand(1, 30))->format('Y-m-d') . ' ' . $selectedTimeSlot->start_time,
                         'status' => 'scheduled',
                         'notes' => 'Notes for appointment ' . $j,
-                    ]);    
-    
+                    ]);
+
                         // create a perscription for each appointment
                         Prescription::create([
                             'medical_file_id' => $medicalFile->id,
@@ -116,10 +116,10 @@ class PatientSeeder extends Seeder
                             'instructions' => 'Take as directed.',
                             'details' => 'Details for prescription.',
                         ]);
-                    
+
                 }
             }
-    
+
 
         }
     }

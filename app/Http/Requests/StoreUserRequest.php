@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
             'department_id' => 'nullable|exists:departments,id',
             'academic_qualifications' => 'nullable|string',
             'previous_experience'     => 'nullable|string',
-            'insurance_number'     => 'string',
+            'insurance_number'     => ['required', 'regex:/^INS-\d{5}$/'],
             'pdf_cv' => 'file|mimes:pdf|max:2048',
             'image'  => 'image|mimes:jpg,jpeg,png|max:2048',
             'is_doctor' => 'nullable|in:0,1',

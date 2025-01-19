@@ -63,7 +63,7 @@ class UpdateUserRequest extends FormRequest
 
             // Patient Information
             'is_patient_employee' => 'nullable|in:0,1',
-            'insurance_number' => 'nullable|string|max:50|required_if:is_patient_employee,1',
+            'insurance_number' => ['required', 'regex:/^INS-\d{5}$/'],'nullable,string,max:50,required_if:is_patient_employee,1',
             'dob' => 'nullable|date|before_or_equal:today|required_if:is_patient_employee,1',
         ];
 
