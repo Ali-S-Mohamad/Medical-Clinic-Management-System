@@ -26,7 +26,7 @@ class DepartmentController extends Controller
 
     } 
     /**
-     * index
+     * Display a listing of Departments.
      *
      * @return void
      */
@@ -36,7 +36,7 @@ class DepartmentController extends Controller
         return view('departments.index' , compact('departments'));
     }
     /**
-     * create
+     * Show the form for creating a new department.
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class DepartmentController extends Controller
         return view('departments.create');
     }   
     /**
-     * store
+     * Store a new department
      *
      * @param  mixed $request
      * @return void
@@ -63,7 +63,7 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
     /**
-     * show
+     *  Display the specified department.
      *
      * @param  mixed $id
      * @return void
@@ -74,7 +74,7 @@ class DepartmentController extends Controller
         return view('departments.show',compact('department'));    }
     
     /**
-     * edit
+     * Show the form for editing the specified department.
      *
      * @param  mixed $id
      * @return void
@@ -106,7 +106,7 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
     /**
-     * Summary of toggleStatus
+     * Summary of toggleStatus a department
      * @param mixed $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -131,7 +131,7 @@ class DepartmentController extends Controller
     }
     
     /**
-     * trash
+     * Display the trashed departments
      *
      * @return void
      */
@@ -141,7 +141,7 @@ class DepartmentController extends Controller
     }
     
     /**
-     * restore
+     * Restore the specified department from trash
      *
      * @param  mixed $id
      * @return void
@@ -153,7 +153,7 @@ class DepartmentController extends Controller
     }
     
     /**
-     * forcedelete
+     * Remove specified department from storage
      *
      * @param  mixed $id
      * @return void

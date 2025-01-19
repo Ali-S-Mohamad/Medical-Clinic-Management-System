@@ -15,7 +15,7 @@ class TimeSlotController extends Controller
 {    
     /**
      * __construct
-     *
+     * 
      * @return void
      */
     public function __construct()
@@ -28,7 +28,7 @@ class TimeSlotController extends Controller
     }
     
     /**
-     * index
+     * Display a listing of Timeslots.
      *
      * @return void
      */
@@ -55,7 +55,7 @@ class TimeSlotController extends Controller
         return view('timeslots.index', compact('timeSlots'));
     }
     /**
-     * create
+     * Show the form for creating a new Timeslot.
      *
      * @return void
      */
@@ -70,7 +70,7 @@ class TimeSlotController extends Controller
         return view('timeslots.create', compact('doctors'));
     }
     /**
-     * store
+     * Store a new Timeslot
      *
      * @param  mixed $request
      * @return void
@@ -102,7 +102,7 @@ class TimeSlotController extends Controller
         return redirect()->route('time-slots.index')->with('success', 'Time Slot created successfully.');
     }
     /**
-     * edit
+     * Show the form for editing the specified TimeSlot.
      *
      * @param  mixed $timeSlot
      * @return void
@@ -117,7 +117,7 @@ class TimeSlotController extends Controller
         return view('timeslots.edit', compact('timeSlot', 'doctors'));
     }     
     /**
-     * update
+     *  Update the specified TimeSlot in storage.
      *
      * @param  mixed $request
      * @param  mixed $timeSlot
@@ -151,7 +151,7 @@ class TimeSlotController extends Controller
         return redirect()->route('time-slots.index')->with('success', 'Time Slot updated successfully.');
     } 
     /**
-     * toggleAvailability
+     * toggleAvailability the time slot where it is either available or unavailable
      *
      * @param  mixed $id
      * @return void
@@ -183,7 +183,7 @@ class TimeSlotController extends Controller
         return redirect()->route('time-slots.index')->with('success', 'Time slot availability updated successfully.');
     }   
     /**
-     * destroy
+     * Remove the specified timeslot from storage.
      *
      * @param  mixed $timeSlot
      * @return void
