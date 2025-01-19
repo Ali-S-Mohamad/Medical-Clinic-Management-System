@@ -31,7 +31,7 @@ Deleted Reports
             <tbody>
                 @foreach ($reports as $report)
                     <tr>
-                        <td>{{ $loop->iteration }}</td> <!-- العد التلقائي -->
+                        <td>{{ $loop->iteration }}</td> <!-- Automatic counting -->
                         <td>{{ $report->patient_id }}</td> 
                         <td>{{ $report->patient_name }}</td>
                         <td>{{ $report->doctor_name }}</td>

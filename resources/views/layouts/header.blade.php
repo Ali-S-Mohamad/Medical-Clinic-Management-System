@@ -12,7 +12,7 @@
             <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                 <span class="user-img">
                     @php
-            // تأكد من استرجاع الصورة بشكل صحيح
+            // Make sure the image is retrieved correctly
             $image_path = auth()->user()->image
                 ? asset('storage/' . auth()->user()->image->image_path)
                 : asset('assets/img/user.jpg');
