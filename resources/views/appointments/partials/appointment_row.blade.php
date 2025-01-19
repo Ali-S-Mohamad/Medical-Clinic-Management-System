@@ -14,13 +14,13 @@
     </td>
     <td class="text-right">
         <div class="action-buttons" style="white-space: nowrap;">
-            <!-- زر تغيير الحالة -->
-            <button class="btn btn-sm btn-primary" data-toggle="modal"
+            <!-- Change status button -->
+        <button class="btn btn-sm btn-primary" data-toggle="modal"
                 data-target="#changeStatusModal-{{ $appointment->id }}">
                 <i class="fa fa-refresh m-r-5"></i>
             </button>
 
-            <!-- نافذة تعديل الحالة -->
+            <!-- Status modification window -->
             <div class="modal fade" id="changeStatusModal-{{ $appointment->id }}" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -42,6 +42,10 @@
                                         <option value="canceled" {{ $appointment->status === 'canceled' ? 'selected' : '' }}>Canceled</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                  <label for="notes">Reason for Change</label>
+                                  <textarea name="notes" id="notes" class="form-control" rows="3" placeholder="Add notes about the status change (optional)"></textarea>
+                              </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -51,23 +55,19 @@
                     </div>
                 </div>
             </div>
-            <!-- نهاية نافذة تعديل الحالة -->
+            <!-- End of status modification window -->
 
-            <!-- زر التعديل الكامل -->
+           <!--Full edit button -->
             <a class="btn btn-sm btn-primary" 
                 href="{{ route('appointments.edit', $appointment->id) }}" 
                 style="display: inline-block; margin-right: 5px;">
                 <i class="fa fa-pencil m-r-5"></i> Edit
             </a>
-
-            <!-- زر العرض -->
             <a class="btn btn-sm btn-info"
                 href="{{ route('appointments.show', $appointment->id) }}"
                 style="display: inline-block; margin-right: 5px;">
                 <i class="fa fa-eye m-r-5"></i> Show
             </a>
-
-            <!-- زر الحذف -->
             <form action="{{ route('appointments.destroy', $appointment->id) }}"
                 method="POST" style="display: inline-block; margin: 0;">
                 @csrf

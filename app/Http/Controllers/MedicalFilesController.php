@@ -55,17 +55,21 @@ class MedicalFilesController extends Controller
 
     return view('medicalFiles.index', compact('medicalFiles', 'filters'));
 }
-
-
-
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
-        return  view('medicalFiles.create');
+    $patients = Patient::whereDoesntHave('medicalFile') // Requirement to bring patients who do not have medical files
+        ->with('user') 
+        ->get();
 
+    return view('medicalFiles.create', compact('patients'));
     }
+
+    
 
     /**
      * Store a newly created resource in storage.

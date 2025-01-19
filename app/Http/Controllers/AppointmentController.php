@@ -12,7 +12,13 @@ use App\Http\Requests\AppointmentRequest;
 use Carbon\Carbon;
 class AppointmentController extends Controller
 {
-    protected $appointmentService; // Declare variable to hold the service
+    protected $appointmentService; // Declare variable to hold the service    
+    /**
+     * __construct
+     *
+     * @param  mixed $appointmentService
+     * @return void
+     */
     public function __construct(AppointmentService $appointmentService)
     {
         $this->middleware('auth');
@@ -24,7 +30,9 @@ class AppointmentController extends Controller
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
     /**
-     * Display a listing of the resource.
+     * index
+     *
+     * @return void
      */
     public function index()
     {
@@ -35,19 +43,18 @@ class AppointmentController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-    }
-    
-    /* Show the form for creating a new resource.
+    }    
+    /**
+     * create
+     *
+     * @return void
      */
     public function create()
     {
         $patients = Patient::with('user')->get();
         $doctors = User::role('doctor')->get();
         return view('appointments.create', compact('patients', 'doctors'));
-    }
-
-
-
+    } 
     /**
      * Function to fetch available slots for a doctor on a selected date
      * @param \Illuminate\Http\Request $request
@@ -71,9 +78,12 @@ class AppointmentController extends Controller
             'availableSlots' => $availableSlots
         ]);
     }
-    
-
-
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function store(AppointmentRequest $request)
     {
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
@@ -92,17 +102,23 @@ class AppointmentController extends Controller
         }
         // If there was an error during booking
         return redirect()->route('appointments.index')->with('error', $response['message']);
-    }
+    } 
     /**
-     * Display the specified resource.
+     * show
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function show(string $id)
     {
         $appointment = Appointment::with(['patient', 'employee'])->findOrFail($id);
         return view('appointments.show', compact('appointment'));
-    }
+    } 
     /**
-     * Show the form for editing the specified resource.
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -112,7 +128,11 @@ class AppointmentController extends Controller
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
     /**
-     * Update the specified resource in storage.
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
      */
     public function update(AppointmentRequest $request, string $id)
     {
@@ -133,12 +153,19 @@ class AppointmentController extends Controller
         }
         // If there's a conflict or another issue
         return redirect()->route('appointments.index')->with('error', $response['message']);
-    }
-    
+    } 
+    /**
+     * updateStatus
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
+     */
     public function updateStatus(Request $request, $id)
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->status = $request->status;
+        $appointment->notes = $request->notes; 
         $appointment->save();
         // Returns the modified HTML of the row after changing the case
         $appointmentRowHtml = view('appointments.partials.appointment_row', compact('appointment'))->render();
@@ -149,9 +176,12 @@ class AppointmentController extends Controller
             'appointment' => $appointment,
             'html' => $appointmentRowHtml 
         ]);
-    }
+    }  
     /**
-     * Remove the specified resource from storage.
+     * destroy
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function destroy(string $id)
     {

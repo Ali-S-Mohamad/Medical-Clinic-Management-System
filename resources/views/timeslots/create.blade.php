@@ -5,6 +5,17 @@
 @endsection
 
 @section('css')
+<style>
+    .highlight-message {
+        background-color: #f9f9f9;
+        border-left: 5px solid #007bff;
+        padding: 15px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        color: #333;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -17,13 +28,22 @@
         </ul>
     </div>
 @endif
-
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <h4 class="page-title">Add Time Slot</h4>
             </div>
         </div>
+
+        <!-- Highlighted Message -->
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="highlight-message">
+                    <strong>Please set your schedule for this week from Sunday (0) to Saturday (7).</strong>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <form action="{{ route('time-slots.store') }}" method="post" enctype="multipart/form-data">
@@ -79,23 +99,20 @@
                     {{-- Slot Duration --}}
                     <div class="form-group">
                         <label for="slot_duration">Slot Duration (minutes)</label>
-                        <input required type="number" name="slot_duration" id="slot_duration" class="form-control"
-                            min="1">
+                        <input required type="number" name="slot_duration" id="slot_duration" class="form-control" min="1">
                     </div>
 
                     {{-- Availability --}}
                     <div class="form-group">
                         <label class="display-block">Availability</label>
                         <div class="form-check form-check-inline">
-                            <input required class="form-check-input" type="radio" name="is_available" id="available_yes"
-                                value="1">
+                            <input required class="form-check-input" type="radio" name="is_available" id="available_yes" value="1">
                             <label class="form-check-label" for="available_yes">
                                 Available
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="is_available" id="available_no"
-                                value="0">
+                            <input class="form-check-input" type="radio" name="is_available" id="available_no" value="0">
                             <label class="form-check-label" for="available_no">
                                 Not Available
                             </label>

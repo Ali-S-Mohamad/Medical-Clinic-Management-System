@@ -7,7 +7,6 @@ Create Medical file
 @section('css')
 @endsection
 
-
 @section('content')
 <div class="container">
     <h1 class="my-4">Create Medical File</h1>
@@ -24,9 +23,16 @@ Create Medical file
 
     <form action="{{ route('medicalFiles.store') }}" method="POST">
         @csrf
+
+        <!-- Patients dropdown -->
         <div class="form-group">
-            <label for="patient_name">Patient name </label>
-            <input type="text" id="patient_name" name="patient_name" class="form-control" placeholder="Search patient name" required>
+            <label for="patient_name">Patient</label>
+            <select id="patient_name" name="patient_name" class="form-control" required>
+            <option value="">Select Patient</option>
+            @foreach ($patients as $patient)
+            <option value="{{ $patient->user->firstname }} {{ $patient->user->lastname }}">{{ $patient->user->firstname }} {{ $patient->user->lastname }}</option>
+            @endforeach
+        </select>
         </div>
 
         <!-- Diagnostics entry field-->
@@ -46,7 +52,6 @@ Create Medical file
   
 </div>
 @endsection
-
 
 @section('scripts')
 @endsection
