@@ -9,10 +9,9 @@ Ratings
         tbody tr:hover { cursor: pointer; } 
         .table td.details-cell { 
             max-width: 75px; 
-            white-space: nowrap; /* لمنع النص من الانتقال إلى سطر جديد */ 
-            overflow: hidden; /* لإخفاء النص الزائد */ 
-            text-overflow: ellipsis; /* لإضافة النقاط الثلاثة (...) عند تقليص النص */ }
-
+            white-space: nowrap; /* To prevent text from moving to a new line */
+            overflow: hidden; /* To hide excess text */
+            text-overflow: ellipsis; /* To add the three dots (...) when shrinking text */ }
     </style>
 @endsection
 

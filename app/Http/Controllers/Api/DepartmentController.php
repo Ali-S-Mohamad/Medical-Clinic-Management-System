@@ -72,8 +72,11 @@ class DepartmentController extends Controller
         }
         return $this->apiResponse(DoctorsResource::collection($availableDoctors), 'Active Doctors retrieved successfully.', 200);
     }
-
-
+    /**
+     *  get Clinic Information
+     *
+     * @return void
+     */
     public function getClinicInfo(){
         $info = ClinicInfo::first();
         return $this->apiResponse($info, 'Clinic Information retrieved successfully.', 200);

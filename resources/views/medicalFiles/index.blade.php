@@ -77,19 +77,19 @@
 <script>
    $(document).ready(function() {
     $('#filterForm').on('submit', function(e) {
-        e.preventDefault(); // منع الإرسال الافتراضي للنموذج
+        e.preventDefault(); // Prevent default form submission
 
-        var filters = $(this).serialize(); // جمع البيانات المدخلة
+        var filters = $(this).serialize(); // Collect input data
 
         $.ajax({
-            url: "{{ route('medicalFiles.index') }}", // الرابط الخاص بجلب النتائج
+            url: "{{ route('medicalFiles.index') }}", // Link to request results
             method: "GET",
             data: filters,
             beforeSend: function() {
-                $('#medicalFilesTableContainer').html('<p>Loading...</p>'); // عرض مؤشر التحميل
+                $('#medicalFilesTableContainer').html('<p>Loading...</p>'); // Show loading indicator
             },
             success: function(response) {
-                // تحديث الجدول بمحتوى الرد
+                // Update the table with the content of the response
                 $('#medicalFilesTableContainer').html(response.html);
             },
             error: function(xhr, status, error) {

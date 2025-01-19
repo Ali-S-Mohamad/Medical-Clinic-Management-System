@@ -68,9 +68,14 @@ class MedicalFilesController extends Controller
      */
     public function create()
     {
-        return  view('medicalFiles.create');
+    $patients = Patient::whereDoesntHave('medicalFile') // Requirement to bring patients who do not have medical files
+        ->with('user') 
+        ->get();
 
+    return view('medicalFiles.create', compact('patients'));
     }
+
+    
 
     /**
      * Store a newly created medical file in storage.

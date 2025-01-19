@@ -23,7 +23,7 @@
                     <a href="{{ route('patients.create') }}" class="btn btn-primary btn-rounded mr-3">
                         <i class="fa fa-plus"></i> Add Patient
                     </a>
-                    <!-- أيقونة سلة المحذوفات -->
+                    <!-- Recycle Bin icon -->
                     <a href="{{ route('patients.trash') }}">
                         <i class="fa fa-trash-o" style="font-size:36px"></i>
                     </a>

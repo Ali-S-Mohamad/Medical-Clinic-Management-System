@@ -95,7 +95,7 @@ Show Medical file
                 {{ $prescriptions->links()}}
                 <hr>
 
-                <!-- زر إضافة وصفة جديدة -->
+                <!-- Add a new recipe button -->
                 <a href="{{ route('prescriptions.create', ['patient_id' => $medicalFile->patient->id,'$doctorId' => Auth::id()]) }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add new Prescriptions</a>
                 <a href="{{ route('medicalFiles.edit', $medicalFile->id) }}" class="btn btn-primary " rel="prev">
                     <i class="fa fa-pencil m-r-5"></i> Edit

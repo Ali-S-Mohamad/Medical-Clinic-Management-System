@@ -12,7 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TimeSlotController extends Controller
-{
+{    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -21,22 +26,25 @@ class TimeSlotController extends Controller
         $this->middleware('permission:edit-TimeSlot', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete-TimeSlot', ['only' => ['destroy']]);
     }
+    
     /**
-     * Display a listing of the resource.
+     * index
+     *
+     * @return void
      */
     public function index()
     {
-        // الحصول على المستخدم الحالي
+        // Get the current user
         $user = Auth::user();
 
-        // إذا كان Admin أو Employee، عرض جميع الأوقات
+        // If Admin or Employee, display all times
         if ($user->hasAnyRole(['Admin', 'employee'])) {
-            // جلب الأوقات مع بيانات الأطباء وتقسيمها إلى صفحات
+            // Fetch times with doctors' data and split them into pages
             $timeSlots = TimeSlot::with('doctor.user')->paginate(5);
         }
-        // إذا كان Doctor، عرض الأوقات الخاصة به فقط
+        // If Doctor, display only his times
         elseif ($user->hasRole('doctor')) {
-            // جلب الأوقات الخاصة بالطبيب الحالي وتقسيمها إلى صفحات
+       // Fetches the current doctor's times and splits them into pages
             $timeSlots = TimeSlot::with('doctor.user')
                 ->where('doctor_id', $user->employee->id)
                 ->paginate(5);
@@ -46,10 +54,10 @@ class TimeSlotController extends Controller
 
         return view('timeslots.index', compact('timeSlots'));
     }
-
-
     /**
-     * Show the form for creating a new resource.
+     * create
+     *
+     * @return void
      */
     public function create()
     {
@@ -61,10 +69,11 @@ class TimeSlotController extends Controller
 
         return view('timeslots.create', compact('doctors'));
     }
-
-
     /**
-     * Store a newly created resource in storage.
+     * store
+     *
+     * @param  mixed $request
+     * @return void
      */
     public function store(TimeSlotRequest $request)
     {
@@ -92,10 +101,11 @@ class TimeSlotController extends Controller
 
         return redirect()->route('time-slots.index')->with('success', 'Time Slot created successfully.');
     }
-
-
     /**
-     * Show the form for editing the specified resource.
+     * edit
+     *
+     * @param  mixed $timeSlot
+     * @return void
      */
     public function edit(TimeSlot $timeSlot)
     {
@@ -105,11 +115,13 @@ class TimeSlotController extends Controller
             })
             ->get();
         return view('timeslots.edit', compact('timeSlot', 'doctors'));
-    }
-
-
+    }     
     /**
-     * Update the specified resource in storage.
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $timeSlot
+     * @return void
      */
     public function update(TimeSlotRequest $request, TimeSlot $timeSlot)
     {
@@ -137,9 +149,13 @@ class TimeSlotController extends Controller
         ]);
 
         return redirect()->route('time-slots.index')->with('success', 'Time Slot updated successfully.');
-    }
-
-
+    } 
+    /**
+     * toggleAvailability
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function toggleAvailability($id)
     {
         // Get the current slot time
@@ -165,10 +181,12 @@ class TimeSlotController extends Controller
         $timeSlot->save();
 
         return redirect()->route('time-slots.index')->with('success', 'Time slot availability updated successfully.');
-    }
-
+    }   
     /**
-     * Remove the specified resource from storage.
+     * destroy
+     *
+     * @param  mixed $timeSlot
+     * @return void
      */
     public function destroy(TimeSlot $timeSlot)
     {

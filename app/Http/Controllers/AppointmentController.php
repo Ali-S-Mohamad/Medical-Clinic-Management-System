@@ -7,7 +7,6 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Events\AppointmentCreated;
 use App\Services\AppointmentService;
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AppointmentRequest;
 use Carbon\Carbon;
@@ -55,9 +54,6 @@ class AppointmentController extends Controller
         $doctors = User::role('doctor')->get();
         return view('appointments.create', compact('patients', 'doctors'));
     }
-
-
-
     /**
      * Function to fetch available slots for a doctor on a selected date
      * @param \Illuminate\Http\Request $request
@@ -107,9 +103,7 @@ class AppointmentController extends Controller
         // If there was an error during booking
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
-    /**
-     *
-     */
+
     /**
      * Display the specified appointment.
      * @param string $id
@@ -171,6 +165,7 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->status = $request->status;
+        $appointment->notes = $request->notes;
         $appointment->save();
         // Returns the modified HTML of the row after changing the case
         $appointmentRowHtml = view('appointments.partials.appointment_row', compact('appointment'))->render();

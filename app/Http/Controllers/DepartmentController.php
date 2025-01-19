@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -21,7 +26,9 @@ class DepartmentController extends Controller
 
     }
     /**
-     * Display a listing of the resource.
+     * index
+     *
+     * @return void
      */
     public function index()
     {
@@ -30,18 +37,22 @@ class DepartmentController extends Controller
     }
     /**
      * Show the form for creating a new resource.
+     *
+     * @return void
      */
     public function create()
     {
         return view('departments.create');
     }
-
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  mixed $request
+     * @return void
      */
     public function store(DepartmentRequest $request)
     {
-        $department = new Department(); 
+        $department = new Department();
         $department->name = $request->name;
         $department->description = $request->description;
         $department->status = $request->status === 'active' ? 1 : 0;
@@ -51,11 +62,11 @@ class DepartmentController extends Controller
 
         return redirect()->route('departments.index');
     }
-
-
-
     /**
-     * Display the specified resource.
+     * show
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function show(string $id)
     {
@@ -63,7 +74,10 @@ class DepartmentController extends Controller
         return view('departments.show',compact('department'));    }
 
     /**
-     * Show the form for editing the specified resource.
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function edit(string $id)
     {
@@ -73,6 +87,10 @@ class DepartmentController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
      */
     public function update(DepartmentRequest $request , string $id)
     {
@@ -99,8 +117,12 @@ class DepartmentController extends Controller
     $department->save();
     return redirect()->route('departments.index')->with('success', 'Department status updated successfully.');
     }
+
     /**
-     * Remove the specified resource from storage.
+     * destroy the specified resource from storage.
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function destroy(string $id){
         $department = Department::findOrFail($id);
@@ -108,21 +130,38 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
 
+    /**
+     * trash
+     *
+     * @return void
+     */
     public function trash(){
         $departments = Department::onlyTrashed()->get();
         return view('departments.trash', compact('departments'));
     }
 
+    /**
+     * restore
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function restore($id){
         $department = Department::withTrashed()->findOrFail($id);
         $department->restore();
         return redirect()->route('departments.trash')->with('success', 'department restored successfully.');
     }
 
+    /**
+     * forcedelete
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function forcedelete(string $id)
     {
     $department = Department::withTrashed()->findOrFail($id);
-    $department->forceDelete(); // حذف نهائي
+    $department->forceDelete();
     return redirect()->route('departments.trash')->with('success', 'Department permanently deleted.');
     }
 

@@ -83,10 +83,10 @@ $(document).on('submit', '.update-status-form', function(e) {
             if (response.success) {
                 alert(response.message || 'Status updated successfully!');
                 
-                // تحديث الصف المحدد فقط
+                // Update only the specified row
                 $('#appointment-row-' + response.appointment.id).replaceWith(response.html);
 
-                // الانتقال إلى صفحة index بعد النجاح
+                //Move to the index page after success
                 window.location.href = "{{ route('appointments.index') }}";
             } else {
                 alert(response.message || 'Something went wrong.');
