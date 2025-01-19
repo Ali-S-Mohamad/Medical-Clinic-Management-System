@@ -25,7 +25,7 @@
                     <hr>
 
                     <h5>Doctor Information</h5>
-                    <p><strong>Name:</strong> {{ $appointment->employee->user->firstname  }}  {{ $appointment->employee->user->lastname  }}</p>
+                    <p><strong>Name:</strong>Dr. {{ $appointment->employee->user->firstname .' '. $appointment->employee->user->lastname}}</p>
                     <p><strong>Email:</strong> {{ $appointment->employee->user->email }}</p>
                     <p><strong>Phone:</strong> {{ $appointment->employee->user->phone_number }}</p>
 
@@ -39,7 +39,7 @@
                     @elseif($appointment->status == 'canceled') Canceled
                     @elseif($appointment->status == 'pending') Pending
                     @endif
-                  </p>
+                    </p>
 
                     <p><strong>Notes:</strong> {{ $appointment->notes ?? 'No notes provided' }}</p>
                 </div>

@@ -18,31 +18,35 @@ class RatingController extends Controller
     use ApiResponse;
     public function __construct()
     {
-        // $this->middleware(['auth:sanctum', 'permission:show-patientRatings'])->only(['index', 'show', 'doctor_ratings_details']);
-        // $this->middleware(['auth:sanctum', 'permission:edit-rating'])->only(['store', 'update']);
-        // $this->middleware(['auth:sanctum', 'permission:delete-rating'])->only('destroy');
+        $this->middleware(['auth:sanctum', 'permission:show-patientRatings'])->only(['index', 'show', 'doctor_ratings_details']);
+        $this->middleware(['auth:sanctum', 'permission:edit-rating'])->only(['store', 'update']);
+        $this->middleware(['auth:sanctum', 'permission:delete-rating'])->only('destroy');
     }
 
+    /**
+     * Summary of index
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $ratings = Rating::query();
         return $this->paginateRatings($ratings, 'all ratings:');
     }
-    
+
     public function getMyRatings(Request $request)
     {
         $user = $request->user();
         $myRatings = Rating::where('patient_id', $user->patient->id);
         return $this->paginateRatings($myRatings, 'My ratings:');
     }
-    
+
     // All Ratings related to specific doctor
     public function doctorRatingsDetails(Request $request)
     {
         $doctorRatings = Rating::where('employee_id', $request->doctor_id);
         return $this->paginateRatings($doctorRatings, 'all ratings:');
     }
-    
+
     protected function paginateRatings($query, $message)
     {
         $ratings = $query->paginate(3);

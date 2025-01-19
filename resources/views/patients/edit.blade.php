@@ -30,7 +30,7 @@
                                 <div style="display: flex; align-items: center;">
                                     @if($patient->user->image)
                                         <!-- IF there is an image -> display it -->
-                                        <img id="thumbnail" src="{{ asset('storage/' . $patient->user->image->image_path) }}" 
+                                        <img id="thumbnail" src="{{ asset('storage/' . $patient->user->image->image_path) }}"
                                              style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
                                     @else
                                         <!-- IF there is not an image -> display upload icon -->
@@ -38,10 +38,10 @@
                                     @endif
                                         <!-- input field -->
                                     <input type="file" id="photo" name="profile_image" accept=".jpg,.jpeg,.png" style="display: none;">
-                                     
+
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         {{-- image section --}}
                     </div> {{-- row end --}}
 
@@ -70,12 +70,18 @@
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input required name='email' value='{{ $patient->user->email }}'  class="form-control" type="email">
                             </div>
-                            
+
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Password <span class="text-danger">*</span></label>
-                                <input required name='password' value='{{ $patient->user->email }}' class="form-control" type="password">
+                                <label>Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter new password">
+                                <small class="text-muted">Leave empty to keep the current password.</small>
+                            </div>
+                            <div class="form-group">
+                                <label> Confirm Password</label>
+                                <input type="confirm_password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm new password">
+                                <small class="text-muted">Leave empty to keep the current password.</small>
                             </div>
                         </div>
 
@@ -96,10 +102,10 @@
                                 <input required name='dob' value='{{ $patient->dob }}' class="form-control" type="date">
                             </div>
                         </div>
-                        
-                        
+
+
                         <input type="hidden" name="is_patient" value="1">
-                     
+
                     </div>
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Edit Patient</button>
@@ -121,7 +127,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-       
+
       // image & image icon
       document.addEventListener('DOMContentLoaded', function() {
                 var uploadIcon = document.getElementById('upload-icon');
@@ -158,7 +164,7 @@
                                 thumbnail.style.cursor = 'pointer';
                                 thumbnail.style.borderRadius = '50%';
                                 uploadIcon.parentNode.replaceChild(thumbnail, uploadIcon);
-                                
+
                                 // add image click event on the new image
                                 thumbnail.addEventListener('click', function() {
                                     photoInput.click();

@@ -30,7 +30,8 @@ class AppointmentController extends Controller
     public function index()
     {
         try {
-            $appointments = $this->appointmentService->getAppointmentsForUser();
+            $user = Auth::user();
+            $appointments = $this->appointmentService->getAppointmentsForUser($user);
             return view('appointments.index', compact('appointments'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -70,7 +71,7 @@ class AppointmentController extends Controller
             'availableSlots' => $availableSlots
         ]);
     }
-    
+
 
 
     public function store(AppointmentRequest $request)
@@ -133,7 +134,7 @@ class AppointmentController extends Controller
         // If there's a conflict or another issue
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
-    
+
     public function updateStatus(Request $request, $id)
     {
         $appointment = Appointment::findOrFail($id);
@@ -141,12 +142,12 @@ class AppointmentController extends Controller
         $appointment->save();
         // Returns the modified HTML of the row after changing the case
         $appointmentRowHtml = view('appointments.partials.appointment_row', compact('appointment'))->render();
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Status updated successfully!',
             'appointment' => $appointment,
-            'html' => $appointmentRowHtml 
+            'html' => $appointmentRowHtml
         ]);
     }
     /**

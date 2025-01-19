@@ -94,7 +94,7 @@ class MedicalFilesController extends Controller
     ]);
 
     return redirect()->route('medicalFiles.show', $medicalFile->id)
-                     ->with('success','the medical file was created successfully');
+                    ->with('success','the medical file was created successfully');
 }
 
     /**
