@@ -218,11 +218,11 @@ class AppointmentService
     }
 
     //Fetches appointments for the user based on their permissions
-    public function getAppointmentsForUser()
+    public function getAppointmentsForUser($user)
     {
         $appointments = Appointment::paginate(5);
 
-        if (Auth::user()->hasAnyRole(['Admin', 'employee'])) {
+        if ($user->hasAnyRole(['Admin', 'employee'])) {
             return $appointments;
         }
 
@@ -232,7 +232,7 @@ class AppointmentService
             throw new \Exception('The employee associated with this user was not found.');
         }
 
-        $isDoctor = auth()->user()->hasRole('doctor');
+        $isDoctor = $user->hasRole('doctor');
         return Appointment::with(['patient.user', 'employee.user'])
             ->when($isDoctor, function ($query) use ($employee) {
                 $query->where('doctor_id', $employee->id);

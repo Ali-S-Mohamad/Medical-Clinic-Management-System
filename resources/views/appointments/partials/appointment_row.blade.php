@@ -1,11 +1,11 @@
 <tr id="appointment-row-{{ $appointment->id }}">
     <td>{{ $appointment->id }}</td>
     <td>
-        <img width="28" height="28" src="{{ asset('assets/img/user.jpg') }}" 
+        <img width="28" height="28" src="{{ asset('assets/img/user.jpg') }}"
              class="rounded-circle m-r-5" alt="">
         {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }}
     </td>
-    <td>{{ $appointment->employee->user->firstname }} {{ $appointment->employee->user->firstname }}</td>
+    <td>Dr. {{ $appointment->employee->user->lastname }} {{ $appointment->employee->user->lastname }}</td>
     <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('Y-m-d H:i') }}</td>
     <td>
         <span class="custom-badge {{ $appointment->status === 'scheduled' ? 'status-blue' : ($appointment->status === 'completed' ? 'status-green' : 'status-red') }}">
@@ -54,8 +54,8 @@
             <!-- نهاية نافذة تعديل الحالة -->
 
             <!-- زر التعديل الكامل -->
-            <a class="btn btn-sm btn-primary" 
-                href="{{ route('appointments.edit', $appointment->id) }}" 
+            <a class="btn btn-sm btn-primary"
+                href="{{ route('appointments.edit', $appointment->id) }}"
                 style="display: inline-block; margin-right: 5px;">
                 <i class="fa fa-pencil m-r-5"></i> Edit
             </a>

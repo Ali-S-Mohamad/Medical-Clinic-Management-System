@@ -19,8 +19,6 @@ class PatientController extends Controller
      */
     public function index()
     {
-        // $patients = Patient::paginate(5);
-        // dd($patients);
 
         $user = Auth::user();
 

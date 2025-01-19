@@ -129,7 +129,7 @@
                                             <span class="percent">{{ $doctor->employee->avg_ratings * 10 }}%</span>
                                             <div class="item-progress"
                                                 data-percent="{{ $doctor->employee->avg_ratings * 10 }}">
-                                                <span class="title">{{ $doctor->name }} </span>
+                                                <span class="title">Dr. {{ $doctor->firstname . ' ' . $doctor->lastname }} </span>
                                             </div>
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@
             <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                 <div class="card member-panel">
                     <div class="card-header">
-                        <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="#"
+                        <h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{{ route('appointments.index')}}"
                             class="btn btn-primary float-right">View all</a>
                     </div>
                     <div class="card-body p-0">
@@ -175,24 +175,24 @@
                                                             )
                                                             : asset('assets/img/user.jpg');
                                                     @endphp
-                                                    <a href="#" title="John Doe"><img src="{{ $image_path }}"
+                                                    <a href="" title="John Doe"><img src="{{ $image_path }}"
                                                             alt="" class="w-40 rounded-circle"><span
                                                             class="status online"></span></a>
                                                 </div>
-                                                <h2><a href="#">{{ $appointment->patient->user->name }}
+                                                <h2><a href="{{ route('patients.show',$appointment->patient->id)}}">{{ $appointment->patient->user->firstname.' '. $appointment->patient->user->lastname}}
                                                         <span>{{ $appointment->employee->department->name }}</span></a>
                                                 </h2>
                                             </td>
                                             <td style="min-width: 150px;">
                                                 <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. {{ $appointment->employee->user->name }}</p>
+                                                <p>Dr. {{ $appointment->employee->user->firstname .' ' . $appointment->employee->user->firstname}}</p>
                                             </td>
                                             <td>
                                                 <h5 class="time-title p-0">Timing</h5>
                                                 <p>{{ $appointment->appointment_date }}</p>
                                             </td>
                                             <td class="text-right">
-                                                <a href="#" class="btn btn-outline-primary take-btn">Take
+                                                <a href="{{ route('appointments.show',$appointment->id) }}" class="btn btn-outline-primary take-btn">Take
                                                     up</a>
                                             </td>
                                         </tr>

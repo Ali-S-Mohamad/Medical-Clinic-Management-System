@@ -51,13 +51,16 @@ class UserController extends Controller
             return redirect()->route('employees.index');
             // If user is patient store the specialized information
         } elseif ($user->hasRole('patient')) {
-            $patient = $this->patientService->saveOrUpdatePatientDetails($user->id, $request, false);
+            $patient = $this->patientService->saveOrUpdatePatientDetails($user, $request, false);
             return redirect()->route('patients.index');
         }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserRequest $request, string $id)
     {
@@ -65,6 +68,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $data = $request->validated();
         $user = $this->userService->saveOrUpdateUserDetails($data, $id);
+        saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
+
 
         // If user is doctor/employee update the specialized information
         if ($user->hasAnyRole(['doctor', 'employee'])) {
@@ -78,6 +83,6 @@ class UserController extends Controller
             return redirect()->route('patients.index');
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success','The user updated successfully');;
     }
 }

@@ -53,7 +53,7 @@ Edit Employee
                                 @if($employee->user->image)
                                     <!-- IF there is an image -> display it -->
                                     <img id="thumbnail" src="{{ asset('storage/' . $employee->user->image->image_path) }}"
-                                         style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
+                                        style="width: 70px; height: 70px; margin-left: 10px; cursor: pointer; border-radius: 50%;">
                                 @else
                                     <!-- IF there is not an image -> display upload icon -->
                                     <i class="fas fa-upload" id="upload-icon" style="font-size: 30px; cursor: pointer;"></i>
@@ -173,7 +173,7 @@ Edit Employee
                             </div>
                         </div>
                     </div>
-                    
+
                         {{-- upgrade to patient --}}
                             <div class="form-group">
                                 <label class="display-block">is patient?</label>
