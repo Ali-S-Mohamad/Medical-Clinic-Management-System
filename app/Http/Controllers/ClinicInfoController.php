@@ -8,36 +8,18 @@ use App\Http\Requests\ClinicInfoRequest;
 
 class ClinicInfoController extends Controller
 {
+    /**
+     * The constructer of the class
+     */
     public function __construct() {
         $this->middleware('role:Admin')->only(['edit', 'update']);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Show the clinic information
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(string $id)
     {
@@ -46,7 +28,9 @@ class ClinicInfoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the clinic information.
+     * @param \App\Models\ClinicInfo $clinic
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(ClinicInfo $clinic)
     {
@@ -54,7 +38,10 @@ class ClinicInfoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the clinic information in storage.
+     * @param \App\Http\Requests\ClinicInfoRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function update(ClinicInfoRequest $request, string $id)
     {
@@ -69,13 +56,5 @@ class ClinicInfoController extends Controller
         ]);
         saveImage('logos', $request, $clinic);
         return redirect()->route('clinic.show',compact('clinic') );
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

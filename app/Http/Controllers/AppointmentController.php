@@ -12,12 +12,11 @@ use App\Http\Requests\AppointmentRequest;
 use Carbon\Carbon;
 class AppointmentController extends Controller
 {
-    protected $appointmentService; // Declare variable to hold the service    
+    protected $appointmentService; // Declare variable to hold the service
+
     /**
-     * __construct
-     *
-     * @param  mixed $appointmentService
-     * @return void
+     * The constructer of the class
+     * @param \App\Services\AppointmentService $appointmentService
      */
     public function __construct(AppointmentService $appointmentService)
     {
@@ -29,25 +28,25 @@ class AppointmentController extends Controller
         // Constructor to inject AppointmentService
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
+
     /**
-     * index
-     *
-     * @return void
+     * Display a listing of Appointments.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index()
     {
         try {
-            $user = Auth::user(); 
+            $user = Auth::user();
             $appointments = $this->appointmentService->getAppointmentsForUser($user);
             return view('appointments.index', compact('appointments'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-    }    
+    }
+
     /**
-     * create
-     *
-     * @return void
+     * Show the form for creating a new appointment.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -78,11 +77,12 @@ class AppointmentController extends Controller
             'availableSlots' => $availableSlots
         ]);
     }
+
+
     /**
-     * store
-     *
-     * @param  mixed $request
-     * @return void
+     * Store a new appointment
+     * @param \App\Http\Requests\AppointmentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(AppointmentRequest $request)
     {
@@ -104,21 +104,23 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('error', $response['message']);
     } 
     /**
-     * show
      *
-     * @param  mixed $id
-     * @return void
+     */
+    /**
+     * Display the specified appointment.
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(string $id)
     {
         $appointment = Appointment::with(['patient', 'employee'])->findOrFail($id);
         return view('appointments.show', compact('appointment'));
-    } 
+    }
+
     /**
-     * edit
-     *
-     * @param  mixed $id
-     * @return void
+     * Show the form for editing the specified appointment.
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(string $id)
     {
@@ -127,12 +129,12 @@ class AppointmentController extends Controller
         $doctors = User::role('doctor')->get();
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
+
     /**
-     * update
-     *
-     * @param  mixed $request
-     * @param  mixed $id
-     * @return void
+     * Update the specified appointment in storage.
+     * @param \App\Http\Requests\AppointmentRequest $request
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AppointmentRequest $request, string $id)
     {
@@ -153,13 +155,13 @@ class AppointmentController extends Controller
         }
         // If there's a conflict or another issue
         return redirect()->route('appointments.index')->with('error', $response['message']);
-    } 
+    }
+
     /**
-     * updateStatus
-     *
-     * @param  mixed $request
-     * @param  mixed $id
-     * @return void
+     * Update the status of an appointment
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $id
+     * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function updateStatus(Request $request, $id)
     {
@@ -169,19 +171,19 @@ class AppointmentController extends Controller
         $appointment->save();
         // Returns the modified HTML of the row after changing the case
         $appointmentRowHtml = view('appointments.partials.appointment_row', compact('appointment'))->render();
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Status updated successfully!',
             'appointment' => $appointment,
-            'html' => $appointmentRowHtml 
+            'html' => $appointmentRowHtml
         ]);
-    }  
+    }
+
     /**
-     * destroy
-     *
-     * @param  mixed $id
-     * @return void
+     * Remove the specified appointment from storage.
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

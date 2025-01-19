@@ -21,16 +21,15 @@ class AppointmentObserver
     public function updated(Appointment $appointment)
     {
         if ($appointment->status === 'completed') {
-            // إنشاء تقرير جديد بناءً على الموعد المكتمل
+            // Create report when appointment be completed
             Report::create([
                 'patient_id' => $appointment->patient_id,
-                //'patient_name' => $appointment->patient->user->firstname, 
                 'patient_name' => $appointment->patient->user->firstname . ' ' . $appointment->patient->user->lastname, // دمج firstname و lastname
                 'doctor_name' => $appointment->employee->user->firstname . ' ' . $appointment->employee->user->lastname,
-                'appointment_date' => $appointment->appointment_date, 
-                'medications_names' => $appointment->prescription->medications_names, 
-                'instructions' => $appointment->prescription->instructions, 
-                'details' => $appointment->prescription->details, 
+                'appointment_date' => $appointment->appointment_date,
+                'medications_names' => $appointment->prescription->medications_names,
+                'instructions' => $appointment->prescription->instructions,
+                'details' => $appointment->prescription->details,
             ]);
         }
     }

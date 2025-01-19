@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Language;
-use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Services\EmployeeService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Services\EmployeeFilterService;
-use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
@@ -31,7 +27,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService; // Inject the service into the controller
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the employees including doctors and administrative staffs.
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -57,29 +53,8 @@ class EmployeeController extends Controller
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
 
-
-    public function saveOrUpdateEmployeeDetails($userId, Request $request)
-    {
-        $employee = Employee::updateOrCreate(
-            ['user_id' => $userId],
-            [
-                'department_id' => $request->department_id,
-                'academic_qualifications' => $request->qualifications,
-                'previous_experience' => $request->experience,
-            ]
-        );
-
-        $employee->languages()->sync($request->languages_ids);
-
-        $cvFilePath = uploadCvFile('Employees CVs', $request, $employee->cv_path);
-        $employee->cv_path = $cvFilePath;
-        $employee->save();
-
-        return redirect()->route('employees.index');
-    }
-
     /**
-     * Display the specified resource.
+     * Display the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -90,7 +65,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -102,9 +77,10 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * Move the specified employee to trash
+     * @param \App\Models\Employee $employee
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Employee $employee)
     {
@@ -113,7 +89,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of trash
+     * Display the trashed employees
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
@@ -127,7 +103,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of restore
+     * Restore the specified employee from trash
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -139,7 +115,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of forceDelete
+     * Remove specified employee from storage
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
