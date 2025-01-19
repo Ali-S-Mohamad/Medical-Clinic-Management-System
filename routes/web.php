@@ -128,3 +128,11 @@ Route::middleware(['auth','patient'])->group(function () {
         return view ('errors.errors403');     })->name('error.403');
 
 });
+
+Route::get('/testr', function() { 
+    $rating = new Rating; 
+    $rating->employee_id = 1;  
+    $rating->patient_id  = 1;
+    $rating->doctor_rate = 8.3;        
+    $rating->save();             
+   });

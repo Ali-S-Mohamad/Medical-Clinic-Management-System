@@ -114,8 +114,11 @@
 
         <br><br>
 
-        <div class="row">
+        <div class="row">       
             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                @if (!  $statistics['hasAvgRating'])
+                   <h4> No Ratings added </h4> <br>
+                @else
                 <div class="hospital-barchart">
                     <h4 class="card-title d-inline-block"> Doctor Avarage Ratings </h4>
                 </div>
@@ -138,7 +141,9 @@
                         </div>
                     </div>
                 </a>
+                @endif
             </div> {{-- bar section / Ratings --}}
+           
         </div> {{-- row --}}
 
         @php

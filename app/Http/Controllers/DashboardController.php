@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Patient;
 use App\Models\Employee;
 use App\Models\Department;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,9 @@ class DashboardController extends Controller
         $totalEmployees = User::role('employee')->count();
         $departments    = Department::count();
         $doctors        = User::role('doctor')->get();
+        $hasAvgRating   = User::role('doctor')->whereHas('employee', function ($query) { 
+            $query->whereNotNull('avg_ratings'); }) ->exists();
+
         $active_departments   = Department::where('status', 1)->count();
         $inactive_departments = Department::where('status', 0)->count();
         $active_appointments  = Appointment::where('status', 'scheduled')->count();
@@ -43,6 +47,7 @@ class DashboardController extends Controller
             'scheduling_appointments'  => $scheduling_appointments ,
             'upcoming_appointments'  => $upcoming_appointments ,
             'doctors'       => $doctors,
+            'hasAvgRating'  => $hasAvgRating ,
 
         ];
         return view('admin.dashboard',compact('statistics'));
