@@ -13,9 +13,7 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {    
     /**
-     * __construct
-     *
-     * @return void
+     * Summary of __construct
      */
     public function __construct()
     {
@@ -28,8 +26,7 @@ class RoleController extends Controller
     
     /**
      * Display a listing of Roles.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {   $roles = Role::orderBy('id','DESC')->paginate(3);
@@ -37,8 +34,7 @@ class RoleController extends Controller
     }  
     /**
      * Show the form for creating a new resource.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {   $permissions = Permission::get();
@@ -47,9 +43,7 @@ class RoleController extends Controller
     
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \App\Http\Requests\StoreRoleRequest $request
      */
     public function store(StoreRoleRequest $request)
     {
@@ -64,9 +58,8 @@ class RoleController extends Controller
     }  
     /**
      * Display the specified resource.
-     *
-     * @param  mixed $role
-     * @return void
+     * @param \Spatie\Permission\Models\Role $role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Role $role)
     {
@@ -79,9 +72,8 @@ class RoleController extends Controller
     
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  mixed $role
-     * @return void
+     * @param \Spatie\Permission\Models\Role $role
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Role $role)
     {
@@ -99,10 +91,8 @@ class RoleController extends Controller
     
     /**
      * Update the specified resource in storage.
-     *
-     * @param  mixed $request
-     * @param  mixed $role
-     * @return void
+     * @param \App\Http\Requests\UpdateRoleRequest $request
+     * @param \Spatie\Permission\Models\Role $role
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
@@ -117,9 +107,8 @@ class RoleController extends Controller
     
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  mixed $role
-     * @return void
+     * @param \Spatie\Permission\Models\Role $role
+     * @return RedirectResponse
      */
     public function destroy(Role $role)
     {

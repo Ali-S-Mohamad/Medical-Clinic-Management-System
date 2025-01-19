@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class PatientController extends Controller
 {    
     /**
-     * __construct
-     *
-     * @return void
+     * 
      */
     public function __construct()
     {
@@ -21,9 +19,7 @@ class PatientController extends Controller
     }
     
     /**
-     * Display a listing of patients.
-     *
-     * @return void
+     * Summary of index
      */
     public function index()
     {
@@ -51,11 +47,9 @@ class PatientController extends Controller
         }
         return view('patients.index',compact('patients'));
     }
-    
     /**
      * Show the form for creating a new Patient.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -65,9 +59,8 @@ class PatientController extends Controller
     
     /**
      * Display the specified Patient.
-     *
-     * @param  mixed $patient
-     * @return void
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Patient $patient)
     {
@@ -75,10 +68,9 @@ class PatientController extends Controller
     }
     
     /**
-     * Show the form for editing the specified Patient.
-     *
-     * @param  mixed $patient
-     * @return void
+     * \\Show the form for editing the specified Patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Patient $patient)
     {
@@ -87,9 +79,8 @@ class PatientController extends Controller
     
     /**
      * destroy the specified resource from storage.
-     *
-     * @param  mixed $patient
-     * @return void
+     * @param \App\Models\Patient $patient
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Patient $patient)
     {
@@ -98,9 +89,8 @@ class PatientController extends Controller
     }
     
     /**
-     * Display the trashed Patients
-     *
-     * @return void
+     *  Display the trashed Patients
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
     {
@@ -114,9 +104,8 @@ class PatientController extends Controller
     
     /**
      * Restore the specified patient from trash
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(string $id)
     {
@@ -127,9 +116,8 @@ class PatientController extends Controller
     
     /**
      * Remove specified patient from storage
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete(string $id)
     {

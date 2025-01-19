@@ -14,9 +14,7 @@ use App\Http\Requests\UpdatePrescriptionRequest;
 class PrescriptionsController extends Controller
 {    
     /**
-     * __construct
-     *
-     * @return void
+     * Summary of __construct
      */
     public function __construct()
     {
@@ -33,10 +31,9 @@ class PrescriptionsController extends Controller
        
     /**
      * Display a listing of prescription.
-     *
-     * @param  mixed $request
-     * @param  mixed $filterService
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Services\PrescriptionFilterService $filterService
+     * @return mixed|string|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request, PrescriptionFilterService $filterService)
     {
@@ -64,8 +61,7 @@ class PrescriptionsController extends Controller
     
     /**
      * Show the form for creating a new prescription.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create()
     {
@@ -85,9 +81,8 @@ class PrescriptionsController extends Controller
     }
     /**
      * Store a new Prescription
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \App\Http\Requests\StorePrescriptionRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StorePrescriptionRequest $request)
     {
@@ -116,9 +111,8 @@ class PrescriptionsController extends Controller
     
     /**
      * Display the specified Prescription.
-     *
-     * @param  mixed $prescription
-     * @return void
+     * @param \App\Models\Prescription $prescription
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Prescription $prescription)
     {
@@ -126,9 +120,8 @@ class PrescriptionsController extends Controller
     }
     /**
      * Show the form for editing the specified Prescription.
-     *
-     * @param  mixed $prescription
-     * @return void
+     * @param \App\Models\Prescription $prescription
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Prescription $prescription)
     {
@@ -137,10 +130,9 @@ class PrescriptionsController extends Controller
       
     /**
      * Update the specified prescription in storage.
-     *
-     * @param  mixed $request
-     * @param  mixed $prescription
-     * @return void
+     * @param \App\Http\Requests\UpdatePrescriptionRequest $request
+     * @param \App\Models\Prescription $prescription
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdatePrescriptionRequest $request, Prescription $prescription)
     {
@@ -154,9 +146,8 @@ class PrescriptionsController extends Controller
        
     /**
      * Remove the specified Prescription from storage.
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -167,8 +158,7 @@ class PrescriptionsController extends Controller
         
     /**
      * Display the trashed prescription
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
     {
@@ -177,9 +167,8 @@ class PrescriptionsController extends Controller
     }
     /**
      * Restore the specified Prescription from trash
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
     {
@@ -197,9 +186,8 @@ class PrescriptionsController extends Controller
     
     /**
      * Remove specified Prescription from storage
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete(string $id)
     {

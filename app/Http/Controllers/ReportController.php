@@ -14,10 +14,8 @@ class ReportController extends Controller
 {
     protected $reportFilterService;    
     /**
-     * __construct
-     *
-     * @param  mixed $reportFilterService
-     * @return void
+     * Summary of __construct
+     * @param \App\Services\ReportFilterService $reportFilterService
      */
     public function __construct(ReportFilterService $reportFilterService)
     {
@@ -33,10 +31,9 @@ class ReportController extends Controller
     }
        
     /**
-     * Display a listing of the resource.
-     *
-     * @param  mixed $request
-     * @return void
+     *  Display a listing of the resource.
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -49,9 +46,8 @@ class ReportController extends Controller
     
     /**
      * export Export all reports for a specific period
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -60,13 +56,11 @@ class ReportController extends Controller
         return Excel::download(new ReportsExport($filters), $fileName);
     }
 
-    
     /**
      * exportSingle Export a single report
-     *
-     * @param  mixed $id
-     * @param  mixed $request
-     * @return void
+     * @param mixed $id
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function exportSingle($id ,Request $request)
     {
@@ -78,9 +72,8 @@ class ReportController extends Controller
     
     /**
      * Display the specified report.
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($id)
     {
@@ -90,9 +83,8 @@ class ReportController extends Controller
     
     /**
      * destroy the specified resource from storage.
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -103,8 +95,7 @@ class ReportController extends Controller
     
     /**
      * Display the trashed reports
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
     {
@@ -114,9 +105,8 @@ class ReportController extends Controller
     
     /**
      * Restore the specified Report from trash
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
     {
@@ -127,9 +117,8 @@ class ReportController extends Controller
     
     /**
      * Remove specified Report from storage
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete(string $id)
     {

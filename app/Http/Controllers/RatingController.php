@@ -9,9 +9,7 @@ class RatingController extends Controller
 {
     
     /**
-     * __construct
-     *
-     * @return void
+     * Summary of __construct
      */
     public function __construct()
     {
@@ -21,9 +19,8 @@ class RatingController extends Controller
 
     } 
     /**
-     * Display a listing of ratings.
-     *
-     * @return void
+     *  Display a listing of ratings.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -33,7 +30,9 @@ class RatingController extends Controller
         return view('ratings.index', compact('ratings'));
     }
     /**
-     * Display the specified resource.
+     *  Display the specified resource.
+     * @param \App\Models\Rating $rating
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Rating $rating)
     {
@@ -42,6 +41,8 @@ class RatingController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param \App\Models\Rating $rating
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Rating $rating)
     {

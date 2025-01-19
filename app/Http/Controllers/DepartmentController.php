@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 class DepartmentController extends Controller
 {    
     /**
-     * __construct
-     *
-     * @return void
+     * Summary of __construct
      */
     public function __construct()
     {
@@ -26,9 +24,8 @@ class DepartmentController extends Controller
 
     } 
     /**
-     * Display a listing of Departments.
-     *
-     * @return void
+     *  Display a listing of Departments.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -37,8 +34,7 @@ class DepartmentController extends Controller
     }
     /**
      * Show the form for creating a new department.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -46,9 +42,8 @@ class DepartmentController extends Controller
     }   
     /**
      * Store a new department
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \App\Http\Requests\DepartmentRequest $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function store(DepartmentRequest $request)
     {
@@ -63,10 +58,9 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
     /**
-     *  Display the specified department.
-     *
-     * @param  mixed $id
-     * @return void
+     * Display the specified department.
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(string $id)
     {
@@ -75,9 +69,8 @@ class DepartmentController extends Controller
     
     /**
      * Show the form for editing the specified department.
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(string $id)
     {
@@ -87,10 +80,9 @@ class DepartmentController extends Controller
         
     /**
      * Update the specified resource in storage.
-     *
-     * @param  mixed $request
-     * @param  mixed $id
-     * @return void
+     * @param \App\Http\Requests\DepartmentRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function update(DepartmentRequest $request , string $id)
     {
@@ -120,9 +112,8 @@ class DepartmentController extends Controller
     
     /**
      * destroy the specified resource from storage.
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id){
         $department = Department::findOrFail($id);
@@ -132,8 +123,7 @@ class DepartmentController extends Controller
     
     /**
      * Display the trashed departments
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash(){
         $departments = Department::onlyTrashed()->get();
@@ -142,9 +132,8 @@ class DepartmentController extends Controller
     
     /**
      * Restore the specified department from trash
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id){
         $department = Department::withTrashed()->findOrFail($id);
@@ -154,9 +143,8 @@ class DepartmentController extends Controller
     
     /**
      * Remove specified department from storage
-     *
-     * @param  mixed $id
-     * @return void
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forcedelete(string $id)
     {
