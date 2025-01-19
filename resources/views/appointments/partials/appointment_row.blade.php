@@ -2,7 +2,7 @@
     <td>{{ $appointment->id }}</td>
     <td>
         <img width="28" height="28" src="{{ asset('assets/img/user.jpg') }}"
-             class="rounded-circle m-r-5" alt="">
+                class="rounded-circle m-r-5" alt="">
         {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }}
     </td>
     <td>{{ $appointment->employee->user->firstname }} {{ $appointment->employee->user->lastname }}</td>
