@@ -21,7 +21,7 @@ class PatientController extends Controller
     use ApiResponse;
 
     /**
-     * Summary of storePatientDetails
+     *  continue to store Patient details in patients table
      * @param mixed $user_id
      * @param \Illuminate\Http\Request $request
      * @return mixed|\Illuminate\Http\JsonResponse
@@ -36,7 +36,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Summary of getMyPrescriptions
+     *  get the Prescriptions related to specific user
      * @param \Illuminate\Http\Request $request
      * @return mixed|\Illuminate\Http\JsonResponse
      */

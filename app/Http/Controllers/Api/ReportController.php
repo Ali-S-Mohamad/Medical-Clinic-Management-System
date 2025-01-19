@@ -18,15 +18,17 @@ class ReportController extends Controller
         $this->middleware(['auth:sanctum','permission:export-report'])->only(['exportPatientReports']);
 
     }
+
+    // list all reports for logged in user
     use ApiResponse;
     public function getPatientReports($patientId)
     {
         $reports = Report::where('patient_id', $patientId)->get();
-        //return response()->json($reports);
         return $this->apiResponse([$reports], 'all reports', 200);
 
     }
 
+    // export .xlsx file contains all reports for 
     public function exportPatientReports($patientId)
     {
        // add date export to file name

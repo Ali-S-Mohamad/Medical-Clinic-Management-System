@@ -16,6 +16,11 @@ class DashboardController extends Controller
     $this->middleware('role:Admin')->only('index');
     }
 
+    /**
+     * collect info  & statistics from database to show them for admin
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
 

@@ -37,7 +37,10 @@ class ClinicInfoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show details of the specified resource.
+     * 
+     * @param string $id
+     * @return \Illuminate\View\View
      */
     public function show(string $id)
     {
@@ -47,6 +50,9 @@ class ClinicInfoController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param ClinicInfo $clinic
+     * @return \Illuminate\View\View
      */
     public function edit(ClinicInfo $clinic)
     {
@@ -54,7 +60,11 @@ class ClinicInfoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update clinic resource info.
+     *
+     * @param ClinicInfoRequest $request
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ClinicInfoRequest $request, string $id)
     {

@@ -18,8 +18,10 @@ class RatingController extends Controller
         $this->middleware('permission:delete-rating', ['only' => ['destroy']]);
 
     }
+ 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the ratings.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -44,9 +46,11 @@ class RatingController extends Controller
     {
         //
     }
-
+ 
     /**
-     * Display the specified resource.
+     * Display the specified rating.
+     * @param \App\Models\Rating $rating
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Rating $rating)
     {
@@ -69,8 +73,11 @@ class RatingController extends Controller
         //
     }
 
+    
     /**
-     * Remove the specified resource from storage.
+     * permanent delete rating info
+     * @param \App\Models\Rating $rating
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Rating $rating)
     {

@@ -26,8 +26,10 @@ class UserController extends Controller
         $this->employeeService = $employeeService;
         $this->patientService = $patientService;
     }
+ 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new user.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -37,7 +39,9 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created user in users table then call methods to store the other info in the related table accourding to user role (patients X employees).
+     * @param \App\Http\Requests\StoreUserRequest $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreUserRequest $request)
     {
@@ -56,12 +60,15 @@ class UserController extends Controller
         }
     }
 
+ 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user in user table then in the table related to user role (patients X employees) .
+     * @param \App\Http\Requests\UpdateUserRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserRequest $request, string $id)
     {
-        // dd($request->all());
         $user = User::findOrFail($id);
         $data = $request->validated();
         $user = $this->userService->saveOrUpdateUserDetails($data, $id);

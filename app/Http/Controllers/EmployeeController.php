@@ -57,7 +57,12 @@ class EmployeeController extends Controller
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
 
-
+    /**
+     *  continue save or update employee info in employees table
+     * @param mixed $userId
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function saveOrUpdateEmployeeDetails($userId, Request $request)
     {
         $employee = Employee::updateOrCreate(
@@ -104,7 +109,9 @@ class EmployeeController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * move the specified employee info to trash (soft delete)
+     * @param \App\Models\Employee $employee
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Employee $employee)
     {
@@ -113,7 +120,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of trash
+     * Display a listing of soft deleted employees info.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
@@ -127,7 +134,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of restore
+     * restore the deleted employee info
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -139,7 +146,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of forceDelete
+     * permanent delete employee info
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */

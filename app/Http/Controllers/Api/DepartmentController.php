@@ -15,7 +15,7 @@ class DepartmentController extends Controller
     use ApiResponse;
 
     /**
-     * Summary of listDepartments
+     * list all Departments in the clinic
      * @return mixed
      */
     public function listDepartments(){
@@ -25,7 +25,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * Summary of showDepartment
+     * show one Department details
      * @param \App\Models\Department $department
      * @return \Illuminate\Http\JsonResponse
      */
@@ -41,7 +41,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * Summary of getActiveDepartments
+     * list all Active Departments
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function getActiveDepartments()
@@ -53,7 +53,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * Summary of getAvailableDoctorsInDepartment
+     * ;ist all doctors in a specific department
      * @param mixed $departmentId
      * @return \Illuminate\Http\JsonResponse
      */
@@ -73,7 +73,10 @@ class DepartmentController extends Controller
         return $this->apiResponse(DoctorsResource::collection($availableDoctors), 'Active Doctors retrieved successfully.', 200);
     }
 
-
+    /**
+     * get clinic information 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getClinicInfo(){
         $info = ClinicInfo::first();
         return $this->apiResponse($info, 'Clinic Information retrieved successfully.', 200);

@@ -17,8 +17,11 @@ class PatientController extends Controller
         $this->middleware('permission:show-patient', ['only' => ['index']]);
 
     }
+    
+  
     /**
-     * Display a listing of the resource.
+     * Display a listing of the patients info.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {   
@@ -47,25 +50,31 @@ class PatientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new patient.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        // $departments = Department::all();
         return view('patients.create');
     }
 
 
     /**
-     * Display the specified resource.
+     * 
+     * Display the specified patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Patient $patient)
     {
         return view('patients.show', compact('patient'));
     }
 
+ 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Patient $patient)
     {
@@ -74,14 +83,20 @@ class PatientController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * move the specified patient info to trash (soft delete)
+     * @param \App\Models\Patient $patient
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Patient $patient)
     {
         $patient->delete();
         return redirect()->route('patients.index');
     }
-
+    /**
+     * Display a listing of soft deleted patients info.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         $deletedPatients = Patient::onlyTrashed()->with([
@@ -92,6 +107,11 @@ class PatientController extends Controller
         return view('patients.trash', compact('deletedPatients'));
     }
 
+    /**
+     * restore the deleted patient info
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore(string $id)
     {
         $patient = Patient::withTrashed()->where('id', $id)->first();
@@ -99,7 +119,11 @@ class PatientController extends Controller
         return redirect()->route('patients.trash')->with('success', 'patient restored successfully.');
     }
 
-    // Delete patient For ever
+    /**
+     * permanent delete patient info
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function forceDelete(string $id)
     {
         $patient = Patient::withTrashed()->findOrFail($id);

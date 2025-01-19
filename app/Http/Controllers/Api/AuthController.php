@@ -21,7 +21,7 @@ class AuthController extends Controller
     use ApiResponse;
 
 
-    //registering
+    //register a new patient
     public function register(RegisterRequest $request)
     {
         $user = User::create([
