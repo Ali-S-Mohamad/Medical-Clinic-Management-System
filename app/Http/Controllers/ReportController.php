@@ -12,6 +12,7 @@ use App\Services\ReportFilterService;
 
 class ReportController extends Controller
 {
+    protected $reportFilterService;
     public function __construct(ReportFilterService $reportFilterService)
     {
         $this->middleware('auth');
@@ -27,13 +28,11 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    protected $reportFilterService;
     public function index(Request $request)
     {
         $filters = $request->only(['patient_name', 'doctor_name', 'appointment_date']);
         // Service call
-        $reportFilterService = app(ReportFilterService::class);
-        $reports = $reportFilterService->filter($filters);
+        $reports = $this->reportFilterService->filter($filters);
 
         return view('reports.index', compact('reports', 'filters'));
     }

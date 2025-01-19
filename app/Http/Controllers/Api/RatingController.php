@@ -18,9 +18,9 @@ class RatingController extends Controller
     use ApiResponse;
     public function __construct()
     {
-        // $this->middleware(['auth:sanctum', 'permission:show-patientRatings'])->only(['index', 'show', 'doctor_ratings_details']);
-        // $this->middleware(['auth:sanctum', 'permission:edit-rating'])->only(['store', 'update']);
-        // $this->middleware(['auth:sanctum', 'permission:delete-rating'])->only('destroy');
+        $this->middleware(['auth:sanctum', 'permission:show-patientRatings'])->only(['index', 'show', 'doctor_ratings_details']);
+        $this->middleware(['auth:sanctum', 'permission:edit-rating'])->only(['store', 'update']);
+        $this->middleware(['auth:sanctum', 'permission:delete-rating'])->only('destroy');
     }
 
     /**

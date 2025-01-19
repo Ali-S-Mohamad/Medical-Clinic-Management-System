@@ -7,7 +7,7 @@ MediCore Clinic Management System is a comprehensive solution designed to manage
 ## Features
 
 ### 1. Role-Based Access Control (RBAC)
-- Roles: Clinic Manager, Doctor, Employee, and Patient.
+- **Roles:** Clinic Manager, Doctor, Employee, and Patient.
 - Each role has specific permissions and access to different parts of the system.
   - Clinic Manager: Full control over the system.
   - Doctor: Manage appointments and medical files.
@@ -37,7 +37,7 @@ MediCore Clinic Management System is a comprehensive solution designed to manage
 - Real-time notifications for:
   - New appointments.
   - Changes in appointment status.
-  - System updates.
+
 
 ### 7. Ratings
 - Display average ratings for doctors.
@@ -61,8 +61,10 @@ MediCore Clinic Management System is a comprehensive solution designed to manage
 - Authentication via Laravel Sanctum.
 
 ### Other Tools:
-- Storage for uploaded images and files (via storage directory).
+- Storage for uploaded images and files (via `storage` directory).
 - Role management using middleware.
+- Roles and permissions using spatie.
+- Send code verification using SomarKesen-Telegram-Gateway-laravel-Package.
 
 ---
 
@@ -77,66 +79,52 @@ Ensure you have the following installed on your system:
 
 ### Steps
 1. Clone the repository:
-   
-Bash
-
+   ```bash
    git clone <repository-url>
    cd medi-core-clinic
-   
+   ```
 
 2. Install PHP dependencies:
-   
-Bash
-
+   ```bash
    composer install
-   
+   ```
 
 3. Install frontend dependencies:
-   
-Bash
-
+   ```bash
    npm install && npm run dev
-   
+   ```
 
 4. Set up environment variables:
-   
-Bash
-
+   ```bash
    cp .env.example .env
-   
-   Update the .env file with your database credentials and other settings.
+   ```
+   Update the `.env` file with your database credentials and other settings.
 
 5. Run migrations and seeders:
-   
-Bash
-
+   ```bash
    php artisan migrate --seed
-   
+   ```
 
 6. Generate application key:
-   
-Bash
-
+   ```bash
    php artisan key:generate
-   
+   ```
 
 7. Start the server:
-   
-Bash
-
+   ```bash
    php artisan serve
-   
-   Visit the application at http://127.0.0.1:8000.
+   ```
+   Visit the application at `http://127.0.0.1:8000`.
 
 ---
 
 ## Directory Structure
 
 ### Key Directories:
-- `app/Models`: Contains models for Doctor, Employee, Patient, Department, etc.
-- `app/Http/Controllers`: Contains controllers such as AppointmentController, DepartmentController, etc.
-- `resources/views`: Blade templates for the frontend.
-- `routes/web.php`: Web routes for the application.
+- **`app/Models`**: Contains models for `Doctor`, `Employee`, `Patient`, `Department`, etc.
+- **`app/Http/Controllers`**: Contains controllers such as `AppointmentController`, `DepartmentController`, etc.
+- **`resources/views`**: Blade templates for the frontend.
+- **`routes/web.php`**: Web routes for the application.
 
 ---
 
@@ -144,17 +132,9 @@ Bash
 
 ### Roles and Permissions
 - Each role is assigned specific permissions via middleware.
-  - Example:
-    
-PHP
-
-    Route::group(['middleware' => ['role:manager']], function () {
-        Route::resource('departments', DepartmentController::class);
-    });
-    
 
 ### Appointment Scheduling
-- Navigate to the Appointments section.
+- Navigate to the `Appointments` section.
 - Fill out the form with patient and doctor details.
 - Submit to create a new appointment.
 
@@ -166,32 +146,16 @@ PHP
 ## Development Practices
 
 ### 1. Clean Code and SOLID Principles
-- Service Classes: All business logic is handled in service classes to keep controllers lightweight and focused on request handling.
-- Example:
-  
-PHP
+- **Service Classes:** All business logic is handled in service classes to keep controllers lightweight and focused on request handling.
 
-  class AppointmentService {
-      public function createAppointment($data) {
-          // Logic to create an appointment.
-      }
-  }
 ### 2. Soft Deletes
-- Soft deletes are implemented for Doctors, Appointments, and Medical Files.
-  - When a doctor or department is deleted, associated appointments are marked as soft deleted and can be restored.
+- Soft deletes are implemented for `Doctors`, `Appointments`, and `Medical Files`.
+  - When a doctor or department is deleted, associated appointments are marked as `soft deleted` and can be restored.
 
 ### 3. Notification System
 - Real-time notifications using Laravel's built-in notification system.
 
 ---
-
-## Testing
-
-### Running Tests
-Run feature and unit tests to ensure the application works as expected:
-Bash
-
-php artisan test
 
 ---
 
@@ -203,7 +167,7 @@ php artisan test
 ---
 
 ## Credits
-This project was built as part of a training program to enhance skills in:
+This project was built as part of a training program in focal X Agency to enhance skills in:
 - Laravel development.
 - Role-based access control.
 - Secure medical data management.

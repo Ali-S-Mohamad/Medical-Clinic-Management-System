@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label>Patient Name</label>
                             <select name="patient_id" class="form-control" required>
-                                  <option value="">Select</option>
+                                    <option value="">Select</option>
                                 @foreach ($patients as $patient)
                                 <option value="{{ $patient->id }}">{{ $patient->user->firstname }} {{ $patient->user->lastname }}</option>
                                 @endforeach

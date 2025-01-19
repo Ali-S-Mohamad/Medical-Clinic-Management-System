@@ -70,6 +70,7 @@ class RoleSeeder extends Seeder
             'show-department',
 
             'show-employee',
+            'edit-employee',
 
             'show-clinicInformation',
 
@@ -83,6 +84,11 @@ class RoleSeeder extends Seeder
             'delete-Appointment',
 
             'show-rating',
+
+            'show-TimeSlot',
+            'create-TimeSlot',
+            'edit-TimeSlot',
+            'delete-TimeSlot',
 
             'show-report',
             'export-report',

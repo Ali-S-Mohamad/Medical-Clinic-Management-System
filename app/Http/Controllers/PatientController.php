@@ -24,26 +24,27 @@ class PatientController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
-    {   
+    {
+
         $user = Auth::user();
-        
+
         if ($user->hasRole('Admin')){
             $patients = Patient::paginate(5);
         }
         else if ($user->hasRole('doctor') )  {
-            $patients = Patient::whereHas('medicalFile.prescriptions', function ($query) use ($user) { 
-                $query->where('doctor_id', $user->employee->id); 
+            $patients = Patient::whereHas('medicalFile.prescriptions', function ($query) use ($user) {
+                $query->where('doctor_id', $user->employee->id);
             })->paginate(5);
         }
         else if ($user->hasRole('employee') ){
             $departmentId = $user->employee->department_id;
-            $patients = Patient::whereHas('medicalFile.prescriptions', function ($query) use ($departmentId) { 
-                $query->whereHas('employee', function ($query) use ($departmentId) { 
-                    $query->where('department_id', $departmentId); 
-                }); 
+            $patients = Patient::whereHas('medicalFile.prescriptions', function ($query) use ($departmentId) {
+                $query->whereHas('employee', function ($query) use ($departmentId) {
+                    $query->where('department_id', $departmentId);
+                });
             })->paginate(10);
         }
-        else {  
+        else {
         abort(403, 'Unauthorized');
         }
         return view('patients.index',compact('patients'));

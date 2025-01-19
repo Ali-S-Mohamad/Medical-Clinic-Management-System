@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Language;
-use App\Models\ClinicInfo;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Services\EmployeeService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Services\EmployeeFilterService;
-use App\Http\Requests\UpdateUserRequest;
 
 class EmployeeController extends Controller
 {
@@ -31,7 +27,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService; // Inject the service into the controller
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the employees including doctors and administrative staffs.
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -84,7 +80,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -95,7 +91,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -106,7 +102,6 @@ class EmployeeController extends Controller
         $role = $employee->user->roles->first()->name;
         return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
-
 
     /**
      * move the specified employee info to trash (soft delete)
@@ -120,7 +115,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display a listing of soft deleted employees info.
+     * Display the trashed employees
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
@@ -134,7 +129,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * restore the deleted employee info
+     * Restore the specified employee from trash
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */

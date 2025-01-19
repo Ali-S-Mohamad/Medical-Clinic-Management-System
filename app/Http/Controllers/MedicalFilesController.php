@@ -12,6 +12,9 @@ use App\Http\Requests\UpdateMedicalFileRequest;
 
 class MedicalFilesController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,8 +27,11 @@ class MedicalFilesController extends Controller
         $this->middleware('permission:delete-MedicalFile', ['only' => ['forcedelete']]);
 
     }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the medical files.
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
 {
@@ -56,10 +62,9 @@ class MedicalFilesController extends Controller
     return view('medicalFiles.index', compact('medicalFiles', 'filters'));
 }
 
-
-
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new medical file.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -68,7 +73,9 @@ class MedicalFilesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created medical file in storage.
+     * @param \App\Http\Requests\MedicalFileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(MedicalFileRequest $request)
 {
@@ -94,19 +101,24 @@ class MedicalFilesController extends Controller
     ]);
 
     return redirect()->route('medicalFiles.show', $medicalFile->id)
-                     ->with('success','the medical file was created successfully');
+                    ->with('success','the medical file was created successfully');
 }
 
     /**
-     * Display the specified resource.
+     * Display the specified medical file
+     * @param \App\Models\MedicalFile $medicalFile
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(MedicalFile $medicalFile)
     {   $prescriptions= $medicalFile->prescriptions()->paginate(3);
         return  view('medicalFiles.show' , compact('medicalFile','prescriptions'));
     }
 
+
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified medical file.
+     * @param \App\Models\MedicalFile $medicalFile
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(MedicalFile $medicalFile)
     {
@@ -115,7 +127,10 @@ class MedicalFilesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified medical file in storage.
+     * @param \App\Http\Requests\UpdateMedicalFileRequest $request
+     * @param \App\Models\MedicalFile $medicalFile
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateMedicalFileRequest $request, MedicalFile $medicalFile)
     {
@@ -128,7 +143,9 @@ class MedicalFilesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Move the specified medical file to trash
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -136,6 +153,11 @@ class MedicalFilesController extends Controller
         $medicalFile->delete();
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFiles is deleted successfully');
     }
+
+    /**
+     * Display the trashed medical files
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         $medicalFiles = MedicalFile::onlyTrashed()->with([
@@ -145,6 +167,11 @@ class MedicalFilesController extends Controller
         return view ('medicalFiles.trash' , compact('medicalFiles'));
     }
 
+    /**
+     *Restore the specified medical file from trash
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore($id)
     {
         $medicalFile = MedicalFile::withTrashed()->find($id);
@@ -153,10 +180,14 @@ class MedicalFilesController extends Controller
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFile restored successfully.');
     }
 
+    /**
+     * Remove specified medical file from storage
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function forceDelete(string $id)
     {
         MedicalFile::withTrashed()->where('id',$id)->forceDelete();
         return redirect()->route('medicalFiles.index')->with('success', 'medicalFile permanently deleted.');
     }
-
 }

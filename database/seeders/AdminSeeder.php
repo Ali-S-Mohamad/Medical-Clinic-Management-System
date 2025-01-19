@@ -40,7 +40,7 @@ class AdminSeeder extends Seeder
         // Creating Admin User
         $admin = User::create([
             'firstname' => 'admin',
-            'lastname'  => 'admin' ,
+            'lastname'  => '1' ,
             'email' => 'admin@gmail.com',
             'gender'=> 'male',
             'phone_number' => '0996522488',

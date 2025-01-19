@@ -40,6 +40,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'confirm_password',
         'remember_token',
     ];
 
@@ -51,6 +52,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'confirm_password' => 'hashed',
     ];
 
 

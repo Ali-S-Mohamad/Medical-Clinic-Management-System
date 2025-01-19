@@ -17,13 +17,11 @@ class DashboardController extends Controller
     }
 
     /**
-     * collect info  & statistics from database to show them for admin
-     *
-     * @return \Illuminate\View\View
+     * Display The dashboard for admin that containing overview about the clinic status
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-
         $totalPatients  = Patient::count();
         $totalDoctors   = User::role('doctor')  ->count();
         $totalEmployees = User::role('employee')->count();
