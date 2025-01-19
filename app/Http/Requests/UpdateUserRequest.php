@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required','email',Rule::unique('users')->ignore($this->route('user')) ,
-            'gender' => 'required|string|max:255',
+            'gender' => 'required|in:male,female',
 
             // Password (optional during update)
             'password' => 'required|string',

@@ -19,13 +19,13 @@
                     <h5>Patient Information</h5>
                     <p><strong>Name:</strong> {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }}</p>
                     <p><strong>Email:</strong> {{ $appointment->patient->user->email }}</p>
-                    <p><strong>Email:</strong> {{ $appointment->patient->user->gender }}</p>
+                    <p><strong>gender:</strong> {{ $appointment->patient->user->gender }}</p>
                     <p><strong>Phone:</strong> {{ $appointment->patient->user->phone_number }}</p>
 
                     <hr>
 
                     <h5>Doctor Information</h5>
-                    <p><strong>Name:</strong> {{ $appointment->employee->user->name  }}</p>
+                    <p><strong>Name:</strong> {{ $appointment->employee->user->firstname  }}  {{ $appointment->employee->user->lastname  }}</p>
                     <p><strong>Email:</strong> {{ $appointment->employee->user->email }}</p>
                     <p><strong>Phone:</strong> {{ $appointment->employee->user->phone_number }}</p>
 
