@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\PatientService;
 use App\Services\EmployeeService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Controllers\EmployeeController;
@@ -64,7 +65,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, string $id)
     {
-        // dd($request->all());
         $user = User::findOrFail($id);
         $data = $request->validated();
         $user = $this->userService->saveOrUpdateUserDetails($data, $id);
@@ -76,13 +76,16 @@ class UserController extends Controller
             $employee = $this->employeeService->saveOrUpdateEmployeeDetails($request, $user);
         }
 
-            // If user is patient update the specialized information
+        // If user is patient update the specialized information
         if ($user->hasRole('patient')) {
             $patient = $this->patientService
-            ->saveOrUpdatePatientDetails($user->id, $request->only(['insurance_number', 'dob']), false);
+                ->saveOrUpdatePatientDetails($user->id, $request->only(['insurance_number', 'dob']), false);
             return redirect()->route('patients.index');
         }
-
-        return redirect()->back()->with('success','The user updated successfully');;
+        if (Auth::id() == $id) {
+            return redirect()->route('employees.show', $user->employee->id)->with('success', ' update successfully.');
+        } else {
+            return redirect()->route('employees.index')->with('success', ' update successfully.');
+        }
     }
 }

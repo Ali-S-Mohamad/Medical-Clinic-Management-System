@@ -53,33 +53,6 @@ class EmployeeController extends Controller
         return view('employees.index', compact('employees', 'departments', 'roles', 'filters'));
     }
 
-
-    public function saveOrUpdateEmployeeDetails($userId, Request $request)
-    {
-        $employee = Employee::updateOrCreate(
-            ['user_id' => $userId],
-            [
-                'department_id' => $request->department_id,
-                'academic_qualifications' => $request->qualifications,
-                'previous_experience' => $request->experience,
-            ]
-        );
-
-        $employee->languages()->sync($request->languages_ids);
-
-        $cvFilePath = uploadCvFile('Employees CVs', $request, $employee->cv_path);
-        $employee->cv_path = $cvFilePath;
-        $employee->save();
-
-        return redirect()->back()->with('success', ' update successfully.');
-
-        // if (Auth::id() == $userId) {
-        //     return redirect()->route('employees.show', auth()->user()->employee->id)->with('success', ' update successfully.'); 
-        // } else {
-        //     return redirect()->route('employees.index', $userId)->with('success', ' update successfully.');
-        // }
-    }
-
     /**
      * Display the specified resource.
      * @param \App\Models\Employee $employee
