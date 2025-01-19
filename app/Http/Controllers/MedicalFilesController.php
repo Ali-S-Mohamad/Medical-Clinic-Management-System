@@ -7,7 +7,7 @@ use App\Models\Patient;
 use App\Models\MedicalFile;
 use Illuminate\Http\Request;
 use App\Http\Requests\MedicalFileRequest;
-use App\Services\MidecalFileFilterService;
+use App\Services\MedicalFileFilterService;
 use App\Http\Requests\UpdateMedicalFileRequest;
 
 class MedicalFilesController extends Controller
@@ -69,13 +69,13 @@ class MedicalFilesController extends Controller
     public function create()
     {
     $patients = Patient::whereDoesntHave('medicalFile') // Requirement to bring patients who do not have medical files
-        ->with('user') 
+        ->with('user')
         ->get();
 
     return view('medicalFiles.create', compact('patients'));
     }
 
-    
+
 
     /**
      * Store a newly created medical file in storage.

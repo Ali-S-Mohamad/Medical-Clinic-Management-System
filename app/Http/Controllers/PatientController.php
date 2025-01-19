@@ -8,14 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('permission:show-patient', ['only' => ['index']]);
 
     }
+
     /**
-     * Display a listing of the resource.
+     * Summary of index
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -45,7 +52,8 @@ class PatientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new Patient.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -53,17 +61,21 @@ class PatientController extends Controller
         return view('patients.create');
     }
 
-
     /**
-     * Display the specified resource.
+     * Display the specified Patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Patient $patient)
     {
         return view('patients.show', compact('patient'));
     }
 
+
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified Patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Patient $patient)
     {
@@ -72,7 +84,9 @@ class PatientController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * destroy the specified resource from storage.
+     * @param \App\Models\Patient $patient
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Patient $patient)
     {
@@ -80,6 +94,11 @@ class PatientController extends Controller
         return redirect()->route('patients.index');
     }
 
+
+    /**
+     * Display the trashed Patients
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function trash()
     {
         $deletedPatients = Patient::onlyTrashed()->with([
@@ -90,6 +109,11 @@ class PatientController extends Controller
         return view('patients.trash', compact('deletedPatients'));
     }
 
+    /**
+     * Restore the specified patient from trash
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore(string $id)
     {
         $patient = Patient::withTrashed()->where('id', $id)->first();
@@ -97,7 +121,12 @@ class PatientController extends Controller
         return redirect()->route('patients.trash')->with('success', 'patient restored successfully.');
     }
 
-    // Delete patient For ever
+
+    /**
+     * Remove specified patient from storage
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function forceDelete(string $id)
     {
         $patient = Patient::withTrashed()->findOrFail($id);

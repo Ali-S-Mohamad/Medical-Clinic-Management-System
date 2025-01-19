@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('appointments', [AppointmentController::class, 'store']);
     Route::get('my-appointments', [AppointmentController::class, 'myAppointments']);
+    Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
 
     Route::get('my-prescriptions', [PatientController::class, 'getMyPrescriptions']);
 
@@ -49,9 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('available-slots/{doctorId}', [AppointmentController::class, 'getAvailableSlots']);
 
-    Route::get('patients/{patientId}/reports', [ReportController::class, 'getPatientReports']);
-    Route::get('patients/{patientId}/reports/export', [ReportController::class, 'exportPatientReports']);
-    Route::put('/appointments/{appointment}/status', [AppointmentController::class, 'canceledAppointment']);
+    Route::get('patients/reports', [ReportController::class, 'getPatientReports']);
+    Route::get('patients/reports/export', [ReportController::class, 'exportPatientReports']);
 
     Route::get('my-ratings', [RatingController::class, 'getMyRatings']);
 

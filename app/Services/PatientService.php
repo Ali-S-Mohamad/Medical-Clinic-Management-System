@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class PatientService
 {
+    /**
+     * A function to save or update patients details
+     * @param mixed $userId
+     * @param mixed $data
+     * @param mixed $redirect
+     * @return mixed|Patient|\Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
+     */
     public function saveOrUpdatePatientDetails($userId, $data, $redirect = true)
     {
         $patient = Patient::updateOrCreate(

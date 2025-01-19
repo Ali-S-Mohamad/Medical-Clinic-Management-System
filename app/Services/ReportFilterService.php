@@ -7,6 +7,11 @@ use App\Models\Report;
 class ReportFilterService
 {
 
+    /**
+     * filter reports
+     * @param array $filters
+     * @return mixed
+     */
     public function filter(array $filters)
     {
         $query = Report::with(['patient.user'])
@@ -17,5 +22,5 @@ class ReportFilterService
         return $query->paginate(5);
     }
 
-    
+
 }

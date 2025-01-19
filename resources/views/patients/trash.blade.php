@@ -39,6 +39,9 @@
         </div>
         @if ($deletedPatients->isEmpty())
             <h3>No Deleted Patients ..</h3>
+            <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a>
         @else
             <div class="row">
                 <div class="col-md-12">
@@ -95,7 +98,10 @@
                     </tr>
         @endforeach
         </tbody>
-        </table>
+        </table> 
+        <a href="javascript:history.back()" class="btn btn-secondary mb-3" rel="prev">
+                        <i class="fa fa-arrow-left mr-2"></i> Back
+                    </a>
         {{ $deletedPatients->links()}}
     </div>
     </div>

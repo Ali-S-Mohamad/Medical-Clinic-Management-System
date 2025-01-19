@@ -33,12 +33,8 @@ class ReportsExport implements FromCollection, WithHeadings, WithStyles
             // export one report
             return Report::where('id', $this->reportId)->get();
         } else {
-        //export all reports
-           // return Report::all();
-           //return Report::filter($this->filters)->get();
-           $reportFilterService = new ReportFilterService();
-           return $reportFilterService->filter($this->filters);
-
+            $reportFilterService = new ReportFilterService();
+            return $reportFilterService->filter($this->filters);
         }
     }
 

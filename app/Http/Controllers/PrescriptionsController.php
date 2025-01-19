@@ -12,7 +12,12 @@ use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
 class PrescriptionsController extends Controller
-{
+{    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -25,8 +30,13 @@ class PrescriptionsController extends Controller
         $this->middleware('permission:delete-prescription', ['only' => ['forcedelete']]);
 
     }
+       
     /**
-     * Display a listing of the resource.
+     * Display a listing of prescription.
+     *
+     * @param  mixed $request
+     * @param  mixed $filterService
+     * @return void
      */
     public function index(Request $request, PrescriptionFilterService $filterService)
     {
@@ -51,10 +61,11 @@ class PrescriptionsController extends Controller
         $prescriptions = $query->paginate(5);
         return view('prescriptions.index', compact('prescriptions'));
     }
-
-
+    
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new prescription.
+     *
+     * @return void
      */
     public function create()
     {
@@ -73,7 +84,10 @@ class PrescriptionsController extends Controller
         return view('prescriptions.create', compact('appointments'));
     }
     /**
-     * Store a newly created resource in storage.
+     * Store a new Prescription
+     *
+     * @param  mixed $request
+     * @return void
      */
     public function store(StorePrescriptionRequest $request)
     {
@@ -99,24 +113,34 @@ class PrescriptionsController extends Controller
 
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
     }
+    
     /**
-     * Display the specified resource.
+     * Display the specified Prescription.
+     *
+     * @param  mixed $prescription
+     * @return void
      */
     public function show(Prescription $prescription)
     {
         return view('prescriptions.show', compact('prescription'));
     }
-
-
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified Prescription.
+     *
+     * @param  mixed $prescription
+     * @return void
      */
     public function edit(Prescription $prescription)
     {
         return view('prescriptions.edit', compact('prescription'));
     }
+      
     /**
-     * Update the specified resource in storage.
+     * Update the specified prescription in storage.
+     *
+     * @param  mixed $request
+     * @param  mixed $prescription
+     * @return void
      */
     public function update(UpdatePrescriptionRequest $request, Prescription $prescription)
     {
@@ -127,8 +151,12 @@ class PrescriptionsController extends Controller
         ]);
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is updated successfully');
     }
+       
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Prescription from storage.
+     *
+     * @param  mixed $id
+     * @return void
      */
     public function destroy($id)
     {
@@ -136,12 +164,23 @@ class PrescriptionsController extends Controller
         $prescription->delete();
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is deleted successfully');
     }
+        
+    /**
+     * Display the trashed prescription
+     *
+     * @return void
+     */
     public function trash()
     {
         $prescriptions = Prescription::onlyTrashed()->get();
         return view('prescriptions.trash', compact('prescriptions'));
     }
-
+    /**
+     * Restore the specified Prescription from trash
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function restore($id)
     {
         $prescription = Prescription::withTrashed()->find($id);
@@ -155,7 +194,13 @@ class PrescriptionsController extends Controller
         }
         return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.');
     }
-
+    
+    /**
+     * Remove specified Prescription from storage
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function forceDelete(string $id)
     {
         Prescription::withTrashed()->where('id', $id)->forceDelete();

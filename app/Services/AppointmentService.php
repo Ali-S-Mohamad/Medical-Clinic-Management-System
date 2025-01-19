@@ -4,16 +4,17 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\TimeSlot;
 use App\Models\Appointment;
-use App\Events\AppointmentCreated;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\AppointmentReminderMail;
 use App\Mail\AppointmentNotificationMail;
 use App\Models\Employee;
-use Illuminate\Support\Facades\Auth;
 
 class AppointmentService
 {
-    // A function to check that the appointment is in the future
+    /**
+     * A function to check that the appointment is in the future
+     * @param mixed $appointmentDate
+     * @return array
+     */
     private function isAppointmentInPast($appointmentDate)
     {
         $appointmentStart = strtotime($appointmentDate);
@@ -26,7 +27,13 @@ class AppointmentService
         return ['success' => true];
     }
 
-    // A function to check the doctor's time availability
+
+    /**
+     * A function to check the doctor's time availability
+     * @param mixed $doctorId
+     * @param mixed $appointmentDate
+     * @return array
+     */
     private function isDoctorAvailable($doctorId, $appointmentDate)
     {
         $appointmentStart = strtotime($appointmentDate);
@@ -51,7 +58,14 @@ class AppointmentService
         ];
     }
 
-    // A function to check for overlapping dates
+    /**
+     * A function to check for overlapping dates
+     * @param mixed $doctorId
+     * @param mixed $appointmentStart
+     * @param mixed $appointmentEnd
+     * @param mixed $appointmentId
+     * @return array
+     */
     private function isAppointmentOverlapping($doctorId, $appointmentStart, $appointmentEnd, $appointmentId = null)
     {
         $query = Appointment::where('doctor_id', $doctorId)
@@ -85,7 +99,16 @@ class AppointmentService
         return ['success' => true];
     }
 
-    // A function to create or update an appointment
+    /**
+     * A function to create or update an appointment
+     * @param mixed $appointmentId
+     * @param mixed $patientId
+     * @param mixed $doctorId
+     * @param mixed $appointmentDate
+     * @param mixed $status
+     * @param mixed $notes
+     * @return array
+     */
     private function createOrUpdateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes)
     {
         $validationResult = $this->isAppointmentInPast($appointmentDate);
@@ -150,7 +173,15 @@ class AppointmentService
         ];
     }
 
-    // Function for booking an appointment
+    /**
+     * Function for booking an appointment
+     * @param mixed $patientId
+     * @param mixed $doctorId
+     * @param mixed $appointmentDate
+     * @param mixed $status
+     * @param mixed $notes
+     * @return array
+     */
     public function bookAppointment($patientId, $doctorId, $appointmentDate, $status = null, $notes = null)
     {
         if (is_null($status)) {
@@ -165,13 +196,27 @@ class AppointmentService
     }
 
 
-    // A function to update the appointment
+    /**
+     * A function to update the appointment
+     * @param mixed $appointmentId
+     * @param mixed $patientId
+     * @param mixed $doctorId
+     * @param mixed $appointmentDate
+     * @param mixed $status
+     * @param mixed $notes
+     * @return array
+     */
     public function updateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes)
     {
         return $this->createOrUpdateAppointment($appointmentId, $patientId, $doctorId, $appointmentDate, $status, $notes);
     }
 
-    //A function that displays the available times for each doctor on a specific date
+    /**
+     * A function that displays the available times for each doctor on a specific date
+     * @param mixed $doctorId
+     * @param mixed $date
+     * @return array
+     */
     public function getAvailableSlots($doctorId, $date)
     {
         $dayOfWeek = Carbon::parse($date)->dayOfWeek;
@@ -217,7 +262,12 @@ class AppointmentService
         return array_values($availableSlots);
     }
 
-    //Fetches appointments for the user based on their permissions
+    /**
+     * Fetches appointments for the user based on their permissions
+     * @param mixed $user
+     * @throws \Exception
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getAppointmentsForUser($user)
     {
         $appointments = Appointment::paginate(5);

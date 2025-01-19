@@ -87,14 +87,12 @@ class DepartmentController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  mixed $request
-     * @param  mixed $id
-     * @return void
+     * @param \App\Http\Requests\DepartmentRequest $request
+     * @param string $id
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function update(DepartmentRequest $request , string $id)
     {
-        // dd($request->all());
         $department = Department::findOrFail($id);
         $department->name = $request->name;
         $department->description = $request->description;
@@ -106,7 +104,7 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index');
     }
     /**
-     * Summary of toggleStatus
+     * Summary of toggleStatus a department
      * @param mixed $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -131,9 +129,8 @@ class DepartmentController extends Controller
     }
 
     /**
-     * trash
-     *
-     * @return void
+     * Summary of trash
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash(){
         $departments = Department::onlyTrashed()->get();
@@ -141,10 +138,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * restore
-     *
-     * @param  mixed $id
-     * @return void
+     * Summary of restore
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id){
         $department = Department::withTrashed()->findOrFail($id);
@@ -153,10 +149,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * forcedelete
-     *
-     * @param  mixed $id
-     * @return void
+     * Summary of forcedelete
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forcedelete(string $id)
     {

@@ -20,7 +20,15 @@ class UserController extends Controller
 
     protected $employeeService;
     protected $patientService;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $userService
+     * @param  mixed $employeeService
+     * @param  mixed $patientService
+     * @return void
+     */
     public function __construct(UserService $userService, EmployeeService $employeeService, PatientService $patientService)
     {
         $this->userService = $userService;
@@ -39,8 +47,12 @@ class UserController extends Controller
         return view('employees.create', compact('departments', 'languages'));
     }
 
+        
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  mixed $request
+     * @return void
      */
     public function store(StoreUserRequest $request)
     {

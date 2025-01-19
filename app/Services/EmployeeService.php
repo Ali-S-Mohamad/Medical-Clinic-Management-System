@@ -6,6 +6,11 @@ use App\Models\Employee;
 
 class EmployeeService
 {
+    /**
+     * filter employees
+     * @param array $filters
+     * @return mixed
+     */
     public function filter(array $filters)
     {
         $result = Employee::with(['department', 'roles'])
@@ -16,6 +21,12 @@ class EmployeeService
     }
 
 
+    /**
+     * a function to save or update employee details
+     * @param mixed $request
+     * @param mixed $user
+     * @return Employee|\Illuminate\Database\Eloquent\Model
+     */
     public function saveOrUpdateEmployeeDetails($request,  $user)
     {
         saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);

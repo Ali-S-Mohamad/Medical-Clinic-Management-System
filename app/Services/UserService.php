@@ -6,6 +6,12 @@ use App\Models\User;
 
 class UserService
 {
+    /**
+     * A function to save or update user details
+     * @param mixed $data
+     * @param mixed $id
+     * @return User|\Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
+     */
     public function saveOrUpdateUserDetails($data, $id)
     {
         //check password
