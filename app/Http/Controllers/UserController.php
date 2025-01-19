@@ -27,8 +27,10 @@ class UserController extends Controller
         $this->employeeService = $employeeService;
         $this->patientService = $patientService;
     }
+
     /**
-     * Show the form for creating a new resource.
+     * Summary of create
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {

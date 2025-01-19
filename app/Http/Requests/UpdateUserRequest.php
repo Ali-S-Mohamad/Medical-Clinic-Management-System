@@ -30,8 +30,8 @@ class UpdateUserRequest extends FormRequest
             'gender' => 'required|string|max:255',
 
             // Password (optional during update)
-            'password' => 'required|string',
-            'confirm_password' => 'required|string',
+            'password' => 'min:8|string',
+            'confirm_password' => 'min:8|string',
 
             // Phone Number
             'phone_number' => 'required','string','max:20',Rule::unique('users')->ignore($this->route('user')),

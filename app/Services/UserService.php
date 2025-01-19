@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+
 class UserService
 {
     public function saveOrUpdateUserDetails($data, $id)
@@ -11,22 +12,32 @@ class UserService
         if ($data['password'] !== $data['confirm_password']) {
             return redirect()->back()->with('error', 'Password does not match .');
         }
-        $user = User::updateOrCreate(['id' => $id],$data);
-        $user->is_verified = '1' ;
+
+        $password = $validatedData['password'] ?? null;
+        $confirm_password = $validatedData['confirm_password'] ?? null;
+        unset($data['password']);
+        unset($data['confirm_password']);
+
+        $user = User::updateOrCreate(['id' => $id], $data);
+        $user->is_verified = '1';
+        if ($password && $confirm_password) {
+            $user->update([
+                'password' => bcrypt($password),
+                'confirm_password' => bcrypt($confirm_password)
+            ]);
+        }
         $user->save();
 
-        if ($user->wasRecentlyCreated){
-            if(isset($data['is_doctor']) && $data['is_doctor'] == 1){
+        if ($user->wasRecentlyCreated) {
+            if (isset($data['is_doctor']) && $data['is_doctor'] == 1) {
                 $user->assignRole('doctor');
-            } elseif(!(isset($data['is_patient']) && $data['is_patient'] == 1))
+            } elseif (!(isset($data['is_patient']) && $data['is_patient'] == 1))
                 $user->assignRole('employee');
         }
-        
-        if (isset($data['is_patient']) && $data['is_patient'] == 1){
+
+        if (isset($data['is_patient']) && $data['is_patient'] == 1) {
             $user->assignRole('patient');
         }
         return $user;
     }
 }
-
-

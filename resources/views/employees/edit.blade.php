@@ -117,11 +117,13 @@ Edit Employee
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input name='password' class="form-control" type="password">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Enter new password">
+                                <small class="text-muted">Leave empty to keep the current password.</small>
                             </div>
                             <div class="form-group">
                                 <label> Confirm Password</label>
-                                <input name='confirm_password' class="form-control" type="password">
+                                <input type="confirm_password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm new password">
+                                <small class="text-muted">Leave empty to keep the current password.</small>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -322,7 +324,7 @@ Edit Employee
                     window.location.href = '{{ url("/home") }}';
                 @endif
             };
-      
+
 
     </script>
 @endsection
