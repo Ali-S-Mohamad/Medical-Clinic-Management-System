@@ -27,7 +27,7 @@ class EmployeeController extends Controller
         $this->employeeService = $employeeService; // Inject the service into the controller
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the employees including doctors and administrative staffs.
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -54,7 +54,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -65,7 +65,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified employee.
      * @param \App\Models\Employee $employee
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -77,9 +77,10 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'departments','languages','role'));
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * Move the specified employee to trash
+     * @param \App\Models\Employee $employee
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Employee $employee)
     {
@@ -88,7 +89,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of trash
+     * Display the trashed employees
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function trash()
@@ -102,7 +103,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of restore
+     * Restore the specified employee from trash
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -114,7 +115,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Summary of forceDelete
+     * Remove specified employee from storage
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */

@@ -14,6 +14,11 @@ use Carbon\Carbon;
 class AppointmentController extends Controller
 {
     protected $appointmentService; // Declare variable to hold the service
+
+    /**
+     * The constructer of the class
+     * @param \App\Services\AppointmentService $appointmentService
+     */
     public function __construct(AppointmentService $appointmentService)
     {
         $this->middleware('auth');
@@ -24,8 +29,10 @@ class AppointmentController extends Controller
         // Constructor to inject AppointmentService
         $this->appointmentService = $appointmentService; // Inject the service into the controller
     }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of Appointments.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -37,7 +44,10 @@ class AppointmentController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-    /* Show the form for creating a new resource.
+
+    /**
+     * Show the form for creating a new appointment.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -73,7 +83,11 @@ class AppointmentController extends Controller
     }
 
 
-
+    /**
+     * Store a new appointment
+     * @param \App\Http\Requests\AppointmentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(AppointmentRequest $request)
     {
         $appointmentDateTime = $request->appointment_date . ' ' . $request->appointment_time;
@@ -94,15 +108,23 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
     /**
-     * Display the specified resource.
+     *
+     */
+    /**
+     * Display the specified appointment.
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(string $id)
     {
         $appointment = Appointment::with(['patient', 'employee'])->findOrFail($id);
         return view('appointments.show', compact('appointment'));
     }
+
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified appointment.
+     * @param string $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(string $id)
     {
@@ -111,8 +133,12 @@ class AppointmentController extends Controller
         $doctors = User::role('doctor')->get();
         return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
     }
+
     /**
-     * Update the specified resource in storage.
+     * Update the specified appointment in storage.
+     * @param \App\Http\Requests\AppointmentRequest $request
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AppointmentRequest $request, string $id)
     {
@@ -135,6 +161,12 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('error', $response['message']);
     }
 
+    /**
+     * Update the status of an appointment
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $id
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function updateStatus(Request $request, $id)
     {
         $appointment = Appointment::findOrFail($id);
@@ -150,8 +182,11 @@ class AppointmentController extends Controller
             'html' => $appointmentRowHtml
         ]);
     }
+
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified appointment from storage.
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {
