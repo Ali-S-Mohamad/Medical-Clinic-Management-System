@@ -17,11 +17,11 @@
 
                     <div>
                         <h3 class="card-title mb-3" style="font-weight: bold; color: #333; font-size: 1.2rem;">
-                            Doctor : {{ $rating->doctor->user->name }}
+                            Doctor : {{ $rating->doctor->user->firstname }} {{ $rating->doctor->user->lastname }}
                         </h3>
 
                         <h2 class="card-title mb-3" style="font-weight: bold; color: #333;">
-                            Patient : {{ $rating->patient->user->name }}
+                            Patient : {{ $rating->patient->user->firstname }} {{ $rating->patient->user->lastname }}
                         </h2>
                         <p class="card-text mb-4"
                             style="font-size: 1.1rem;  color: {{ $rating->doctor_rate < 6 ? 'orange' : ' #4caa59;' }};">

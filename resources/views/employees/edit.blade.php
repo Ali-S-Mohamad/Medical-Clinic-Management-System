@@ -10,6 +10,16 @@ Edit Employee
 @endsection
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -62,8 +72,13 @@ Edit Employee
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' value='{{ $employee->user->name }}' class="form-control"
+                                <label>First Name <span class="text-danger">*</span></label>
+                                <input required name='firstname' value='{{ $employee->user->firstname }}' class="form-control"
+                                    type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="text-danger">*</span></label>
+                                <input required name='lastname' value='{{ $employee->user->lastname }}' class="form-control"
                                     type="text">
                             </div>
                         </div>
@@ -87,17 +102,25 @@ Edit Employee
                                 <input  required name='email' class="form-control" type="email"
                                     value="{{ $employee->user->email }}">
                             </div>
+                            <div class="form-group">
+                                <label>Gender <span class="text-danger">*</span></label>
+                                <input required name='gender' class="form-control" type="text" value="{{ $employee->user->gender }}">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Password</label>
                                 <input name='password' class="form-control" type="password">
                             </div>
+                            <div class="form-group">
+                                <label> Confirm Password</label>
+                                <input name='confirm_password' class="form-control" type="password">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number</label>
-                                <input  required name='phone' class="form-control" type="text"
+                                <input  required name='phone_number' class="form-control" type="text"
                                     value="{{ $employee->user->phone_number }}">
                             </div>
                         </div>
@@ -150,6 +173,36 @@ Edit Employee
                             </div>
                         </div>
                     </div>
+                        {{-- upgrade to patient --}}
+                            <div class="form-group">
+                                <label class="display-block">is patient?</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="is_patient_employee" id="is_patient_employee" value="1">
+                                    <label class="form-check-label" for="is_patient_employee">
+                                        yes
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6 patient-field" style="display: none;">
+                                <div class="form-group">
+                                    <label>Insurance Number</label>
+                                    <input name="insurance_number" type="text" value="{{ $employee->user->patient?->insurance_number }}" class="form-control" >
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 patient-field" style="display: none;">
+                                <div class="form-group">
+                                    <label>Date of birth <span class="text-danger">*</span> </label>
+                                    <input   name="dob" type="date" value="{{ $employee->user->patient?->dob }}" class="form-control" >
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- end of pateint section --}}
+
                     <div class="m-t-20 text-center">
                         <button class="btn btn-primary submit-btn">Update Employee</button>
                     </div>
@@ -158,10 +211,11 @@ Edit Employee
                             <i class="fa fa-arrow-left mr-2"></i> Back
                         </a>
                     </div>
+
                 </form>
             </div>
         </div>
-
+    </div>
 @endsection
 
 
@@ -170,22 +224,24 @@ Edit Employee
 @section('scripts')
     <script>
 
-        //  اظهار واخفاء قسم الخبرة والعمل السابق حسب رول الموظف / طبيب / موظف اداري
-        // var employeeRole ="{{ $role }}";
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     if (employeeRole === 'doctor')
-        //         document.getElementById('doctor-info').style.display = 'block';
-        //     else
-        //         document.getElementById('doctor-info').style.display = 'none';
-        //      });
+        // Hide / display patient fields && // Date of birth validation
+        document.addEventListener('DOMContentLoaded', function () {
+        const isPatientCheckbox = document.getElementById('is_patient_employee');
+        const patientFields = document.querySelectorAll('.patient-field');
+        const dobField = document.querySelector('input[name="dob"]');
 
-        //     $(document).ready(function() {
+        function togglePatientFields() {
+            const isPatient = isPatientCheckbox.checked;
+            patientFields.forEach(field => {
+                field.style.display = isPatient ? 'block' : 'none';
+            });
+            dobField.required = isPatient;
+        }
 
-        //     $("#is_doctor").change(function() {
-        //         if ($(this).is(':checked'))
-        //             $("#doctor-info").show();
-        //         else $("#doctor-info").hide();
-        //     }); })
+        togglePatientFields();
+
+        isPatientCheckbox.addEventListener('change', togglePatientFields);
+    });
 
 
             //  Hide old file name section if new file is selected

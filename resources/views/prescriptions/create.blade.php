@@ -28,7 +28,7 @@
                             @foreach ($appointments as $appointment)
                                 <option value="" disabled selected hidden>select Patient</option>
                                 <option value="{{ $appointment->id }}">
-                                    {{ $appointment->patient->user->name }} - {{ $appointment->appointment_date }}
+                                    {{ $appointment->patient->user->firstname }} {{ $appointment->patient->user->lastname }} - {{ $appointment->appointment_date }}
                                 </option>
                             @endforeach
                         @endif

@@ -10,6 +10,22 @@
 @endsection
 
 @section('content')
+@if (session('error'))
+        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -26,8 +42,7 @@
                             <div class="form-group">
                                 <label class="display-block">is doctor?</label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor"
-                                        value="1">
+                                    <input class="form-check-input" type="checkbox" name="is_doctor" id="is_doctor" value="1">
                                     <label class="form-check-label" for="is_doctor">
                                         yes
                                     </label>
@@ -55,8 +70,12 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Name <span class="text-danger">*</span></label>
-                                <input required name='name' class="form-control" type="text">
+                                <label>First Name <span class="text-danger">*</span></label>
+                                <input required name="firstname" class="form-control" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="text-danger">*</span></label>
+                                <input required name="lastname" class="form-control" type="text">
                             </div>
                         </div>
 
@@ -79,17 +98,25 @@
                                 <label>Email <span class="text-danger">*</span></label>
                                 <input required name='email' class="form-control" type="email">
                             </div>
+                            <div class="form-group">
+                                <label>Gender <span class="text-danger">*</span></label>
+                                <input required name='gender' class="form-control" type="text">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Password <span class="text-danger">*</span></label>
                                 <input required name='password' class="form-control" type="password">
                             </div>
+                            <div class="form-group">
+                                <label>Confirm Password <span class="text-danger">*</span></label>
+                                <input required name='confirm_password' class="form-control" type="password">
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Phone Number <span class="text-danger">*</span> </label>
-                                <input required name='phone' class="form-control" type="text">
+                                <input required name='phone_number' class="form-control" type="text">
                             </div>
                         </div>
                         <div class="col-sm-6">

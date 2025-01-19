@@ -79,9 +79,9 @@ Ratings
                                 <tr role="row" onclick="window.location='{{ route('ratings.show', $rating->id) }}' " class="odd">
                                     <td>{{ $rating->id }}</td>
                                     <td>  
-                                         <h2>{{ $rating->doctor->user->name }}</h2> 
+                                         <h2>{{ $rating->doctor->user->firstname }} {{ $rating->doctor->user->lastname }}</h2> 
                                     </td>                          
-                                    <td> {{ $rating->patient->user->name }}</td>
+                                    <td> {{ $rating->patient->user->firstname }}  {{ $rating->patient->user->lastname }}</td>
                                     <td> {{ $rating->doctor_rate }}</td>
                                     <td class="details-cell"> {{ $rating->details }} </td>
                                    

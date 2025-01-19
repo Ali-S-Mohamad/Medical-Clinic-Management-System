@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use Carbon\Carbon;
@@ -143,7 +142,8 @@ class AppointmentService
             ]);
         }
         $patientEmail = $appointment->patient->user->email;
-        Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
+        if($appointment->status === 'scheduled')
+            Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
         return [
             'success' => true,
             'appointment' => $appointment
@@ -216,23 +216,23 @@ class AppointmentService
         // Return the available slots (resetting the array keys)
         return array_values($availableSlots);
     }
-    
+
     //Fetches appointments for the user based on their permissions
-    public function getAppointmentsForUser($user)
+    public function getAppointmentsForUser()
     {
         $appointments = Appointment::paginate(5);
-    
-        if ($user->hasAnyRole(['Admin', 'employee'])) {
+
+        if (Auth::user()->hasAnyRole(['Admin', 'employee'])) {
             return $appointments;
         }
-    
-        $employee = Employee::where('user_id', $user->id)->first();
-    
+
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+
         if (!$employee) {
             throw new \Exception('The employee associated with this user was not found.');
         }
-    
-        $isDoctor = $user->hasRole('doctor');
+
+        $isDoctor = auth()->user()->hasRole('doctor');
         return Appointment::with(['patient.user', 'employee.user'])
             ->when($isDoctor, function ($query) use ($employee) {
                 $query->where('doctor_id', $employee->id);
@@ -244,6 +244,5 @@ class AppointmentService
             ->whereHas('patient')
             ->paginate(5);
     }
-    
 
 }

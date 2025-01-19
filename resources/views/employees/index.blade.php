@@ -14,6 +14,22 @@
 
 
 @section('content')
+@if (session('error'))
+        <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success fade show" role="alert" style="animation: fadeOut 3s forwards;">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
@@ -86,7 +102,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th style="min-width:175px;">Name</th>
+                                    
                                     <th>Email</th>
+                                    <th>Gender</th>
                                     <th>Department</th>
                                     <th class="text-center">Languages</th>
                                     <th class="text-center">Role</th>
@@ -107,9 +125,11 @@
                                             @endphp
                                             <img width="40" height="40" src="{{ $image_path }}"
                                                 class="rounded-circle" alt="">
-                                            <h2>{{ $employee->user->name }}</h2>
+                                            <h2>{{ $employee->user->firstname }}</h2>
+                                            <h2>{{ $employee->user->lastname }}</h2>
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
+                                        <td>{{ $employee->user->gender }}</td>
                                         <td>{{ $employee->department?->name }}</td>
                                         <td class="language-container d-flex flex-wrap">
                                             @if (!$employee->Languages->isEmpty())

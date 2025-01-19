@@ -29,7 +29,7 @@ Edit Appointment
                                 @foreach ($patients as $patient)
                                 <option value="{{ $patient->id }}"
                                     {{ old('patient_id', $appointment->patient_id) == $patient->id ? 'selected' : '' }}>
-                                    {{ $patient->user->name }}
+                                    {{ $patient->user->firstname }}   {{ $patient->user->lastname }}
                                 </option>
                                 @endforeach
                             </select>
@@ -45,7 +45,7 @@ Edit Appointment
                                 @foreach ($doctors as $doctor)
                                 <option value="{{ $doctor->employee->id }}"
                                     {{ old('doctor_id', $appointment->doctor_id) == $doctor->employee->id ? 'selected' : '' }}>
-                                    {{ $doctor->employee->user->name }}
+                                    {{ $doctor->employee->user->firstname }}  {{ $doctor->employee->user->lastname }}
                                 </option>
                                 @endforeach
                             </select>

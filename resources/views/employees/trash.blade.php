@@ -61,6 +61,7 @@
                                     <th>ID</th>
                                     <th style="min-width:200px;">Name</th>
                                     <th>Email</th>
+                                    <th>Gender</th>
                                     <th>Department</th>
                                     <th style="min-width: 110px;">Languages</th>
                                     <th>Role</th>
@@ -74,13 +75,32 @@
                                         <td>
                                             <img width="28" height="28" src={{ asset('assets/img/user.jpg') }}
                                                 class="rounded-circle" alt="">
-                                            <h2>{{ $employee->user->name }}</h2>
+                                            <h2>{{ $employee->user->firstname }}  {{ $employee->user->lastname}}</h2>
                                         </td>
                                         <td>{{ $employee->user->email }}</td>
+                                        <td>{{ $employee->user->gender }}</td>
                                         <td>{{ $employee->department->name }}</td>
-                                        <td>...</td>
                                         <td>
-                                            <span class="custom-badge status-green">Nurse</span>
+                                            @if (!$employee->Languages->isEmpty())
+                                            @foreach ($employee->Languages as $Language)
+                                                <p class="badge badge-pill badge-dark"> {{ $Language->name }}</p>
+                                            @endforeach
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($employee->user->roles->isNotEmpty())
+                                            @php
+                                                $role = $employee->user->roles->first()->name;
+                                                $badgeClass = match ($role) {
+                                                    'doctor' => 'status-green',
+                                                    'employee' => 'status-blue',
+                                                    default => 'status-grey',
+                                                };
+                                            @endphp
+                                            <span class="custom-badge {{ $badgeClass }}">{{ $role }}</span>
+                                        @else
+                                            <span class="custom-badge status-red">No Role Assigned</span>
+                                        @endif
                                         </td>
                                         <td>
                                             <form action="{{ route('employees.restore', $employee->id) }}" method="POST"

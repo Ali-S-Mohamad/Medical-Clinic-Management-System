@@ -16,11 +16,10 @@ class TimeSlotController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:show-TimeSlot', ['only' => ['index','show']]);
-        $this->middleware('permission:create-TimeSlot', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-TimeSlot', ['only' => ['edit','update']]);
+        $this->middleware('permission:show-TimeSlot', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create-TimeSlot', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-TimeSlot', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete-TimeSlot', ['only' => ['destroy']]);
-
     }
     /**
      * Display a listing of the resource.
@@ -41,12 +40,11 @@ class TimeSlotController extends Controller
             $timeSlots = TimeSlot::with('doctor.user')
                 ->where('doctor_id', $user->employee->id)
                 ->paginate(5);
-        }
-        else {
+        } else {
             abort(403, 'Unauthorized');
         }
 
-        return view('Timeslot.index', compact('timeSlots'));
+        return view('timeslots.index', compact('timeSlots'));
     }
 
 
@@ -56,16 +54,16 @@ class TimeSlotController extends Controller
     public function create()
     {
         $doctors = Employee::with('user')
-                    ->whereHas('user.roles', function ($query) {
-                        $query->where('name', 'doctor');
-                    })
-                    ->get();
+            ->whereHas('user.roles', function ($query) {
+                $query->where('name', 'doctor');
+            })
+            ->get();
 
-        return view('Timeslot.create', compact('doctors'));
+        return view('timeslots.create', compact('doctors'));
     }
 
 
-   /**
+    /**
      * Store a newly created resource in storage.
      */
     public function store(TimeSlotRequest $request)
@@ -102,11 +100,11 @@ class TimeSlotController extends Controller
     public function edit(TimeSlot $timeSlot)
     {
         $doctors = Employee::with('user')
-        ->whereHas('user.roles', function ($query) {
-            $query->where('name', 'doctor');
-        })
-        ->get();
-            return view('Timeslot.edit', compact('timeSlot' ,'doctors'));
+            ->whereHas('user.roles', function ($query) {
+                $query->where('name', 'doctor');
+            })
+            ->get();
+        return view('timeslots.edit', compact('timeSlot', 'doctors'));
     }
 
 

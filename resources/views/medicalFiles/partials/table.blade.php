@@ -16,7 +16,7 @@
             <tr role="row" class="odd">
                 <td>{{ $file->id }}</td>
                 <td>{{ $file->patient->id }}</td>
-                <td>{{ $file->patient->user->name }}</td>
+                <td>{{ $file->patient->user->firstname }}  {{ $file->patient->user->lastname }}</td>
                 <td>{{ $file->patient->user->email }}</td>
                 <td>{{ $file->patient->user->phone_number }}</td>
                 <td>{{ $file->patient->dob }}</td>

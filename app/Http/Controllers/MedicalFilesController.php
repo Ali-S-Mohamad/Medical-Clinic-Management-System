@@ -28,32 +28,33 @@ class MedicalFilesController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $filters = $request->only(['search_name', 'search_insurance']);
+{
+    $filters = $request->only(['search_name', 'search_insurance']);
 
-        $query = MedicalFile::query();
+    $query = MedicalFile::query();
 
-        if (!empty($filters['search_name'])) {
-            $query->whereHas('patient.user', function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search_name'] . '%');
-            });
-        }
-
-        if (!empty($filters['search_insurance'])) {
-            $query->whereHas('patient', function ($q) use ($filters) {
-                $q->where('insurance_number', 'like', '%' . $filters['search_insurance'] . '%');
-            });
-        }
-        $medicalFiles = $query->paginate(5);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('medicalFiles.partials.table', compact('medicalFiles'))->render()
-            ]);
-        }
-
-        return view('medicalFiles.index', compact('medicalFiles', 'filters'));
+    if (!empty($filters['search_name'])) {
+        $query->whereHas('patient.user', function ($q) use ($filters) {
+            $q->whereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ["%{$filters['search_name']}%"]);
+        });
     }
+
+    if (!empty($filters['search_insurance'])) {
+        $query->whereHas('patient', function ($q) use ($filters) {
+            $q->where('insurance_number', 'like', '%' . $filters['search_insurance'] . '%');
+        });
+    }
+
+    $medicalFiles = $query->paginate(5);
+
+    if ($request->ajax()) {
+        return response()->json([
+            'html' => view('medicalFiles.partials.table', compact('medicalFiles'))->render()
+        ]);
+    }
+
+    return view('medicalFiles.index', compact('medicalFiles', 'filters'));
+}
 
 
 
@@ -71,26 +72,30 @@ class MedicalFilesController extends Controller
      */
     public function store(MedicalFileRequest $request)
 {
-    // Search for patient by name
+    //earch for patient by name
     $patient = Patient::whereHas('user', function($query) use ($request) {
-        $query->where('name', $request->patient_name);
-    })->firstOrFail();
+        $query->whereRaw("CONCAT(firstname, ' ', lastname) = ?", [$request->patient_name]);
+    })->first();
 
-    // Check if the patient has a previous medical record
+     //search for patient by name if exist
+    if (!$patient) {
+        return redirect()->back()->withErrors(['message' => 'This patient is not on the patient list']);
+    }
+
+   // Check if the patient has a previous medical record
     if ($patient->medicalFile()->exists()) {
         return redirect()->back()->withErrors(['message' => 'the patient has a previous medical record']);
     }
 
-    // create medical file
+   // create medical file
     $medicalFile = MedicalFile::create([
         'patient_id' => $patient->id,
         'diagnoses' => $request->diagnoses,
     ]);
 
     return redirect()->route('medicalFiles.show', $medicalFile->id)
-                    ->with('success', 'the medical file was created successfully');
+                     ->with('success','the medical file was created successfully');
 }
-
 
     /**
      * Display the specified resource.
