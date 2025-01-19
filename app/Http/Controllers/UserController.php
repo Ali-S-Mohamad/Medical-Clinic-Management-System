@@ -20,7 +20,7 @@ class UserController extends Controller
 
     protected $employeeService;
     protected $patientService;
-    
+
     /**
      * Summary of __construct
      * @param \App\Services\UserService $userService
@@ -45,7 +45,7 @@ class UserController extends Controller
         return view('employees.create', compact('departments', 'languages'));
     }
 
-        
+
     /**
      * Store a newly created resource in storage.
      * @param \App\Http\Requests\StoreUserRequest $request
@@ -81,7 +81,7 @@ class UserController extends Controller
         $user = $this->userService->saveOrUpdateUserDetails($data, $id);
         saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
 
-
+        // dd($user->getRoleNames());
         // If user is doctor/employee update the specialized information
         if ($user->hasAnyRole(['doctor', 'employee'])) {
             $employee = $this->employeeService->saveOrUpdateEmployeeDetails($request, $user);

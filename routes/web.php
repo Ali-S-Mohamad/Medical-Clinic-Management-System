@@ -90,7 +90,6 @@ Route::middleware(['auth','patient'])->group(function () {
 
 
     //Define Users Routes
-    Route::get('update_user', [UserController::class, 'update_user'])->name('update_user');
     Route::resource('users', UserController::class);
 
 

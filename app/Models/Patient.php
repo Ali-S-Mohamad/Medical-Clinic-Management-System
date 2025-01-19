@@ -21,7 +21,9 @@ class Patient extends Model
     {
         static::deleting(function ($patients) {
             if ($patients->user) {
-                $patients->user->delete();
+                if(!$patients->user->hasAnyRole(['doctor','employee'])){
+                    $patients->user->delete();
+                }
             }
 
             if ($patients->medicalFile) {

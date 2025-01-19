@@ -21,54 +21,71 @@ class UpdateUserRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        $rules = [
-            // Basic User Information
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required',
+{
+    $rules = [
+        // Basic User Information
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'email' => [
+            'required',
             'email',
             Rule::unique('users')->ignore($this->route('user')),
-            'gender' => 'required|in:male,female',
+        ],
+        'gender' => 'required|in:male,female',
 
-            // Password (optional during update)
-            'password' => 'min:8|string',
-            'confirm_password' => 'min:8|string',
+        // Password (optional during update)
+        'password' => 'nullable|min:8|string',
+        'confirm_password' => 'nullable|same:password',
 
-            // Phone Number
-            'phone_number' => 'required',
+        // Phone Number
+        'phone_number' => [
+            'required',
             'string',
             'max:20',
             Rule::unique('users')->ignore($this->route('user')),
+        ],
 
-            // Department
-            'department_id' => 'required|exists:departments,id',
+        // Department
+        'department_id' => 'nullable|exists:departments,id',
 
-            // Languages
-            'languages_ids' => 'nullable|array',
-            'languages_ids.*' => 'exists:languages,id',
+        // Languages
+        'languages_ids' => 'nullable|array',
+        'languages_ids.*' => 'nullable|exists:languages,id',
 
-            // Profile Image
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        // Profile Image
+        'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
-            // CV
-            'pdf_cv' => 'nullable|file|mimes:pdf|max:2048',
+        // CV
+        'pdf_cv' => 'nullable|file|mimes:pdf|max:2048',
 
-            // Academic Qualifications and Experience
-            'qualifications' => 'nullable|string|max:500',
-            'experience' => 'nullable|string|max:500',
+        // Academic Qualifications and Experience
+        'qualifications' => 'nullable|string|max:500',
+        'experience' => 'nullable|string|max:500',
 
-            // Doctor Flag
-            'is_doctor' => 'nullable|in:0,1',
+        // Doctor Flag
+        'is_doctor' => 'nullable|in:0,1',
 
-            // Patient Information
-            'is_patient_employee' => 'nullable|in:0,1',
-            'insurance_number' => ['required', 'regex:/^INS-\d{5}$/'],'nullable,string,max:50,required_if:is_patient_employee,1',
-            'dob' => 'nullable|date|before_or_equal:today|required_if:is_patient_employee,1',
-        ];
+        // Patient Information
+        'is_patient' => 'nullable|in:0,1',
+        'is_patient_employee' => 'nullable|in:0,1',
+        'insurance_number' => [
+            'nullable',
+            'string',
+            // 'max:50',
+            'regex:/^INS-\d{5}$/',
+            'required_if:is_patient_employee,1',
+        ],
+        'dob' => [
+            'nullable',
+            'date',
+            'before_or_equal:today',
+            'required_if:is_patient_employee,1',
+        ],
+    ];
+    // dd($this->route('user'));
+    return $rules;
+}
 
-        return $rules;
-    }
 
     public function messages(): array
     {

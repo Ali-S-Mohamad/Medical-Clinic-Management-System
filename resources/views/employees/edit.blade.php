@@ -35,7 +35,7 @@ Edit Employee
         </div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <form action="{{ route('users.update', $employee->user->id) }}" method="post" enctype='multipart/form-data'>
+                <form action="{{ route('users.update', $employee->user) }}" method="post" enctype='multipart/form-data'>
                     @csrf
                     @method('PUT')
                     <div class="row">
