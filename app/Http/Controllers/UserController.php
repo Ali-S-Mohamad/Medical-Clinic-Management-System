@@ -22,12 +22,10 @@ class UserController extends Controller
     protected $patientService;
     
     /**
-     * __construct
-     *
-     * @param  mixed $userService
-     * @param  mixed $employeeService
-     * @param  mixed $patientService
-     * @return void
+     * Summary of __construct
+     * @param \App\Services\UserService $userService
+     * @param \App\Services\EmployeeService $employeeService
+     * @param \App\Services\PatientService $patientService
      */
     public function __construct(UserService $userService, EmployeeService $employeeService, PatientService $patientService)
     {
@@ -50,9 +48,8 @@ class UserController extends Controller
         
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \App\Http\Requests\StoreUserRequest $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreUserRequest $request)
     {

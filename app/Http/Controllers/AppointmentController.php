@@ -13,9 +13,8 @@ use Carbon\Carbon;
 class AppointmentController extends Controller
 {
     protected $appointmentService; // Declare variable to hold the service
-
     /**
-     * The constructer of the class
+     * Summary of __construct
      * @param \App\Services\AppointmentService $appointmentService
      */
     public function __construct(AppointmentService $appointmentService)
@@ -43,7 +42,6 @@ class AppointmentController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-
     /**
      * Show the form for creating a new appointment.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -77,8 +75,6 @@ class AppointmentController extends Controller
             'availableSlots' => $availableSlots
         ]);
     }
-
-
     /**
      * Store a new appointment
      * @param \App\Http\Requests\AppointmentRequest $request
@@ -114,7 +110,6 @@ class AppointmentController extends Controller
         $appointment = Appointment::with(['patient', 'employee'])->findOrFail($id);
         return view('appointments.show', compact('appointment'));
     }
-
     /**
      * Show the form for editing the specified appointment.
      * @param string $id

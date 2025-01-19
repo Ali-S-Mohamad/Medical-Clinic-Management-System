@@ -13,7 +13,7 @@ use App\Http\Requests\UpdateMedicalFileRequest;
 class MedicalFilesController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Summary of __construct
      */
     public function __construct()
     {

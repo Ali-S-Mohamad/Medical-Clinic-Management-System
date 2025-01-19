@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class PatientController extends Controller
 {
     /**
-     * __construct
      *
-     * @return void
      */
     public function __construct()
     {
@@ -54,6 +52,7 @@ class PatientController extends Controller
     /**
      * Show the form for creating a new Patient.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -63,6 +62,8 @@ class PatientController extends Controller
 
     /**
      * Display the specified Patient.
+     * @param \App\Models\Patient $patient
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      * @param \App\Models\Patient $patient
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -85,6 +86,8 @@ class PatientController extends Controller
 
     /**
      * destroy the specified resource from storage.
+     * @param \App\Models\Patient $patient
+     * @return mixed|\Illuminate\Http\RedirectResponse
      * @param \App\Models\Patient $patient
      * @return mixed|\Illuminate\Http\RedirectResponse
      */
@@ -113,6 +116,8 @@ class PatientController extends Controller
      * Restore the specified patient from trash
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(string $id)
     {
@@ -124,6 +129,8 @@ class PatientController extends Controller
 
     /**
      * Remove specified patient from storage
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */

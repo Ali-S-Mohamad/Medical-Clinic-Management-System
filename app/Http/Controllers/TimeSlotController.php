@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class TimeSlotController extends Controller
 {    
     /**
-     * __construct
-     * 
-     * @return void
+     * Summary of __construct
      */
     public function __construct()
     {
@@ -29,8 +27,7 @@ class TimeSlotController extends Controller
     
     /**
      * Display a listing of Timeslots.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -56,8 +53,7 @@ class TimeSlotController extends Controller
     }
     /**
      * Show the form for creating a new Timeslot.
-     *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -71,9 +67,8 @@ class TimeSlotController extends Controller
     }
     /**
      * Store a new Timeslot
-     *
-     * @param  mixed $request
-     * @return void
+     * @param \App\Http\Requests\TimeSlotRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(TimeSlotRequest $request)
     {
@@ -103,9 +98,8 @@ class TimeSlotController extends Controller
     }
     /**
      * Show the form for editing the specified TimeSlot.
-     *
-     * @param  mixed $timeSlot
-     * @return void
+     * @param \App\Models\TimeSlot $timeSlot
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(TimeSlot $timeSlot)
     {
@@ -117,11 +111,10 @@ class TimeSlotController extends Controller
         return view('timeslots.edit', compact('timeSlot', 'doctors'));
     }     
     /**
-     *  Update the specified TimeSlot in storage.
-     *
-     * @param  mixed $request
-     * @param  mixed $timeSlot
-     * @return void
+     * Update the specified TimeSlot in storage.
+     * @param \App\Http\Requests\TimeSlotRequest $request
+     * @param \App\Models\TimeSlot $timeSlot
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(TimeSlotRequest $request, TimeSlot $timeSlot)
     {
@@ -152,9 +145,8 @@ class TimeSlotController extends Controller
     } 
     /**
      * toggleAvailability the time slot where it is either available or unavailable
-     *
-     * @param  mixed $id
-     * @return void
+     * @param mixed $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function toggleAvailability($id)
     {
@@ -183,10 +175,9 @@ class TimeSlotController extends Controller
         return redirect()->route('time-slots.index')->with('success', 'Time slot availability updated successfully.');
     }   
     /**
-     * Remove the specified timeslot from storage.
-     *
-     * @param  mixed $timeSlot
-     * @return void
+     *  Remove the specified timeslot from storage.
+     * @param \App\Models\TimeSlot $timeSlot
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(TimeSlot $timeSlot)
     {
