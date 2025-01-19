@@ -33,7 +33,7 @@
                 : asset('assets/img/user.jpg');
             @endphp
             <img width="60" height="40" src="{{ $image_path }}" class="rounded-circle" alt="">
-                <span>{{Auth::user()->name}}</span>
+                <span>{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>
             </a>
             <div class="dropdown-menu">
                 @if(auth()->user()->hasRole('doctor') || auth()->user()->hasRole('employee'))
