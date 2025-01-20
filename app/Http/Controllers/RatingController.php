@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    
+
     /**
      * Summary of __construct
      */
@@ -17,9 +17,11 @@ class RatingController extends Controller
         $this->middleware('permission:show-rating', ['only' => ['index']]);
         $this->middleware('permission:delete-rating', ['only' => ['destroy']]);
 
-    } 
+
+    }
+
     /**
-     *  Display a listing of ratings.
+     * Display a listing of the ratings.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
@@ -29,8 +31,9 @@ class RatingController extends Controller
         // $ratings = Rating::with(['doctor', 'patient'])->get();
         return view('ratings.index', compact('ratings'));
     }
+
     /**
-     *  Display the specified resource.
+     *  Display the specified resource..
      * @param \App\Models\Rating $rating
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -40,7 +43,7 @@ class RatingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * permanent delete rating info
      * @param \App\Models\Rating $rating
      * @return mixed|\Illuminate\Http\RedirectResponse
      */

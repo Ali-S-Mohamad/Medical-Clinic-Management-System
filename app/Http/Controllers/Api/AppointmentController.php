@@ -26,7 +26,7 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Summary of store
+     * add an appointment (date + time) for a patient
      * @param \App\Http\Requests\AppointmentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -57,6 +57,7 @@ class AppointmentController extends Controller
         // Use errorResponse for failure
         return $this->errorResponse($response['message'], 409);
     }
+
     /**
      * Display appointments belonging to the patient
      * @param \Illuminate\Http\Request $request
@@ -80,13 +81,18 @@ class AppointmentController extends Controller
         return $this->successResponse($appointments, 'Appointments retrieved successfully.', 200);
     }
 
+    /**
+     * show Appointment details
+     * @param string $id
+     * @return void
+     */
     public function showAppointment(string $id){
         $appointment = Appointment::with('employee','patient')->findOrFail($id);
 
     }
 
     /**
-     * Summary of getAvailableSlots
+     * get all Available Slots for a specific doctor in a certain day
      * @param \Illuminate\Http\Request $request
      * @param mixed $doctorId
      * @param mixed $dayOfWeek
@@ -108,7 +114,7 @@ class AppointmentController extends Controller
         return $this->successResponse($availableSlots, 'Available slots fetched successfully.');
     }
     /**
-     * Summary of canceledAppointment
+     * cancel a 'scheduled' Appointment  
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Appointment $appointment
      * @return mixed|\Illuminate\Http\JsonResponse

@@ -19,20 +19,11 @@ class ReportController extends Controller
         $this->middleware(['auth:sanctum', 'permission:export-report'])->only(['exportPatientReports']);
     }
     use ApiResponse;
-    // public function getPatientReports($patientId)
-    // {
-    //     $reports = Report::where('patient_id', $patientId)->get();
-    //     //return response()->json($reports);
-    //     return $this->apiResponse([$reports], 'all reports', 200);
 
-    // }
-
-    // public function exportPatientReports($patientId)
-    // {
-    //    // add date export to file name
-    //     $fileName = 'reports_' . Carbon::now()->format('Y_m_d_H_i_s') . '.xlsx';
-    //     return Excel::download(new ReportsExport, $fileName);
-    // }
+    /**
+     * Function to get all reports for a authenticated patient
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPatientReports()
     {
         // Get the authenticated user
@@ -55,6 +46,10 @@ class ReportController extends Controller
     }
 
 
+    /**
+     * Function to export reports for a authenticated patient as an excel file (.xlsx)
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function exportPatientReports()
     {
         // Get the authenticated user

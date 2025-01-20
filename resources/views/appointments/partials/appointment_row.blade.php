@@ -75,7 +75,7 @@
                 <button type="submit" class="btn btn-danger btn-sm"
                     style="padding: 2px 6px; font-size: 0.9rem; display: inline-block;">
                     <i class="fa fa-trash-o"
-                        style="font-size: 0.8rem; margin-right: 3px;"></i> Trash
+                        style="font-size: 0.8rem; margin-right: 3px;"></i> Delete
                 </button>
             </form>
         </div>

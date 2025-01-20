@@ -24,7 +24,7 @@ class RatingController extends Controller
     }
 
     /**
-     * Summary of index
+     * Display a listing of the ratings.
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -33,6 +33,11 @@ class RatingController extends Controller
         return $this->paginateRatings($ratings, 'all ratings:');
     }
 
+    /**
+     * display ratings added by logged in user
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getMyRatings(Request $request)
     {
         $user = $request->user();
@@ -40,13 +45,23 @@ class RatingController extends Controller
         return $this->paginateRatings($myRatings, 'My ratings:');
     }
 
-    // All Ratings related to specific doctor
+    /**
+     * Display All Ratings related to specific doctor
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function doctorRatingsDetails(Request $request)
     {
         $doctorRatings = Rating::where('employee_id', $request->doctor_id);
         return $this->paginateRatings($doctorRatings, 'all ratings:');
     }
 
+    /**
+     * paginate response
+     * @param mixed $query
+     * @param mixed $message
+     * @return \Illuminate\Http\JsonResponse
+     */
     protected function paginateRatings($query, $message)
     {
         $ratings = $query->paginate(3);
@@ -54,30 +69,10 @@ class RatingController extends Controller
     }
 
     /**
-     *  All Ratings for all doctors (overall Rating table)
-     */
-    // public function index()
-    // {
-    //     $ratings = Rating::paginate(3);;
-    //     return $this->apiResponse(RatingResource::collection($ratings), 'all ratings:', 200);
-    // }
-
-    // public function getMyRatings(Request $request)
-    // {
-    //     $user = $request->user();
-    //     $myRatings = Rating::where('patient_id',$user->patient->id)->paginate(3);;
-    //     return $this->apiResponse(RatingResource::collection($myRatings), 'My ratings:', 200);
-    // }
-
-    // // All Ratings related to specific doctor
-    // public function doctorRatingsDetails(Request $request)
-    // {
-    //     $doctorRatings = Rating::where('employee_id', $request->doctor_id)->paginate(3);
-    //     return $this->apiResponse(RatingResource::collection($doctorRatings), 'all ratings:', 200);
-    // }
-
-    /**
-     * store patient rate for a doctor
+     * store a new rate  added by patient about a doctor, the patient must have a completed appointment during one the last week from now,
+     * and the appointment is with the same doctor
+     * @param \App\Http\Requests\RatingRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(RatingRequest $request)
     {
@@ -109,7 +104,9 @@ class RatingController extends Controller
     }
 
     /**
-     * view one rate
+     * view one rate details
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(string $id)
     {
@@ -120,8 +117,12 @@ class RatingController extends Controller
         return $this->errorResponse('Rating not found to show', 404);
     }
 
+
     /**
-     * update rate
+     * update rate added by the logged in user accourding to same (store) conditions
+     * @param string $id
+     * @param \App\Http\Requests\RatingRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(string $id, RatingRequest $request)
     {
@@ -161,7 +162,9 @@ class RatingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * permanent delete the rate by the patient who added it or by admin,
+     * @param mixed $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
