@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -27,8 +28,8 @@ class UserService
             unset($data['confirm_password']);
             if ($password && $confirm_password) {
                 $user->update([
-                    'password' => bcrypt($password),
-                    'confirm_password' => bcrypt($confirm_password)
+                    'password' => Hash::make($password),
+                    'confirm_password' => Hash::make($confirm_password)
                 ]);
             }
         }

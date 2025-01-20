@@ -18,7 +18,7 @@ class PatientAccessMiddleware
     {
         // Check if the authenticated user is a patient to denied him access the dashboard
         $user = Auth::user();
-        if ((Auth::check() && $user->hasRole('patient'))) { // if user is admin
+        if ((Auth::check() && $user->roles()->count() === 1 && $user->hasRole('patient'))) { // if user is admin
             Auth::logout();
             return redirect()->route('login');
         }

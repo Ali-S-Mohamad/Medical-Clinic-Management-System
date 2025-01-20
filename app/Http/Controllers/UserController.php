@@ -83,7 +83,6 @@ class UserController extends Controller
         $user = $this->userService->saveOrUpdateUserDetails($data, $id);
         saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
 
-        // dd($user->getRoleNames());
         // If user is doctor/employee update the specialized information
         if ($user->hasAnyRole(['doctor', 'employee'])) {
             $employee = $this->employeeService->saveOrUpdateEmployeeDetails($request, $user);
@@ -93,7 +92,9 @@ class UserController extends Controller
         if ($user->hasRole('patient')) {
             $patient = $this->patientService
                 ->saveOrUpdatePatientDetails($user->id, $request->only(['insurance_number', 'dob']), false);
-            return redirect()->route('patients.index');
+            if($request->filled('is_patient') || $request->filled('is_patient_employee')){
+                return redirect()->route('patients.index');
+            }
         }
         if (Auth::id() == $id) {
             return redirect()->route('employees.show', $user->employee->id)->with('success', ' update successfully.');

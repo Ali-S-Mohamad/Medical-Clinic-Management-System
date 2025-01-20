@@ -23,6 +23,8 @@ class Patient extends Model
             if ($patients->user) {
                 if(!$patients->user->hasAnyRole(['doctor','employee'])){
                     $patients->user->delete();
+                } else{
+                    $patients->user->removeRole('patient');
                 }
             }
 
@@ -40,6 +42,9 @@ class Patient extends Model
         static::restoring(function ($patients) {
             if ($patients->user()->withTrashed()->exists()) {
                 $patients->user()->withTrashed()->restore();
+                if($patients->user->hasAnyRole(['doctor','employee'])){
+                    $patients->user->assignRole('patient');
+                }
             }
 
             if ($patients->medicalFile()->withTrashed()->exists()) {
