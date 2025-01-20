@@ -112,9 +112,8 @@ Edit Employee
                             <div class="form-group">
                                 <label for="gender">Gender</label>
                                 <select name="gender" id="gender" class="form-control" required>
-                                    <option value="">-- Select Gender --</option>
-                                    <option value="male" {{ old('gender', $user->gender ?? '') == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('gender', $user->gender ?? '') == 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="male" {{ old('gender', $employee->user->gender ?? '') == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('gender', $employee->user->gender ?? '') == 'female' ? 'selected' : '' }}>Female</option>
                                 </select>
                                 @error('gender')
                                     <span class="text-danger">{{ $message }}</span>
@@ -129,7 +128,7 @@ Edit Employee
                             </div>
                             <div class="form-group">
                                 <label> Confirm Password</label>
-                                <input type="confirm_password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm new password">
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm new password">
                                 <small class="text-muted">Leave empty to keep the current password.</small>
                             </div>
                         </div>
