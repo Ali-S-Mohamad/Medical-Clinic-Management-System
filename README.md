@@ -37,7 +37,7 @@ MediCore Clinic Management System is a comprehensive solution designed to manage
 - Real-time notifications for:
   - New appointments.
   - Changes in appointment status.
-
+  - Send reminder before the appointments
 
 ### 7. Ratings
 - Display average ratings for doctors.
@@ -137,6 +137,10 @@ Ensure you have the following installed on your system:
 ---
 
 ## Usage
+
+### Login as admin using this credentials:
+- Email : admin@gmail.com 
+- Password : 12345678
 
 ### Roles and Permissions
 - Each role is assigned specific permissions via middleware.

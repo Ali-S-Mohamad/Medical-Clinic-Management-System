@@ -34,9 +34,7 @@ use App\Http\Controllers\PrescriptionsController;
 Route::get('/', function () {
     return redirect()->route('login');
 });
-// Route::get('/export-patients', function () {
-//     return Excel::download(new PatientsExport, 'patients.xlsx');
-// });
+
 
 Auth::routes();
 
