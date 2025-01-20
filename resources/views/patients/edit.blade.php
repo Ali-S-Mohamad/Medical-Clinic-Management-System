@@ -124,7 +124,8 @@
                             <div class="form-group">
                                 <label>Insurance Number </label>
                                 <input name='insurance_number' value='{{ $patient->insurance_number }}' class="form-control"
-                                    type="text">
+                                    type="text" placeholder="INS-00000">
+                                    <small class="text-muted">Make sure that the number is .</small>
                             </div>
                             <div class="form-group">
                                 <label>Gender <span class="text-danger">*</span></label>

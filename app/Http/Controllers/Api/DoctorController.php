@@ -15,7 +15,7 @@ class DoctorController extends Controller
     use ApiResponse;
 
     /**
-     * Summary of listDoctors
+     * list all doctors in the clinic
      * @return \Illuminate\Http\JsonResponse
      */
     public function listDoctors(){
@@ -25,7 +25,7 @@ class DoctorController extends Controller
 
 
     /**
-     * Summary of showDoctor
+     * show one doctor details
      * @param string $id
      * @return \Illuminate\Http\JsonResponse
      */

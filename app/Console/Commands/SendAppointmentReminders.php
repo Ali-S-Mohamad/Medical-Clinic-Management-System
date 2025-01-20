@@ -35,6 +35,7 @@ class SendAppointmentReminders extends Command
 
     /**
      * Execute the console command.
+     * @return void
      */
     public function handle()
     {
@@ -55,10 +56,7 @@ class SendAppointmentReminders extends Command
         foreach ($appointments as $appointment) {
             if ($appointment->patient && $appointment->patient->user) {
                 $appointment->patient->user->notify(new AppointmentReminder($appointment));
-                Notification::send($$appointment->patient->user, new AppointmentReminder($appointment));
-
-                // $patientEmail = $appointment->patient->user->email;
-                // Mail::to($patientEmail)->send(new AppointmentReminderMail($appointment));
+                Notification::send($appointment->patient->user, new AppointmentReminder($appointment));
 
             } else {
                 Log::warning('Missing patient or user for appointment ID: ' . $appointment->id);

@@ -36,6 +36,9 @@
                 </div>
             </div>
 
+            <div class="col-md-8 col-sm-8 col-lg-6 col-xl-1" style="visibility: hidden;">
+            </div>
+
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <a href="{{ route('patients.index') }}">
@@ -47,6 +50,10 @@
                     </a>
                 </div>
             </div>
+          
+            <div class="col-md-8 col-sm-8 col-lg-6 col-xl-1" style="visibility: hidden;">
+            </div>
+
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <a href="{{ route('employees.index') }}">
@@ -58,15 +65,6 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                <div class="dash-widget">
-                    <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
-                    <div class="dash-widget-info text-right">
-                        <h3>####</h3>
-                        <span class="widget-title1">unKnown <i class="fa fa-check" aria-hidden="true"></i></span>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
                 <div class="dash-widget">
                     <a href="{{ route('departments.index') }}">
@@ -74,18 +72,6 @@
                         <div class="dash-widget-info text-right">
                             <h3>{{ $statistics['active_departments'] }}</h3>
                             <span class="widget-title4">Active dpartmnts <i class="fa fa-check"
-                                    aria-hidden="true"></i></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="dash-widget">
-                    <a href="{{ route('appointments.index') }}">
-                        <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
-                        <div class="dash-widget-info text-right">
-                            <h3> {{ $statistics['active_appointments'] }} </h3>
-                            <span class="widget-title2">Active appointmnts <i class="fa fa-check"
                                     aria-hidden="true"></i></span>
                         </div>
                     </a>
@@ -104,6 +90,21 @@
                 </div>
             </div>
 
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                <div class="dash-widget">
+                    <a href="{{ route('appointments.index') }}">
+                        <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                        <div class="dash-widget-info text-right">
+                            <h3> {{ $statistics['active_appointments'] }} </h3>
+                            <span class="widget-title2">Active appointmnts <i class="fa fa-check"
+                                    aria-hidden="true"></i></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
 
         </div>
 
@@ -114,8 +115,11 @@
 
         <br><br>
 
-        <div class="row">
+        <div class="row">       
             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                @if (!  $statistics['hasAvgRating'])
+                   <h4> No Ratings added </h4> <br>
+                @else
                 <div class="hospital-barchart">
                     <h4 class="card-title d-inline-block"> Doctor Avarage Ratings </h4>
                 </div>
@@ -138,9 +142,12 @@
                         </div>
                     </div>
                 </a>
+                @endif
             </div> {{-- bar section / Ratings --}}
+          
         </div> {{-- row --}}
-
+        <br><br>
+        
         @php
             $appointments = $statistics['upcoming_appointments'];
         @endphp
