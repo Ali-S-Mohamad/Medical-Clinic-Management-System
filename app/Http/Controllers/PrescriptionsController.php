@@ -12,7 +12,7 @@ use App\Http\Requests\StorePrescriptionRequest;
 use App\Http\Requests\UpdatePrescriptionRequest;
 
 class PrescriptionsController extends Controller
-{    
+{
     /**
      * Summary of __construct
      */
@@ -28,7 +28,7 @@ class PrescriptionsController extends Controller
         $this->middleware('permission:delete-prescription', ['only' => ['forcedelete']]);
 
     }
-       
+    
     /**
      * Display a listing of prescription.
      * @param \Illuminate\Http\Request $request
@@ -58,7 +58,7 @@ class PrescriptionsController extends Controller
         $prescriptions = $query->paginate(5);
         return view('prescriptions.index', compact('prescriptions'));
     }
-    
+
     /**
      * Show the form for creating a new prescription.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
@@ -108,7 +108,7 @@ class PrescriptionsController extends Controller
 
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is added successfully');
     }
-    
+
     /**
      * Display the specified Prescription.
      * @param \App\Models\Prescription $prescription
@@ -127,7 +127,7 @@ class PrescriptionsController extends Controller
     {
         return view('prescriptions.edit', compact('prescription'));
     }
-      
+
     /**
      * Update the specified prescription in storage.
      * @param \App\Http\Requests\UpdatePrescriptionRequest $request
@@ -143,7 +143,7 @@ class PrescriptionsController extends Controller
         ]);
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is updated successfully');
     }
-       
+
     /**
      * Remove the specified Prescription from storage.
      * @param mixed $id
@@ -155,7 +155,7 @@ class PrescriptionsController extends Controller
         $prescription->delete();
         return redirect()->route('prescriptions.index')->with('success', 'Prescription is deleted successfully');
     }
-        
+
     /**
      * Display the trashed prescription
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -183,7 +183,7 @@ class PrescriptionsController extends Controller
         }
         return redirect()->route('prescriptions.index')->with('success', 'prescription restored successfully.');
     }
-    
+
     /**
      * Remove specified Prescription from storage
      * @param string $id

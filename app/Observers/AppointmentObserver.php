@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Models\Report;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentNotificationMail;
 
 class AppointmentObserver
 {
@@ -12,7 +14,9 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
-        //
+        $patientEmail = $appointment->patient->user->email;
+        if ($appointment->status === 'scheduled')
+            Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
     }
 
     /**
@@ -32,7 +36,12 @@ class AppointmentObserver
                 'details' => $appointment->prescription->details,
             ]);
         }
+        $patientEmail = $appointment->patient->user->email;
+        if ($appointment->status === 'scheduled')
+            Mail::to($patientEmail)->send(new AppointmentNotificationMail($appointment));
     }
+
+
 
     /**
      * Handle the Appointment "deleted" event.

@@ -116,6 +116,10 @@ Ensure you have the following installed on your system:
    ```
    Visit the application at `http://127.0.0.1:8000`.
 
+8. To sending reminder notifications about appointments run scheduling command via:
+    ```bash
+    php artisan schedule:work
+    ```
 ---
 
 ## Directory Structure

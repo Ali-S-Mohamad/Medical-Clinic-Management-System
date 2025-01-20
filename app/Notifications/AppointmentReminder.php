@@ -33,16 +33,16 @@ class AppointmentReminder extends Notification
 
     /**
      * Get the mail representation of the notification.
+     * @param object $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
             ->subject('Appointment Reminder')
-            ->greeting('Hello ' . $this->appointment->patient->user->name . ',')
-            ->line("Dear {$this->appointment->patient->user->name},")
+            ->greeting('Hello ' . $this->appointment->patient->user->firstname . ',')
+            ->line("Dear {$this->appointment->patient->user->firstname},")
             ->line('Date: ' . $this->appointment->appointment_date)
-            // ->line('Time: ' . $this->appointment->time)
-            // ->action('View Details', url( '/appointments/' . $this->appointment->id))
             ->action('View Details', config('app.url') . '/appointments/' . $this->appointment->id)
             ->line('Thank you for choosing our clinic!');
     }

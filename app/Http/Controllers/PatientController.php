@@ -19,7 +19,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Summary of index
+     * Display list of patients
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
