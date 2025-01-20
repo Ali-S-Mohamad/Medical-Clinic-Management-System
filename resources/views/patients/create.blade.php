@@ -97,7 +97,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Insurance Number   </label>
-                                <input  name='insurance_number' class="form-control" type="text">
+                                <input  name='insurance_number' class="form-control" type="text"  placeholder="INS-00000">
+                                <small class="text-muted">Make sure that the number is like the format above.</small>
                             </div>
                             <div class="form-group">
                                 <label>gender  </label>

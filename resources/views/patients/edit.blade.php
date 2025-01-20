@@ -10,15 +10,6 @@
 @endsection
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     @if (session('error'))
         <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
@@ -36,6 +27,15 @@
             </button>
         </div>
     @endif
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -125,7 +125,7 @@
                                 <label>Insurance Number </label>
                                 <input name='insurance_number' value='{{ $patient->insurance_number }}' class="form-control"
                                     type="text" placeholder="INS-00000">
-                                    <small class="text-muted">Make sure that the number is .</small>
+                                    <small class="text-muted">Make sure that the number is like the format above.</small>
                             </div>
                             <div class="form-group">
                                 <label>Gender <span class="text-danger">*</span></label>

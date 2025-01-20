@@ -199,7 +199,8 @@ Edit Employee
                             <div class="col-sm-6 patient-field" style="display: none;">
                                 <div class="form-group">
                                     <label>Insurance Number</label>
-                                    <input name="insurance_number" type="text" value="{{ $employee->user->patient?->insurance_number }}" class="form-control" >
+                                    <input name="insurance_number" type="text" value="{{ $employee->user->patient?->insurance_number }}" class="form-control"  placeholder="INS-00000">
+                                    <small class="text-muted">Make sure that the number is like the format above.</small>
                                 </div>
                             </div>
 
