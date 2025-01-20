@@ -10,6 +10,15 @@
 @endsection
 
 @section('content')
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @if (session('error'))
         <div class="alert alert-danger fade show" role="alert" style="animation: fadeOut 3s forwards;">
             {{ session('error') }}

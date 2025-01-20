@@ -56,6 +56,7 @@ class UserController extends Controller
         $data = $request->validated();
         // Store The Basic Information Of User Using User Service
         $user = $this->userService->saveOrUpdateUserDetails($data, $request->id);
+        saveImage($request->has('is_patient') ? 'Patient images' : 'Employees images', $request, $user);
 
         // If user is doctor/employee store the specialized information
         if ($user->hasAnyRole(['doctor', 'employee'])) {
@@ -63,7 +64,7 @@ class UserController extends Controller
             return redirect()->route('employees.index');
             // If user is patient store the specialized information
         } elseif ($user->hasRole('patient')) {
-            $patient = $this->patientService->saveOrUpdatePatientDetails($user, $request, false);
+            $patient = $this->patientService->saveOrUpdatePatientDetails($user->id, $request, false);
             return redirect()->route('patients.index');
         }
     }

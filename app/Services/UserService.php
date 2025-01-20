@@ -19,19 +19,23 @@ class UserService
             return redirect()->back()->with('error', 'Password does not match .');
         }
 
-        $password = $validatedData['password'] ?? null;
-        $confirm_password = $validatedData['confirm_password'] ?? null;
-        unset($data['password']);
-        unset($data['confirm_password']);
+        $password = $data['password'] ?? null;
+        $confirm_password = $data['confirm_password'] ?? null;
+        $user = User::find($id);
+        if($user){
+            unset($data['password']);
+            unset($data['confirm_password']);
+            if ($password && $confirm_password) {
+                $user->update([
+                    'password' => bcrypt($password),
+                    'confirm_password' => bcrypt($confirm_password)
+                ]);
+            }
+        }
 
         $user = User::updateOrCreate(['id' => $id], $data);
         $user->is_verified = '1';
-        if ($password && $confirm_password) {
-            $user->update([
-                'password' => bcrypt($password),
-                'confirm_password' => bcrypt($confirm_password)
-            ]);
-        }
+
         $user->save();
 
         if ($user->wasRecentlyCreated) {
