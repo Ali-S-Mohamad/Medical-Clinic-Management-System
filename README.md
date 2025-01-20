@@ -43,6 +43,10 @@ MediCore Clinic Management System is a comprehensive solution designed to manage
 - Display average ratings for doctors.
 - Ratings are calculated based on patient feedback.
 
+### 8. Time Slots
+- Each doctor set his schedule for incoming week
+- Admin and employees can make that for doctors
+
 ---
 
 ## Tech Stack
@@ -80,8 +84,8 @@ Ensure you have the following installed on your system:
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd medi-core-clinic
+   git clone https://github.com/Ali-S-Mohamad/Medical-Clinic-Management-System.git
+   cd Medical-Clinic-Management-System
    ```
 
 2. Install PHP dependencies:
@@ -160,6 +164,15 @@ Ensure you have the following installed on your system:
 - Real-time notifications using Laravel's built-in notification system.
 
 ---
+
+## API Documentation
+
+The API endpoints for the Medical Clinic Management System are documented in a Postman Collection. You can use the link below to access it:
+
+[![Postman Collection](https://img.shields.io/badge/Postman-View%20Collection-orange?logo=postman)](https://documenter.getpostman.com/view/24693079/2sAYQanraV)
+
+> Click the button above to view or import the Postman Collection and test the API endpoints directly.
+
 
 ---
 

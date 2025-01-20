@@ -57,7 +57,7 @@
                                     $employee = Auth::user();
                                 @endphp
                                 @hasrole('doctor')
-                                    <option value="{{ $employee->employee->id }}">{{ $employee->name }}</option>
+                                    <option value="{{ $employee->employee->id }}">{{ $employee->firstname .' '. $employee->lastname }}</option>
                                 @endhasrole
                                 @hasanyrole(['Admin', 'employee'])
                                     <option value="">Select Doctor</option>

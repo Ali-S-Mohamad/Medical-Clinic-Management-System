@@ -108,8 +108,15 @@
                                 <input required name='email' class="form-control" type="email">
                             </div>
                             <div class="form-group">
-                                <label>Gender <span class="text-danger">*</span></label>
-                                <input required name='gender' class="form-control" type="text">
+                                <label for="gender">Gender</label>
+                                <select name="gender" id="gender" class="form-control" required>
+                                    <option value="">-- Select Gender --</option>
+                                    <option value="male" {{ old('gender', $user->gender ?? '') == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('gender', $user->gender ?? '') == 'female' ? 'selected' : '' }}>Female</option>
+                                </select>
+                                @error('gender')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-6">

@@ -40,8 +40,7 @@ class UpdateUserRequest extends FormRequest
         // Phone Number
         'phone_number' => [
             'required',
-            'string',
-            'max:20',
+            'digits:10',
             Rule::unique('users')->ignore($this->route('user')),
         ],
 
