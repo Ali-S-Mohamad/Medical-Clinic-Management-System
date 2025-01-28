@@ -104,23 +104,30 @@ Ensure you have the following installed on your system:
    ```
    Update the `.env` file with your database credentials and other settings.
 
-5. Run migrations and seeders:
+5. Create the Storage Link:
+To ensure that uploaded images and files are accessible from the public directory, run the following command:
    ```bash
-   php artisan migrate --seed
+   php artisan storage:link
    ```
+
 
 6. Generate application key:
    ```bash
    php artisan key:generate
    ```
 
-7. Start the server:
+7. Run migrations and seeders:
+  ```bash
+   php artisan migrate --seed
+   ```
+
+8. Start the server:
    ```bash
    php artisan serve
    ```
    Visit the application at `http://127.0.0.1:8000`.
 
-8. To sending reminder notifications about appointments run scheduling command via:
+9. To sending reminder notifications about appointments run scheduling command via:
     ```bash
     php artisan schedule:work
     ```
